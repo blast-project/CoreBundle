@@ -7,7 +7,7 @@
         "symfony/symfony": "2.7.*",
         "sonata-project/doctrine-orm-admin-bundle": "^2.3"
     },
-    "license":  "GNU/GPL",
+    "license":  "GNU-GPL",
     "keywords": ["e-venement", "libio", "sonata", "symfony"],
     "homepage": "https://github.com/libre-informatique/SymfonyLibrinfoCoreBundle",
     "authors": [
