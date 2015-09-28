@@ -1,4 +1,4 @@
-Librinfo\CRMBundle\Entity\Addressable:
+Librinfo\CoreBundle\Entity\Addressable:
     type: mappedSuperclass
     fields:
         name:           string(255)

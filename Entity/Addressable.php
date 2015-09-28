@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CRMBundle\Entity;
+namespace Librinfo\CoreBundle\Entity;
 
 /**
  * Addressable

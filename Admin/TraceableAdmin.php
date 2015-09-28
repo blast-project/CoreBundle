@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CRMBundle\Admin;
+namespace Librinfo\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;

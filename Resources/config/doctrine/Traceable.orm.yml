@@ -1,4 +1,4 @@
-Librinfo\CRMBundle\Entity\Traceable:
+Librinfo\CoreBundle\Entity\Traceable:
     type: mappedSuperclass
     id:
         id:
