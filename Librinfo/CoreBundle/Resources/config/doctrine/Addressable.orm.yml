@@ -1,0 +1,42 @@
+AppBundle\Entity\Addressable:
+    type: mappedSuperclass
+    fields:
+        name:           string(255)
+        address:
+            type:       string
+            nullable:   true
+        postalcode:
+            type:       string(10)
+            nullable:   true
+        city:
+            type:       string(255)
+            nullable:   true
+        country:
+            type:       string(255)
+            nullable:   true
+            option:     { default: FRANCE }
+        npai:
+            type:       boolean
+            nullable:   true
+            options:    { default: false }
+        email:
+            type:       string(255)
+            nullable:   true
+        emailNpai:
+            type:       boolean
+            nullable:   true
+            options:    { default: false }
+        emailNoNewsletter:
+            type:       boolean
+            nullable:   true
+            options:    { default: false }
+        description:
+            type:       string
+            nullable:   true
+        vcardUid:
+            type:       string(255)
+            nullable:   true
+        confirmed:
+            type:       boolean
+            nullable:   true
+            options:    { default: true }

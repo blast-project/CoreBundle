@@ -1,0 +1,4 @@
+AppBundle\Entity\Addressable:
+    properties:
+        email:
+            - Email: ~

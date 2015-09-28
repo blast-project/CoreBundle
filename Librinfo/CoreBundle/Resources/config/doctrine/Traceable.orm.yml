@@ -1,0 +1,14 @@
+AppBundle\Entity\Traceable:
+    type: mappedSuperclass
+    id:
+        id:
+            type: guid
+            generator:  { strategy: UUID }
+    fields:
+        user_id:
+            type:       guid
+            nullable:   true
+        automatic:
+            type:       boolean
+            nullable:   true
+            option:     { default: false }
