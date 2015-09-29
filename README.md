@@ -61,6 +61,7 @@ The "libre-informatique" bundles
 
 Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for instance the "libre-informatique/core-bundle" :
 
+```php
     // app/AppKernel.php
     // ...
     public function registerBundles()
@@ -74,3 +75,4 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
             // your personal bundles
         );
     }
+```
