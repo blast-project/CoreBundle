@@ -14,7 +14,7 @@ Prequiresites
 Downloading
 -----------
 
-  $ composer require libre-informatique/core-bundle
+  $ composer require libre-informatique/core-bundle dev-master
 
 This will download and install :
 * knplabs/knp-menu
