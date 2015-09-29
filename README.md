@@ -34,11 +34,15 @@ Twig
 
 Then you'll probably need to force a higher version of Twig (≥ 1.22.1). To do that, edit the file "composer.json" in the root of your project to add or modify a line like:
 
+```
   "twig/twig": "^1.22.1",
+```
 
 Then :
 
+```
   $ composer update
+```
 
 Sonata bundles
 --------------
@@ -53,8 +57,10 @@ Create the database needed
 
 If you are using PostgreSQL as your main database, you'll need to install postgresql-contrib and load the "uuid-ossp" extension :
 
+```
   $ apt-get install postgresql-contrib
   $ echo 'CREATE EXTENSION "uuid-ossp";' | psql [DB]
+```
 
 The "libre-informatique" bundles
 --------------------------------
