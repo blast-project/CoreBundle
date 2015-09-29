@@ -32,16 +32,10 @@ This will download and install :
 Twig
 ----
 
-Then you'll probably need to force a higher version of Twig (≥ 1.22.1). To do that, edit the file "composer.json" in the root of your project to add or modify a line like:
+Then you'll probably need to force a higher version of Twig (≥ 1.22.1):
 
 ```
-  "twig/twig": "^1.22.1",
-```
-
-Then :
-
-```
-  $ composer update
+  $ composer require twig/twig ^1.22.1
 ```
 
 Sonata bundles
