@@ -5,7 +5,7 @@ namespace Librinfo\CoreBundle\Entity;
 /**
  * Traceable
  */
-abstract class Traceable
+abstract class Traceable extends BaseEntity
 {
     /**
      * @var guid

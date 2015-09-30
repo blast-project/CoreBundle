@@ -1,0 +1,74 @@
+parameters:
+    librinfo:
+        Librinfo\CoreBundle\Admin\AddressableAdmin:
+            Sonata\AdminBundle\Form\FormMapper: # Form
+                add:
+                    General:
+                        '':
+                            name: ~
+                            email: ~
+                        Address:
+                            address:
+                                type: textarea
+                                required: false
+                            postalcode: ~
+                            city: ~
+                            country: ~
+                    Specifics:
+                        Communication:
+                            description: ~
+                        Email:
+                            emailNpai: ~
+                            emailNoNewsletter: ~
+                        Address:
+                            npai: ~
+                    Internals:
+                        Automatic:
+                            automatic: ~
+                            user_id: ~
+            Sonata\AdminBundle\Datagrid\ListMapper: # List
+                add:
+                    name: ~
+                    email: ~
+                    postalcode: ~
+                    city: ~
+                    country: ~
+                    _action:
+                        actions:
+                            show: ~
+                            edit: ~
+                            delete: ~
+            Sonata\AdminBundle\Datagrid\DatagridMapper: # Filters
+                add:
+                    name: ~
+                    address: ~
+                    postalcode: ~
+                    city: ~
+                    country: ~
+                    email: ~
+                    npai: ~
+                    emailNpai: ~
+                    emailNoNewsletter: ~
+            Sonata\AdminBundle\Show\ShowMapper:     # Show
+                _copy: Sonata\AdminBundle\Form\FormMapper
+
+#        AcmeBundle\Admin\DemoAdmin:
+#            Sonata\AdminBundle\Form\FormMapper:
+#                remove: [name, id]
+#                add:
+#                    id:
+#                        type: textarea
+#                    gfx_tab:
+#                        _options:
+#                            description: tab
+#                        gfx_group:
+#                            _options:
+#                                description: with
+#                            title: ~
+#                            description:
+#                                type: textarea
+#                                label: Descriiiiiiption
+#                                _options:
+#                                    translation_domain: fr
+#                        gfx_group2:
+#                            field2: ~

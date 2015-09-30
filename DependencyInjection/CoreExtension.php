@@ -24,5 +24,19 @@ class CoreExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+        $loader->load('admin.yml');
+        $loader->load('librinfo.yml');
+    }
+    
+    protected function mergeParameter($var, $container, $dir)
+    {
+        $loader = new Loader\YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
+        $loader->load('librinfo.yml');
+        $container->getParameter($var);
+        $container->setParameter($var, $librinfo = array_merge(
+            $container->getParameter($var),
+            $newContainer->getParameter($var)
+        ));
+        return $this;
     }
 }
