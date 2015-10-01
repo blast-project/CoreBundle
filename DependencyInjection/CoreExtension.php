@@ -28,10 +28,15 @@ class CoreExtension extends Extension
         $loader->load('config.yml');
         $loader->load('librinfo.yml');
         
-        // specialize things for easy deployments about templates/layouts
+        // specialize things for easy deployments about templates/layouts, giving the possibility to personalize stuff in the app/config/config.yml of the application
         $templates = $container->getParameter('sonata.admin.configuration.templates');
-        if ( $templates['layout'] == 'SonataAdminBundle::standard_layout.html.twig' )
-            $templates['layout'] = 'CoreBundle::standard_layout.html.twig';
+        foreach ( array(
+            'layout' => array('SonataAdminBundle::standard_layout.html.twig', 'CoreBundle::standard_layout.html.twig'),
+        ) as $key => $change )
+        {
+            if ( $templates[$key] == $change[0] )
+                $templates[$key] = $change[1];
+        }
         $container->setParameter('sonata.admin.configuration.templates', $templates);
     }
     
