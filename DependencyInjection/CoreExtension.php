@@ -25,7 +25,14 @@ class CoreExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('admin.yml');
+        $loader->load('config.yml');
         $loader->load('librinfo.yml');
+        
+        // specialize things for easy deployments about templates/layouts
+        $templates = $container->getParameter('sonata.admin.configuration.templates');
+        if ( $templates['layout'] == 'SonataAdminBundle::standard_layout.html.twig' )
+            $templates['layout'] = 'CoreBundle::standard_layout.html.twig';
+        $container->setParameter('sonata.admin.configuration.templates', $templates);
     }
     
     protected function mergeParameter($var, $container, $dir)
