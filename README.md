@@ -140,13 +140,13 @@ Going further...
 
 #### Configuring a standalone bundle
 
-If you want a standalone bundle, eventually published for composer, and deployed in your vendor directory, you can incorporate the configuration of your ```DemoAdmin``` component within the bundle. Here is an example taken from the [libre-informatique/crm-bundle](https://github.com/sonata-project/SonataAdminBundle) :
+If you want a standalone bundle, eventually published for composer, and deployed in your vendor directory, you can incorporate the configuration of your ```DemoAdmin``` component within the bundle. Here is an example taken from the [libre-informatique/crm-bundle](https://github.com/libre-informatique/SymfonyLibrinfoCRMBundle) :
 
 ```php
 <?php
+// vendor/libre-informatique/crm-bundle/DependencyInjection/CRMExtension.php
 namespace Librinfo\CRMBundle\DependencyInjection;
 
-// vendor/libre-informatique/crm-bundle/DependencyInjection/CRMExtension.php
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -187,15 +187,15 @@ In fact when you generate an ```Admin``` component, it comes with the full list 
 
 ```php
 <?php
-
-namespace Librinfo\CRMBundle\Admin;
+// src/AcmeBundle/Admin/DemoAdminConcrete.php
+namespace AcmeBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ContactAdminConcrete extends ContactAdmin
+class DemoAdminConcrete extends DemoAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper
@@ -242,6 +242,6 @@ Then to use your ```*AdminConcrete``` class, simply change your ```services``` f
 services:
 # ...
     app.admin.demo:
-        class: AcmeBundle\Admin/DemoAdminConcrete
+        class: AcmeBundle\Admin\DemoAdminConcrete
         # ...
 ```
