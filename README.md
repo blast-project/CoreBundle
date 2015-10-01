@@ -70,7 +70,7 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
             // ...
             
             // The libre-informatique bundles
-            new Librinfo\CoreBundle\CoreBundle(),
+            new Librinfo\CoreBundle\LibrinfoCoreBundle(),
             
             // your personal bundles
         );
@@ -144,21 +144,21 @@ If you want a standalone bundle, eventually published for composer, and deployed
 
 ```php
 <?php
-// vendor/libre-informatique/crm-bundle/DependencyInjection/CRMExtension.php
+// vendor/libre-informatique/crm-bundle/DependencyInjection/LibrinfoCRMExtension.php
 namespace Librinfo\CRMBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Librinfo\CoreBundle\DependencyInjection\CoreExtension;
+use Librinfo\CoreBundle\DependencyInjection\LibrinfoCoreExtension;
 
 /**
  * This is the class that loads and manages your bundle configuration
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class CRMExtension extends CoreExtension
+class LibrinfoCRMExtension extends LibrinfoCoreExtension
 {
     /**
      * {@inheritdoc}
@@ -179,7 +179,7 @@ class CRMExtension extends CoreExtension
 
 Then create a ```Resources/config/librinfo.yml``` file in your bundle, matching the previous specifications.
 
-You'll notice the ```use Librinfo\CoreBundle\DependencyInjection\CoreExtension;```, the ```class CRMExtension extends CoreExtension``` and the ```$this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```CoreBundle```).
+You'll notice the ```use Librinfo\CoreBundle\DependencyInjection\LibrinfoCoreExtension;```, the ```class LibrinfoCRMExtension extends LibrinfoCoreExtension``` and the ```$this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```Librinfo\CoreBundle```).
 
 #### Keeping the original/default SonataAdmin configuration (fields)
 
