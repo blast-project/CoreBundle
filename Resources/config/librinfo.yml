@@ -22,10 +22,6 @@ parameters:
                             emailNoNewsletter: ~
                         Address:
                             npai: ~
-                    Internals:
-                        Automatic:
-                            automatic: ~
-                            user_id: ~
             Sonata\AdminBundle\Datagrid\ListMapper: # List
                 add:
                     name: ~

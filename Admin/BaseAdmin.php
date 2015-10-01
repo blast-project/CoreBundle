@@ -148,7 +148,7 @@ abstract class BaseAdmin extends Admin
         return $mapper;
     }
     
-    private function addField(BaseMapper $mapper, $name, $options = array())
+    private function addField(BaseMapper $mapper, $name, $options = array(), $fieldDescriptionOptions = array())
     {
         // avoid duplicates
         if ( $mapper->has($name) )
@@ -163,7 +163,7 @@ abstract class BaseAdmin extends Admin
             $type = $options['type'];
             unset($options['type']);
         }
-        $mapper->add($name, $type, $options);
+        $mapper->add($name, $type, $options, $fieldDescriptionOptions);
         return $mapper;
     }
 
