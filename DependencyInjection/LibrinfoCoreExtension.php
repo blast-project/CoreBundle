@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class CoreExtension extends Extension
+class LibrinfoCoreExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -31,7 +31,7 @@ class CoreExtension extends Extension
         // specialize things for easy deployments about templates/layouts, giving the possibility to personalize stuff in the app/config/config.yml of the application
         $templates = $container->getParameter('sonata.admin.configuration.templates');
         foreach ( array(
-            'layout' => array('SonataAdminBundle::standard_layout.html.twig', 'CoreBundle::standard_layout.html.twig'),
+            'layout' => array('SonataAdminBundle::standard_layout.html.twig', 'LibrinfoCoreBundle::standard_layout.html.twig'),
         ) as $key => $change )
         {
             if ( $templates[$key] == $change[0] )
