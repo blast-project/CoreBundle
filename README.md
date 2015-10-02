@@ -237,3 +237,14 @@ services:
         class: AcmeBundle\Admin\DemoAdminConcrete
         # ...
 ```
+
+#### Using Sonata Project extensions
+
+If needed, you can easly use the LibrinfoCoreBundle in combination with other bundles from the Sonata Project, for instance :
+
+* [sonata-project/intl-bundle](https://sonata-project.org/bundles/intl/master/doc/index.html)
+* [sonata-project/notification-bundle](https://sonata-project.org/bundles/notification/master/doc/index.html)
+* [sonata-project/user-bundle](https://sonata-project.org/bundles/user/2-2/doc/index.html)
+* [sonata-project/formatter-bundle](https://sonata-project.org/bundles/formatter/2-2/doc/index.html)
+
+Please refer yourself to the proper documentation from the Sonata Project...
