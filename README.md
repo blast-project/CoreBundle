@@ -44,7 +44,7 @@ Create the database needed
 If you are using PostgreSQL as your main database, you'll need to install postgresql-contrib and load the "uuid-ossp" extension :
 
 ```
-  $ apt-get install postgresql-contrib
+  $ sudo apt-get install postgresql-contrib
   $ echo 'CREATE EXTENSION "uuid-ossp";' | psql [DB]
 ```
 
