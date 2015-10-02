@@ -28,15 +28,7 @@ This will download and install :
 * sonata-project/admin-bundle
 * sonata-project/doctrine-orm-admin-bundle
 * libre-informatique/core-bundle
-
-Twig
-----
-
-Then you'll probably need to force a higher version of Twig (≥ 1.22.1):
-
-```
-  $ composer require twig/twig ^1.22.1
-```
+* twig/twig ^1.22.1
 
 Sonata bundles
 --------------
