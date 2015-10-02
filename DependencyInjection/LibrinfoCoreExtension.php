@@ -34,6 +34,8 @@ class LibrinfoCoreExtension extends Extension
             'layout' => array('SonataAdminBundle::standard_layout.html.twig', 'LibrinfoCoreBundle::standard_layout.html.twig'),
         ) as $key => $change )
         {
+            if ( !isset($templates[$key]) )
+                continue;
             if ( $templates[$key] == $change[0] )
                 $templates[$key] = $change[1];
         }
