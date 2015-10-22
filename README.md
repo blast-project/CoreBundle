@@ -28,6 +28,7 @@ This will download and install :
 * sonata-project/admin-bundle
 * sonata-project/doctrine-orm-admin-bundle
 * libre-informatique/core-bundle
+* libre-informatique/base-entities-bundle
 * twig/twig ^1.22.1
 
 Sonata bundles
