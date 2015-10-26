@@ -49,11 +49,11 @@ abstract class BaseAdmin extends Admin
         if ( !$this->formatUsingConfiguration($mapper) )
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
-    
+
     private function formatUsingConfiguration(BaseMapper $mapper)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-        
+
         $cpt = array('remove' => 0, 'add' => 0);
         foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $parent_class )
         if ( isset($librinfo[$parent_class]) )
@@ -69,11 +69,13 @@ abstract class BaseAdmin extends Admin
                     $list = $librinfo[$parent_class][$mapper_class]['_copy'] + $list;
                 }
             }
-            
+
             // process data...
             foreach ( array_reverse($list) as $mapper_class )
             if ( isset($librinfo[$parent_class][$mapper_class]) )
             {
+
+
                 // remove fields
                 if ( isset($librinfo[$parent_class][$mapper_class]['remove']) )
                 foreach ( $librinfo[$parent_class][$mapper_class]['remove'] as $remove )
@@ -82,7 +84,7 @@ abstract class BaseAdmin extends Admin
                     $cpt['remove']++;
                     $mapper->remove($remove);
                 }
-                
+
                 // add fields & more
                 if ( isset($librinfo[$parent_class][$mapper_class]['add']) )
                 {
@@ -91,10 +93,10 @@ abstract class BaseAdmin extends Admin
                 }
             }
         }
-        
+
         return array_sum($cpt);
     }
-    
+
     private function addContent(BaseMapper $mapper, $group)
     {
         // flat organization
@@ -104,7 +106,7 @@ abstract class BaseAdmin extends Admin
                 $this->addField($mapper, $add, $options);
             return $mapper;
         }
-        
+
         // if a grouped organization can be shapped
         foreach ( $group as $tab => $tabcontent ) // loop on content...
         if ( self::arrayDepth($tabcontent) < 1 )
@@ -119,14 +121,20 @@ abstract class BaseAdmin extends Admin
             $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : array());
             if ( isset($tabcontent['_options']) )
                 unset($tabcontent['_options']);
+
+            $finalOrder = null;
+
             // with
             if ( self::arrayDepth($tabcontent) > 0 )
             foreach ( $tabcontent as $with => $withcontent )
             {
-                $mapper->with($with, isset($withcontent['_options']) ? $withcontent['_options'] : array());
+                $opt = isset($withcontent['_options']) ? $withcontent['_options'] : array();
+                $finalOrder = (isset($opt['fieldsOrder']) ? $opt['fieldsOrder'] : null);
+
+                $mapper->with($with, $opt);
                 if ( isset($withcontent['_options']) )
                     unset($withcontent['_options']);
-                
+
                 // final adds
                 if ( self::arrayDepth($withcontent) > 0 )
                 foreach ( $withcontent as $name => $options )
@@ -139,24 +147,28 @@ abstract class BaseAdmin extends Admin
                     }
                     $this->addField($mapper, $name, $options, $fieldDescriptionOptions);
                 }
-                
+
+                if($finalOrder != null)
+                    $mapper->reorder($finalOrder);
+
                 $mapper->end();
             }
+
             $mapper->end();
         }
-        
+
         return $mapper;
     }
-    
+
     private function addField(BaseMapper $mapper, $name, $options = array(), $fieldDescriptionOptions = array())
     {
         // avoid duplicates
         if ( $mapper->has($name) )
             $mapper->remove($name);
-        
+
         if ( !is_array($options) )
             $options = array();
-        
+
         $type = null;
         if ( isset($options['type']) )
         {
@@ -174,7 +186,7 @@ abstract class BaseAdmin extends Admin
         if ( $rm->class == $this->getParentClass() )
             $this->configureFields($function, $mapper, $this->getParentClass());
     }
-    
+
     /**
      * Returns the level of depth of an array
      * @param  array  $array
@@ -185,18 +197,18 @@ abstract class BaseAdmin extends Admin
     {
         if ( !$array )
             return $level;
-        
+
         if ( !is_array($array) )
             return $level;
-        
+
         $level++;
         foreach ( $array as $key => $value )
         if ( is_array($value) )
             $level = $level < self::arrayDepth($value, $level) ? self::arrayDepth($value, $level) : $level;
-        
+
         return $level;
     }
-    
+
     protected function getOriginalClass()
     {
         return get_called_class();
