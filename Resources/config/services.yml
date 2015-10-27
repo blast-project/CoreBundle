@@ -1,8 +1,2 @@
 services:
-    librinfo-core.twig.extension.adminMenu:
-        class: Librinfo\CoreBundle\Twig\Extension\AdminMenu
-        public: false
-        arguments: [@service_container]
-        tags:
-            - { name: twig.extension }
 
