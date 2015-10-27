@@ -1,7 +1,4 @@
 services:
-#    core.example:
-#        class: Librinfo\CoreBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
     librinfo-core.twig.extension.adminMenu:
         class: Librinfo\CoreBundle\Twig\Extension\AdminMenu
         public: false
