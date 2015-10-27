@@ -1,4 +1,0 @@
-Librinfo\CoreBundle\Entity\Addressable:
-    properties:
-        email:
-            - Email: ~

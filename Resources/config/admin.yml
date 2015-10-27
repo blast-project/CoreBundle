@@ -1,0 +1,47 @@
+parameters:
+    librinfo-core:
+        custom_menu:
+            -   position: before                   # possible values : before, after, replace
+                elements:
+                -   label: My account              # label to display in menu header
+                    route: ~                       # the route used by the link
+                    icon: user                     # menu item icon (fontawesome, already prefixed by « fa- »)
+                    elements:
+                    -   label: Preferences
+                        route: ~
+                        icon: cogs
+                    -   label: Logout
+                        route: ~
+                        icon: sign-out
+                -   label: Groups
+                    route: ~
+                    icon: group
+                    elements:
+                    -   label: Add Group
+                        route: ~
+                        icon: plus
+                    -   label: Show Groups
+                        route: ~
+                        icon: list
+            -   position: after
+                elements:
+                -   label: Test
+                    route: ~
+                    icon: user
+                    elements:
+                    -   label: SubTest1
+                        route: ~
+                        icon: folder
+                    -   label: SubTest2
+                        route: ~
+                        icon: ~
+                -   label: Test2
+                    route: ~
+                    icon: group
+                    elements:
+                    -   label: SubTest1.1
+                        route: ~
+                        icon: ~
+                    -   label: SubTest2.1
+                        route: ~
+                        icon: file
