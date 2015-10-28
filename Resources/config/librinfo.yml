@@ -65,6 +65,15 @@ parameters:
                             credentials_expired:
                                 type: checkbox
                                 required: false
+                    Groups:
+                        '':
+                            groups:
+                                type: sonata_type_model
+                                expanded: true
+                                multiple: true
+#                                auto_initialize: true
+                                by_reference: true
+                                required: false
             Sonata\AdminBundle\Datagrid\ListMapper: # List
                 add:
                     username: ~
@@ -96,6 +105,42 @@ parameters:
 #                        type: array
 #                    credentials_expire_at:
 #                        type: datetime
+            Sonata\AdminBundle\Show\ShowMapper:     # Show
+                _copy: Sonata\AdminBundle\Form\FormMapper
+
+        Librinfo\CoreBundle\Admin\GroupAdmin:
+            Sonata\AdminBundle\Form\FormMapper: # Form
+                add:
+                    General:
+                        '':
+                            name: ~
+#                            roles:
+#                                type: sonata_type_immutable_array
+                            users:
+                                type: sonata_type_model
+                                expanded: true
+                                multiple: true
+#                                auto_initialize: true
+                                by_reference: false
+                                required: false
+#                                _options:
+#                                    edit: inline
+#                                    inline: table
+            Sonata\AdminBundle\Datagrid\ListMapper: # List
+                add:
+                    name: ~
+                    roles:
+                        type: array
+                    _action:
+                        actions:
+                            show: ~
+                            edit: ~
+                            delete: ~
+            Sonata\AdminBundle\Datagrid\DatagridMapper: # Filters
+                add:
+                    name: ~
+#                    roles:
+#                        type: array
             Sonata\AdminBundle\Show\ShowMapper:     # Show
                 _copy: Sonata\AdminBundle\Form\FormMapper
 
