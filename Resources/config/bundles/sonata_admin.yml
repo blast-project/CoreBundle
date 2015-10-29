@@ -1,0 +1,4 @@
+default: # see available parameters with command : app/console debug:container --parameters | grep sonata.admin
+    sonata.admin.configuration.templates:
+        default: {layout: SonataAdminBundle::standard_layout.html.twig}
+        replace: {layout: LibrinfoCoreBundle::standard_layout.html.twig}
