@@ -54,12 +54,25 @@ parameters:
                         '':
                             username: ~
                             email: ~
+                            plainPassword:
+                                type: repeated
+                                required: false
+#                                    type: password
+                                _options:
+                                    translation_domain: FOSUserBundle
+                                    first_options:
+                                        label: form.password
+                                    second_options:
+                                        label: form.password_confirmation
+                                        invalid_message: fos_user.password.mismatch
                             enabled:
                                 required: false
                             locked:
                                 required: false
                             last_login:
                                 type: sonata_type_datetime_picker
+                                required: false
+
 #                            roles:
 #                                type: sonata_type_immutable_array
                             credentials_expired:
