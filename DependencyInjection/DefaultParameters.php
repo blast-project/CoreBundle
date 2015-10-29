@@ -45,9 +45,16 @@ class DefaultParameters implements ContainerAwareInterface
             // replacing parameter only if defined in yml file
             if (array_key_exists('replace', $change))
             {
-                // replacing parameter only if default value is not changed
-                if ($change['default'] == $containerParameters)
-                    $containerParameters = $change['replace'];
+                // default parameters in an array, so checking its content and replacing matching keys
+                if (is_array($containerParameters) && is_array($change['default']))
+                {
+                    foreach ($containerParameters as $defaultKey => $defaultValue)
+                        if (in_array($defaultValue, $change['default']))
+                            $containerParameters[$defaultKey] = $change['replace'][$defaultKey];
+                }
+                else // default parameters in a string, simply replacing it
+                    if ($change['default'] == $containerParameters)
+                        $containerParameters = $change['replace'];
 
                 // overriding parameters with our default values
                 $this->container->setParameter($parameterKey, $containerParameters);
