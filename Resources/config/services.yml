@@ -1,2 +1,4 @@
 services:
-
+    librinfo_core.twig.is_loaded_extension:
+        class: Librinfo\CoreBundle\Twig\Extensions\IsLoadedExtension
+        tags: [{ name: twig.extension }]
