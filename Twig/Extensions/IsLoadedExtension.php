@@ -2,6 +2,8 @@
 
 namespace Librinfo\CoreBundle\Twig\Extensions;
 
+use Twig_Environment;
+
 class IsLoadedExtension extends \Twig_Extension
 {
     /**
@@ -12,15 +14,27 @@ class IsLoadedExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isLoaded'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
         );
     }
 
     /**
      * @param string $name
+     *
      * @return boolean
      */
-    function isLoaded($twig, $name)
+    function isFunctionLoaded(Twig_Environment $twig, $name)
+    {
+        return $twig->getFunction($name);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return boolean
+     */
+    function isExtensionLoaded(Twig_Environment $twig, $name)
     {
         return $twig->hasExtension($name);
     }
