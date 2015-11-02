@@ -63,7 +63,22 @@ class DefaultParameters implements ContainerAwareInterface
     }
 
     /**
-     * @return mixed
+     * parameterExists
+     *
+     * @param $name
+     *
+     * @return bool|mixed false if not defined, the parameter if exists
+     */
+    public function parameterExists($name)
+    {
+        if ($this->container->hasParameter($name))
+            return $this->container->getParameter($name);
+        else
+            return false;
+    }
+
+    /**
+     * @return $this
      */
     public static function getInstance(ContainerInterface $container)
     {
