@@ -1,1 +1,17 @@
-.sonata-ba-field .select2-container { width: 100% }
+.sonata-ba-field .select2-container {
+    width: 100%
+}
+
+ul.listing-role {
+    list-style-type: none;
+    padding:         0;
+}
+
+ul.listing-role .glyphicon-asterisk {
+    color:          #3C8DBC;
+    vertical-align: middle
+}
+
+ul.listing-role .glyphicon-asterisk.admin {
+    color: red;
+}
