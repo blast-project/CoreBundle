@@ -107,6 +107,18 @@ parameters:
                             field2: ~
             Sonata\AdminBundle\Show\ShowMapper:   # The class of objects that needs to be configured (here the "show" view)
                 _copy: Sonata\AdminBundle\Form\FormMapper # indicates to take the configuration of an other class of the current Admin class extension (including its parents configuration)
+            Sonata\AdminBundle\Show\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
+                add:
+                    text:
+                        type: XXX
+                        filterOption1: xxx
+                        filterOption2: yyy
+                        field_options:
+                            fieldOption1: value1
+                            fieldOption2: value2
+                        field_type: fieldType
+                        fieldDescriptionOptions1: aaa
+                        fieldDescriptionOptions2: bbb
 ```
 
 How to use the Librinfo\CoreBundle features ?
