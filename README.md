@@ -116,9 +116,10 @@ parameters:
                         field_options:
                             fieldOption1: value1
                             fieldOption2: value2
-                        field_type: fieldType
                         fieldDescriptionOptions1: aaa
                         fieldDescriptionOptions2: bbb
+                        field_type: fieldType
+                        #_option: fieldType # can replace "field_type"
 ```
 
 How to use the Librinfo\CoreBundle features ?
