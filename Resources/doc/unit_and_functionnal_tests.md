@@ -97,7 +97,8 @@ Initialise data in database test
 Define your data to initialise user test informations.
 
 ```php
-# <YourBundle>Bundle/DependencyInjection/<YourBundle>Extension.php
+# <YourBundle>Bundle/DataFixtures/ORM/LoadUserData.php
+# ...
 $fixturesData = $this->container->getParameter('librinfo.datafixtures');
 $userAdmin = new User();
 $userAdmin->setUsername($fixturesData['user']['username']);
@@ -106,6 +107,7 @@ $userAdmin->setEmail($fixturesData['user']['email']);
 $userAdmin->addRole($fixturesData['user']['role']);
 $manager->persist($userAdmin);
 $manager->flush();
+# ...
 ```
 
 Run initialise database test
