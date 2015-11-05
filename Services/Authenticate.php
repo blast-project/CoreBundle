@@ -37,14 +37,16 @@ class Authenticate
         if ($username)
         {
             $user = $this->userManager->findUserBy(['username' => $username]);
-        }
 
-        if($user){
-            $usernamePasswordToken = new UsernamePasswordToken($user->getUsername(),$user->getPlainPassword(),'default',$user->getRoles());
-            $this->tokenStorage->setToken($usernamePasswordToken);
-        }
+            if ($user)
+            {
+                $usernamePasswordToken = new UsernamePasswordToken($user->getUsername(), $user->getPlainPassword(), 'default', $user->getRoles());
+                $this->tokenStorage->setToken($usernamePasswordToken);
 
-        return $user;
+                return $user;
+            }
+        }
+        return false;
     }
 
     /**
