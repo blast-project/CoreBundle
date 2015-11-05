@@ -2,3 +2,9 @@ services:
     librinfo_core.twig.is_loaded_extension:
         class: Librinfo\CoreBundle\Twig\Extensions\IsLoadedExtension
         tags: [{ name: twig.extension }]
+
+    librinfo_core.services.authenticate:
+        class: Librinfo\CoreBundle\Services\Authenticate
+        arguments: [@security.token_storage]
+        calls:
+            - [setUserManager, ['@fos_user.user_manager']]
