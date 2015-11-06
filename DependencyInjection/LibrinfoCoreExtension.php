@@ -39,10 +39,10 @@ class LibrinfoCoreExtension extends Extension
             );
     }
 
-    protected function mergeParameter($var, $container, $dir)
+    protected function mergeParameter($var, $container, $dir, $file_name = 'librinfo.yml')
     {
         $loader = new Loader\YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
-        $loader->load('librinfo.yml');
+        $loader->load($file_name);
         $container->getParameter($var);
         $container->setParameter($var, $librinfo = array_merge(
             $container->getParameter($var),
