@@ -4,12 +4,32 @@
 Installation
 ============
 
+Prerequiresites
+---------------
+
+* PHPUnit
 
 Downloading
 -----------
 
   $ composer require --dev doctrine/doctrine-fixtures-bundle
 
+
+Configuring unit test
+---------------------
+
+Add directory who contain your tests
+
+```
+<!-- app/phpunit.xml -->
+<testsuites>
+    <testsuite name="<Your Project Name>">
+        <!-- ... -->
+        <directory>../src/*/<YourBundle>Bundle/Tests</directory>
+        <!-- ... -->
+    </testsuite>
+</testsuites>
+```
 
 Doctrine Fixtures bundle
 ------------------------
