@@ -9,7 +9,7 @@
         "twig/twig": "^1.22.1",
         "libre-informatique/base-entities-bundle": "dev-master"
     },
-    "license":  "GNU-GPL",
+    "license":  "GPL-3.0",
     "keywords": ["e-venement", "libio", "sonata", "symfony"],
     "homepage": "https://github.com/libre-informatique/SymfonyLibrinfoCoreBundle",
     "authors": [
