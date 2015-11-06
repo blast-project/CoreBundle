@@ -78,8 +78,8 @@ Call new configuration in environment test
 Load datafixtures.yml using Yaml File Loader
 
 ```php
-# <YourBundle>Bundle/DependencyInjection/<YourBundle>Extension.php
-# ...
+// <YourBundle>Bundle/DependencyInjection/<YourBundle>Extension.php
+// ...
 if($container->getParameter('kernel.environment') == 'test')
 {
     if(!$container->hasParameter('librinfo.datafixtures')){
@@ -87,7 +87,7 @@ if($container->getParameter('kernel.environment') == 'test')
     }
     $this->mergeParameter('librinfo.datafixtures', $container, __DIR__.'/../Resources/config/','datafixtures.yml');
 }
-# ...
+// ...
 ```
 
 
@@ -97,8 +97,8 @@ Initialise data in database test
 Define your data to initialise user test informations.
 
 ```php
-# <YourBundle>Bundle/DataFixtures/ORM/LoadUserData.php
-# ...
+// <YourBundle>Bundle/DataFixtures/ORM/LoadUserData.php
+// ...
 $fixturesData = $this->container->getParameter('librinfo.datafixtures');
 $userAdmin = new User();
 $userAdmin->setUsername($fixturesData['user']['username']);
@@ -107,7 +107,7 @@ $userAdmin->setEmail($fixturesData['user']['email']);
 $userAdmin->addRole($fixturesData['user']['role']);
 $manager->persist($userAdmin);
 $manager->flush();
-# ...
+// ...
 ```
 
 Run initialise database test
@@ -124,13 +124,13 @@ Test using security users
 Authenticates user defined in your configuration in order to allow testing of security based traitments.
 
 ```php
-# <YourBundle>Bundle/Tests/Features/<YourTest>.php
-# ...
+// <YourBundle>Bundle/Tests/Features/<YourTest>.php
+// ...
 /** @var User $user */
 $client = static::createClient();
 $datafixtures = $client->getContainer()->getParameter('librinfo.datafixtures');
 $user = $client->getContainer()->get('librinfo_core.services.authenticate')->authencicateUser($datafixtures['user']['username']);
-# ...
+// ...
 ```
 
 
