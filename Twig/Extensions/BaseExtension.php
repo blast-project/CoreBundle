@@ -2,10 +2,18 @@
 
 namespace Librinfo\CoreBundle\Twig\Extensions;
 
+use Symfony\Component\DependencyInjection\Container;
 use Twig_Environment;
 
-class IsLoadedExtension extends \Twig_Extension
+class BaseExtension extends \Twig_Extension
 {
+    protected $container;
+    
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+    
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -16,7 +24,19 @@ class IsLoadedExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
+            new \Twig_SimpleFunction('routeExists', [$this, 'routeExists']),
         );
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return boolean
+     */
+    function routeExists($name)
+    {
+        $router = $this->container->get('router');
+        return (null === $router->getRouteCollection()->get($name)) ? false : true;
     }
 
     /**
@@ -26,7 +46,7 @@ class IsLoadedExtension extends \Twig_Extension
      */
     function isFunctionLoaded(Twig_Environment $twig, $name)
     {
-        return $twig->getFunction($name);
+        return $twig->getFunction($name) !== false;
     }
 
     /**
@@ -46,6 +66,6 @@ class IsLoadedExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'librinfo_core_is_loaded_extension';
+        return 'librinfo_core_base_extension';
     }
 }

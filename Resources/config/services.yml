@@ -1,6 +1,7 @@
 services:
-    librinfo_core.twig.is_loaded_extension:
-        class: Librinfo\CoreBundle\Twig\Extensions\IsLoadedExtension
+    librinfo_core.twig.base_extension:
+        class: Librinfo\CoreBundle\Twig\Extensions\BaseExtension
+        arguments: [@service_container]
         tags: [{ name: twig.extension }]
 
     librinfo_core.services.authenticate:
