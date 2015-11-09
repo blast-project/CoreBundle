@@ -12,7 +12,7 @@ class BaseExtension extends \Twig_Extension
      * @var Router
      */
     private $router;
-    
+
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -38,9 +38,10 @@ class BaseExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $name
+     * @param Twig_Environment $twig
+     * @param string           $name
      *
-     * @return boolean
+     * @return bool
      */
     function isFunctionLoaded(Twig_Environment $twig, $name)
     {
@@ -48,9 +49,10 @@ class BaseExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $name
+     * @param Twig_Environment $twig
+     * @param string           $name
      *
-     * @return boolean
+     * @return bool
      */
     function isExtensionLoaded(Twig_Environment $twig, $name)
     {
