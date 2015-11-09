@@ -43,8 +43,16 @@ class LibrinfoCoreExtension extends Extension
     {
         $loader = new Loader\YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
         $loader->load($file_name);
-        $container->getParameter($var);
-        $container->setParameter($var, $librinfo = array_merge(
+        
+        if ( !is_array($container->getParameter($var)) )
+        {
+            $container->setParameter($var, array());
+            return $this;
+        }
+        if ( !is_array($newContainer->getParameter($var)) )
+            return $this;
+        
+        $container->setParameter($var, array_merge(
             $container->getParameter($var),
             $newContainer->getParameter($var)
         ));

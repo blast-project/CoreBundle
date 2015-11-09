@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Exception\InvalidParameterException;
 use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
 use Sonata\AdminBundle\Admin\Admin;
+use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 abstract class BaseAdmin extends Admin
 {
@@ -53,8 +54,54 @@ abstract class BaseAdmin extends Admin
     private function formatUsingConfiguration(BaseMapper $mapper)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-
+        
+        $classes = ClassAnalyzer::getTraits($this->getClass());
+        foreach ( array_reverse(array($this->getClass()) + class_parents($this->getClass())) as $class )
+            $classes[] = $class;
+        foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $admin )
+            $classes[] = $admin;
+        
         $cpt = array('remove' => 0, 'add' => 0);
+        foreach ( $classes as $class )
+        if ( isset($librinfo[$class]) )
+        {
+            // copy stuff from elsewhere
+            foreach ( array_reverse($list = array(get_class($mapper)) + class_parents($mapper)) as $mapper_class )
+            if ( isset($librinfo[$class][$mapper_class]) )
+            {
+                if ( isset($librinfo[$class][$mapper_class]['_copy']) && $librinfo[$class][$mapper_class]['_copy'] )
+                {
+                    if ( !is_array($librinfo[$class][$mapper_class]['_copy']) )
+                        $librinfo[$class][$mapper_class]['_copy'] = array($librinfo[$class][$mapper_class]['_copy']);
+                    $list = $librinfo[$class][$mapper_class]['_copy'] + $list;
+                }
+            }
+
+            // process data...
+            foreach ( array_reverse($list) as $mapper_class )
+            if ( isset($librinfo[$class][$mapper_class]) )
+            {
+
+
+                // remove fields
+                if ( isset($librinfo[$class][$mapper_class]['remove']) )
+                foreach ( $librinfo[$class][$mapper_class]['remove'] as $remove )
+                if ( $mapper->has($remove) )
+                {
+                    $cpt['remove']++;
+                    $mapper->remove($remove);
+                }
+
+                // add fields & more
+                if ( isset($librinfo[$class][$mapper_class]['add']) )
+                {
+                    $cpt['add']++;
+                    $this->addContent($mapper, $librinfo[$class][$mapper_class]['add']);
+                }
+            }
+        }
+        
+        /*
         foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $parent_class )
         if ( isset($librinfo[$parent_class]) )
         {
@@ -95,6 +142,7 @@ abstract class BaseAdmin extends Admin
         }
 
         return array_sum($cpt);
+        */
     }
 
     private function addContent(BaseMapper $mapper, $group)
@@ -208,7 +256,7 @@ abstract class BaseAdmin extends Admin
 
         return $level;
     }
-
+    
     protected function getOriginalClass()
     {
         return get_called_class();
