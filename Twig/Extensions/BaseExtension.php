@@ -3,16 +3,15 @@
 namespace Librinfo\CoreBundle\Twig\Extensions;
 
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\Routing\Router;
 use Twig_Environment;
 
 class BaseExtension extends \Twig_Extension
 {
-    protected $container;
-    
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
+    /**
+     * @var Router
+     */
+    private $router;
     
     /**
      * Returns a list of functions to add to the existing list.
@@ -35,8 +34,7 @@ class BaseExtension extends \Twig_Extension
      */
     function routeExists($name)
     {
-        $router = $this->container->get('router');
-        return (null === $router->getRouteCollection()->get($name)) ? false : true;
+        return (null === $this->router->getRouteCollection()->get($name)) ? false : true;
     }
 
     /**
@@ -67,5 +65,10 @@ class BaseExtension extends \Twig_Extension
     public function getName()
     {
         return 'librinfo_core_base_extension';
+    }
+
+    public function setRouter(Router $router)
+    {
+        $this->router = $router;
     }
 }

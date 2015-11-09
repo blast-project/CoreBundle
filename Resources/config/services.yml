@@ -1,8 +1,9 @@
 services:
     librinfo_core.twig.base_extension:
         class: Librinfo\CoreBundle\Twig\Extensions\BaseExtension
-        arguments: [@service_container]
         tags: [{ name: twig.extension }]
+        calls:
+            - [setRouter,[@router]]
 
     librinfo_core.services.authenticate:
         class: Librinfo\CoreBundle\Services\Authenticate
