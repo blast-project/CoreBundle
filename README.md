@@ -97,6 +97,9 @@ parameters:
                         gfx_group:                # A first group inside the "tab"
                             _options:             # ... with its options (cf. BaseGroupedMapper::with() options)
                                 description: with
+                                fieldsOrder:      # You can defined fields order in this key.
+                                    - text
+                                    - otherField
                             title: ~              # Adding a field, with no option
                             description:
                                 type: textarea
