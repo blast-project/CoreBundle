@@ -94,7 +94,7 @@ parameters:
                     gfx_tab:                      # A first tab
                         _options:                 # ... with its options (cf. BaseGroupedMapper::with() options)
                             description: tab
-                            orderGroups: [gfx_group2, gfx_group]
+                            groupsOrder: [gfx_group2, gfx_group]
                         gfx_group:                # A first group inside the "tab"
                             _options:             # ... with its options (cf. BaseGroupedMapper::with() options)
                                 description: with
