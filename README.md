@@ -110,7 +110,7 @@ parameters:
                             field2: ~
             Sonata\AdminBundle\Show\ShowMapper:   # The class of objects that needs to be configured (here the "show" view)
                 _copy: Sonata\AdminBundle\Form\FormMapper # indicates to take the configuration of an other class of the current Admin class extension (including its parents configuration)
-            Sonata\AdminBundle\Show\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
+            Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
                 add:
                     text:
                         type: XXX
