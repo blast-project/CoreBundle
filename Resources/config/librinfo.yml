@@ -1,2 +1,5 @@
 parameters:
-    librinfo:
+    librinfo: []
+#        Librinfo\CoreBundle\Admin\Admin:
+#            Sonata\AdminBundle\Form\FormMapper:
+#                remove: []
