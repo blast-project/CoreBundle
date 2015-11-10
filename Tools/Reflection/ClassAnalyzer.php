@@ -25,10 +25,11 @@ class ClassAnalyzer extends \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer
      * recursively
      *
      * @param $class            A ReflectionClass object or a string describing an existing class
-     * @param $trait            A string representing an existing trait
+     * @param $traitName        A string representing an existing trait
+     * @param $isRecursive      boolean (useless, compatibility regards)
      * @return boolean          TRUE or FALSE
      **/
-    public function hasTrait(\ReflectionClass $class, $traitName, $isRecursive = true)
+    public function hasTrait($class, $traitName, $isRecursive = true)
     {
         return in_array($traitName, self::getTraits($class));
     }
