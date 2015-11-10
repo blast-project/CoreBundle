@@ -10,3 +10,13 @@ services:
         arguments: [@security.token_storage]
         calls:
             - [setUserManager, ['@fos_user.user_manager']]
+
+    librinfo_core.services.sonata_extension.treeable_extension:
+        class: Librinfo\CoreBundle\Admin\Extension\TreeableExtension
+        tags:
+            - { name: sonata.admin.extension, global: false }
+
+    librinfo_core.form.type.treeable:
+        class: Librinfo\CoreBundle\Form\Type\TreeableFormType
+        tags:
+            - { name: form.type, alias: treeable }
