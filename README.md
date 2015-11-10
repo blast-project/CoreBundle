@@ -94,6 +94,7 @@ parameters:
                     gfx_tab:                      # A first tab
                         _options:                 # ... with its options (cf. BaseGroupedMapper::with() options)
                             description: tab
+                            orderGroups: [gfx_group2, gfx_group]
                         gfx_group:                # A first group inside the "tab"
                             _options:             # ... with its options (cf. BaseGroupedMapper::with() options)
                                 description: with
@@ -108,11 +109,16 @@ parameters:
                                     translation_domain: fr
                         gfx_group2:
                             field2: ~
+                    _options:
+                        tabsOrder: []
             Sonata\AdminBundle\Show\ShowMapper:   # The class of objects that needs to be configured (here the "show" view)
                 _copy: Sonata\AdminBundle\Form\FormMapper # indicates to take the configuration of an other class of the current Admin class extension (including its parents configuration)
             Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
                 add:
-                    text:
+                    _options:
+                        orderFields: [title, name]
+                    name: ~
+                    title:
                         type: XXX
                         filterOption1: xxx
                         filterOption2: yyy
