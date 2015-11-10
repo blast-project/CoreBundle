@@ -10,10 +10,10 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Exception\InvalidParameterException;
 use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
-abstract class BaseAdmin extends Admin
+abstract class Admin extends SonataAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper
@@ -81,8 +81,6 @@ abstract class BaseAdmin extends Admin
             foreach ( array_reverse($list) as $mapper_class )
             if ( isset($librinfo[$class][$mapper_class]) )
             {
-
-
                 // remove fields
                 if ( isset($librinfo[$class][$mapper_class]['remove']) )
                 foreach ( $librinfo[$class][$mapper_class]['remove'] as $remove )
@@ -100,49 +98,7 @@ abstract class BaseAdmin extends Admin
                 }
             }
         }
-        
-        /*
-        foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $parent_class )
-        if ( isset($librinfo[$parent_class]) )
-        {
-            // copy stuff from elsewhere
-            foreach ( array_reverse($list = array(get_class($mapper)) + class_parents($mapper)) as $mapper_class )
-            if ( isset($librinfo[$parent_class][$mapper_class]) )
-            {
-                if ( isset($librinfo[$parent_class][$mapper_class]['_copy']) && $librinfo[$parent_class][$mapper_class]['_copy'] )
-                {
-                    if ( !is_array($librinfo[$parent_class][$mapper_class]['_copy']) )
-                        $librinfo[$parent_class][$mapper_class]['_copy'] = array($librinfo[$parent_class][$mapper_class]['_copy']);
-                    $list = $librinfo[$parent_class][$mapper_class]['_copy'] + $list;
-                }
-            }
-
-            // process data...
-            foreach ( array_reverse($list) as $mapper_class )
-            if ( isset($librinfo[$parent_class][$mapper_class]) )
-            {
-
-
-                // remove fields
-                if ( isset($librinfo[$parent_class][$mapper_class]['remove']) )
-                foreach ( $librinfo[$parent_class][$mapper_class]['remove'] as $remove )
-                if ( $mapper->has($remove) )
-                {
-                    $cpt['remove']++;
-                    $mapper->remove($remove);
-                }
-
-                // add fields & more
-                if ( isset($librinfo[$parent_class][$mapper_class]['add']) )
-                {
-                    $cpt['add']++;
-                    $this->addContent($mapper, $librinfo[$parent_class][$mapper_class]['add']);
-                }
-            }
-        }
-
         return array_sum($cpt);
-        */
     }
 
     private function addContent(BaseMapper $mapper, $group)
@@ -150,8 +106,22 @@ abstract class BaseAdmin extends Admin
         // flat organization
         if ( ! $mapper instanceof BaseGroupedMapper )
         {
-            foreach ( $group as $add => $options )
-                $this->addField($mapper, $add, $options);
+            // options pre-treatment
+            $options = array();
+            if ( isset($group['_options']) )
+            {
+                $options = $group['_options'];
+                unset($group['_options']);
+            }
+            
+            // content
+            foreach ( $group as $add => $opts )
+                $this->addField($mapper, $add, $opts);
+            
+            // options
+            if ( isset($options['fieldsOrder']) )
+                $mapper->reorder($options['fieldsOrder']);
+            
             return $mapper;
         }
 
@@ -196,7 +166,7 @@ abstract class BaseAdmin extends Admin
                     $this->addField($mapper, $name, $options, $fieldDescriptionOptions);
                 }
 
-                if($finalOrder != null)
+                if ( $finalOrder != null )
                     $mapper->reorder($finalOrder);
 
                 $mapper->end();
