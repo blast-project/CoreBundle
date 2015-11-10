@@ -2,7 +2,7 @@
 
 namespace Librinfo\CoreBundle\Tools\Reflection;
 
-class ClassAnalyzer extends \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer
+class ClassAnalyzer
 {
     /**
      * getTraits
@@ -26,12 +26,41 @@ class ClassAnalyzer extends \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer
      *
      * @param $class            A ReflectionClass object or a string describing an existing class
      * @param $traitName        A string representing an existing trait
-     * @param $isRecursive      boolean (useless, compatibility regards)
      * @return boolean          TRUE or FALSE
      **/
-    public function hasTrait($class, $traitName, $isRecursive = true)
+    public static function hasTrait($class, $traitName)
     {
         return in_array($traitName, self::getTraits($class));
+    }
+    
+    /**
+     * hasProperty
+     *
+     * This static method says if a class has a property
+     *
+     * @param $class            A ReflectionClass object or a string describing an existing class
+     * @param $propertyName     A string representing a property name
+     * @return boolean
+     **/
+    public static function hasProperty($class, $propertyName)
+    {
+        $analyzer = new Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
+        return $analyzer->hasProperty($class instanceof \ReflectionClass ? $class : new ReflectionClass($class), $propertyName);
+    }
+    
+    /**
+     * hasMethod
+     *
+     * This static method says if a class has a method
+     *
+     * @param $class            A ReflectionClass object or a string describing an existing class
+     * @param $methodName       A string representing a method name
+     * @return boolean
+     **/
+    public static function hasMethod($class, $methodName)
+    {
+        $rc = $class instanceof \ReflectionClass ? $class : new ReflectionClass($class);
+        return $rc->hasMethod($methodName);
     }
 
 
