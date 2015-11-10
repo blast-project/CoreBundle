@@ -75,8 +75,8 @@ class ClassAnalyzer
         
         foreach ( $rc->getTraits() as $trait )
         {
-            $traits[] = $trait->name;
-            $traits = self::_getTraits($trait, $traits);
+            $traits = self::_getTraits($trait, $traits); // first the embedded traits that come first...
+            $traits[] = $trait->name;                    // then the current trait
         }
 
         return $traits;
