@@ -18,5 +18,13 @@ services:
 
     librinfo_core.form.type.treeable:
         class: Librinfo\CoreBundle\Form\Type\TreeableFormType
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
         tags:
             - { name: form.type, alias: treeable }
+    librinfo_core.form.type.treeable_choice:
+        class: Librinfo\CoreBundle\Form\Type\TreeableChoiceFormType
+        calls:
+            - [setEntityManager, ['@doctrine.orm.entity_manager']]
+        tags:
+            - { name: form.type, alias: treeable_choice }
