@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
 use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
-abstract class Admin extends SonataAdmin
+abstract class CoreAdmin extends SonataAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper

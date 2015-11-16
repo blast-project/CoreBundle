@@ -1,8 +1,8 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin;
+namespace Librinfo\CoreBundle\CoreAdmin;
 
-abstract class TreeableAdmin extends Admin
+abstract class TreeableAdmin extends CoreAdmin
 {
     /**
      * {@inheritdoc}

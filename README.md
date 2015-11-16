@@ -140,9 +140,9 @@ After having installed properly the bundle, and learning the configuration refer
 <?php
 // src/AcmeBundle/Admin/BlogAdmin.php
 // ...
-use Librinfo\CoreBundle\Admin\AddressableAdmin;
+use Librinfo\CoreBundle\Admin\CoreAdmin;
 // ...
-class DemoAdmin extends BaseAdmin
+class DemoAdmin extends CoreAdmin
 {
     // ... empty everything original... and if you want to extend those methods, always call parent::METHOD(); somewhere
 }
