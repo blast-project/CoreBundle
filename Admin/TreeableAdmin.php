@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\CoreAdmin;
+namespace Librinfo\CoreBundle\Admin;
 
 abstract class TreeableAdmin extends CoreAdmin
 {
