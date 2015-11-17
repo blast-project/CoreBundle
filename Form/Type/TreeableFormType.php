@@ -68,7 +68,7 @@ class TreeableFormType extends AbstractType
             $result[] = new ChoiceView(
                 $choice,
                 $choice->getId(),
-                $this->generateTreeSybols($choice->getName(), $level),
+                $this->generateTreeSymbols($choice->getName(), $level),
                 []
             );
 
@@ -82,7 +82,7 @@ class TreeableFormType extends AbstractType
         return $result;
     }
 
-    protected function generateTreeSybols($label, $level)
+    protected function generateTreeSymbols($label, $level)
     {
         $spaces = '└─ ';
         for ($i = 0; $i < $level; $i++)
