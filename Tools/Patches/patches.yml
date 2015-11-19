@@ -1,0 +1,2 @@
+patches:
+    - { id: 1447941862, enabled: true, patched: true, targetFile: vendor/symfony/symfony/src/Symfony/Component/Form/ChoiceList/LazyChoiceList.php, patchFile: src/Librinfo/CoreBundle/Command/../Tools/Patches/patches/1447941862.txt }
