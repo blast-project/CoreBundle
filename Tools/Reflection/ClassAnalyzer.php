@@ -73,11 +73,16 @@ class ClassAnalyzer
         if ( is_null($traits) )
             $traits = array();
         
+        // traits being embedded through the current class or the embedded traits
         foreach ( $rc->getTraits() as $trait )
         {
             $traits = self::_getTraits($trait, $traits); // first the embedded traits that come first...
             $traits[] = $trait->name;                    // then the current trait
         }
+
+        // traits embedded by the parent class
+        if ( $rc->getParentClass() )
+            $traits = self::_getTraits($rc->getParentClass(), $traits);
 
         return $traits;
     }

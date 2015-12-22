@@ -8,22 +8,42 @@ trait CollectionsManager
 {
     protected $managedCollections = [];
     
+    /**
+     * function getManagedCollections
+     *
+     * @return  array
+     **/
     public function getManagedCollections()
     {
         return $this->managedCollections;
     }
     
-    public function prePersist($object)
+    /**
+     * function addManagedCollections
+     *
+     * @param $collections      array or string, describing the collections to manage
+     * @return CoreAdmin        $this
+     **/
+    public function addManagedCollections($collections)
     {
-        $this->preUpdateOrPersist($object);
-    }
-
-    public function preUpdate($object)
-    {
-        $this->preUpdateOrPersist($object);
+        if ( !is_array($collections) )
+            $collections = array($collections);
+        $this->managedCollections += $collections;
+        
+        return $this;
     }
     
-    protected function preUpdateOrPersist($object)
+    public function prePersistCollectionsManager($object)
+    {
+        $this->preUpdateOrPersistCollectionsManager($object);
+    }
+
+    public function preUpdateCollectionsManager($object)
+    {
+        $this->preUpdateOrPersistCollectionsManager($object);
+    }
+    
+    protected function preUpdateOrPersistCollectionsManager($object)
     {
         // global configuration
         $this->configureCollectionsManager();
@@ -77,21 +97,6 @@ trait CollectionsManager
                 $librinfo[$class][$key] = [$librinfo[$class][$key]];
             $this->addManagedCollections($librinfo[$class][$key]);
         }
-        
-        return $this;
-    }
-    
-    /**
-     * function addManagedCollections
-     *
-     * @param $collections      array or string, describing the collections to manage
-     * @return CoreAdmin        $this
-     **/
-    public function addManagedCollections($collections)
-    {
-        if ( !is_array($collections) )
-            $collections = array($collections);
-        $this->managedCollections += $collections;
         
         return $this;
     }
