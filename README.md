@@ -95,12 +95,14 @@ parameters:
                         _options:                 # ... with its options (cf. BaseGroupedMapper::with() options)
                             description: tab
                             groupsOrder: [gfx_group2, gfx_group]
+                            hideTitle: false      # remove graphically the title of the tab (false by default)
                         gfx_group:                # A first group inside the "tab"
                             _options:             # ... with its options (cf. BaseGroupedMapper::with() options)
                                 description: with
                                 fieldsOrder:      # You can defined fields order in this key.
                                     - text
                                     - otherField
+                                hideTitle: false  # remove graphically the title of the group (false by default)
                             title: ~              # Adding a field, with no option
                             description:
                                 type: textarea

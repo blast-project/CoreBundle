@@ -152,7 +152,8 @@ abstract class CoreAdmin extends SonataAdmin
             }
             
             // tab
-            $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : array());
+            if (!( isset($tabcontent['_options']['hideTitle']) && $tabcontent['_options']['hideTitle'] ))
+                $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : array());
             if ( isset($tabcontent['_options']) )
                 unset($tabcontent['_options']);
 
@@ -164,8 +165,9 @@ abstract class CoreAdmin extends SonataAdmin
             {
                 $opt = isset($withcontent['_options']) ? $withcontent['_options'] : array();
                 $finalOrder = (isset($opt['fieldsOrder']) ? $opt['fieldsOrder'] : null);
-
-                $mapper->with($with, $opt);
+                
+                if (!( isset($opt['hideTitle']) && $opt['hideTitle'] ))
+                    $mapper->with($with, $opt);
                 if ( isset($withcontent['_options']) )
                     unset($withcontent['_options']);
 
