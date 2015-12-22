@@ -68,22 +68,141 @@ We have already seen the ```Librinfo\CoreBundle\Admin\Traits\Base``` in the prev
 
 This, then, allows you not to write a line of PHP to define complex Sonata Admin forms and complete modules. You will find all the needed details in the [README.md](../../README.md) file of the ```libre-informatique/core-bundle```.
 
-Any other trait uses this trait. So if you want to specialize your current Sonata Admin, you will not have to use the ```Base``` trait anymore (it avoids
+Any other trait uses this trait. So if you want to specialize your current Sonata Admin, you will not have to use the ```Base``` trait anymore (it prevents most of the possible conflicts, avoiding the need of resolutions).
 
 #### Embedded
 
-If you need to use the ```Embedded``` trait, k
+The ```Librinfo\CoreBundle\Admin\Traits\Embedded``` trait is to be used when your ```CoreAdmin``` is embedded within a ```sonata_type_collection``` form type (at least in its FormMapper/ShowMapper mode).
+
+```Embedded``` is the exact mirror of ```Embedding``` (which is being treated in the next title) and aims to be used as a twin of ```Embedding```.
+
+This is done in YAML using :
+
+```
+parameters:
+    librinfo:
+        // ...
+        AcmeBundle\Entity\My:
+            // ...
+            Sonata\AdminBundle\Form\FormMapper:
+                add:
+                    MyTab:
+                        MyGroup:
+                            children:
+                                type: sonata_type_collection
+                                by_reference: false             # required
+                                type_options:
+                                    required: false
+                                    btn_add: false
+                                required: false
+                                label: false
+                                _options:
+                                    edit: inline                # required
+                                    #inline: table
+                                    allow_delete: true
+        // ...
+```
+
+1. Simply use it in your ```CoreAdmin```:
+
+```
+// src/AcmeBundle/Admin/MyAdminConcrete.php
+namespace Librinfo\CRMBundle\Admin;
+
+use Librinfo\CoreBundle\Admin\Traits\Embedded;
+
+class ChildAdminConcrete extends MyAdmin
+{
+    use Embedded;
+}
+```
+
+The ```libre-informatique/core-bundle``` will take care of everything for you excepting :
+
+2. Add some logic in your *parent* entity :
+
+```
+// src/AcmeBundle/Entity/My.php
+namespace AcmeBundle\Entity;
+
+class My
+{
+    // ...
+    /*
+     * @var Collection
+     */
+    private $children;
+    
+    /**
+     * @param Child $children
+     * @return self
+     */
+    public function addChild(Child $child)
+    {
+        $rc = new \ReflectionClass($this);
+        $child->setMy($this);
+        $this->children->add($child);
+        return $this;
+    }
+    
+    /**
+     * @param Child $children
+     * @return self
+     */
+    public function removeChild(Child $child)
+    {
+        $this->children->removeElement($child);
+        return $this;
+    }
+        
+    /**
+     * @return Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+    // ...
+}
+```
+
+Eventually, if many entities are using this embedded Admin (meaning that many entities have children), you can think of writing a trait with this logic, which will allow you to write things about this trait in your ```librinfo.yml```... preventing many descriptions of the same ```FormMapper```.
 
 #### Embedding
 
+The ```Librinfo\CoreBundle\Admin\Traits\Embedding``` trait is to be used when your ```CoreAdmin``` embeds other ```CoreAdmin``` using ```sonata_type_collection``` form types (at least in its FormMapper/ShowMapper mode). This is done in YAML using the same definition that we have seen for ```Embedded```.
+
+In fact, ```Embedding``` is the exact mirror of ```Embedded``` and aims to be used as a twin of ```Embedded```.
+
+It subscribes all the ```sonata_type_collection``` to the ```Librinfo\CoreBundle\Admin\Trait\CollectionsManager::managedCollections```, avoiding the registration of collections in the [```librinfo.yml``` definition](../../README.md#configuring-your-sonataadminbundle-interfaces-with-yaml-properties).
+
 ### Traits used directly by the ```Librinfo\CoreBundle\Admin\CoreAdmin```
+
+Some traits are here only to make the ```Librinfo\CoreBundle\Admin\CoreAdmin``` more readable, and consistant.
 
 #### Mapper
 
+The ```Librinfo\CoreBundle\Admin\Traits\Mapper``` trait embeds all the logical that parses the ```librinfo.yml``` files and generate a matching ```Sonata\AdminBundle\Admin\Admin``` without writing a line of PHP.
+
 #### CollectionsManager
 
+The ```Librinfo\CoreBundle\Admin\Traits\CollectionsManager``` trait treats the collections that would be let untouched after a change in an embedded form (a ```sonata_type_collection``` form type). It uses definitions found in the ```librinfo.yml``` files.
 
+eg.:
+```
+# app/config/config.yml
+parameters:
+    librinfo:
+        AcmeBundle\Admin\MyAdmin:
+            managedCollections: [children]
+```
 
+#### PreEvents
 
+The ```Librinfo\CoreBundle\Admin\Traits\PreEvents``` trait embeds the ```Sonata\AdminBundle\Admin\Admin::preUpdate($object)``` and ```Sonata\AdminBundle\Admin\Admin::prePersist($object)``` methods. It comes with the ability to define new "behaviors" in traits. When called those methods try to execute every methods componed as :
+
+```[MyClass]::[prePersist|preUpdate]MyTrait($object)```
 
 ## How it deeply works
+
+TO BE WRITTEN
