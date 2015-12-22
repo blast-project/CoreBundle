@@ -176,6 +176,10 @@ In fact, ```Embedding``` is the exact mirror of ```Embedded``` and aims to be us
 
 It subscribes all the ```sonata_type_collection``` to the ```Librinfo\CoreBundle\Admin\Trait\CollectionsManager::managedCollections```, avoiding the registration of collections in the [```librinfo.yml``` definition](../../README.md#configuring-your-sonataadminbundle-interfaces-with-yaml-properties).
 
+#### How to create your own traits
+
+TO BE WRITTEN
+
 ### Traits used directly by the ```Librinfo\CoreBundle\Admin\CoreAdmin```
 
 Some traits are here only to make the ```Librinfo\CoreBundle\Admin\CoreAdmin``` more readable, and consistant.
