@@ -84,6 +84,7 @@ So it is structured as :
 # app/config/config.yml (or any other file that is loaded by your bundle)
 parameters:
     librinfo:
+        managedCollections: []                    # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
             Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
                 remove: [name, id]                # The fields that need to be removed from inheritance (array)
