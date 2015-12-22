@@ -207,5 +207,12 @@ trait Mapper
         $mapper->add($name, $type, $options, $fieldDescriptionOptions);
         return $mapper;
     }
+    
+    protected function configureFields($function, BaseMapper $mapper, $class = NULL)
+    {
+        if ( !$class )
+            $class = $this->getOriginalClass();
+        return $class::$function($mapper);
+    }
 }
 
