@@ -2,6 +2,10 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Sonata\AdminBundle\Mapper\BaseMapper;
+use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
+
 trait Mapper
 {
     private function configureMapper(BaseMapper $mapper)
@@ -62,7 +66,7 @@ trait Mapper
 
     private function addContent(BaseMapper $mapper, $group)
     {
-        // flat organization
+        // flat organization (DatagridMapper / ListMapper...)
         if ( ! $mapper instanceof BaseGroupedMapper )
         {
             // options pre-treatment
