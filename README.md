@@ -85,6 +85,7 @@ So it is structured as :
 parameters:
     librinfo:
         managedCollections: []                    # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
+                                                  # An other way to do the same thing automagically is to use the trait Librinfo\CoreBundle\Admin\Traits\Embedding within your Sonata Admin form instead of the Librinfo\CoreBundle\Admin\Traits\Base
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
             Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
                 remove: [name, id]                # The fields that need to be removed from inheritance (array)
@@ -208,48 +209,11 @@ In fact when you generate an ```Admin``` component, it comes with the full list 
 // src/AcmeBundle/Admin/DemoAdminConcrete.php
 namespace AcmeBundle\Admin;
 
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use Librinfo\CoreBundle\Admin\Traits\Base as BaseAdmin;
 
 class DemoAdminConcrete extends DemoAdmin
 {
-    /**
-     * @param DatagridMapper $datagridMapper
-     */
-    protected function configureDatagridFilters(DatagridMapper $mapper)
-    {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
-        // ...
-    }
-
-    /**
-     * @param ListMapper $listMapper
-     */
-    protected function configureListFields(ListMapper $mapper)
-    {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
-        // ...
-    }
-
-    /**
-     * @param FormMapper $formMapper
-     */
-    protected function configureFormFields(FormMapper $mapper)
-    {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
-        // ...
-    }
-
-    /**
-     * @param ShowMapper $showMapper
-     */
-    protected function configureShowFields(ShowMapper $mapper)
-    {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
-        // ...
-    }
+    use BaseAdmin;
 }
 ```
 
@@ -263,6 +227,12 @@ services:
         class: AcmeBundle\Admin\DemoAdminConcrete
         # ...
 ```
+
+#### Going further using the CoreAdmin
+
+Instead of the ```Librinfo\CoreBundle\Admin\Traits\Base``` trait, you might be interested in :
+* ```Librinfo\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
+* ```Librinfo\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
 #### Using Sonata Project extensions
 

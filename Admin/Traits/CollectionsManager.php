@@ -75,10 +75,24 @@ trait CollectionsManager
         {
             if ( !is_array($librinfo[$class][$key]) )
                 $librinfo[$class][$key] = [$librinfo[$class][$key]];
-            $this->managedCollections = $this->managedCollections + $librinfo[$class][$key];
+            $this->addManagedCollections($librinfo[$class][$key]);
         }
         
         return $this;
     }
+    
+    /**
+     * function addManagedCollections
+     *
+     * @param $collections      array or string, describing the collections to manage
+     * @return CoreAdmin        $this
+     **/
+    public function addManagedCollections($collections)
+    {
+        if ( !is_array($collections) )
+            $collections = array($collections);
+        $this->managedCollections += $collections;
+        
+        return $this;
+    }
 }
-
