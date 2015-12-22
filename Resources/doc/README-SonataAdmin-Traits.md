@@ -1,4 +1,4 @@
-# Improving how [SonataAdminBundle](https://github.com/sonata-project/SonataAdminBundle) can be improved in a generic way
+# Improving the [SonataAdminBundle](https://github.com/sonata-project/SonataAdminBundle) in a generic way
 
 ## Why are we doing this ?
 
