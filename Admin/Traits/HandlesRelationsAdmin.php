@@ -5,7 +5,7 @@ namespace Librinfo\CoreBundle\Admin\Traits;
 use Sonata\AdminBundle\Form\FormMapper;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
-trait EmbeddingAdmin
+trait HandlesRelationsAdmin
 {
     use Base;
 
