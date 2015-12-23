@@ -70,9 +70,9 @@ This, then, allows you not to write a line of PHP to define complex Sonata Admin
 
 Any other trait uses this trait. So if you want to specialize your current Sonata Admin, you will not have to use the ```Base``` trait anymore (it prevents most of the possible conflicts, avoiding the need of resolutions).
 
-#### Embedded
+#### EmbeddedAdmin
 
-The ```Librinfo\CoreBundle\Admin\Traits\Embedded``` trait is to be used when your ```CoreAdmin``` is embedded within a ```sonata_type_collection``` form type (at least in its FormMapper/ShowMapper mode).
+The ```Librinfo\CoreBundle\Admin\Traits\EmbeddedAdmin``` trait is to be used when your ```CoreAdmin``` is embedded within a ```sonata_type_collection``` form type (at least in its FormMapper/ShowMapper mode).
 
 ```Embedded``` is the exact mirror of ```Embedding``` (which is being treated in the next title) and aims to be used as a twin of ```Embedding```.
 
@@ -168,15 +168,17 @@ class My
 
 Eventually, if many entities are using this embedded Admin (meaning that many entities have children), you can think of writing a trait with this logic, which will allow you to write things about this trait in your ```librinfo.yml```... preventing many descriptions of the same ```FormMapper```.
 
-#### Embedding
+#### HandlesRelationsAdmin
 
-The ```Librinfo\CoreBundle\Admin\Traits\Embedding``` trait is to be used when your ```CoreAdmin``` embeds other ```CoreAdmin``` using ```sonata_type_collection``` form types (at least in its FormMapper/ShowMapper mode). This is done in YAML using the same definition that we have seen for ```Embedded```.
+The ```Librinfo\CoreBundle\Admin\Traits\HandlesRelationsAdmin``` trait is to be used when your ```CoreAdmin``` embeds other ```CoreAdmin``` using ```sonata_type_collection``` form types (at least in its FormMapper/ShowMapper mode) or when it has many-to-many related collections.
 
 In fact, ```Embedding``` is the exact mirror of ```Embedded``` and aims to be used as a twin of ```Embedded```.
 
 It subscribes all the ```sonata_type_collection``` to the ```Librinfo\CoreBundle\Admin\Trait\CollectionsManager::managedCollections```, avoiding the registration of collections in the [```librinfo.yml``` definition](../../README.md#configuring-your-sonataadminbundle-interfaces-with-yaml-properties).
 
-#### How to create your own traits
+It also finds all the many-to-many relationships in your form form. It takes care or deleting linked entities when the Admin entity is on the inverse side of the many-to-many relationship.
+
+### How to create your own traits
 
 1. Create a trait file in your ```MyBundle/Admin/Traits/``` directory
 2. Write the needed PHP code to implement your logic, for instance in the ```CoreAdmin::configureFormFields()``` method
@@ -204,6 +206,23 @@ parameters:
         AcmeBundle\Admin\MyAdmin:
             managedCollections: [children]
 ```
+
+#### ManyToManyManager
+
+The ```Librinfo\CoreBundle\Admin\Traits\ManyToManyManager``` trait removes the many-to-many links that would be left untouched after a change in the related collection widget. 
+It is not necessary to use it when the Admin entity is on the owning side of the many-to-many relationship.
+It uses definitions found in the ```librinfo.yml``` files with the managedManyToMany keyword.
+
+eg.:
+```
+# app/config/config.yml
+parameters:
+    librinfo:
+        AcmeBundle\Admin\Worker:
+            managedManyToMany: [task, tool]
+```
+
+If you want your Admin to handle those many-to-many relationships automatically, use the ```HandlesRelationsAdmin``` trait.
 
 #### PreEvents
 
