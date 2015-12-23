@@ -26,9 +26,8 @@ trait HandlesRelationsAdmin
         foreach ( $this->formFieldDescriptions as $fieldname => $fieldDescription )
         {
             $mapping = $fieldDescription->getAssociationMapping();
-            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide']) {
+            if ( $mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'] )
                 $this->addManyToManyCollections($fieldname);
-            }
         }
     }
 }
