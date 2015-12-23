@@ -15,13 +15,15 @@ use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
 use Librinfo\CoreBundle\Admin\Traits\Mapper;
 use Librinfo\CoreBundle\Admin\Traits\PreEvents;
+use Librinfo\CoreBundle\Admin\Traits\ManyToManyManager;
 
 abstract class CoreAdmin extends SonataAdmin
 {
     use CollectionsManager,
+        ManyToManyManager,
         Mapper,
         PreEvents;
-    
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -87,7 +89,7 @@ abstract class CoreAdmin extends SonataAdmin
 
         return $level;
     }
-    
+
     protected function getOriginalClass()
     {
         return get_called_class();

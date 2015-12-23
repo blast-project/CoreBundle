@@ -2,6 +2,8 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
+
 trait PreEvents
 {
     /**
@@ -21,7 +23,7 @@ trait PreEvents
     {
         $this->prePersistOrUpdate($object, 'preUpdate');
     }
-    
+
     /**
      * function prePersistOrUpdate
      *
