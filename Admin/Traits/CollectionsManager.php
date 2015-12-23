@@ -7,7 +7,7 @@ use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 trait CollectionsManager
 {
     protected $managedCollections = [];
-    
+
     /**
      * function getManagedCollections
      *
@@ -17,7 +17,7 @@ trait CollectionsManager
     {
         return $this->managedCollections;
     }
-    
+
     /**
      * function addManagedCollections
      *
@@ -28,11 +28,11 @@ trait CollectionsManager
     {
         if ( !is_array($collections) )
             $collections = array($collections);
-        $this->managedCollections += $collections;
-        
+       $this->managedCollections = array_merge($this->managedCollections, $collections);
+
         return $this;
     }
-    
+
     public function prePersistCollectionsManager($object)
     {
         $this->preUpdateOrPersistCollectionsManager($object);
@@ -42,12 +42,12 @@ trait CollectionsManager
     {
         $this->preUpdateOrPersistCollectionsManager($object);
     }
-    
+
     protected function preUpdateOrPersistCollectionsManager($object)
     {
         // global configuration
         $this->configureCollectionsManager();
-        
+
         // for each given collection
         foreach ( $this->managedCollections as $coll )
         {
@@ -60,17 +60,17 @@ trait CollectionsManager
             $rctarget = new \ReflectionClass($target);
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get'.ucfirst($coll);
-            
+
             // delete
             foreach ( $object->$method()->getSnapshot() as $subobj )
             if ( !$object->$method()->contains($subobj) )
                 $this->getModelManager()->delete($subobj);
-            
+
             // insert/update (forcing the foreign key to be set to $this->getId(), for instance)
             foreach ( $object->$method() as $subobj )
                 $subobj->{'set'.ucfirst($rcentity->getShortName())}($object);
         }
-        
+
         return $this;
     }
 
@@ -78,7 +78,7 @@ trait CollectionsManager
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
         $key = 'managedCollections'; // name of the key in the librinfo.yml
-        
+
         // traits of the current Entity
         $classes = ClassAnalyzer::getTraits($this->getClass());
         // inheritance of the current Entity
@@ -87,7 +87,7 @@ trait CollectionsManager
         // inheritance of the current Admin
         foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $admin )
             $classes[] = $admin;
-        
+
         // merge configuration/parameters
         foreach ( $classes as $class )
         if ( isset($librinfo[$class])
@@ -97,7 +97,7 @@ trait CollectionsManager
                 $librinfo[$class][$key] = [$librinfo[$class][$key]];
             $this->addManagedCollections($librinfo[$class][$key]);
         }
-        
+
         return $this;
     }
 }
