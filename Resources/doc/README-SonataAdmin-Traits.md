@@ -41,7 +41,7 @@ You have to create a class that :
 Eg.:
 ```
 // src/AcmeBundle/Admin/MyAdminConcrete.php
-namespace Librinfo\CRMBundle\Admin;
+namespace AcmeBundle\Admin;
 
 use Librinfo\CoreBundle\Admin\Traits\Base as BaseAdmin;
 
@@ -106,12 +106,12 @@ parameters:
 1. Simply use it in your ```CoreAdmin```:
 
 ```
-// src/AcmeBundle/Admin/MyAdminConcrete.php
-namespace Librinfo\CRMBundle\Admin;
+// src/AcmeBundle/Admin/ChildAdminConcrete.php
+namespace AcmeBundle\Admin;
 
 use Librinfo\CoreBundle\Admin\Traits\Embedded;
 
-class ChildAdminConcrete extends MyAdmin
+class ChildAdminConcrete extends ChildAdmin
 {
     use Embedded;
 }
