@@ -4,7 +4,7 @@ namespace Librinfo\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Form\FormMapper;
 
-trait Embedded
+trait EmbeddingAdmin
 {
     use Base;
     
@@ -14,8 +14,10 @@ trait Embedded
     protected function configureFormFields(FormMapper $mapper)
     {
         $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
-        if ( $this->getParentFieldDescription() )
-            $mapper->remove($this->getParentFieldDescription()->getAssociationMapping()['mappedBy']);
+        
+        $type = 'sonata_type_collection';
+        foreach ( $this->formFieldDescriptions as $fieldname => $fieldDescription )
+        if ( $fieldDescription->getType() == $type )
+            $this->addManagedCollections($fieldname);
     }
 }
-
