@@ -41,7 +41,7 @@ You have to create a class that :
 Eg.:
 ```
 // src/AcmeBundle/Admin/MyAdminConcrete.php
-namespace Librinfo\CRMBundle\Admin;
+namespace AcmeBundle\Admin;
 
 use Librinfo\CoreBundle\Admin\Traits\Base as BaseAdmin;
 
@@ -106,12 +106,12 @@ parameters:
 1. Simply use it in your ```CoreAdmin```:
 
 ```
-// src/AcmeBundle/Admin/MyAdminConcrete.php
-namespace Librinfo\CRMBundle\Admin;
+// src/AcmeBundle/Admin/ChildAdminConcrete.php
+namespace AcmeBundle\Admin;
 
 use Librinfo\CoreBundle\Admin\Traits\Embedded;
 
-class ChildAdminConcrete extends MyAdmin
+class ChildAdminConcrete extends ChildAdmin
 {
     use Embedded;
 }
@@ -178,7 +178,11 @@ It subscribes all the ```sonata_type_collection``` to the ```Librinfo\CoreBundle
 
 #### How to create your own traits
 
-TO BE WRITTEN
+1. Create a trait file in your ```MyBundle/Admin/Traits/``` directory
+2. Write the needed PHP code to implement your logic, for instance in the ```CoreAdmin::configureFormFields()``` method
+3. If some logic needs to be executed within the ```CoreAdmin::prePersist()``` or ```CoreAdmin::preUpdate()``` calls, create methods that fit the convention: ```[MyTrait]::pre[Persist|Update][MyTrait]()``` (replace ```[text]``` to fit your needs).
+4. Optionally, your trait can use ```Librinfo\CoreBundle\Admin\Traits\Base``` or others, if this is correct to do so.
+5. Use your trait (maybe in addition with others) in your ```*AdminConcrete``` class.
 
 ### Traits used directly by the ```Librinfo\CoreBundle\Admin\CoreAdmin```
 
@@ -203,10 +207,8 @@ parameters:
 
 #### PreEvents
 
-The ```Librinfo\CoreBundle\Admin\Traits\PreEvents``` trait embeds the ```Sonata\AdminBundle\Admin\Admin::preUpdate($object)``` and ```Sonata\AdminBundle\Admin\Admin::prePersist($object)``` methods. It comes with the ability to define new "behaviors" in traits. When called those methods try to execute every methods componed as :
+The ```Librinfo\CoreBundle\Admin\Traits\PreEvents``` trait embeds the ```Sonata\AdminBundle\Admin\Admin::preUpdate($object)``` and ```Sonata\AdminBundle\Admin\Admin::prePersist($object)``` methods. It comes with the ability to define new "behaviors" in traits. When called those methods try to execute every methods componed as:
 
-```[MyClass]::[prePersist|preUpdate]MyTrait($object)```
-
-## How it deeply works
-
-TO BE WRITTEN
+```
+[MyTrait]::[prePersist|preUpdate][MyTrait]($object)
+```
