@@ -173,9 +173,8 @@ trait Mapper
         }
         
         // order tabs
-        if ( isset($tabsOptions['tabsOrder']) )
+        if ( isset($tabsOptions['tabsOrder']) && $tabs = $mapper->getAdmin()->getFormTabs() )
         {
-            $tabs = $mapper->getAdmin()->getFormTabs();
             $newtabs = array();
             foreach ( $tabsOptions['tabsOrder'] as $tabname )
             if ( isset($tabs[$tabname]) )
@@ -204,7 +203,22 @@ trait Mapper
             $type = $options['type'];
             unset($options['type']);
         }
+        
+        // save-and-remove CoreBundle-specific options
+        $extras = array();
+        foreach ( array('template' => 'setTemplate',) as $extra => $method )
+        if ( isset($fieldDescriptionOptions[$extra]) )
+        {
+            $extras[$extra] = array($method, $fieldDescriptionOptions[$extra]);
+            unset($fieldDescriptionOptions[$extra]);
+        }
+        
         $mapper->add($name, $type, $options, $fieldDescriptionOptions);
+        
+        // apply extra options
+        foreach ( $extras as $extra => $call )
+            $mapper->get($name)->{$call[0]}($call[1]);
+        
         return $mapper;
     }
     
