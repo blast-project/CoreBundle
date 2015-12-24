@@ -21,6 +21,7 @@ class BaseExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('isObjectInstanceOf', [$this, 'isObjectInstanceOf']),
             new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('routeExists', [$this, 'routeExists']),
@@ -57,6 +58,17 @@ class BaseExtension extends \Twig_Extension
     function isExtensionLoaded(Twig_Environment $twig, $name)
     {
         return $twig->hasExtension($name);
+    }
+
+    /**
+     * @param Twig_Environment $twig
+     * @param string           $name
+     *
+     * @return bool
+     */
+    function isObjectInstanceOf($object, $class)
+    {
+        return $object instanceof $class;
     }
 
     /**
