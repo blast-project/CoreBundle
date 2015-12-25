@@ -41,6 +41,14 @@ parameters:
                         tabsOrder: []
             Sonata\AdminBundle\Show\ShowMapper:   # The class of objects that needs to be configured (here the "show" view)
                 _copy: Sonata\AdminBundle\Form\FormMapper # indicates to take the configuration of an other class of the current Admin class extension (including its parents configuration)
+                remove: [field2]
+                add:
+                    gfx_tab:
+                        gfx_group2:
+                            field2:
+                                _options:
+                                    template: LibrinfoCRMBundle:CRUD:field_subobject.html.twig # this allows you
+                                                # to display this field using a specific template of your own.
             Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
                 add:
                     _options:
