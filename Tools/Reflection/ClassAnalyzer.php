@@ -12,12 +12,12 @@ class ClassAnalyzer
      *
      * @param $class            A ReflectionClass object or a string describing an existing class
      * @return array
-     **/
+     */
     public static function getTraits($class)
     {
         return self::_getTraits($class);
     }
-    
+
     /**
      * hasTraits
      *
@@ -27,12 +27,12 @@ class ClassAnalyzer
      * @param $class            A ReflectionClass object or a string describing an existing class
      * @param $traitName        A string representing an existing trait
      * @return boolean          TRUE or FALSE
-     **/
+     */
     public static function hasTrait($class, $traitName)
     {
         return in_array($traitName, self::getTraits($class));
     }
-    
+
     /**
      * hasProperty
      *
@@ -41,13 +41,13 @@ class ClassAnalyzer
      * @param $class            A ReflectionClass object or a string describing an existing class
      * @param $propertyName     A string representing a property name
      * @return boolean
-     **/
+     */
     public static function hasProperty($class, $propertyName)
     {
         $analyzer = new Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
         return $analyzer->hasProperty($class instanceof \ReflectionClass ? $class : new ReflectionClass($class), $propertyName);
     }
-    
+
     /**
      * hasMethod
      *
@@ -56,28 +56,32 @@ class ClassAnalyzer
      * @param $class            A ReflectionClass object or a string describing an existing class
      * @param $methodName       A string representing a method name
      * @return boolean
-     **/
+     */
     public static function hasMethod($class, $methodName)
     {
         $rc = $class instanceof \ReflectionClass ? $class : new ReflectionClass($class);
         return $rc->hasMethod($methodName);
     }
 
-
+    /**
+     *
+     * @param \ReflectionClass $class
+     * @param array $traits
+     * @return type
+     */
     private static function _getTraits($class, array $traits = null)
     {
-        $rc = $class instanceof \ReflectionClass
-            ? $class
-            : new \ReflectionClass($class)
+        $rc = $class instanceof \ReflectionClass ? $class : new \ReflectionClass($class)
         ;
         if ( is_null($traits) )
             $traits = array();
-        
+
         // traits being embedded through the current class or the embedded traits
         foreach ( $rc->getTraits() as $trait )
         {
             $traits = self::_getTraits($trait, $traits); // first the embedded traits that come first...
-            $traits[] = $trait->name;                    // then the current trait
+            if ( !in_array($trait->name, $traits) )
+                $traits[] = $trait->name;                    // then the current trait
         }
 
         // traits embedded by the parent class
@@ -86,4 +90,5 @@ class ClassAnalyzer
 
         return $traits;
     }
+
 }
