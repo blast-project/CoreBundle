@@ -2,8 +2,10 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 trait Mapper
@@ -157,7 +159,7 @@ trait Mapper
             if ( isset($groupsOrder) )
             {
                 $tabs = $mapper->getAdmin()->getFormTabs();
-                $groups = $tabs[$tab]['groups'];
+                $groups = $tabs[$tab]['groups'] ? $tabs[$tab]['groups'] : array();
                 $newgroups = array();
                 foreach ( $groupsOrder as $groupname )
                 if ( in_array("$tab.$groupname", $groups) )
@@ -206,7 +208,10 @@ trait Mapper
         
         // save-and-remove CoreBundle-specific options
         $extras = array();
-        foreach ( array('template' => 'setTemplate',) as $extra => $method )
+        foreach ( array(
+            'template' => 'setTemplate',
+            'initializeAssociationAdmin' => NULL,
+        ) as $extra => $method )
         if ( isset($fieldDescriptionOptions[$extra]) )
         {
             $extras[$extra] = array($method, $fieldDescriptionOptions[$extra]);
@@ -217,7 +222,28 @@ trait Mapper
         
         // apply extra options
         foreach ( $extras as $extra => $call )
-            $mapper->get($name)->{$call[0]}($call[1]);
+        {
+            if ( $call[0] )
+               	$mapper->get($name)->{$call[0]}($call[1]);
+            else switch ( $extra ) {
+            case 'initializeAssociationAdmin':
+                // only if "true"
+                if ( !$call[1] )
+                    break;
+                
+                // initialize the association-admin
+                $mapper->get($name)->getAssociationAdmin()->configureShowFields(new ShowMapper(
+                    $mapper->get($name)->getAssociationAdmin()->getShowBuilder(),
+                    $mapper->get($name)->getAssociationAdmin()->getShow(),
+                    $mapper->get($name)->getAssociationAdmin()
+                ));
+                
+                // set the efficient template
+                if ( !isset($extras['template']) )
+                    $mapper->get($name)->setTemplate('LibrinfoCoreBundle:CRUD:show_association_admin.html.twig');
+                break;
+            }
+        }
         
         return $mapper;
     }

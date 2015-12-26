@@ -21,6 +21,7 @@ class BaseExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
+            new \Twig_SimpleFunction('getBlockFromTemplate', [$this, 'getBlockFromTemplate'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isObjectInstanceOf', [$this, 'isObjectInstanceOf']),
             new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
@@ -61,14 +62,29 @@ class BaseExtension extends \Twig_Extension
     }
 
     /**
-     * @param Twig_Environment $twig
-     * @param string           $name
+     * @param object           $object
+     * @param string           $class
      *
      * @return bool
      */
     function isObjectInstanceOf($object, $class)
     {
         return $object instanceof $class;
+    }
+
+    /**
+     * @param Twig_Environment $twig
+     * @param string           $template
+     * @param string           $block
+     *
+     * @return bool
+     */
+    function getBlockFromTemplate($twig, $template, $block, $vars = array())
+    {
+        return $twig
+            ->loadTemplate($template)
+            ->renderBlock($block, $vars)
+        ;
     }
 
     /**
