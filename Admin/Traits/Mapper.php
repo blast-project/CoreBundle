@@ -62,6 +62,24 @@ trait Mapper
             }
         }
         
+        // removing empty groups in tabs definition
+        if ( $mapper instanceof BaseGroupedMapper )
+        {
+            $fcts = [
+                'tabs' => $this->getFormTabs() !== false
+                    ? ['getter' => 'getFormTabs', 'setter' => 'setFormTabs']
+                    : ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'],
+                'groups' => $this->getFormGroups() !== false
+                    ? ['getter' => 'getFormGroups', 'setter' => 'setFormGroups']
+                    : ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'],
+            ];
+            foreach ( $tabs = $this->{$fcts['tabs']['getter']}() as $tabkey => $tab )
+            foreach ( $tab['groups'] as $groupkey => $group )
+            if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
+                unset($tabs[$tabkey]['groups'][$groupkey]);
+            $this->{$fcts['tabs']['setter']}($tabs);
+        }
+        
         //return array_sum($cpt);
         return $this;
     }
