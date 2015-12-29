@@ -54,12 +54,31 @@ abstract class CoreAdmin extends SonataAdmin
     }
 
     /**
-     * @param ShowMapper $showMapper
+     * @param ShowMapper $mapper
      */
     protected function configureShowFields(ShowMapper $mapper)
     {
         if ( !$this->configureMapper($mapper) )
             $this->fallbackConfiguration($mapper, __FUNCTION__);
+    }
+    
+    /**
+     * @param BaseMapper $mapper
+     */
+    protected function fixShowRoutes(BaseMapper $mapper)
+    {
+        foreach ( ['getShow', 'getList'] as $fct )
+        foreach ( $this->$fct()->getElements() as $field )
+        {
+            $options = $field->getOptions();
+            if ( $options['route']['name'] != 'edit' )
+                continue;
+            
+            $options['route']['name'] = 'show';
+            $field->setOptions($options);
+        }
+        
+        return $this;
     }
 
     protected function getCurrentComposition()

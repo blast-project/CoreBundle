@@ -99,6 +99,8 @@ trait Mapper
         
         //return array_sum($cpt);
         $this->fixTemplates($mapper);
+        if ( ! $mapper instanceof FormMapper )
+            $this->fixShowRoutes($mapper);
         return $this;
     }
 
