@@ -61,25 +61,17 @@ trait ManyToManyManager
     private function configureManyToManyManager()
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-        $key = 'managedManyToMany'; // name of the key in the librinfo.yml
-
-        // traits of the current Entity
-        $classes = ClassAnalyzer::getTraits($this->getClass());
-        // inheritance of the current Entity
-        foreach ( array_reverse(array($this->getClass()) + class_parents($this->getClass())) as $class )
-            $classes[] = $class;
-        // inheritance of the current Admin
-        foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $admin )
-            $classes[] = $admin;
+        $key = 'manyToMany'; // name of the key in the librinfo.yml
 
         // merge configuration/parameters
-        foreach ( $classes as $class )
+        foreach ( $this->getCurrentComposition() as $class )
         if ( isset($librinfo[$class])
-          && isset($librinfo[$class][$key]) )
+          && isset($librinfo[$class]['manage'])
+          && isset($librinfo[$class]['manage'][$key]) )
         {
-            if ( !is_array($librinfo[$class][$key]) )
-                $librinfo[$class][$key] = [$librinfo[$class][$key]];
-            $this->addManyToManyCollections($librinfo[$class][$key]);
+            if ( !is_array($librinfo[$class]['manage'][$key]) )
+                $librinfo[$class]['manage'][$key] = [$librinfo[$class]['manage'][$key]];
+            $this->addManyToManyCollections($librinfo[$class]['manage'][$key]);
         }
 
         return $this;
