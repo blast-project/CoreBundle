@@ -96,7 +96,7 @@ Instead of the ```Librinfo\CoreBundle\Admin\Traits\Base``` trait, you might be i
 * ```Librinfo\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
 * ```Librinfo\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
-[Creating a new field type](Resources/doc/README-CreatingFieldTypes.md).
+[Creating new field types](Resources/doc/README-CreatingFieldTypes.md).
 
 #### Using Sonata Project extensions
 
