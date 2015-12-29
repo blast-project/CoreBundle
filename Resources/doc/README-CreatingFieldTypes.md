@@ -15,7 +15,7 @@ e.g.:
 
 Let's define the ```email``` field type, which by-the-way is already defined in this bundle :
 
-```
+```yaml
 # Resources/config/librinfo.yml
 parameters:
     librinfo:
