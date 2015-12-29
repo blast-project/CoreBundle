@@ -13,30 +13,43 @@ trait Mapper
     private function configureMapper(BaseMapper $mapper)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+
+        $fcts = [
+            'tabs' => $mapper instanceof ShowMapper
+                ? ['getter' => 'getShowTabs', 'setter' => 'setShowTabs']
+                : ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
+            'groups' => $mapper instanceof ShowMapper
+                ? ['getter' => 'getShowGroups', 'setter' => 'setShowGroups']
+                : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
+        ];
         
         // traits of the current Entity
         $classes = ClassAnalyzer::getTraits($this->getClass());
         // inheritance of the current Entity
-        foreach ( array_reverse(array($this->getClass()) + class_parents($this->getClass())) as $class )
+        foreach ( array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class )
             $classes[] = $class;
         // inheritance of the current Admin
-        foreach ( array_reverse(array($this->getOriginalClass()) + $this->getParentClasses()) as $admin )
+        foreach ( array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin )
             $classes[] = $admin;
         
         // builds the configuration, based on the Mapper class
-        $cpt = array('remove' => 0, 'add' => 0);
+        $cpt = ['remove' => 0, 'add' => 0];
         foreach ( $classes as $class )
         if ( isset($librinfo[$class]) )
         {
             // copy stuff from elsewhere
-            foreach ( array_reverse($list = array(get_class($mapper)) + class_parents($mapper)) as $mapper_class )
+            foreach ( array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class )
             if ( isset($librinfo[$class][$mapper_class]) )
             {
                 if ( isset($librinfo[$class][$mapper_class]['_copy']) && $librinfo[$class][$mapper_class]['_copy'] )
                 {
                     if ( !is_array($librinfo[$class][$mapper_class]['_copy']) )
-                        $librinfo[$class][$mapper_class]['_copy'] = array($librinfo[$class][$mapper_class]['_copy']);
-                    $list = $librinfo[$class][$mapper_class]['_copy'] + $list;
+                        $librinfo[$class][$mapper_class]['_copy'] = [$librinfo[$class][$mapper_class]['_copy']];
+                    foreach ( $librinfo[$class][$mapper_class]['_copy'] as $copy )
+                        $list = array_merge(
+                            $list,
+                            array_merge([$copy], array_values(class_parents($copy)))
+                        );
                 }
             }
 
@@ -51,6 +64,17 @@ trait Mapper
                 {
                     $cpt['remove']++;
                     $mapper->remove($remove);
+                    
+                    // compensating the partial removal in Sonata Admin, that does not touch the groups when removing a field
+                    if ( $mapper instanceof BaseGroupedMapper )
+                    foreach ( $groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group )
+                    if ( isset($group['fields'][$remove]) )
+                    {
+                        unset($groups[$groupkey]['fields'][$remove]);
+                        if ( !$groups[$groupkey]['fields'] )
+                            unset($groups[$groupkey]);
+                        $this->{$fcts['groups']['setter']}($groups);
+                    }
                 }
 
                 // add fields & more
@@ -62,21 +86,23 @@ trait Mapper
             }
         }
         
-        // removing empty groups in tabs definition
         if ( $mapper instanceof BaseGroupedMapper )
         {
-            $fcts = [
-                'tabs' => $this->getFormTabs() !== false
-                    ? ['getter' => 'getFormTabs', 'setter' => 'setFormTabs']
-                    : ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'],
-                'groups' => $this->getFormGroups() !== false
-                    ? ['getter' => 'getFormGroups', 'setter' => 'setFormGroups']
-                    : ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'],
-            ];
+            // removing empty groups
+            foreach ( $groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group )
+            if ( !$group['fields'] )
+                unset($groups[$groupkey]);
+            $this->{$fcts['groups']['setter']}($groups);
+            
+            // removing empty tabs
             foreach ( $tabs = $this->{$fcts['tabs']['getter']}() as $tabkey => $tab )
-            foreach ( $tab['groups'] as $groupkey => $group )
-            if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
-                unset($tabs[$tabkey]['groups'][$groupkey]);
+            {
+                foreach ( $tab['groups'] as $groupkey => $group )
+                if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
+                    unset($tabs[$tabkey]['groups'][$groupkey]);
+                if ( !$tabs[$tabkey]['groups'] )
+                    unset($tabs[$tabkey]);
+            }
             $this->{$fcts['tabs']['setter']}($tabs);
         }
         
@@ -90,7 +116,7 @@ trait Mapper
         if ( ! $mapper instanceof BaseGroupedMapper )
         {
             // options pre-treatment
-            $options = array();
+            $options = [];
             if ( isset($group['_options']) )
             {
                 $options = $group['_options'];
@@ -108,6 +134,15 @@ trait Mapper
             return $mapper;
         }
 
+        $fcts = [
+            'tabs' => $mapper instanceof ShowMapper
+                ? ['getter' => 'getShowTabs', 'setter' => 'setShowTabs']
+                : ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
+            'groups' => $mapper instanceof ShowMapper
+                ? ['getter' => 'getShowGroups', 'setter' => 'setShowGroups']
+                : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
+        ];
+        
         // if a grouped organization can be shapped
         // options
         $tabsOptions = null;
@@ -134,9 +169,34 @@ trait Mapper
                 unset($tabcontent['_options']['groupsOrder']);
             }
             
+            $endgroup = $endtab = false;
+            
             // tab
-            if (!( isset($tabcontent['_options']['hideTitle']) && $tabcontent['_options']['hideTitle'] ))
-                $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : array());
+            if ( isset($tabcontent['_options']['hideTitle']) && $tabcontent['_options']['hideTitle']
+              || $mapper instanceof ShowMapper )
+            {
+                $tabs = $this->{$fcts['tabs']['getter']}();
+                $groups = $this->{$fcts['groups']['getter']}();
+                if ( isset($tabs[$tab]) )
+                {
+                    $tabs[$tab]['auto_created'] = true;
+                    $this->{$fcts['tabs']['setter']}($tabs);
+                    
+                    foreach ( $groups as $groupkey => $group )
+                    if ( !isset($groups[$group['name']]) )
+                    {
+                        $groups[$group['name']] = $group;
+                        unset($groups[$groupkey]);
+                    }
+                    $this->{$fcts['groups']['setter']}($groups);
+                }
+            }
+            else
+            {
+                $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : []);
+                $endtab = true;
+            }
+            
             if ( isset($tabcontent['_options']) )
                 unset($tabcontent['_options']);
 
@@ -146,11 +206,15 @@ trait Mapper
             if ( self::arrayDepth($tabcontent) > 0 )
             foreach ( $tabcontent as $with => $withcontent )
             {
-                $opt = isset($withcontent['_options']) ? $withcontent['_options'] : array();
+                $opt = isset($withcontent['_options']) ? $withcontent['_options'] : [];
                 $finalOrder = (isset($opt['fieldsOrder']) ? $opt['fieldsOrder'] : null);
                 
                 if (!( isset($opt['hideTitle']) && $opt['hideTitle'] ))
+                {
+                    $endtab = true;
+                    $endgroup = true;
                     $mapper->with($with, $opt);
+                }
                 if ( isset($withcontent['_options']) )
                     unset($withcontent['_options']);
 
@@ -158,64 +222,101 @@ trait Mapper
                 if ( self::arrayDepth($withcontent) > 0 )
                 foreach ( $withcontent as $name => $options )
                 {
-                    $fieldDescriptionOptions = array();
+                    $fieldDescriptionOptions = [];
                     if ( isset($options['_options']) )
                     {
                         $fieldDescriptionOptions = $options['_options'];
                         unset($options['_options']);
                     }
                     $this->addField($mapper, $name, $options, $fieldDescriptionOptions);
+                    $endgroup = $endtab = true;
                 }
 
                 if ( $finalOrder != null )
                     $mapper->reorder($finalOrder);
                 
-                $mapper->end();
+                if ( $endgroup )
+                    $mapper->end();
             }
             
             // order groups / withs (using tabs, because they are prioritary at the end)
             if ( isset($groupsOrder) )
             {
-                $tabs = $mapper->getAdmin()->getFormTabs();
-                $groups = $tabs[$tab]['groups'] ? $tabs[$tab]['groups'] : array();
-                $newgroups = array();
+                // preparing
+                $otabs = $mapper->getAdmin()->{$fcts['tabs']['getter']}();
+                $groups = $mapper->getAdmin()->{$fcts['groups']['getter']}();
+                
+                // pre-ordering
+                $newgroups = [];
                 foreach ( $groupsOrder as $groupname )
-                if ( in_array("$tab.$groupname", $groups) )
-                    $newgroups[] = "$tab.$groupname";
-                foreach ( $groups as $groupname )
-                if ( !in_array($groupname, $newgroups) )
-                    $newgroups[] = $groupname;
-                $tabs[$tab]['groups'] = $newgroups;
-                $mapper->getAdmin()->setFormTabs($tabs);
+                {
+                    $buf = isset($otabs[$tab]) && $otabs[$tab]['auto_created'] ? "" : "$tab.";
+                    if ( isset($otabs[$tab]) && in_array("$buf$groupname", $otabs[$tab]['groups']) )
+                        $newgroups[] = "$buf$groupname";
+                }
+                
+                // ordering tabs
+                foreach ( isset($otabs[$tab]['groups']) && $otabs[$tab]['groups']
+                    ? $otabs[$tab]['groups']
+                    : []
+                as $groupname )
+                {
+                    if ( !in_array($groupname, $newgroups) )
+                        $newgroups[] = $groupname;
+                }
+                $otabs[$tab]['groups'] = $newgroups;
+                
+                // "persisting"
+                $mapper->getAdmin()->{$fcts['tabs']['setter']}($otabs);
             }
 
-            $mapper->end();
+            if ( $endtab )
+                $mapper->end();
         }
         
-        // order tabs
-        if ( isset($tabsOptions['tabsOrder']) && $tabs = $mapper->getAdmin()->getFormTabs() )
+        // ordering tabs
+        if ( isset($tabsOptions['tabsOrder']) && $tabs = $this->{$fcts['tabs']['getter']}() )
         {
-            $newtabs = array();
+            $newtabs = [];
             foreach ( $tabsOptions['tabsOrder'] as $tabname )
             if ( isset($tabs[$tabname]) )
                 $newtabs[$tabname] = $tabs[$tabname];
             foreach ( $tabs as $tabname => $tab )
             if ( !isset($newtabs[$tabname]) )
                 $newtabs[$tabname] = $tab;
-            $mapper->getAdmin()->setFormTabs($newtabs);
+            $this->{$fcts['tabs']['setter']}($newtabs);
+        }
+        
+        // ordering the ShowMapper
+        if ( $mapper instanceof ShowMapper )
+        {
+            $order = [];
+            $groups = $this->{$fcts['groups']['getter']}();
+            foreach ( $this->{$fcts['tabs']['getter']}() as $tab )
+            foreach ( $tab['groups'] as $group )
+            if ( isset($groups[$group]) )
+                $order[] = $group;
+            foreach ( $groups as $name => $content )
+            if ( !in_array($name, $order) )
+                $order[] = $name;
+            
+            $newgroups = [];
+            foreach ( $order as $grp )
+                $newgroups[$grp] = $groups[$grp];
+            $this->{$fcts['groups']['setter']}($newgroups);
         }
 
         return $mapper;
     }
 
-    private function addField(BaseMapper $mapper, $name, $options = array(), $fieldDescriptionOptions = array())
+    private function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
         // avoid duplicates
         if ( $mapper->has($name) )
             $mapper->remove($name);
 
         if ( !is_array($options) )
-            $options = array();
+            $options = [];
 
         $type = null;
         if ( isset($options['type']) )
@@ -225,14 +326,14 @@ trait Mapper
         }
         
         // save-and-remove CoreBundle-specific options
-        $extras = array();
-        foreach ( array(
+        $extras = [];
+        foreach ( [
             'template' => 'setTemplate',
             'initializeAssociationAdmin' => NULL,
-        ) as $extra => $method )
+        ] as $extra => $method )
         if ( isset($fieldDescriptionOptions[$extra]) )
         {
-            $extras[$extra] = array($method, $fieldDescriptionOptions[$extra]);
+            $extras[$extra] = [$method, $fieldDescriptionOptions[$extra]];
             unset($fieldDescriptionOptions[$extra]);
         }
         
