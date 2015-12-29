@@ -23,14 +23,7 @@ trait Mapper
                 : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
         ];
         
-        // traits of the current Entity
-        $classes = ClassAnalyzer::getTraits($this->getClass());
-        // inheritance of the current Entity
-        foreach ( array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class )
-            $classes[] = $class;
-        // inheritance of the current Admin
-        foreach ( array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin )
-            $classes[] = $admin;
+        $classes = $this->getCurrentComposition();
         
         // builds the configuration, based on the Mapper class
         $cpt = ['remove' => 0, 'add' => 0];
@@ -107,6 +100,8 @@ trait Mapper
         }
         
         //return array_sum($cpt);
+        $this->fixTemplates($mapper);
+        dump($this);
         return $this;
     }
 

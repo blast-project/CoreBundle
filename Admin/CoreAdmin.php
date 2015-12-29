@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
 use Librinfo\CoreBundle\Admin\Traits\Mapper;
+use Librinfo\CoreBundle\Admin\Traits\Templates;
 use Librinfo\CoreBundle\Admin\Traits\PreEvents;
 use Librinfo\CoreBundle\Admin\Traits\ManyToManyManager;
 
@@ -22,6 +23,7 @@ abstract class CoreAdmin extends SonataAdmin
     use CollectionsManager,
         ManyToManyManager,
         Mapper,
+        Templates,
         PreEvents;
 
     /**
@@ -58,6 +60,20 @@ abstract class CoreAdmin extends SonataAdmin
     {
         if ( !$this->configureMapper($mapper) )
             $this->fallbackConfiguration($mapper, __FUNCTION__);
+    }
+
+    protected function getCurrentComposition()
+    {
+        // traits of the current Entity
+        $classes = ClassAnalyzer::getTraits($this->getClass());
+        // inheritance of the current Entity
+        foreach ( array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class )
+            $classes[] = $class;
+        // inheritance of the current Admin
+        foreach ( array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin )
+            $classes[] = $admin;
+        
+        return $classes;
     }
 
     private function fallbackConfiguration(BaseMapper $mapper, $function)

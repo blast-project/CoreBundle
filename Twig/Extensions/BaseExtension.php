@@ -20,13 +20,13 @@ class BaseExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction('getBlockFromTemplate', [$this, 'getBlockFromTemplate'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isObjectInstanceOf', [$this, 'isObjectInstanceOf']),
             new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('routeExists', [$this, 'routeExists']),
-        );
+        ];
     }
 
     /**
@@ -79,7 +79,7 @@ class BaseExtension extends \Twig_Extension
      *
      * @return bool
      */
-    function getBlockFromTemplate($twig, $template, $block, $vars = array())
+    function getBlockFromTemplate($twig, $template, $block, $vars = [])
     {
         return $twig
             ->loadTemplate($template)

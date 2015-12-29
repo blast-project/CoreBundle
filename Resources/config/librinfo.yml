@@ -1,5 +1,8 @@
 parameters:
-    librinfo: []
-#        Librinfo\CoreBundle\Admin\Admin:
-#            Sonata\AdminBundle\Form\FormMapper:
-#                remove: []
+    librinfo:
+        configuration:
+            templates:
+                show:
+                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
+                list:
+                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig

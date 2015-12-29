@@ -36,7 +36,8 @@ class LibrinfoCoreExtension extends Extension
         DefaultParameters::getInstance($container)
             ->defineDefaultConfiguration(
                 $configSonataAdmin['default']
-            );
+            )
+        ;
     }
 
     protected function mergeParameter($var, $container, $dir, $file_name = 'librinfo.yml')
@@ -46,7 +47,7 @@ class LibrinfoCoreExtension extends Extension
         
         if ( !is_array($container->getParameter($var)) )
         {
-            $container->setParameter($var, array());
+            $container->setParameter($var, []);
             return $this;
         }
         if ( !is_array($newContainer->getParameter($var)) )
@@ -57,5 +58,10 @@ class LibrinfoCoreExtension extends Extension
             $newContainer->getParameter($var)
         ));
         return $this;
+    }
+
+    protected function fixTemplatesConfiguration(array $configs, ContainerBuilder $container, array $defaultSonataDoctrineConfig = [])
+    {
+        die('glop');
     }
 }
