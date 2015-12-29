@@ -13,8 +13,11 @@ So it is structured as :
 parameters:
     librinfo:
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
-            managedCollections: []                # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
-                                                  # An other way to do the same thing automagically is to use the trait Librinfo\CoreBundle\Admin\Traits\Embedding within your Sonata Admin form instead of the Librinfo\CoreBundle\Admin\Traits\Base            Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
+            manage:
+                collections: []                   # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
+                manyToMany: []                    # Array of many-to-many relations that need to be managed, to perform correct updates both on the ownerSide and on the inverseSide
+                                                  # An other way to do the same thing automagically is to use the trait Librinfo\CoreBundle\Admin\Traits\Embedding within your Sonata Admin form instead of the Librinfo\CoreBundle\Admin\Traits\Base
+            Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
                 remove: [name, id]                # The fields that need to be removed from inheritance (array)
                 add:                              # What we want to display (associative array)
                     text:                         # The name of a field that needs to be directly injected (without any tab)
