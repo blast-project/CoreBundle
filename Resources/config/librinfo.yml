@@ -3,6 +3,6 @@ parameters:
         configuration:
             templates:
                 show:
-                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
+                    email: LibrinfoCoreBundle:CRUD:show_field_email.html.twig
                 list:
                     email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
