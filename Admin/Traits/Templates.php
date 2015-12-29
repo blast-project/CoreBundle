@@ -20,6 +20,8 @@ trait Templates
             'ListMapper' => 'list',
         ];
         $rc = new \ReflectionClass($mapper);
+        if ( !isset($mapping[$rc->getShortName()]) )
+            return $this;
         if ( !isset($librinfo['configuration']['templates'][$mapping[$rc->getShortName()]]) )
             return $this;
         

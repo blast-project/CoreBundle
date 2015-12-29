@@ -99,7 +99,6 @@ trait Mapper
         
         //return array_sum($cpt);
         $this->fixTemplates($mapper);
-        dump($this);
         return $this;
     }
 
