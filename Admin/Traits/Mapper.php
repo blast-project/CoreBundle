@@ -23,11 +23,9 @@ trait Mapper
                 : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
         ];
         
-        $classes = $this->getCurrentComposition();
-        
         // builds the configuration, based on the Mapper class
         $cpt = ['remove' => 0, 'add' => 0];
-        foreach ( $classes as $class )
+        foreach ( $this->getCurrentComposition() as $class )
         if ( isset($librinfo[$class]) )
         {
             // copy stuff from elsewhere
