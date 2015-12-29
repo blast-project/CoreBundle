@@ -96,6 +96,8 @@ Instead of the ```Librinfo\CoreBundle\Admin\Traits\Base``` trait, you might be i
 * ```Librinfo\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
 * ```Librinfo\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
+[Creating a new field type](Resources/doc/README-CreatingFieldTypes.md).
+
 #### Using Sonata Project extensions
 
 If needed, you can easly use the LibrinfoCoreBundle in combination with other bundles from the Sonata Project, for instance :
