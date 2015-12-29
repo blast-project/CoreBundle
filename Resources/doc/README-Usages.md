@@ -8,7 +8,7 @@ The YAML reference
 
 So it is structured as :
 
-```
+```yaml
 # app/config/config.yml (or any other file that is loaded by your bundle)
 parameters:
     librinfo:
@@ -114,7 +114,7 @@ class DemoAdminConcrete extends DemoAdmin
 ```
 
 To finish this, register your service properly in your ```admin.yml``` file:
-```
+```yaml
 services:
     acme.demo:
         class: AcmeBundle\Admin\DemoAdminConcrete
