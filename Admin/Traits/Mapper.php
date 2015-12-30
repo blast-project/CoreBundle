@@ -401,6 +401,9 @@ trait Mapper
             {
                 $buf = $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_batch_action'];
                 foreach ( $buf['actions'] as $action => $props )
+                if ( substr($action,0,1) == '-' )
+                    unset($actions[substr($action,1)]);
+                else
                 {
                     if ( isset($props['translation_domain']) )
                     {
@@ -438,6 +441,12 @@ trait Mapper
             if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add'])
               && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format']) )
             foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'] as $format )
+            if ( substr($format,0,1) == '-' )
+            {
+                if ( ($key = array_search(substr($format,1), $formats)) !== false )
+                    unset($formats[$key]);
+            }
+            else
                 $formats[] = $format;
         }
         
