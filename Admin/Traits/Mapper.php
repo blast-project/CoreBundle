@@ -10,7 +10,7 @@ use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 trait Mapper
 {
-    private function configureMapper(BaseMapper $mapper)
+    protected function configureMapper(BaseMapper $mapper)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
 
@@ -48,6 +48,17 @@ trait Mapper
             foreach ( array_reverse($list) as $mapper_class )
             if ( isset($librinfo[$class][$mapper_class]) )
             {
+                // do not parse _batch_actions & co
+                foreach ( ['_batch_action', '_export_format'] as $specialKey )
+                {
+                    if ( isset($librinfo[$class][$mapper_class]['remove'])
+                      && ($key = array_search($specialKey, $librinfo[$class][$mapper_class]['remove'])) !== false )
+                        unset($librinfo[$class][$mapper_class]['remove'][$key]);
+                    if ( isset($librinfo[$class][$mapper_class]['add'])
+                      && isset($librinfo[$class][$mapper_class]['add'][$specialKey]) )
+                        unset($librinfo[$class][$mapper_class]['add'][$specialKey]);
+                }
+                
                 // remove fields
                 if ( isset($librinfo[$class][$mapper_class]['remove']) )
                 foreach ( $librinfo[$class][$mapper_class]['remove'] as $remove )
@@ -104,7 +115,7 @@ trait Mapper
         return $this;
     }
 
-    private function addContent(BaseMapper $mapper, $group)
+    protected function addContent(BaseMapper $mapper, $group)
     {
         // flat organization (DatagridMapper / ListMapper...)
         if ( ! $mapper instanceof BaseGroupedMapper )
@@ -303,7 +314,7 @@ trait Mapper
         return $mapper;
     }
 
-    private function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
+    protected function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
         // avoid duplicates
         if ( $mapper->has($name) )
@@ -366,6 +377,71 @@ trait Mapper
         if ( !$class )
             $class = $this->getOriginalClass();
         return $class::$function($mapper);
+    }
+    
+    /**
+     * @param array     $actions
+     **/
+    protected function addPresetBatchActions(array $actions = [])
+    {
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $classes = $this->getCurrentComposition();
+        
+        foreach ( $this->getCurrentComposition() as $class )
+        if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )
+        {
+            // remove / reset
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_batch_action']) )
+                $actions = parent::getBatchActions();
+            
+            // add
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_batch_action']) )
+            {
+                $buf = $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_batch_action'];
+                foreach ( $buf['actions'] as $action => $props )
+                {
+                    if ( isset($props['translation_domain']) )
+                    {
+                        $props['label'] = $this->trans(
+                            isset($props['label']) ? $props['label'] : 'batch_action_'.$action,
+                            array(),
+                            $props['translation_domain']
+                        );
+                    }
+                    $actions[$action] = $props;
+                }
+            }
+        }
+        
+        return $actions;
+    }
+    
+    /**
+     * @param array     $formats
+    **/
+    protected function addPresetExportFormats(array $formats = [])
+    {
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $classes = $this->getCurrentComposition();
+        
+        foreach ( $this->getCurrentComposition() as $class )
+        if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )
+        {
+            // remove / reset
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_export_format']) )
+                $formats = parent::getExportFormats();
+            
+            // add
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format']) )
+            foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'] as $format )
+                $formats[] = $format;
+        }
+        
+        return $formats;
     }
 }
 
