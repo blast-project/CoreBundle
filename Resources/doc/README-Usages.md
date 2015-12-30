@@ -56,7 +56,7 @@ parameters:
                                 _options:
                                     template: LibrinfoCRMBundle:CRUD:field_subobject.html.twig # this allows you
                                                 # to display this field using a specific template of your own.
-            Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "show" view)
+            Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "filters")
                 add:
                     _options:
                         orderFields: [title, name]
@@ -72,6 +72,29 @@ parameters:
                         fieldDescriptionOptions2: bbb
                         field_type: fieldType
                         #_option: fieldType # can replace "field_type"
+            Sonata\AdminBundle\Datagrid\ListMapper:   # The class of objects that needs to be configured (here the "list" view)
+                remove:
+                    - _batch_actions            # resets the batch actions as it was before using any customized CoreAdmin
+                    - _export_formats           # resets the export formats as it was before using any customized CoreAdmin
+                add:
+                    name: ~
+                    _actions:
+                        type: actions
+                        _actions:
+                            show: ~
+                            edit: ~
+                            delete: ~
+                        _batch_actions:         # batch actions
+                            merge:
+                                label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
+                                translation_domain: LibrinfoCRMBundle
+                                                # if none is specified, no translation is done on this action
+                                ask_confirmation:   false
+                                                # true by default, and then ask for a user confirmation
+                            -delete: ~          # removes specifically one action within the existing pool of actions
+                        _export_format:         # exportable formats
+                            - pdf               # adds the PDF format
+                            - -json             # removes the Json format
 ```
 
 Playing with your Sonata Admin modules, Entity inheritance, traits...
