@@ -49,7 +49,7 @@ trait Mapper
             if ( isset($librinfo[$class][$mapper_class]) )
             {
                 // do not parse _batch_actions & co
-                foreach ( ['_batch_action', '_export_format'] as $specialKey )
+                foreach ( ['_list_action', '_batch_action', '_export_format'] as $specialKey )
                 {
                     if ( isset($librinfo[$class][$mapper_class]['remove'])
                       && ($key = array_search($specialKey, $librinfo[$class][$mapper_class]['remove'])) !== false )
@@ -385,7 +385,6 @@ trait Mapper
     protected function addPresetBatchActions(array $actions = [])
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-        $classes = $this->getCurrentComposition();
         
         foreach ( $this->getCurrentComposition() as $class )
         if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )
@@ -422,12 +421,52 @@ trait Mapper
     }
     
     /**
+     * @param array     $actions
+     **/
+    protected function addPresetListActions(array $actions = [])
+    {
+        $this->_listActionLoaded = true;
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        
+        foreach ( $this->getCurrentComposition() as $class )
+        if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )
+        {
+            // remove / reset
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_list_action']) )
+                $this->setListActions([]);
+            
+            // add
+            if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add'])
+              && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_list_action']) )
+            {
+                foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_list_action'] as $action => $props )
+                if ( substr($action,0,1) == '-' )
+                    $this->removeListAction(substr($action,1));
+                else
+                {
+                    if ( isset($props['translation_domain']) )
+                    {
+                        $props['label'] = $this->trans(
+                            isset($props['label']) ? $props['label'] : 'list_action_'.$action,
+                            array(),
+                            $props['translation_domain']
+                        );
+                    }
+                    $this->addListAction($action, $props);
+                }
+            }
+        }
+        
+        return $this->getListActions();
+    }
+    
+    /**
      * @param array     $formats
     **/
     protected function addPresetExportFormats(array $formats = [])
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-        $classes = $this->getCurrentComposition();
         
         foreach ( $this->getCurrentComposition() as $class )
         if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )

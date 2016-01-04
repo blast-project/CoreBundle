@@ -1,0 +1,41 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Baptiste SIMON <beta@e-glop.net>
+(c) Libre Informatique [http://www.libre-informatique.fr/]
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+{% block actions %}
+{% spaceless %}
+    {{ parent() }}
+    {% for elt in admin.listActions %}
+        {% if admin.subClasses is empty %}
+            <li>
+                <a class="sonata-action-element" href="{% if elt.route is empty %}{{ admin.generateUrl(elt.action) }}{% else %}{{ path(elt.route) }}{% endif %}">
+                    <i class="fa fa-plus-circle"></i>
+                    {{ elt.label }}
+                </a>
+            </li>
+        {% else %}
+            <li class="divider" role="presentation"></li>
+            {% for subclass in admin.subclasses|keys %}
+                <li>
+                    <a href="{{ elt }}">
+                        <i class="fa fa-plus-circle"></i>
+                        {{ 'core_bundle_link_action_special'|trans({}, 'SonataAdminBundle') }} {{ subclass|trans({}, admin.translationdomain) }}
+                    </a>
+                </li>
+            {% endfor %}
+            <li class="divider" role="presentation"></li>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}
+{% endblock %}
+                

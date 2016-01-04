@@ -17,6 +17,7 @@ use Librinfo\CoreBundle\Admin\Traits\Mapper;
 use Librinfo\CoreBundle\Admin\Traits\Templates;
 use Librinfo\CoreBundle\Admin\Traits\PreEvents;
 use Librinfo\CoreBundle\Admin\Traits\ManyToManyManager;
+use Librinfo\CoreBundle\Admin\Traits\ListActions;
 use Librinfo\CoreBundle\DataSource\Iterator;
 
 abstract class CoreAdmin extends SonataAdmin
@@ -25,7 +26,8 @@ abstract class CoreAdmin extends SonataAdmin
         ManyToManyManager,
         Mapper,
         Templates,
-        PreEvents
+        PreEvents,
+        ListActions
     ;
 
     /**
