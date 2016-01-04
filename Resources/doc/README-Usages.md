@@ -84,17 +84,30 @@ parameters:
                             show: ~
                             edit: ~
                             delete: ~
-                        _batch_actions:         # batch actions
-                            merge:
-                                label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
-                                translation_domain: LibrinfoCRMBundle
-                                                # if none is specified, no translation is done on this action
-                                ask_confirmation:   false
-                                                # true by default, and then ask for a user confirmation
-                            -delete: ~          # removes specifically one action within the existing pool of actions
-                        _export_format:         # exportable formats
-                            - pdf               # adds the PDF format
-                            - -json             # removes the Json format
+                    _batch_actions:         # batch actions
+                        merge:
+                            label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
+                            translation_domain: LibrinfoCRMBundle
+                                            # if none is specified, no translation is done on this action
+                            ask_confirmation:   false
+                                            # true by default, and then ask for a user confirmation
+                        -delete: ~          # removes specifically one action within the existing pool of actions
+                    _export_format:         # exportable formats
+                        - pdf               # adds the PDF format
+                        - -json             # removes the Json format
+                    _list_action:
+                        test:
+                            action: create      # can be an action or a route
+                            translation_domain: LibrinfoCRMBundle # if no translation_domain is defined, then the label will not be translated
+                            label: test_test    # if no label is specified, the name (key) of the action is used instead
+                        pouet:
+                            route: admin_librinfo_crm_contact_list # can be a route or an action
+                            params: []          # parameters to be used when calling the route
+                            translation_domain: LibrinfoCRMBundle
+                        glop:
+                            route: admin_librinfo_crm_contact_list
+                            label: Glop         # no translation_domain given, then the label is used without any translation
+
 ```
 
 Playing with your Sonata Admin modules, Entity inheritance, traits...
