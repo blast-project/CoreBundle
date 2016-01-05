@@ -93,8 +93,11 @@ parameters:
                                             # true by default, and then ask for a user confirmation
                         -delete: ~          # removes specifically one action within the existing pool of actions
                     _export_format:         # exportable formats
-                        - pdf               # adds the PDF format
-                        - -json             # removes the Json format
+                        csv: [name, url]    # adds the CSV format, with fields name & url (and overwrites the previous configurations!!)
+                        xml: [id, name, url]# adds the XML format, with fields id, name & url
+                        json: ~             # adds the json format, with default fields
+                        xls: csv            # adds the XLS format, using the CSV fields (copying)
+                        -pdf: ~             # removes the PDF format (unavailable by default)
                     _list_action:
                         test:
                             action: create      # can be an action or a route
