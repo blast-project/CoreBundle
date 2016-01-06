@@ -10,3 +10,7 @@ services:
         arguments: [@security.token_storage]
         calls:
             - [setUserManager, ['@fos_user.user_manager']]
+
+    sonata.admin.manager.orm:
+        class: Librinfo\CoreBundle\Model\ModelManager
+        arguments: [@doctrine]
