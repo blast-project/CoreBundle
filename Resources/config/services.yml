@@ -14,3 +14,8 @@ services:
     sonata.admin.manager.orm:
         class: Librinfo\CoreBundle\Model\ModelManager
         arguments: [@doctrine]
+
+    sonata.admin.exporter:
+        class: Librinfo\CoreBundle\Admin\Exporter
+        calls:
+            - [setRouter, ['@router']]

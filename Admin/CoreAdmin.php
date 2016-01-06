@@ -18,7 +18,6 @@ use Librinfo\CoreBundle\Admin\Traits\Templates;
 use Librinfo\CoreBundle\Admin\Traits\PreEvents;
 use Librinfo\CoreBundle\Admin\Traits\ManyToManyManager;
 use Librinfo\CoreBundle\Admin\Traits\ListActions;
-use Librinfo\CoreBundle\DataSource\Iterator;
 
 abstract class CoreAdmin extends SonataAdmin
 {
@@ -85,14 +84,6 @@ abstract class CoreAdmin extends SonataAdmin
         return $this;
     }
     
-    public function getDataSourceIterator()
-    {
-        $datagrid = $this->getDatagrid();
-        $datagrid->buildPager();
-
-        return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
-    }
-
     protected function getCurrentComposition()
     {
         // traits of the current Entity

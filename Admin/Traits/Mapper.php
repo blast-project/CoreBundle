@@ -13,6 +13,9 @@ trait Mapper
     protected function configureMapper(BaseMapper $mapper)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $classes = $this->getCurrentComposition();
+        $this->getConfigurationPool()->getContainer()->get('logger')
+            ->debug('[LibrinfoCoreBundle] Processing the configuration in this order: '.implode(', ', $classes));
 
         $fcts = [
             'tabs' => $mapper instanceof ShowMapper
@@ -25,7 +28,7 @@ trait Mapper
         
         // builds the configuration, based on the Mapper class
         $cpt = ['remove' => 0, 'add' => 0];
-        foreach ( $this->getCurrentComposition() as $class )
+        foreach ( $classes as $class )
         if ( isset($librinfo[$class]) )
         {
             // copy stuff from elsewhere
@@ -91,21 +94,29 @@ trait Mapper
         if ( $mapper instanceof BaseGroupedMapper )
         {
             // removing empty groups
-            foreach ( $groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group )
-            if ( !$group['fields'] )
-                unset($groups[$groupkey]);
-            $this->{$fcts['groups']['setter']}($groups);
+            $groups = $this->{$fcts['groups']['getter']}();
+            if ( is_array($groups) )
+            {
+                foreach ( $groups as $groupkey => $group )
+                if ( !$group['fields'] )
+                    unset($groups[$groupkey]);
+                $this->{$fcts['groups']['setter']}($groups);
+            }
             
             // removing empty tabs
-            foreach ( $tabs = $this->{$fcts['tabs']['getter']}() as $tabkey => $tab )
+            $tabs = $this->{$fcts['tabs']['getter']}();
+            if ( is_array($tabs) )
             {
-                foreach ( $tab['groups'] as $groupkey => $group )
-                if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
-                    unset($tabs[$tabkey]['groups'][$groupkey]);
-                if ( !$tabs[$tabkey]['groups'] )
-                    unset($tabs[$tabkey]);
+                foreach ( $tabs as $tabkey => $tab )
+                {
+                    foreach ( $tab['groups'] as $groupkey => $group )
+                    if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
+                        unset($tabs[$tabkey]['groups'][$groupkey]);
+                    if ( !$tabs[$tabkey]['groups'] )
+                        unset($tabs[$tabkey]);
+                }
+                $this->{$fcts['tabs']['setter']}($tabs);
             }
-            $this->{$fcts['tabs']['setter']}($tabs);
         }
         
         //return array_sum($cpt);
@@ -467,6 +478,8 @@ trait Mapper
     protected function addPresetExportFormats(array $formats = [])
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $this->exportFields = $formats;
+        
         
         foreach ( $this->getCurrentComposition() as $class )
         if ( isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']) )
@@ -474,22 +487,59 @@ trait Mapper
             // remove / reset
             if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove'])
               && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_export_format']) )
-                $formats = parent::getExportFormats();
+                $this->exportFields = [];
             
             // add
             if ( isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add'])
               && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format']) )
-            foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'] as $format )
-            if ( substr($format,0,1) == '-' )
+            foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'] as $format => $fields )
             {
-                if ( ($key = array_search(substr($format,1), $formats)) !== false )
-                    unset($formats[$key]);
+                // if no fields are defined (not an associative array)
+                if ( intval($format).'' == ''.$format && !is_array($fields) )
+                {
+                    $format = $fields;
+                    $this->exportFields[$format] = $fields = [];
+                }
+                
+                // if a copy of an other format is requested
+                if ( !is_array($fields)
+                  && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$fields]) )
+                {
+                    $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$format] = // the global fields array
+                    $fields =                                                                                          // the local  fields array
+                    $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$fields];  // the source fields array
+                }
+                
+                // removes a specific format
+                if ( substr($format,0,1) == '-' )
+                {
+                    unset($this->exportFields[substr($format,1)]);
+                    continue;
+                }
+                
+                // if an order is defined, use it to order the extracted fields
+                if ( !$fields
+                  && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options'])
+                  && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder']) )
+                {
+                    // get back default fields
+                    $tmp = parent::getExportFields();
+                    $fields = [];
+                    
+                    // takes the ordered fields
+                    foreach ( $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder'] as $field )
+                    if ( in_array($field, $tmp) )
+                        $fields[] = $field;
+                    
+                    // then the forgotten fields as they come
+                    foreach ( $tmp as $field )
+                    if ( !in_array($field, $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder']) )
+                        $fields[] = $field;
+                }
+                $this->exportFields[$format] = $fields;
             }
-            else
-                $formats[] = $format;
         }
         
-        return $formats;
+        return $this->exportFields;
     }
 }
-

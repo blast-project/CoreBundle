@@ -6,9 +6,15 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Librinfo\CoreBundle\DataSource\Iterator;
 
 trait Base
 {
+    /**
+     * @var array
+     */
+    protected $exportFields = [];
+    
     /**
      * @param DatagridMapper $mapper
      */
@@ -54,7 +60,42 @@ trait Base
      **/
     public function getExportFormats()
     {
-        return $this->addPresetExportFormats(parent::getExportFormats());
+        $formats = [];
+        foreach ( parent::getExportFormats() as $format )
+            $formats[$format] = [];
+        return array_keys($this->addPresetExportFormats($formats));
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getExportFields()
+    {
+        // prerequisites
+        $fields = parent::getExportFields();
+        $this->getExportFormats();
+        
+        // nothing to add
+        if ( !$this->exportFields )
+            return parent::getExportFields();
+        
+        // nothing specific to add
+        if (!( $this->getConfigurationPool()->getContainer()->get('request')->get('format')
+            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]) ))
+            return parent::getExportFields();
+        
+        // specificities for this format
+        return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataSourceIterator()
+    {
+        $datagrid = $this->getDatagrid();
+        $datagrid->buildPager();
+
+        return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
     }
 }
-
