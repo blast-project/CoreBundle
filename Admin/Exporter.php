@@ -8,7 +8,6 @@ use Sonata\AdminBundle\Export\Exporter as BaseExporter;
 use Librinfo\CRMBundle\Entity\Circle;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 
 class Exporter extends BaseExporter
@@ -33,11 +32,6 @@ class Exporter extends BaseExporter
      */
     protected $router;
     
-    public function getResponse($format, $filename, SourceIteratorInterface $source)
-    {
-        return parent::getResponse($format, $filename, $source);
-    }
-
     /**
      * setTokenStorage
      *
@@ -74,7 +68,7 @@ class Exporter extends BaseExporter
     /**
      * setRouter
      *
-     * @param $router     \Twig_Environment
+     * @param $router     Router
      */
     public function setRouter(Router $router)
     {

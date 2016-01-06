@@ -94,21 +94,29 @@ trait Mapper
         if ( $mapper instanceof BaseGroupedMapper )
         {
             // removing empty groups
-            foreach ( $groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group )
-            if ( !$group['fields'] )
-                unset($groups[$groupkey]);
-            $this->{$fcts['groups']['setter']}($groups);
+            $groups = $this->{$fcts['groups']['getter']}();
+            if ( is_array($groups) )
+            {
+                foreach ( $groups as $groupkey => $group )
+                if ( !$group['fields'] )
+                    unset($groups[$groupkey]);
+                $this->{$fcts['groups']['setter']}($groups);
+            }
             
             // removing empty tabs
-            foreach ( $tabs = $this->{$fcts['tabs']['getter']}() as $tabkey => $tab )
+            $tabs = $this->{$fcts['tabs']['getter']}();
+            if ( is_array($tabs) )
             {
-                foreach ( $tab['groups'] as $groupkey => $group )
-                if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
-                    unset($tabs[$tabkey]['groups'][$groupkey]);
-                if ( !$tabs[$tabkey]['groups'] )
-                    unset($tabs[$tabkey]);
+                foreach ( $tabs as $tabkey => $tab )
+                {
+                    foreach ( $tab['groups'] as $groupkey => $group )
+                    if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
+                        unset($tabs[$tabkey]['groups'][$groupkey]);
+                    if ( !$tabs[$tabkey]['groups'] )
+                        unset($tabs[$tabkey]);
+                }
+                $this->{$fcts['tabs']['setter']}($tabs);
             }
-            $this->{$fcts['tabs']['setter']}($tabs);
         }
         
         //return array_sum($cpt);
