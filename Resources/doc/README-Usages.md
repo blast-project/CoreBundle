@@ -98,6 +98,11 @@ parameters:
                         json: ~             # adds the json format, with default fields
                         xls: csv            # adds the XLS format, using the CSV fields (copying)
                         -pdf: ~             # removes the PDF format (unavailable by default)
+                        vcard: [name, positions.label, positions.organism.name]
+                                            # if a "vcard" format is defined in your custom Exporter, you can use it here
+                                            # if this format support multi-dimensional data, you can build 2 levels data
+                                            #    using collections ; then [collection].name will iterate on each element
+                                            #    to get back its name an produce a 2 dimension array
                     _list_action:
                         test:
                             action: create      # can be an action or a route
