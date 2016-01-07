@@ -1,0 +1,12 @@
+Librinfo\CoreBundle\Entity\SearchIndexEntity:
+#    type: mappedSuperclass
+    type: entity
+    id:
+        object_id:
+            type: guid
+        field:
+            type: string
+            length: 255
+        keyword:
+            type: string
+            length: 255
