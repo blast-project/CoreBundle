@@ -7,19 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Librinfo\BaseEntitiesBundle\Entity\Repository\SearchableRepository;
 
-use Sonata\AdminBundle\Admin\AdminHelper;
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Filter\FilterInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ValidatorInterface as LegacyValidatorInterface;
 
 /**
  * Class BaseController
@@ -140,7 +132,7 @@ class BaseController extends CoreController
         }
 
         $class = $targetAdmin->getClass();
-        $em = $this->getDoctrine()->getManager();;
+        $em = $this->getDoctrine()->getManager();
         $classMetadata = $em->getClassMetadata($class);
         $repo = new SearchableRepository($em, $classMetadata);
         $results = $repo->indexSearch($searchText, $itemsPerPage);
