@@ -60,7 +60,7 @@ class BaseController extends CoreController
 
     /**
      * Retrieve list of items for autocomplete form field with search indexes
-     * Replaces Sonata\AdminBundle\Controller\HelperController#retrieveAutocompleteItemsAction
+     * Based on Sonata\AdminBundle\Controller\HelperController#retrieveAutocompleteItemsAction
      *
      * @param Request $request
      *
@@ -68,6 +68,8 @@ class BaseController extends CoreController
      *
      * @throws \RuntimeException
      * @throws AccessDeniedException
+     *
+     * @todo refactor this to avoid dependency to BaseEntitiesBundle
      */
     public function retrieveAutocompleteItemsAction(Request $request)
     {
