@@ -1,0 +1,3 @@
+searchable_admin_retrieve_autocomplete_items:
+    path: /core/get-searchable-autocomplete-items
+    defaults:  { _controller: LibrinfoCoreBundle:Base:retrieveAutocompleteItems }
