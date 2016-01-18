@@ -28,6 +28,7 @@ This will download and install :
 * sonata-project/admin-bundle
 * sonata-project/doctrine-orm-admin-bundle
 * libre-informatique/core-bundle
+* libre-informatique/doctrine-bundle
 * libre-informatique/base-entities-bundle
 * twig/twig ^1.22.1
 
@@ -61,10 +62,10 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
     {
         $bundles = array(
             // ...
-            
+
             // The libre-informatique bundles
             new Librinfo\CoreBundle\LibrinfoCoreBundle(),
-            
+
             // your personal bundles
         );
     }
