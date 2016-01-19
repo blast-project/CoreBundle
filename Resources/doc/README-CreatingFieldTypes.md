@@ -19,7 +19,7 @@ Let's define the ```email``` field type, which by-the-way is already defined in 
 # Resources/config/librinfo.yml
 parameters:
     librinfo:
-        Librinfo\DoctrineBundle\Entity\Traits\Emailable:
+        Librinfo\BaseEntitiesBundle\Entity\Traits\Emailable:
             Sonata\AdminBundle\Datagrid\ListMapper:
                 _copy: Sonata\AdminBundle\Datagrid\DatagridMapper
             Sonata\AdminBundle\Datagrid\DatagridMapper:

@@ -5,7 +5,7 @@ namespace Librinfo\CoreBundle\Controller;
 use Sonata\AdminBundle\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Response;
 
-use Librinfo\DoctrineBundle\Entity\Repository\SearchableRepository;
+use Librinfo\BaseEntitiesBundle\Entity\Repository\SearchableRepository;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Symfony\Component\Form\FormInterface;
@@ -69,7 +69,7 @@ class BaseController extends CoreController
      * @throws \RuntimeException
      * @throws AccessDeniedException
      *
-     * @todo refactor this to avoid dependency to DoctrineBundle
+     * @todo refactor this to avoid dependency to BaseEntitiesBundle
      */
     public function retrieveAutocompleteItemsAction(Request $request)
     {
