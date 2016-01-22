@@ -60,18 +60,6 @@ You can that the definition of a new field type is set within the ```configurati
 In ```Resources/views/CRUD/list_field_email.html.twig```:
 
 ```twig
-{#
-
-This file is part of the Sonata package.
-
-(c) Baptiste SIMON <beta@e-glop.net>
-(c) Libre Informatique [http://www.libre-informatique.fr/]
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-
-#}
-
 {% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
 
 {% block field %}

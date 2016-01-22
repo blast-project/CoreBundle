@@ -38,4 +38,11 @@ file that was distributed with this source code.
     {% endfor %}
 {% endspaceless %}
 {% endblock %}
-                
+
+{% block sonata_wrapper %}
+    {{ parent() }}
+
+    {% for template in admin.extraTemplates('list') %}
+        {% include template %}
+    {% endfor %}
+{% endblock sonata_wrapper %}

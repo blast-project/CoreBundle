@@ -1,3 +1,3 @@
-searchable_admin_retrieve_autocomplete_items:
-    path: /core/get-searchable-autocomplete-items
-    defaults:  { _controller: LibrinfoCoreBundle:Base:retrieveAutocompleteItems }
+librinfo_base_entities_move_sortable:
+    path: /base_entities/class/id/move-sortable-item
+    defaults:  { _controller: LibrinfoBaseEntitiesBundle:Sortable:moveSortableItem }

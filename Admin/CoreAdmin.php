@@ -29,6 +29,8 @@ abstract class CoreAdmin extends SonataAdmin
         ListActions
     ;
 
+    protected $extraTemplates = [];
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -64,7 +66,7 @@ abstract class CoreAdmin extends SonataAdmin
         if ( !$this->configureMapper($mapper) )
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
-    
+
     /**
      * @param BaseMapper $mapper
      */
@@ -76,14 +78,14 @@ abstract class CoreAdmin extends SonataAdmin
             $options = $field->getOptions();
             if ( $options['route']['name'] != 'edit' )
                 continue;
-            
+
             $options['route']['name'] = 'show';
             $field->setOptions($options);
         }
-        
+
         return $this;
     }
-    
+
     protected function getCurrentComposition()
     {
         // traits of the current Entity
@@ -94,7 +96,7 @@ abstract class CoreAdmin extends SonataAdmin
         // inheritance of the current Admin
         foreach ( array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin )
             $classes[] = $admin;
-        
+
         return $classes;
     }
 
@@ -143,6 +145,29 @@ abstract class CoreAdmin extends SonataAdmin
     protected function getGrandParentClass()
     {
         return get_parent_class(get_parent_class($this->getOriginalClass()));
+    }
+
+    /**
+     * @param string $view      'list', 'show', 'form', etc
+     * @param string $template  template name
+     */
+    public function addExtraTemplate($view, $template)
+    {
+        if ( empty($this->extraTemplates[$view]) )
+            $this->extraTemplates[$view] = [];
+        if ( !in_array($template, $this->extraTemplates[$view]) )
+            $this->extraTemplates[$view][] = $template;
+    }
+
+    /**
+     * @param string $view  'list', 'show', 'form', etc
+     * @return array        array of template names
+     */
+    public function getExtraTemplates($view)
+    {
+        if ( empty($this->extraTemplates[$view]) )
+            $this->extraTemplates[$view] = [];
+        return $this->extraTemplates[$view];
     }
 }
 
