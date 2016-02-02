@@ -15,3 +15,6 @@ services:
         class: Librinfo\CoreBundle\Admin\Exporter
         calls:
             - [setRouter, ['@router']]
+
+    librinfo_core.label.strategy.librinfo:
+        class: Librinfo\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy

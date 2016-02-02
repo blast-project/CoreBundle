@@ -2,6 +2,16 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" datatype="plaintext" original="file.ext">
         <body>
+
+            <trans-unit id="librinfo.label._action ">
+                <source>librinfo.label._action</source>
+                <target>Action</target>
+            </trans-unit>
+            <trans-unit id="librinfo.label._list_action ">
+                <source>librinfo.label._list_action</source>
+                <target>Action groupée</target>
+            </trans-unit>
+
 <!-- FORMS -->
             <trans-unit id="form_group_general">
                 <source>form_group_general</source>
@@ -18,6 +28,11 @@
             <trans-unit id="form_group_no_label">
                 <source></source>
                 <target></target>
+            </trans-unit>
+
+            <trans-unit id="DELETE">
+                <source>Delete</source>
+                <target>Supprimer</target>
             </trans-unit>
 
         </body>
