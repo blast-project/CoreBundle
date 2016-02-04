@@ -1,3 +1,0 @@
-librinfo_base_entities_move_sortable:
-    path: /base_entities/class/id/move-sortable-item
-    defaults:  { _controller: LibrinfoBaseEntitiesBundle:Sortable:moveSortableItem }
