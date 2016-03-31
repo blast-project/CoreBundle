@@ -26,5 +26,5 @@ services:
             - {name: sonata.admin, manager_type: orm, group: Application Management, label: Users}
 ```
 
-The User class will be available for managing in side menu under the group named ```Application Management```.
-Feel free to create and compose yours groups as you want
+The User class will be available for managing inside menu under the group named ```Application Management```.
+Feel free to create and compose your groups as you want
