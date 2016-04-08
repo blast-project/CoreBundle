@@ -31,10 +31,10 @@ default: # see available parameters with command : app/console debug:container -
             layout: LibrinfoCoreBundle::standard_layout.html.twig
             user_block: LibrinfoCoreBundle:Block:user_block.html.twig
             list: LibrinfoCoreBundle:CRUD:list.html.twig
-    sonata_doctrine_orm_admin.templates:
-        default:
-            form:
-                - SonataDoctrineORMAdminBundle:Admin/Form:form_admin_fields.html.twig
-        replace:
-            form:
-                - LibrinfoCoreBundle:Admin/Form:admin_forms.html.twig
+#    sonata_doctrine_orm_admin.templates:
+#        default:
+#            form:
+#                - SonataDoctrineORMAdminBundle:Admin/Form:form_admin_fields.html.twig
+#        replace:
+#            form:
+#                - LibrinfoCoreBundle:Admin/Form:admin_forms.html.twig
