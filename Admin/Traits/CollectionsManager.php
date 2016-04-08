@@ -61,8 +61,6 @@ trait CollectionsManager
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get'.ucfirst($coll);
 
-            dump($object->$method());
-
             // delete
             if ( $object->$method()->count() > 0 && $object->$method() instanceof Doctrine\ORM\PersitentCollection )
 
