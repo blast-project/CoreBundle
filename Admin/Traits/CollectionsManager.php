@@ -62,8 +62,7 @@ trait CollectionsManager
             $method = 'get'.ucfirst($coll);
 
             // delete
-            if ( $object->$method()->count() > 0 && $object->$method() instanceof Doctrine\ORM\PersitentCollection )
-
+            if ( $object->$method() instanceof Doctrine\ORM\PersitentCollection && $object->$method()->count() > 0 )
             foreach ( $object->$method()->getSnapshot() as $subobj )
             if ( !$object->$method()->contains($subobj) )
                 $this->getModelManager()->delete($subobj);
