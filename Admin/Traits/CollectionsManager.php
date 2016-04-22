@@ -61,8 +61,10 @@ trait CollectionsManager
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get'.ucfirst($coll);
 
+            if ( !$object->$method() instanceof Doctrine\ORM\PersitentCollection || $object->$method()->count() == 0 )
+                continue;
+            
             // delete
-            if ( $object->$method() instanceof Doctrine\ORM\PersitentCollection && $object->$method()->count() > 0 )
             foreach ( $object->$method()->getSnapshot() as $subobj )
             if ( !$object->$method()->contains($subobj) )
                 $this->getModelManager()->delete($subobj);
