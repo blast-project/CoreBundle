@@ -2,13 +2,13 @@
 
 ## Why are we doing this ?
 
-Out-of-the-box, Sonata Admin modules are not capable to deal with foreign references in ManyToOne / OneToMany and ManyToMany relations. Then we tried to design a simple way to use and deploy a Sonata Admin module (especially its FormMapper), minimizing the things to do, the code to write...
+Out-of-the-box, Sonata Admin modules are not capable of dealing with foreign references in ManyToOne / OneToMany and ManyToMany relations. Then we tried to design a simple way to use and deploy a Sonata Admin module (especially its FormMapper), minimizing the things to do, the code to write...
 
 ## Using the ```libre-informatique/core-bundle``` features
 
 #### Make your ```*Admin``` extend the ```Librinfo\CoreBundle\Admin\CoreAdmin```
 
-When you want to create a Sonata module for an existing entity, you usually starts from the command line executing :
+When you want to create a Sonata module for an existing entity, you usually start from the command line executing :
 
 ```
 app/console sonata:admin:generate
@@ -192,11 +192,11 @@ Some traits are here only to make the ```Librinfo\CoreBundle\Admin\CoreAdmin``` 
 
 #### Mapper
 
-The ```Librinfo\CoreBundle\Admin\Traits\Mapper``` trait embeds all the logical that parses the ```librinfo.yml``` files and generate a matching ```Sonata\AdminBundle\Admin\Admin``` without writing a line of PHP.
+The ```Librinfo\CoreBundle\Admin\Traits\Mapper``` trait embeds all the logic that parses the ```librinfo.yml``` files and generate a matching ```Sonata\AdminBundle\Admin\Admin``` without writing a line of PHP.
 
 #### CollectionsManager
 
-The ```Librinfo\CoreBundle\Admin\Traits\CollectionsManager``` trait treats the collections that would be let untouched after a change in an embedded form (a ```sonata_type_collection``` form type). It uses definitions found in the ```librinfo.yml``` files.
+The ```Librinfo\CoreBundle\Admin\Traits\CollectionsManager``` trait treats the collections that would be left untouched after a change in an embedded form (a ```sonata_type_collection``` form type). It uses definitions found in the ```librinfo.yml``` files.
 
 eg.:
 ```
@@ -226,7 +226,7 @@ If you want your Admin to handle those many-to-many relationships automatically,
 
 #### PreEvents
 
-The ```Librinfo\CoreBundle\Admin\Traits\PreEvents``` trait embeds the ```Sonata\AdminBundle\Admin\Admin::preUpdate($object)``` and ```Sonata\AdminBundle\Admin\Admin::prePersist($object)``` methods. It comes with the ability to define new "behaviors" in traits. When called those methods try to execute every methods componed as:
+The ```Librinfo\CoreBundle\Admin\Traits\PreEvents``` trait embeds the ```Sonata\AdminBundle\Admin\Admin::preUpdate($object)``` and ```Sonata\AdminBundle\Admin\Admin::prePersist($object)``` methods. It comes with the ability to define new "behaviors" in traits. When called, those methods try to execute every methods componed as:
 
 ```
 [MyTrait]::[prePersist|preUpdate][MyTrait]($object)

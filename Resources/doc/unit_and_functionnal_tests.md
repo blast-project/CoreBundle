@@ -18,7 +18,7 @@ Downloading
 Configuring unit test
 ---------------------
 
-Add directory who contain your tests
+Add the directory which contains your tests
 
 ```
 <!-- app/phpunit.xml -->
@@ -135,7 +135,7 @@ Run initialise database test
     $ app/console doctrine:fixtures:load --env=test
     
 ###### Note:
-Don't forget the option "--env=test", this command clear your database before inserting data.
+Don't forget the option "--env=test", this command clears your database before inserting data.
 
 
 Test using security users
