@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 trait HandlesRelationsAdmin
 {
+
     use Base;
 
     /**
@@ -19,19 +20,20 @@ trait HandlesRelationsAdmin
 
         // relationships that will be handled by CollectionsManager
         $type = 'sonata_type_collection';
-        foreach ( $this->formFieldDescriptions as $fieldname => $fieldDescription )
-        if ( $fieldDescription->getType() == $type )
-            $this->addManagedCollections($fieldname);
+        
+        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription)
+            if ($fieldDescription->getType() == $type)
+                $this->addManagedCollections($fieldname);
 
         // relationships that will be handled by ManyToManyManager
-        foreach ( $this->formFieldDescriptions as $fieldname => $fieldDescription )
+        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription)
         {
             $mapping = $fieldDescription->getAssociationMapping();
-            if ( $mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'] )
+            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'])
                 $this->addManyToManyCollections($fieldname);
         }
     }
-    
+
     /**
      * @param ShowMapper $mapper
      */
@@ -41,16 +43,17 @@ trait HandlesRelationsAdmin
 
         // relationships that will be handled by CollectionsManager
         $types = ['sonata_type_collection', 'orm_one_to_many', 'orm_many_to_one'];
-        foreach ( $this->showFieldDescriptions as $fieldname => $fieldDescription )
-        if ( in_array($fieldDescription->getType(), $types) )
-            $this->addManagedCollections($fieldname);
-        
+        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription)
+            if (in_array($fieldDescription->getType(), $types))
+                $this->addManagedCollections($fieldname);
+
         // relationships that will be handled by ManyToManyManager
-        foreach ( $this->showFieldDescriptions as $fieldname => $fieldDescription )
+        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription)
         {
             $mapping = $fieldDescription->getAssociationMapping();
-            if ( $mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'] )
+            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'])
                 $this->addManyToManyCollections($fieldname);
         }
     }
+
 }
