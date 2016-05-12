@@ -6,6 +6,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
@@ -113,7 +114,6 @@ trait Mapper
                 $this->{$fcts['tabs']['setter']}($tabs);
             }
         }
-
         //return array_sum($cpt);
         $this->fixTemplates($mapper);
         if (!$mapper instanceof FormMapper)
@@ -131,7 +131,6 @@ trait Mapper
             $options = [];
             if (isset($group['_options']))
             {
-
                 $options = $group['_options'];
                 unset($group['_options']);
             }
@@ -345,6 +344,7 @@ trait Mapper
 
     protected function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
+        //$this->addListActionRoutes($mapper);
         // avoid duplicates
         if ($mapper->has($name))
             $mapper->remove($name);
@@ -358,7 +358,6 @@ trait Mapper
             $type = $options['type'];
             unset($options['type']);
         }
-
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ([
@@ -371,12 +370,13 @@ trait Mapper
                 unset($fieldDescriptionOptions[$extra]);
             }
 
-
-
         $mapper->add($name, $type, $options, $fieldDescriptionOptions);
 
         if ($name == '_action')
-            $this->addListActions($mapper, $options);
+        {
+            $this->addListActions($mapper);
+        }
+
 
 
         // apply extra options
@@ -402,7 +402,6 @@ trait Mapper
                         break;
                 }
         }
-
         return $mapper;
     }
 
@@ -489,15 +488,67 @@ trait Mapper
 
     protected function addListActions($mapper)
     {
-        if($mapper->has('_actions')) 
+        if ($mapper->has('_actions'))
         {
             $actions = $mapper->has('_actions') ? $mapper->get('_actions')->getOptions() : array();
-            
+
             $mapper->remove('_action');
             $mapper->remove('_actions');
 
             $mapper->add('_action', 'actions', $actions);
-        }      
+        }
+    }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $mapperClass = 'Sonata\\AdminBundle\\Datagrid\\ListMapper';
+        foreach ($this->getCurrentComposition() as $class)
+            if (isset($librinfo[$class]) && isset($librinfo[$class][$mapperClass]))
+            {
+                if (isset($librinfo[$class][$mapperClass]['add']['_actions']))
+                {
+                    $actions = $librinfo[$class][$mapperClass]['add']['_actions'] ? $librinfo[$class][$mapperClass]['add']['_actions'] : array();
+
+                    foreach ($actions['actions'] as $key => $action)
+                    {
+
+                        if (isset($action['route']) && $action['route'])
+                        {
+                            dump(3);
+                            $routeSuffix = $action['route'];
+                        } else
+                        {
+                            $routeSuffix = $key;
+                        }
+                        $collection->add($key, $routeSuffix);
+                    }
+                }
+            }
+//        if ($mapper->has('_actions'))
+//        {
+//            $actions = $mapper->has('_actions') ? $mapper->get('_actions')->getOptions() : array();
+//
+//            $routeCollection = $this->getRoutes();
+//
+//            foreach ($actions['actions'] as $key => $action)
+//            {
+//                if (isset($action['route']) && $action['route'])
+//                {
+//                    $routeSuffix = $action['route'];
+//                } else
+//                {
+//                    $routeSuffix = $key;
+//                }
+//                //dump($routeCollection);
+//                $routeCollection->add($key, $this->getRouterIdParameter() . "/" . $routeSuffix);
+//                //dump($this->getRoutes());
+//                //               $this->configureRoutes($routeCollection);
+//                $this->routeBuilder->build($this, $routeCollection);
+//                //dump($this->getRoutes());
+////                dump($this->getRouteBuilder());
+//            }
+//        }
     }
 
     /**
