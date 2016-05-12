@@ -163,29 +163,6 @@ trait Mapper
             unset($group['_options']);
         }
 
-//        if ( $mapper instanceof ShowMapper && isset($tabsOptions['forceTabs']) && $tabsOptions['forceTabs'] )
-//        {
-//            if ( isset($this->getShowTabs()['default']) )
-//            {
-//                
-//                if ( !isset($this->getShowTabs()[$tabsOptions['forceTabs']]) )
-//                    dump($this->getShowTabs());
-//                $mapper->tab($tabsOptions['forceTabs'], [$tabsOptions])->end();
-//                
-//                $showTabs = $this->{$fcts['tabs']['getter']}();
-//                
-//                $showTabs[$tabsOptions['forceTabs']]['groups'] = $this->{$fcts['tabs']['getter']}()['default']['groups'];
-//                unset($showTabs['default']);
-//                
-//                
-//                $this->{$fcts['tabs']['setter']}($showTabs);
-//                
-//                dump($this->{$fcts['tabs']['getter']}());
-//                dump($this->{$fcts['tabs']['getter']}()[$tabsOptions['forceTabs']]['groups']);
-//                //dump($this->{$fcts['tabs']['getter']}()['default']['groups']);
-//            }
-//        }
-        //$t = true;
         // content
         foreach ($group as $tab => $tabcontent) // loop on content...
             if (self::arrayDepth($tabcontent) < 1)
@@ -204,14 +181,11 @@ trait Mapper
                 }
 
                 $endgroup = $endtab = false;
-                /*                 * ******************* */
-
-//            dump($mapper);
-//            dump($tab);
+              
                 // tab
                 if (isset($tabcontent['_options']['hideTitle']) && $tabcontent['_options']['hideTitle'] || $mapper instanceof ShowMapper//!(isset($tabsOptions['forceTabs']) && $tabsOptions['forceTabs'])
                 )
-                {//dump(1);
+                {
                     $tabs = $this->{$fcts['tabs']['getter']}();
                     $groups = $this->{$fcts['groups']['getter']}();
                     if (isset($tabs[$tab]))
@@ -228,7 +202,7 @@ trait Mapper
                         $this->{$fcts['groups']['setter']}($groups);
                     }
                 } else
-                {  // dump(2);
+                {
                     $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : []);
                     $endtab = true;
                 }
@@ -344,7 +318,7 @@ trait Mapper
 
     protected function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
-        //$this->addListActionRoutes($mapper);
+    
         // avoid duplicates
         if ($mapper->has($name))
             $mapper->remove($name);
@@ -499,6 +473,7 @@ trait Mapper
         }
     }
 
+    //overrides Admin::configureRoutes() so that it is called automatically
     protected function configureRoutes(RouteCollection $collection)
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
@@ -525,30 +500,6 @@ trait Mapper
                     }
                 }
             }
-//        if ($mapper->has('_actions'))
-//        {
-//            $actions = $mapper->has('_actions') ? $mapper->get('_actions')->getOptions() : array();
-//
-//            $routeCollection = $this->getRoutes();
-//
-//            foreach ($actions['actions'] as $key => $action)
-//            {
-//                if (isset($action['route']) && $action['route'])
-//                {
-//                    $routeSuffix = $action['route'];
-//                } else
-//                {
-//                    $routeSuffix = $key;
-//                }
-//                //dump($routeCollection);
-//                $routeCollection->add($key, $this->getRouterIdParameter() . "/" . $routeSuffix);
-//                //dump($this->getRoutes());
-//                //               $this->configureRoutes($routeCollection);
-//                $this->routeBuilder->build($this, $routeCollection);
-//                //dump($this->getRoutes());
-////                dump($this->getRouteBuilder());
-//            }
-//        }
     }
 
     /**
