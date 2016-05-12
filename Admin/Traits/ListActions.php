@@ -2,6 +2,8 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Sonata\AdminBundle\Route\RouteCollection;
+
 trait ListActions
 {
     /**
@@ -59,6 +61,40 @@ trait ListActions
 
         $this->listActions[$name ? $name : $action['label']] = $action;
         return $this;
+    }
+    
+    /**
+     * Add routes for custom list actions
+     * overrides SonataAdmin/Admin::configureRoutes() so that it is called automatically
+     * 
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $mapperClass = 'Sonata\\AdminBundle\\Datagrid\\ListMapper';
+        foreach ($this->getCurrentComposition() as $class)
+            if (isset($librinfo[$class]) && isset($librinfo[$class][$mapperClass]))
+            {
+                if (isset($librinfo[$class][$mapperClass]['add']['_actions']))
+                {
+                    $actions = $librinfo[$class][$mapperClass]['add']['_actions'] ? $librinfo[$class][$mapperClass]['add']['_actions'] : array();
+
+                    foreach ($actions['actions'] as $key => $action)
+                    {
+
+                        if (isset($action['route']) && $action['route'])
+                        {
+                            dump(3);
+                            $routeSuffix = $action['route'];
+                        } else
+                        {
+                            $routeSuffix = $key;
+                        }
+                        $collection->add($key, $routeSuffix);
+                    }
+                }
+            }
     }
     
     /**

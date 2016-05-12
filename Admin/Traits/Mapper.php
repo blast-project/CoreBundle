@@ -6,7 +6,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
-use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
@@ -471,35 +470,6 @@ trait Mapper
 
             $mapper->add('_action', 'actions', $actions);
         }
-    }
-
-    //overrides Admin::configureRoutes() so that it is called automatically
-    protected function configureRoutes(RouteCollection $collection)
-    {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
-        $mapperClass = 'Sonata\\AdminBundle\\Datagrid\\ListMapper';
-        foreach ($this->getCurrentComposition() as $class)
-            if (isset($librinfo[$class]) && isset($librinfo[$class][$mapperClass]))
-            {
-                if (isset($librinfo[$class][$mapperClass]['add']['_actions']))
-                {
-                    $actions = $librinfo[$class][$mapperClass]['add']['_actions'] ? $librinfo[$class][$mapperClass]['add']['_actions'] : array();
-
-                    foreach ($actions['actions'] as $key => $action)
-                    {
-
-                        if (isset($action['route']) && $action['route'])
-                        {
-                            dump(3);
-                            $routeSuffix = $action['route'];
-                        } else
-                        {
-                            $routeSuffix = $key;
-                        }
-                        $collection->add($key, $routeSuffix);
-                    }
-                }
-            }
     }
 
     /**
