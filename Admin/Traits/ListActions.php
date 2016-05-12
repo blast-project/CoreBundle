@@ -85,7 +85,7 @@ trait ListActions
 
                         if (isset($action['route']) && $action['route'])
                         {
-                            dump(3);
+                      
                             $routeSuffix = $action['route'];
                         } else
                         {

@@ -84,6 +84,10 @@ parameters:
                             show: ~
                             edit: ~
                             delete: ~
+                            myAction:
+                                template: AcmeBundle:list__action_myaction.html.twig 
+                                route: myaction #(defaults to action name if not set)
+
                     _batch_actions:         # batch actions
                         merge:
                             label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
