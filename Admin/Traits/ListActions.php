@@ -65,7 +65,7 @@ trait ListActions
     
     /**
      * Add routes for custom list actions
-     * overrides SonataAdmin/Admin::configureRoutes() so that it is called automatically
+     * overrides SonataAdmin/Admin::configureRoutes() so that it is called automatically by Admin::buildRoutes()
      * 
      * @param RouteCollection $collection
      */
@@ -91,7 +91,7 @@ trait ListActions
                         {
                             $routeSuffix = $key;
                         }
-                        $collection->add($key, $routeSuffix);
+                        $collection->add($key, $this->getRouterIdParameter().'/'.$routeSuffix);
                     }
                 }
             }
