@@ -11,6 +11,11 @@ use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 trait Mapper
 {
+    /**
+     * Force tabulations on Show views
+     * @var boolean
+     */
+    protected $forceTabs = false;
 
     protected function configureMapper(BaseMapper $mapper)
     {
@@ -23,6 +28,15 @@ trait Mapper
             'tabs' => $mapper instanceof ShowMapper ? ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] : ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
             'groups' => $mapper instanceof ShowMapper ? ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
         ];
+
+        // Figure out if we have to display tabs on the Show view
+        $this->forceTabs = false;
+        if ( $mapper instanceof ShowMapper )
+        foreach( $classes as $class )
+        if ( isset($librinfo[$class]) )
+        foreach ( array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class )
+        if ( !empty($librinfo[$class][$mapper_class]['forceTabs']) )
+            $this->forceTabs = true;
 
         // builds the configuration, based on the Mapper class
         $cpt = ['remove' => 0, 'add' => 0];
@@ -180,11 +194,12 @@ trait Mapper
                 }
 
                 $endgroup = $endtab = false;
-              
+
                 // tab
-                if (isset($tabcontent['_options']['hideTitle']) && $tabcontent['_options']['hideTitle'] || $mapper instanceof ShowMapper//!(isset($tabsOptions['forceTabs']) && $tabsOptions['forceTabs'])
-                )
+                if ( !empty($tabcontent['_options']['hideTitle']) ||
+                     $mapper instanceof ShowMapper && !$this->forceTabs )
                 {
+                    // display tabs as groups
                     $tabs = $this->{$fcts['tabs']['getter']}();
                     $groups = $this->{$fcts['groups']['getter']}();
                     if (isset($tabs[$tab]))
@@ -200,8 +215,8 @@ trait Mapper
                             }
                         $this->{$fcts['groups']['setter']}($groups);
                     }
-                } else
-                {
+                }
+                else {
                     $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : []);
                     $endtab = true;
                 }
@@ -317,7 +332,7 @@ trait Mapper
 
     protected function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
-    
+
         // avoid duplicates
         if ($mapper->has($name))
             $mapper->remove($name);
@@ -334,8 +349,8 @@ trait Mapper
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ([
-    'template' => 'setTemplate',
-    'initializeAssociationAdmin' => NULL,
+            'template' => 'setTemplate',
+            'initializeAssociationAdmin' => NULL,
         ] as $extra => $method)
             if (isset($fieldDescriptionOptions[$extra]))
             {
