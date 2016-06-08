@@ -29,6 +29,14 @@
                 <source>form_group_details</source>
                 <target>Détails</target>
             </trans-unit>
+            <trans-unit id="form_tab_history">
+                <source>form_tab_history</source>
+                <target>Historique</target>
+            </trans-unit>
+            <trans-unit id="form_group_history">
+                <source>form_group_history</source>
+                <target>Historique</target>
+            </trans-unit>
             <trans-unit id="form_group_no_label">
                 <source></source>
                 <target></target>
