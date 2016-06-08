@@ -49,28 +49,34 @@ trait CollectionsManager
         // global configuration
         $this->configureCollectionsManager();
 
-        // for each given collection       
+        // for each given collection
         foreach ($this->managedCollections as $coll)
         {
             // preparing stuff
-            $target = $this->getModelManager()
-                            ->getEntityManager($object)
-                            ->getClassMetadata($this->getClass())
+            if ( $admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code') ) {
+                $targetAdmin = $this->getConfigurationPool()->getAdminByAdminCode($admin_code);
+            }
+            else {
+                $target = $this->getModelManager()
+                    ->getEntityManager($object)
+                    ->getClassMetadata($this->getClass())
                     ->associationMappings[$coll]['targetEntity']
-            ;
-           
-            $rctarget = new \ReflectionClass($target);
-            $targetAdmin = $this->getConfigurationPool()->getAdminByClass($rctarget->getName());
+                ;
+
+                $rctarget = new \ReflectionClass($target);
+                $targetAdmin = $this->getConfigurationPool()->getAdminByClass($rctarget->getName());
+            }
+
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get' . ucfirst($coll);
 
             // insert/update (forcing the foreign key to be set to $this->getId(), for instance)
             foreach ($object->$method() as $subobj)
-            {  
+            {
                 $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
                 $targetAdmin->prePersist($subobj);
             }
-            
+
             if (!$object->$method() instanceof Doctrine\ORM\PersitentCollection || $object->$method()->count() == 0)
                 continue;
 

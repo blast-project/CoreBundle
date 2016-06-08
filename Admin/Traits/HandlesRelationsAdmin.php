@@ -20,7 +20,7 @@ trait HandlesRelationsAdmin
 
         // relationships that will be handled by CollectionsManager
         $type = 'sonata_type_collection';
-        
+
         foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription)
             if ($fieldDescription->getType() == $type)
                 $this->addManagedCollections($fieldname);
@@ -42,7 +42,7 @@ trait HandlesRelationsAdmin
         $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
 
         // relationships that will be handled by CollectionsManager
-        $types = ['sonata_type_collection', 'orm_one_to_many', 'orm_many_to_one'];
+        $types = ['sonata_type_collection', 'orm_one_to_many'];
         foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription)
             if (in_array($fieldDescription->getType(), $types))
                 $this->addManagedCollections($fieldname);
