@@ -51,6 +51,7 @@ trait CollectionsManager
 
         // for each given collection
         foreach ($this->managedCollections as $coll)
+        if ( isset($this->formFieldDescriptions[$coll]) )
         {
             // preparing stuff
             if ( $admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code') ) {

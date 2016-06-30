@@ -32,7 +32,7 @@ abstract class CoreAdmin extends SonataAdmin
     protected $extraTemplates = [];
 
     /**
-     * @param DatagridMapper $datagridMapper
+     * @param DatagridMapper $mapper
      */
     protected function configureDatagridFilters(DatagridMapper $mapper)
     {
@@ -41,7 +41,7 @@ abstract class CoreAdmin extends SonataAdmin
     }
 
     /**
-     * @param ListMapper $listMapper
+     * @param ListMapper $mapper
      */
     protected function configureListFields(ListMapper $mapper)
     {
@@ -50,7 +50,7 @@ abstract class CoreAdmin extends SonataAdmin
     }
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $mapper
      */
     protected function configureFormFields(FormMapper $mapper)
     {
