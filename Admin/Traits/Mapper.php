@@ -340,6 +340,20 @@ trait Mapper
         if (!is_array($options))
             $options = [];
 
+        if (isset($options['only_new']))
+        {
+            if ( $options['only_new'] && !$this->subject->isNew() )
+                return $mapper;
+            unset($options['only_new']);
+        }
+
+        if (isset($options['only_not_new']))
+        {
+            if ( $options['only_not_new'] && $this->subject->isNew() )
+                return $mapper;
+            unset($options['only_not_new']);
+        }
+
         $type = null;
         if (isset($options['type']))
         {

@@ -24,6 +24,8 @@ parameters:
                     text:                         # The name of a field that needs to be directly injected (without any tab)
                         type: textarea            # The type of field to display
                         required: false           # Other options refering to the BaseMapper super-class used
+                        only_new: true            # This field will not be used in edit forms
+                                                  # Alternatively you can set only_not_new: true to remove the field from create forms
                     gfx_tab:                      # A first tab
                         _options:                 # ... with its options (cf. BaseGroupedMapper::with() options)
                             description: tab
