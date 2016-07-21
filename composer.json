@@ -4,9 +4,8 @@
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {
         "php": ">=5.3.0",
-        "symfony/symfony": "2.8.*",
-        "sonata-project/doctrine-orm-admin-bundle": "~2.3",
-        "twig/twig": "^1.24"
+        "symfony/symfony": "3.0.*",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.0"
     },
     "license":  "GPL-3.0",
     "keywords": ["e-venement", "libio", "sonata", "symfony"],
