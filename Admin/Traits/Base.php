@@ -47,13 +47,13 @@ trait Base
         $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
     }
     
-    /**
-     * {@inheritdoc}
-     **/
-    public function getBatchActions()
-    {
-        return $this->addPresetBatchActions(parent::getBatchActions());
-    }
+    // /**
+    //  * {@inheritdoc}
+    //  **/
+    // public function getBatchActions()
+    // {
+    //     return $this->addPresetBatchActions(parent::getBatchActions());
+    // }
     
     /**
      * {@inheritdoc}

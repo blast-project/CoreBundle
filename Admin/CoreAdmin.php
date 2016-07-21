@@ -10,7 +10,7 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Exception\InvalidParameterException;
 use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
-use Sonata\AdminBundle\Admin\Admin as SonataAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
 use Librinfo\CoreBundle\Admin\Traits\Mapper;
