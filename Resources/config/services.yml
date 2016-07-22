@@ -1,0 +1,26 @@
+services:
+    librinfo_core.twig.base_extension:
+        class: Librinfo\CoreBundle\Twig\Extensions\BaseExtension
+        tags: [{ name: twig.extension }]
+        calls:
+            - [setRouter,[@router]]
+
+    librinfo_core.services.authenticate:
+        class: Librinfo\CoreBundle\Services\Authenticate
+        arguments: [@security.token_storage]
+        calls:
+            - [setUserManager, ['@fos_user.user_manager']]
+
+    sonata.admin.exporter:
+        class: Librinfo\CoreBundle\Admin\Exporter
+        calls:
+            - [setRouter, ['@router']]
+
+    librinfo_core.label.strategy.librinfo:
+        class: Librinfo\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
+    
+    ######### FORM TYPES ###########
+    librinfo.form.type.tinymce:
+        class: Librinfo\CoreBundle\Form\Type\TinyMceType
+        tags:
+            - { name: form.type, alias: librinfo_tinymce }
