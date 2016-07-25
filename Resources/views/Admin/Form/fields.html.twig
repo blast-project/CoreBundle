@@ -9,8 +9,10 @@
     {% set subject = sonata_admin.admin.subject %}
     {% spaceless %}
         {{ block('choice_widget') }}
-        <a id="{{ subject.fieldset }}_{{ subject.field }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
+        {% if subject.fieldset is defined %}
+            <a id="{{ subject.fieldset }}_{{ subject.field }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
+        {% else %}
+            <a id="{{ name }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
+        {% endif %}
     {% endspaceless %}
-    <link href="{{ asset('bundles/librinfocore/css/main.css') }}" type="text/css" rel="stylesheet" />
-    <script type="text/javascript" src="{{ asset('bundles/librinfocore/js/customChoice.js') }}"></script>
 {% endblock %}
