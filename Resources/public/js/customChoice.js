@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     $('.add-choice').each(function () {
 
-        //LI.varieties.checkAndAppend($(this));
+        LI.varieties.checkAndAppend($(this));
     });
 
     $('.add-choice').editable({
