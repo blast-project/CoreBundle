@@ -1,0 +1,15 @@
+{% block librinfo_core_tinymce_widget %}
+    {% spaceless %}
+        <textarea class="tinymce"></textarea>
+        {{ tinymce_init({'theme': { 'advanced': {'height': 280 }}}) }}
+    {% endspaceless%}
+{% endblock %}
+{% block librinfo_core_customchoice_widget %}
+    {% set subject = sonata_admin.admin.subject %}
+    {% spaceless %}
+        {{ block('choice_widget') }}
+        <a id="{{ subject.fieldset }}_{{ subject.field }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
+    {% endspaceless %}
+    <link href="{{ asset('bundles/librinfocore/css/main.css') }}" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="{{ asset('bundles/librinfocore/js/customChoice.js') }}"></script>
+{% endblock %}

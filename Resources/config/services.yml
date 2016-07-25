@@ -18,3 +18,13 @@ services:
 
     librinfo_core.label.strategy.librinfo:
         class: Librinfo\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
+    
+    ######### FORM TYPES ###########
+    librinfo_core.form.type.tinymce:
+        class: Librinfo\CoreBundle\Form\Type\TinyMceType
+        tags:
+            - { name: form.type, alias: librinfo_tinymce }
+    librinfo_core.form.type.customchoice:
+        class: Librinfo\CoreBundle\Form\Type\CustomChoiceType
+        tags:
+            - { name: form.type, alias: librinfo_customchoice }
