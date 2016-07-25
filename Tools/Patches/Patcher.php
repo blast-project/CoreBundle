@@ -2,14 +2,13 @@
 
 namespace Librinfo\CoreBundle\Tools\Patches;
 
-use Composer\Script\CommandEvent;
+use Composer\Script\Event;
 use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler;
-use Symfony\Component\Yaml\Yaml;
 
 class Patcher extends ScriptHandler
 {
 
-    public static function applyPatches(CommandEvent $event)
+    public static function applyPatches(Event $event)
     {
 
         $options = static::getOptions($event);
