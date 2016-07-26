@@ -2,6 +2,10 @@
 
 {% import 'LibrinfoCoreBundle:CRUD:base_show_macro.html.twig' as librinfo_show_helper %}
 
+{% block navbar_title %}
+    {{ admin.label|trans() }}: {{ admin.toString(object)|truncate(15) }}
+{% endblock %}
+
 {% block show %}
     <div class="sonata-ba-view">
 
