@@ -10,4 +10,9 @@ class TinyMceType extends BaseAbstractType
     {
         return 'textarea';
     }
+    
+    public function getName(){
+        
+        return 'librinfo_tinymce';
+    }
 }
