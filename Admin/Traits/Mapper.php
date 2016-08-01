@@ -47,7 +47,7 @@ trait Mapper
                 foreach (array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class)
                     if (isset($librinfo[$class][$mapper_class]))
                     {
-                        if (isset($librinfo[$class][$mapper_class]['_copy']) && $librinfo[$class][$mapper_class]['_copy'])
+                        if ( !empty($librinfo[$class][$mapper_class]['_copy']) )
                         {
                             if (!is_array($librinfo[$class][$mapper_class]['_copy']))
                                 $librinfo[$class][$mapper_class]['_copy'] = [$librinfo[$class][$mapper_class]['_copy']];
@@ -232,7 +232,7 @@ trait Mapper
                         $opt = isset($withcontent['_options']) ? $withcontent['_options'] : [];
                         $finalOrder = (isset($opt['fieldsOrder']) ? $opt['fieldsOrder'] : null);
 
-                        if (!( isset($opt['hideTitle']) && $opt['hideTitle'] ))
+                        if ( empty($opt['hideTitle']) )
                         {
                             $endtab = true;
                             $endgroup = true;
@@ -271,20 +271,15 @@ trait Mapper
 
                     // pre-ordering
                     $newgroups = [];
+                    $buf = empty($otabs[$tab]['auto_created']) ? "$tab." : "";
                     foreach ($groupsOrder as $groupname)
-                    {
-                        $buf = isset($otabs[$tab]) && $otabs[$tab]['auto_created'] ? "" : "$tab.";
-                        if (isset($otabs[$tab]) && in_array("$buf$groupname", $otabs[$tab]['groups']))
-                            $newgroups[] = "$buf$groupname";
-                    }
+                    if (isset($otabs[$tab]) && in_array("$buf$groupname", $otabs[$tab]['groups']))
+                        $newgroups[] = "$buf$groupname";
 
                     // ordering tabs
-                    foreach (isset($otabs[$tab]['groups']) && $otabs[$tab]['groups'] ? $otabs[$tab]['groups'] : []
-                    as $groupname)
-                    {
-                        if (!in_array($groupname, $newgroups))
-                            $newgroups[] = $groupname;
-                    }
+                    foreach (empty($otabs[$tab]['groups']) ? [] : $otabs[$tab]['groups'] as $groupname)
+                    if (!in_array($groupname, $newgroups))
+                        $newgroups[] = $groupname;
                     $otabs[$tab]['groups'] = $newgroups;
 
                     // "persisting"
