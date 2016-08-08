@@ -28,3 +28,7 @@ services:
         class: Librinfo\CoreBundle\Form\Type\CustomChoiceType
         tags:
             - { name: form.type, alias: librinfo_customchoice }
+    librinfo_core.form.type.customcheckbox:
+        class: Librinfo\CoreBundle\Form\Type\CustomCheckboxType
+        tags:
+            - { name: form.type, alias: librinfo_customcheckbox }
