@@ -3,39 +3,53 @@
 namespace Librinfo\CoreBundle\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
-use Librinfo\CoreBundle\Form\Type\EmptyChoiceList;
-use Librinfo\CoreBundle\Form\DataTransformer\MultipleCheckboxesTransformer;
+use Librinfo\CoreBundle\Form\DataTransformer\CustomChoiceTransformer;
 
 class CustomChoiceType extends BaseAbstractType
 {
-
-    public function getParent()
+    private $repo;
+    
+    public function __construct($manager)
     {
-        return 'choice';
+        $this->repo = $manager->getRepository('LibrinfoVarietiesBundle:SelectChoice');
     }
     
-    public function getName(){
+    public function getParent()
+    {
+        return 'entity';
+    }
+    
+    public function getBlockPrefix(){
         
         return 'librinfo_customchoice';
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        //prevents validation errors on choice type dynamically added choices
-//        $resolver->setDefaults(array(
-//            'choice_list' => new EmptyChoiceList(),
-//            'validation_groups' => false,
-//        ));
+        $label = 'professional_sowing_period'; 
+        
+        $choices = $this->repo->findBy(array(
+            'label' => $label
+            )        
+        );
+        $choiceList = array();
+        
+        foreach($choices as $choice)
+        {
+            $choiceList[$choice->getValue] = $choice;
+        }
+        
+        $resolver->setDefaults(array(
+            'class'       => 'LibrinfoVarietiesBundle:SelectChoice',
+            'choices'     => $choiceList,
+            'placeholder' => ''
+        ));
     }
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //dump($builder);
-//        if($options['multiple'] == true)
-//            $builder->addModelTransformer(new MultipleCheckboxesTransformer)
-//            ;
+        $builder->addModelTransformer(new CustomChoiceTransformer($this->repo));
     }
 }

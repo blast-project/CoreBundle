@@ -28,6 +28,7 @@ services:
         class: Librinfo\CoreBundle\Form\Type\CustomChoiceType
         tags:
             - { name: form.type, alias: librinfo_customchoice }
+        arguments: [ @doctrine.orm.entity_manager ]
     librinfo_core.form.type.customcheckbox:
         class: Librinfo\CoreBundle\Form\Type\CustomCheckboxType
         tags:
