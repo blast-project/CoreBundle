@@ -1,11 +1,11 @@
 
-{% block librinfo_core_tinymce_widget %}
+{% block librinfo_tinymce_widget %}
     {% spaceless %}
         <textarea class="tinymce"></textarea>
         {{ tinymce_init({'theme': { 'advanced': {'height': 280 }}}) }}
     {% endspaceless%}
 {% endblock %}
-{% block librinfo_core_customchoice_widget %}
+{% block librinfo_customchoice_widget %}
     {% set subject = sonata_admin.admin.subject %}
     {% spaceless %}
         {{ block('choice_widget') }}
