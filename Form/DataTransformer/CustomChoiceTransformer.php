@@ -3,30 +3,28 @@
 namespace Librinfo\CoreBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class MultipleCheckboxesTransformer implements DataTransformerInterface
+class CustomChoiceTransformer implements DataTransformerInterface
 {
+    public function __construct($repo)
+    {
+        $this->repo = $repo;
+    }
 
     public function transform($choices)
     {
-    dump($choices);
-    dump(1);
-        if (null === $choices) {
-            return '';
+        if (null !== $choices) {
+            
+            $choice = $this->repo->find($choices);
+            
+            return $choice;
         }
 
-        return array('bonjour'=>'bonjour');
+        return $choices;
     }
 
     public function reverseTransform($choices)
     {
-    dump($choices);
-    dump(2);
-        // no issue number? It's optional, so that's ok
-        if (!$choices)
-            return;
-
-        return array('aurevoir'=>'aurevoir');
+        return $choices;
     }
 }
