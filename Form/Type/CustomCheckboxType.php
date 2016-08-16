@@ -2,7 +2,6 @@
 
 namespace Librinfo\CoreBundle\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
 use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
 use Librinfo\CoreBundle\Form\DataTransformer\CheckboxTransformer;
