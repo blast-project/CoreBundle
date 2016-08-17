@@ -19,7 +19,7 @@ $(document).ready(function () {
         display: false,
         success: function (data) {
 
-            LI.varieties.checkAndAppend($(this), data.value);
+            LI.varieties.checkAndAppend($(this), data.value, data.id);
         }
     });
 
@@ -31,13 +31,13 @@ $(document).ready(function () {
     });
 });
 
-LI.varieties.checkAndAppend = function (widget, value) {
+LI.varieties.checkAndAppend = function (widget, value, id) {
 
     if (widget.siblings('select').length > 0) {
         if (value === undefined) {
-            LI.varieties.loadSelectChoices(widget.attr('id'));
+           // LI.varieties.loadSelectChoices(widget.attr('id'));
         } else {
-            LI.varieties.addSelectChoice(widget.attr('id'), value);
+            LI.varieties.addSelectChoice(widget.attr('id'),id ,value);
         }
     } else if (widget.siblings('ul').length > 0) {
         if (value === undefined) {
@@ -62,11 +62,11 @@ LI.varieties.loadSelectChoices = function (fieldName) {
     });
 };
 
-LI.varieties.addSelectChoice = function (fieldName, value) {
+LI.varieties.addSelectChoice = function (fieldName, id, value) {
 
     var widget = $('#' + fieldName).siblings('select');
 
-    $('<option value="' + widget.children('option').length + '">' + value + '</option>').appendTo(widget);
+    $('<option value="' + id + '">' + value + '</option>').appendTo(widget);
 };
 
 LI.varieties.loadCheckboxChoices = function (fieldName) {
