@@ -11,11 +11,6 @@ class TinyMceType extends BaseAbstractType
         return 'textarea';
     }
     
-    public function getName(){
-        
-        return $this->getBlockPrefix();
-    }
-    
     public function getBlockPrefix()
     {
         return 'librinfo_tinymce';
