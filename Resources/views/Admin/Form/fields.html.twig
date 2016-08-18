@@ -5,14 +5,71 @@
         {{ tinymce_init({'theme': { 'advanced': {'height': 280 }}}) }}
     {% endspaceless%}
 {% endblock %}
+
 {% block librinfo_customchoice_widget %}
-    {% set subject = sonata_admin.admin.subject %}
     {% spaceless %}
         {{ block('choice_widget') }}
-        {% if subject.fieldset is defined %}
-            <a id="{{ subject.fieldset }}_{{ subject.field }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
-        {% else %}
-            <a id="{{ block_prefixes.4 }}" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
-        {% endif %}
+        <a id="{{ id }}_add_choice" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
+
+        <script>
+            $(document).ready(function () {
+
+                $('#{{ id }}_add_choice').editable({
+                    type: 'text',
+                    url: '{{ path('librinfo_choice_addChoice') }}',
+                    pk: 1,
+                    params: { class: '{{ choices_class|e('js') }}', field: '{{ choices_field }}' },
+                    placement: 'top',
+                    savenochange: 'false',
+                    display: false,
+                    success: function (data) {
+                        appendChoice(data.value);
+                    },
+                    error: function(xhr) {
+                        if(xhr.status === 500) return 'Internal server error';
+                    }
+                });
+
+                $('#{{ id }}_add_choice').click(function () {
+                    $(this).editable('setValue', null)
+                        .removeClass('editable-unsaved');
+                });
+
+                appendChoice = function (value) {
+                    {% if expanded %}
+                        appendCheckboxChoice(value);
+                        // TODO: if not multiple appendRadioChoice(value)
+                    {% else %}
+                        appendSelectChoice(value);
+                        // TODO: test with multiple select
+                    {% endif %}
+                };
+
+                appendSelectChoice = function (value) {
+                    var select = $('#{{ id }}');
+                    $('<option>').attr('value', value).text(value).appendTo(select);
+                    select.val(value).trigger('change');
+                };
+
+                appendCheckboxChoice = function (fieldName, value) {
+                    // TODO: refactor this
+                    var widget = $('#' + fieldName).siblings('ul');
+                    var checkbox = $('<li><div class="checkbox multiple-checkbox">' +
+                            '<label><input type="checkbox"><span class="control-label__text">' +
+                            value +
+                            '</span></label></div></li>'
+                            );
+
+                    checkbox.appendTo(widget);
+                    checkbox.iCheck({
+                        checkboxClass: 'icheckbox_square-blue',
+                        radioClass: 'iradio_square-blue'
+                    });
+                };
+
+
+            });
+        </script>
+
     {% endspaceless %}
 {% endblock %}

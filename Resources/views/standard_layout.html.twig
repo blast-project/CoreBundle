@@ -19,7 +19,5 @@ file that was distributed with this source code.
 {% endblock %}
 {% block sonata_wrapper %}
     {{ parent() }}
-    {% block bottom_js %}
-        <script type="text/javascript" src="{{ asset('bundles/librinfocore/js/customChoice.js') }}"></script>
-    {% endblock %}
+    {% block bottom_js %}{% endblock %}
 {% endblock %}
