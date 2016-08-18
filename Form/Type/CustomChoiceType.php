@@ -37,14 +37,18 @@ class CustomChoiceType extends BaseAbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $manager = $this->manager;
+        $defaultClass = '\Librinfo\CoreBundle\Entity\SelectChoice';
+        
         $choiceLoader = function (Options $options) use ($manager) {
-            $repository = $manager->getRepository($options['choices_class']);
+            //$class = $options['choices_class'] != $defaultClass ? $options['choices_class'] : $defaultClass;
             $field = $options['choices_field'];
+            $repository = $manager->getRepository($options['choices_class']);
             return new CustomChoiceChoiceLoader($repository, $field);
         };
 
         $resolver->setDefaults([
-            'placeholder' => '',
+            'placeholder'   => '',
+            'choices_class'         => $defaultClass,
             'choice_loader' => $choiceLoader
         ]);
 
