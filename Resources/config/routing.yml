@@ -1,0 +1,3 @@
+librinfo_core_choice_addChoice:
+    path:     librinfo/ajax/choices/add
+    defaults: { _controller: LibrinfoCoreBundle:Choice:addChoice }
