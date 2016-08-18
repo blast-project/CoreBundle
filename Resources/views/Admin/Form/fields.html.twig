@@ -13,7 +13,7 @@
 
         <script>
             $(document).ready(function () {
-
+   
                 $('#{{ id }}_add_choice').editable({
                     type: 'text',
                     url: '{{ path('librinfo_core_choice_addChoice') }}',
@@ -35,34 +35,53 @@
                         .removeClass('editable-unsaved');
                 });
 
-                appendChoice = function (value) {
+                var appendChoice = function (value) {
+        
                     {% if expanded %}
+                        {% if multiple %}
                         appendCheckboxChoice(value);
-                        // TODO: if not multiple appendRadioChoice(value)
+                        {% else %}
+                        appendRadioChoice(value);
+                        {% endif %}
                     {% else %}
                         appendSelectChoice(value);
-                        // TODO: test with multiple select
                     {% endif %}
                 };
 
-                appendSelectChoice = function (value) {
+                var appendSelectChoice = function (value) {
+                    
                     var select = $('#{{ id }}');
                     $('<option>').attr('value', value).text(value).appendTo(select);
                     select.val(value).trigger('change');
                 };
 
-                appendCheckboxChoice = function (fieldName, value) {
-                    // TODO: refactor this
-                    var widget = $('#' + fieldName).siblings('ul');
+                var appendCheckboxChoice = function ( value) {
+    
                     var checkbox = $('<li><div class="checkbox multiple-checkbox">' +
                             '<label><input type="checkbox"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
 
-                    checkbox.appendTo(widget);
+                    checkbox.appendTo($('#{{ id }}'));
                     checkbox.iCheck({
-                        checkboxClass: 'icheckbox_square-blue',
+                        checkboxClass: 'icheckbox_square-blue'
+                    });
+                    checkbox.iCheck('check');
+                };
+                
+                var appendRadioChoice = function ( value) {
+                    
+                    var widget = $('#{{ id }}');
+                    var name = widget.find('input').first().attr('name');
+                    var radio = $('<li><div class="radio">' +
+                            '<label><input type="radio" name ="' + name + '"><span class="control-label__text">' +
+                            value +
+                            '</span></label></div></li>'
+                            );
+
+                    radio.appendTo(widget);
+                    widget.iCheck({
                         radioClass: 'iradio_square-blue'
                     });
                 };
