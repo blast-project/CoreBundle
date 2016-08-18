@@ -16,7 +16,7 @@
 
                 $('#{{ id }}_add_choice').editable({
                     type: 'text',
-                    url: '{{ path('librinfo_choice_addChoice') }}',
+                    url: '{{ path('librinfo_core_choice_addChoice') }}',
                     pk: 1,
                     params: { class: '{{ choices_class|e('js') }}', field: '{{ choices_field }}' },
                     placement: 'top',
