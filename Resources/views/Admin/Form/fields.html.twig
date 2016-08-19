@@ -57,8 +57,8 @@
 
                 var appendCheckboxChoice = function ( value) {
     
-                    var checkbox = $('<li><div class="checkbox multiple-checkbox">' +
-                            '<label><input type="checkbox"><span class="control-label__text">' +
+                    var checkbox = $('<li><div class="checkbox">' +
+                            '<label><input type="checkbox" name="{{ full_name }}"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
@@ -73,9 +73,8 @@
                 var appendRadioChoice = function ( value) {
                     
                     var widget = $('#{{ id }}');
-                    var name = widget.find('input').first().attr('name');
                     var radio = $('<li><div class="radio">' +
-                            '<label><input type="radio" name ="' + name + '"><span class="control-label__text">' +
+                            '<label><input type="radio" name ="{{ full_name }}"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
