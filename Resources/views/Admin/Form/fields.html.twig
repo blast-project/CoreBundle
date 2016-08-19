@@ -64,18 +64,19 @@
                 };
 
                 var appendCheckboxChoice = function ( value) {
-    
+                    var widget = $('#{{ id }}');
                     var checkbox = $('<li><div class="checkbox">' +
-                            '<label><input type="checkbox" name="{{ full_name }}" value="' + value +'"><span class="control-label__text">' +
+                            '<label><input type="checkbox" name="{{ full_name }}[]" value="' + value +'"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
 
-                    checkbox.appendTo($('#{{ id }}'));
-                    checkbox.iCheck({
+                    checkbox.appendTo(widget);
+                    widget.iCheck({
                         checkboxClass: 'icheckbox_square-blue'
                     });
                     checkbox.iCheck('check');
+           
                 };
                 
                 var appendRadioChoice = function ( value) {
