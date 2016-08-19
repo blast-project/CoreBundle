@@ -52,13 +52,21 @@
                     
                     var select = $('#{{ id }}');
                     $('<option>').attr('value', value).text(value).appendTo(select);
-                    select.val(value).trigger('change');
+                    {% if multiple %}
+                        var currentValue = select.val() != null ? select.val() : [];
+                        currentValue.push(value);
+                        select.val(currentValue);
+                    {% else %}
+                        select.val(value);
+                    {% endif %}
+                    select.trigger('change');
+                    
                 };
 
                 var appendCheckboxChoice = function ( value) {
     
                     var checkbox = $('<li><div class="checkbox">' +
-                            '<label><input type="checkbox" name="{{ full_name }}"><span class="control-label__text">' +
+                            '<label><input type="checkbox" name="{{ full_name }}" value="' + value +'"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
@@ -74,7 +82,7 @@
                     
                     var widget = $('#{{ id }}');
                     var radio = $('<li><div class="radio">' +
-                            '<label><input type="radio" name ="{{ full_name }}"><span class="control-label__text">' +
+                            '<label><input type="radio" name="{{ full_name }}" value="' + value +'"><span class="control-label__text">' +
                             value +
                             '</span></label></div></li>'
                             );
@@ -83,6 +91,7 @@
                     widget.iCheck({
                         radioClass: 'iradio_square-blue'
                     });
+                    radio.iCheck('check');
                 };
             });
         </script>
