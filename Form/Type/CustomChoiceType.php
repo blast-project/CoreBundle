@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Doctrine\ORM\EntityManager;
 use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
 use Librinfo\CoreBundle\Form\ChoiceLoader\CustomChoiceChoiceLoader;
+use Librinfo\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
 
 class CustomChoiceType extends BaseAbstractType
 {
@@ -48,7 +49,7 @@ class CustomChoiceType extends BaseAbstractType
 
         $resolver->setDefaults([
             'placeholder'   => '',
-            'choices_class'         => $defaultClass,
+            'choices_class' => $defaultClass,
             'choice_loader' => $choiceLoader
         ]);
 
@@ -59,5 +60,11 @@ class CustomChoiceType extends BaseAbstractType
     {
         $view->vars['choices_class'] = $options['choices_class'];
         $view->vars['choices_field'] = $options['choices_field'];
+    }
+    
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    {
+        if($options['multiple'] == true)
+            $builder->addModelTransformer (new MultipleChoiceTransformer());
     }
 }
