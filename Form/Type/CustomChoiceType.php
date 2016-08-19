@@ -13,6 +13,7 @@ use Librinfo\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
 
 class CustomChoiceType extends BaseAbstractType
 {
+
     /** @var EntityManager */
     private $manager;
 
@@ -29,9 +30,8 @@ class CustomChoiceType extends BaseAbstractType
         return 'choice';
     }
 
-
-    public function getBlockPrefix(){
-
+    public function getBlockPrefix()
+    {
         return 'librinfo_customchoice';
     }
 
@@ -39,21 +39,18 @@ class CustomChoiceType extends BaseAbstractType
     {
         $manager = $this->manager;
         $defaultClass = '\Librinfo\CoreBundle\Entity\SelectChoice';
-        
+
         $choiceLoader = function (Options $options) use ($manager) {
-            //$class = $options['choices_class'] != $defaultClass ? $options['choices_class'] : $defaultClass;
-            $field = $options['choices_field'];
-            $repository = $manager->getRepository($options['choices_class']);
-            return new CustomChoiceChoiceLoader($repository, $field);
+            return new CustomChoiceChoiceLoader($manager, $options);
         };
 
         $resolver->setDefaults([
-            'placeholder'   => '',
+            'placeholder' => '',
             'choices_class' => $defaultClass,
             'choice_loader' => $choiceLoader
         ]);
-
         $resolver->setRequired(['choices_class', 'choices_field']);
+        $resolver->setDefined('librinfo_choices');
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -61,10 +58,11 @@ class CustomChoiceType extends BaseAbstractType
         $view->vars['choices_class'] = $options['choices_class'];
         $view->vars['choices_field'] = $options['choices_field'];
     }
-    
+
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
     {
-        if($options['multiple'] == true)
-            $builder->addModelTransformer (new MultipleChoiceTransformer());
+        if ($options['multiple'] == true)
+            $builder->addModelTransformer(new MultipleChoiceTransformer());
     }
+
 }
