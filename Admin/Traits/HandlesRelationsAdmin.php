@@ -57,6 +57,9 @@ trait HandlesRelationsAdmin
             if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'])
                 $this->addManyToManyCollections($fieldname);
         }
+
+        if (method_exists($this, 'postConfigureShowFields'))
+            $this->postConfigureShowFields($mapper);
     }
 
 }
