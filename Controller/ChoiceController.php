@@ -8,20 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ChoiceController extends Controller
 {
     /**
-     * @todo Not used
-     *
-     * @param String $fieldName the name of the field to get the choices for
+     * 
+     * @param Request $request
      * @return JsonResponse
+     * @throws \Exception
      */
-    public function getChoicesAction($fieldName)
-    {
-        // TODO: this should be dynamic :
-        $repo = $this->getDoctrine()->getRepository('\Librinfo\CoreBundle\Entity\SelectChoice');
-        $choices = $repo->findBy(array('label' => $fieldName));
-
-        return new JsonResponse(array('choices' => $choices));
-    }
-
     public function addChoiceAction(Request $request)
     {
         $manager = $this->getDoctrine()->getManager();
