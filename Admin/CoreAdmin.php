@@ -6,10 +6,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
-use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Exception\InvalidParameterException;
-use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
@@ -168,6 +165,20 @@ abstract class CoreAdmin extends SonataAdmin
         if ( empty($this->extraTemplates[$view]) )
             $this->extraTemplates[$view] = [];
         return $this->extraTemplates[$view];
+    }
+
+    /**
+     * Checks if a Bundle is installed
+     * @param string $bundle    Bundle name or class FQN
+     */
+    public function bundleExists($bundle)
+    {
+        $kernelBundles = $this->getConfigurationPool()->getContainer()->getParameter('kernel.bundles');
+        if (array_key_exists($bundle, $kernelBundles))
+            return true;
+        if (in_array($bundle, $kernelBundles))
+            return true;
+        return false;
     }
 }
 
