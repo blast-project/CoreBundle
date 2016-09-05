@@ -2,7 +2,6 @@
 
 namespace Librinfo\CoreBundle\Twig\Extensions;
 
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Router;
 use Twig_Environment;
 
@@ -26,6 +25,13 @@ class BaseExtension extends \Twig_Extension
             new \Twig_SimpleFunction('isExtensionLoaded', [$this, 'isExtensionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('isFunctionLoaded', [$this, 'isFunctionLoaded'], ['needs_environment' => true]),
             new \Twig_SimpleFunction('routeExists', [$this, 'routeExists']),
+        ];
+    }
+
+    public function getTests()
+    {
+        return [
+            new \Twig_SimpleTest('instanceof', [$this, 'isInstanceof']),
         ];
     }
 
@@ -68,6 +74,19 @@ class BaseExtension extends \Twig_Extension
      * @return bool
      */
     function isObjectInstanceOf($object, $class)
+    {
+        return $object instanceof $class;
+    }
+
+    /**
+     * Test usage in template : {{ myobject is instanceof(myclass) }}
+     *
+     * @param object           $object
+     * @param string           $class
+     *
+     * @return bool
+     */
+    function isInstanceof($object, $class)
     {
         return $object instanceof $class;
     }
