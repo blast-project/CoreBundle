@@ -45,18 +45,21 @@ class CustomChoiceType extends BaseAbstractType
         };
 
         $resolver->setDefaults([
-            'placeholder' => '',
+            'placeholder'   => '',
             'choices_class' => $defaultClass,
-            'choice_loader' => $choiceLoader
+            'choice_loader' => $choiceLoader,
+            'is_filter'     => false
         ]);
         $resolver->setRequired(['choices_class', 'choices_field']);
         $resolver->setDefined('librinfo_choices');
+        $resolver->setDefined('is_filter');
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['choices_class'] = $options['choices_class'];
         $view->vars['choices_field'] = $options['choices_field'];
+        $view->vars['is_filter'] = $options['is_filter'];
     }
 
     public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
