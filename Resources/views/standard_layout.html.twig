@@ -19,5 +19,7 @@ file that was distributed with this source code.
 {% endblock %}
 {% block sonata_wrapper %}
     {{ parent() }}
-    {% block bottom_js %}{% endblock %}
+    {% block bottom_js %}
+        {{ tinymce_init({'theme': { 'advanced': {'paste_data_images' : true, 'height': 280 }}}) }}
+    {% endblock %}
 {% endblock %}
