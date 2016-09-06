@@ -14,7 +14,7 @@ trait Base
      * @var array
      */
     protected $exportFields = [];
-    
+
     /**
      * @param DatagridMapper $mapper
      */
@@ -46,7 +46,7 @@ trait Base
     {
         $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
     }
-    
+
     // /**
     //  * {@inheritdoc}
     //  **/
@@ -54,7 +54,7 @@ trait Base
     // {
     //     return $this->addPresetBatchActions(parent::getBatchActions());
     // }
-    
+
     /**
      * {@inheritdoc}
      **/
@@ -65,7 +65,7 @@ trait Base
             $formats[$format] = [];
         return array_keys($this->addPresetExportFormats($formats));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -74,20 +74,20 @@ trait Base
         // prerequisites
         $fields = parent::getExportFields();
         $this->getExportFormats();
-        
+
         // nothing to add
         if ( !$this->exportFields )
             return parent::getExportFields();
-        
+
         // nothing specific to add
         if (!( $this->getConfigurationPool()->getContainer()->get('request')->get('format')
             && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]) ))
             return parent::getExportFields();
-        
+
         // specificities for this format
         return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
     }
-    
+
     /**
      * {@inheritdoc}
      */
