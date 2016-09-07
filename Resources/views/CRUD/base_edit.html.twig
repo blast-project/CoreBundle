@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_edit.html.twig' %}
+
+{% block tab_menu_navbar_header %}
+    {% spaceless %}
+    {% if admin.helperLinks('form')|length > 0 %}
+        <div class="helper-links navbar-header">
+        {% for link in admin.helperLinks('form') %}
+            <a href="{{ link.url }}" class="navbar-brand {{ link.class is defined ? link.class : '' }}" title="{{ link.title is defined ? link.title : '' }}" target="_blank">
+                {{ link.label is defined ? link.label|raw : ' ' }}
+            </a>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endspaceless %}
+
+    {{ parent() }}
+{% endblock %}

@@ -170,19 +170,28 @@ abstract class CoreAdmin extends SonataAdmin
 
     /**
      * @param string $view      'list', 'show', 'form', etc
-     * @param array $link       link (array keys should be: 'label', 'url', 'class')
+     * @param array $link       link (array keys should be: 'label', 'url', 'class', 'title')
      */
     public function addHelperLink($view, $link)
     {
         if ( empty($this->helperLinks[$view]) )
             $this->helperLinks[$view] = [];
-        if ( !in_array($link, $this->helperLinks[$view]) )
-            $this->helperLinks[$view][] = $link;
+
+        // Do not add links without URL
+        if (empty($link['url']))
+            return;
+
+        // Do not add two links with the same URL
+        foreach ($this->helperLinks[$view] as $l)
+        if ($l['url'] == $link['url'])
+            return;
+
+        $this->helperLinks[$view][] = $link;
     }
 
     /**
      * @param string $view  'list', 'show', 'form', etc
-     * @return array        array of links (each link is an array with keys 'label', 'url' and 'class')
+     * @return array        array of links (each link is an array with keys 'label', 'url', 'class' and 'title')
      */
     public function getHelperLinks($view)
     {
