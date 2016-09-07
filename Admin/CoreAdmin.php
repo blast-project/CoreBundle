@@ -167,6 +167,30 @@ abstract class CoreAdmin extends SonataAdmin
         return $this->extraTemplates[$view];
     }
 
+
+    /**
+     * @param string $view      'list', 'show', 'form', etc
+     * @param array $link       link (array keys should be: 'label', 'url', 'class')
+     */
+    public function addHelperLink($view, $link)
+    {
+        if ( empty($this->helperLinks[$view]) )
+            $this->helperLinks[$view] = [];
+        if ( !in_array($link, $this->helperLinks[$view]) )
+            $this->helperLinks[$view][] = $link;
+    }
+
+    /**
+     * @param string $view  'list', 'show', 'form', etc
+     * @return array        array of links (each link is an array with keys 'label', 'url' and 'class')
+     */
+    public function getHelperLinks($view)
+    {
+        if ( empty($this->helperLinks[$view]) )
+            $this->helperLinks[$view] = [];
+        return $this->helperLinks[$view];
+    }
+
     /**
      * Checks if a Bundle is installed
      * @param string $bundle    Bundle name or class FQN
