@@ -46,7 +46,16 @@
                 <source>Delete</source>
                 <target>Supprimer</target>
             </trans-unit>
-
+<!-- List actions -->
+            <trans-unit id="duplicate">
+                <source>Duplicate</source>
+                <target>Dupliquer</target>
+            </trans-unit>
+            <trans-unit id="action_duplicate">
+                <source>action_duplicate</source>
+                <target>Dupliquer</target>
+            </trans-unit>
+            
         </body>
     </file>
 </xliff>

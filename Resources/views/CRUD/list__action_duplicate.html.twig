@@ -1,0 +1,6 @@
+{% if admin.hasRoute('duplicate') %}
+    <a href="{{ admin.generateObjectUrl('duplicate', object) }}" class="btn btn-sm btn-default" title="{{ 'Duplicate'|trans() }}">
+        <i class="fa fa-files-o"></i>
+        {{ 'action_duplicate'|trans() }}
+    </a>
+{% endif %}

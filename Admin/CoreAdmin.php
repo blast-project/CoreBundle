@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
@@ -27,7 +28,17 @@ abstract class CoreAdmin extends SonataAdmin
     ;
 
     protected $extraTemplates = [];
-
+    
+    /**
+     * Configure routes for list actions
+     * 
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+         $collection->add('duplicate');
+    }
+    
     /**
      * @param DatagridMapper $mapper
      */
