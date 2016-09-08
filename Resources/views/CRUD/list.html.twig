@@ -39,6 +39,22 @@ file that was distributed with this source code.
 {% endspaceless %}
 {% endblock %}
 
+{% block tab_menu_navbar_header %}
+    {% spaceless %}
+    {% if admin.helperLinks('list')|length > 0 %}
+        <div class="helper-links navbar-header">
+        {% for link in admin.helperLinks('list') %}
+            <a href="{{ link.url }}" class="navbar-brand {{ link.class is defined ? link.class : '' }}" title="{{ link.title is defined ? link.title : '' }}" target="_blank">
+                {{ link.label is defined ? link.label|raw : ' ' }}
+            </a>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endspaceless %}
+
+    {{ parent() }}
+{% endblock %}
+
 {% block sonata_wrapper %}
     {{ parent() }}
 

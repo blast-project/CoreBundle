@@ -16,6 +16,7 @@ trait Mapper
      * @var boolean
      */
     protected $forceTabs = false;
+    protected $helperLinks = [];
 
     protected function configureMapper(BaseMapper $mapper)
     {
@@ -63,7 +64,7 @@ trait Mapper
                     if (isset($librinfo[$class][$mapper_class]))
                     {
                         // do not parse _batch_actions & co
-                        foreach (['_list_action', '_batch_action', '_export_format', '_extra_templates'] as $specialKey)
+                        foreach (['_list_action', '_batch_action', '_export_format', '_extra_templates', '_helper_links'] as $specialKey)
                         {
                             if (isset($librinfo[$class][$mapper_class]['remove']) && ($key = array_search($specialKey, $librinfo[$class][$mapper_class]['remove'])) !== false)
                                 unset($librinfo[$class][$mapper_class]['remove'][$key]);
@@ -136,6 +137,8 @@ trait Mapper
 
     protected function addContent(BaseMapper $mapper, $group)
     {
+        // helper links
+        $this->parseHelperLinks();
 
         // flat organization (DatagridMapper / ListMapper...)
         if (!$mapper instanceof BaseGroupedMapper)
@@ -570,19 +573,45 @@ trait Mapper
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
 
         foreach ($this->getCurrentComposition() as $class)
-            if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
+        if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
+        {
+            // remove / reset
+            if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_extra_templates']))
             {
-                // remove / reset
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_extra_templates']))
-                {
-                    // TODO
-                }
-
-                // add
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates']))
-                    foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates'] as $template)
-                        $this->addExtraTemplate('list', $template);
+                // TODO
             }
+
+            // add
+            if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates']))
+                foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates'] as $template)
+                    $this->addExtraTemplate('list', $template);
+        }
+    }
+
+    protected function parseHelperLinks()
+    {
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $mappers = [
+            'list' => 'Sonata\\AdminBundle\\Datagrid\\ListMapper',
+            'show' => 'Sonata\\AdminBundle\\Show\ShowMapper',
+            'form' => 'Sonata\\AdminBundle\\Form\\FormMapper',
+        ];
+        foreach ($this->getCurrentComposition() as $class)
+        if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
+        foreach ($mappers as $mapper => $mapper_class)
+        if (isset($librinfo[$class][$mapper_class]))
+        {
+            // remove / reset
+            if (isset($librinfo[$class][$mapper_class]['remove']['_helper_links']))
+            {
+                // TODO
+            }
+
+            // add
+            if (isset($librinfo[$class][$mapper_class]['add']['_helper_links']))
+                foreach ($librinfo[$class][$mapper_class]['add']['_helper_links'] as $link)
+                    $this->addHelperLink($mapper, $link);
+        }
     }
 
 }

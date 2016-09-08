@@ -6,10 +6,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
-use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Exception\InvalidParameterException;
-use Symfony\Component\Validator\Mapping\Loader\YamlFileLoader;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
 use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
@@ -168,6 +165,53 @@ abstract class CoreAdmin extends SonataAdmin
         if ( empty($this->extraTemplates[$view]) )
             $this->extraTemplates[$view] = [];
         return $this->extraTemplates[$view];
+    }
+
+
+    /**
+     * @param string $view      'list', 'show', 'form', etc
+     * @param array $link       link (array keys should be: 'label', 'url', 'class', 'title')
+     */
+    public function addHelperLink($view, $link)
+    {
+        if ( empty($this->helperLinks[$view]) )
+            $this->helperLinks[$view] = [];
+
+        // Do not add links without URL
+        if (empty($link['url']))
+            return;
+
+        // Do not add two links with the same URL
+        foreach ($this->helperLinks[$view] as $l)
+        if ($l['url'] == $link['url'])
+            return;
+
+        $this->helperLinks[$view][] = $link;
+    }
+
+    /**
+     * @param string $view  'list', 'show', 'form', etc
+     * @return array        array of links (each link is an array with keys 'label', 'url', 'class' and 'title')
+     */
+    public function getHelperLinks($view)
+    {
+        if ( empty($this->helperLinks[$view]) )
+            $this->helperLinks[$view] = [];
+        return $this->helperLinks[$view];
+    }
+
+    /**
+     * Checks if a Bundle is installed
+     * @param string $bundle    Bundle name or class FQN
+     */
+    public function bundleExists($bundle)
+    {
+        $kernelBundles = $this->getConfigurationPool()->getContainer()->getParameter('kernel.bundles');
+        if (array_key_exists($bundle, $kernelBundles))
+            return true;
+        if (in_array($bundle, $kernelBundles))
+            return true;
+        return false;
     }
 }
 
