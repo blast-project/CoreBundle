@@ -2,7 +2,7 @@
 
 The goal of this bundle is to make the use of SonataAdmin "view-models" possible without writting a line of PHP, without loosing a feature of Sonata, and importing the idea of composite settings using lots of characteristics of an admin (its direct inheritance tree, the traits used by its Entity, the inheritance tree of its Entity...), making things more flexible, extendable, reusable and maintenable through many bundles and uses.
 
-This bundle is the next step after the SonataAdminBundle. Configure an entire backend bundle filling only a YAML file... Try it!
+This bundle is the next step after the SonataAdminBundle. Configure an entire backend bundle filling only YAML files... Try it!
 
 It is also the core of the core of [Libre Informatique](https://github.com/libre-informatique/)'s Symfony 2/3 projects.
 
