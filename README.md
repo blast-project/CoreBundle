@@ -18,7 +18,7 @@ Imagine this feature appliable to 50 entities distributed in 10 bundles, and cou
 Installation
 ============
 
-Prequiresites
+Prerequisites
 -------------
 
 - having a working Symfony2 environment
