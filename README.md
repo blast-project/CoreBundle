@@ -4,7 +4,7 @@ The goal of this bundle is to make the use of SonataAdmin "view-models" possible
 
 This bundle is the next step after the SonataAdminBundle. Configure an entire backend bundle filling only YAML files... Try it!
 
-It is also the core of the core of [Libre Informatique](https://github.com/libre-informatique/)'s Symfony 2/3 projects.
+It is also the core of [Libre Informatique](https://github.com/libre-informatique/)'s Symfony 2/3 projects.
 
 Example
 ========
