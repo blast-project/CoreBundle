@@ -5,7 +5,6 @@ namespace Librinfo\CoreBundle\Form\Type;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Doctrine\ORM\EntityManager;
 use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
 use Librinfo\CoreBundle\Form\ChoiceLoader\CustomChoiceChoiceLoader;
 use Librinfo\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
@@ -23,10 +22,10 @@ class CustomChoiceType extends BaseAbstractType
     {
         $this->manager = $manager;
     }
-
+    
     public function getParent()
     {
-        return 'entity';
+        return 'choice';
     }
     
     public function getBlockPrefix(){
