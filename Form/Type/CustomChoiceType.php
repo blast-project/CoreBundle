@@ -3,8 +3,11 @@
 namespace Librinfo\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
+use Doctrine\ORM\EntityManager;
 use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
 use Librinfo\CoreBundle\Form\ChoiceLoader\CustomChoiceChoiceLoader;
 use Librinfo\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
@@ -60,7 +63,7 @@ class CustomChoiceType extends BaseAbstractType
         $view->vars['is_filter'] = $options['is_filter'];
     }
 
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['multiple'] == true)
             $builder->addModelTransformer(new MultipleChoiceTransformer());
