@@ -340,7 +340,7 @@ trait Mapper
 
         if (isset($options['only_new']))
         {
-            if ( $options['only_new'] && !$this->subject->isNew() )
+            if ( $options['only_new'] && $this->subject && !$this->subject->isNew() )
                 return $mapper;
             unset($options['only_new']);
         }
