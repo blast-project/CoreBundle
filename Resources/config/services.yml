@@ -33,3 +33,10 @@ services:
         class: Librinfo\CoreBundle\Form\Type\CustomCheckboxType
         tags:
             - { name: form.type, alias: librinfo_customcheckbox }
+
+
+    #########  TWIG EXTENSIONS ############
+    librinfo_core.twig_extension.html2text:
+        class: Librinfo\CoreBundle\Twig\Extensions\Html2textExtension
+        tags:
+            - { name: twig.extension }
