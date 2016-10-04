@@ -73,24 +73,27 @@ trait Mapper
                         }
 
                         // remove fields
-                        if (isset($librinfo[$class][$mapper_class]['remove']))
-                            foreach ($librinfo[$class][$mapper_class]['remove'] as $remove)
-                                if ($mapper->has($remove))
+                        if (isset($librinfo[$class][$mapper_class]['remove'])) {
+                            $keys = (in_array('*', $librinfo[$class][$mapper_class]['remove'])) ?
+                                $mapper->keys() : $librinfo[$class][$mapper_class]['remove'];
+                            foreach ($keys as $key)
+                                if ($mapper->has($key))
                                 {
                                     $cpt['remove'] ++;
-                                    $mapper->remove($remove);
+                                    $mapper->remove($key);
 
                                     // compensating the partial removal in Sonata Admin, that does not touch the groups when removing a field
                                     if ($mapper instanceof BaseGroupedMapper)
                                         foreach ($groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group)
-                                            if (isset($group['fields'][$remove]))
+                                            if (isset($group['fields'][$key]))
                                             {
-                                                unset($groups[$groupkey]['fields'][$remove]);
+                                                unset($groups[$groupkey]['fields'][$key]);
                                                 if (!$groups[$groupkey]['fields'])
                                                     unset($groups[$groupkey]);
                                                 $this->{$fcts['groups']['setter']}($groups);
                                             }
                                 }
+                        }
 
                         // add fields & more
                         if (isset($librinfo[$class][$mapper_class]['add']))
