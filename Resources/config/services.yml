@@ -18,7 +18,7 @@ services:
 
     librinfo_core.label.strategy.librinfo:
         class: Librinfo\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
-    
+
     ######### FORM TYPES ###########
     librinfo_core.form.type.tinymce:
         class: Librinfo\CoreBundle\Form\Type\TinyMceType
@@ -40,3 +40,8 @@ services:
         class: Librinfo\CoreBundle\Twig\Extensions\Html2textExtension
         tags:
             - { name: twig.extension }
+
+
+    #########  ENTITY CODE GENERATORS ############
+    librinfo_core.code_generator_factory:
+        class: Librinfo\CoreBundle\CodeGenerator\CodeGeneratorFactory
