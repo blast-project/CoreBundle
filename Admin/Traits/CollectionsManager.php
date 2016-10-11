@@ -75,7 +75,9 @@ trait CollectionsManager
             foreach ($object->$method() as $subobj)
             {
                 $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
-                $targetAdmin->prePersist($subobj);
+                
+                if( $targetAdmin != null )
+                    $targetAdmin->prePersist($subobj);
             }
 
             if (!$object->$method() instanceof Doctrine\ORM\PersitentCollection || $object->$method()->count() == 0)
