@@ -11,6 +11,7 @@
 
 namespace Librinfo\CoreBundle\Controller;
 
+use Librinfo\CoreBundle\Exception\InvalidEntityCodeException;
 use Sonata\AdminBundle\Controller\CRUDController as SonataController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -199,18 +200,17 @@ class CRUDController extends SonataController
         $entity = $form->getData();
 
         $field = $request->query->get('field', 'code');
-        $registry = $this->get('librinfo_core.code_generators'); 
+        $registry = $this->get('librinfo_core.code_generators');
         $generator = $registry::getCodeGenerator(get_class($entity), $field);
-
         try {
             $code = $generator::generate($entity);
             return new JsonResponse(['code' => $code]);
-        } catch (InvalidSeedBatchCodeException $exc) {
+        } catch (InvalidEntityCodeException $exc) {
             $error = $this->get('translator')->trans($exc->getMessage());
-            return new JsonResponse(['error' => $error, 'generator' => $generator]);
+            return new JsonResponse(['error' => $error, 'generator' => get_class($generator)]);
         } catch (\Exception $exc) {
             $error = $exc->getMessage();
-            return new JsonResponse(['error' => $error, 'generator' => $generator]);
+            return new JsonResponse(['error' => $error, 'generator' => get_class($generator)]);
         }
 
     }
