@@ -33,6 +33,10 @@ services:
         class: Librinfo\CoreBundle\Form\Type\CustomCheckboxType
         tags:
             - { name: form.type, alias: librinfo_customcheckbox }
+    librinfo_core.form.type.entity_code:
+        class: Librinfo\CoreBundle\Form\Type\EntityCodeType
+        tags:
+            - { name: form.type, alias: librinfo_entitycode }
 
 
     #########  TWIG EXTENSIONS ############
@@ -45,3 +49,5 @@ services:
     #########  ENTITY CODE GENERATORS ############
     librinfo_core.code_generator_factory:
         class: Librinfo\CoreBundle\CodeGenerator\CodeGeneratorFactory
+    librinfo_core.code_generators:
+        class: Librinfo\CoreBundle\CodeGenerator\CodeGeneratorRegistry

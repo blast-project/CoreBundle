@@ -12,6 +12,7 @@
 namespace Librinfo\CoreBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as SonataController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author  Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
 class CRUDController extends SonataController
-{   
+{
     /**
      * The related Admin class.
      *
@@ -30,22 +31,22 @@ class CRUDController extends SonataController
 
     /**
      * Duplicate action
-     * 
+     *
      * @return response
      */
     public function duplicateAction()
     {
         $id = $this->getRequest()->get($this->admin->getIdParameter());
         $object = clone $this->admin->getObject($id);
-       
+
         $preResponse = $this->preDuplicate($object);
         if ($preResponse !== null) {
             return $preResponse;
         }
-        
+
         return $this->createAction($object);
-    }   
-    
+    }
+
     /**
      * Create action.
      *
@@ -79,7 +80,7 @@ class CRUDController extends SonataController
         }
 
         $object = $object ? $object : $this->admin->getNewInstance();
-        
+
         $preResponse = $this->preCreate($request, $object);
         if ($preResponse !== null) {
             return $preResponse;
@@ -163,6 +164,58 @@ class CRUDController extends SonataController
     }
 
     /**
+     * Generate Entity Code action.
+     *
+     * @param int|string|null $id
+     *
+     * @return JsonResponse
+     */
+    public function generateEntityCodeAction($id = null)
+    {
+        $request = $this->getRequest();
+
+        $id = $request->get($this->admin->getIdParameter());
+        if ($id) {
+            $subject = $this->admin->getObject($id);
+            if (!$subject) {
+                $error = sprintf('unable to find the object with id : %s', $id);
+                return new JsonResponse(['error' => $error]);
+            }
+            try {
+                $this->admin->checkAccess('edit', $subject); // TODO: is it necessary ? (we are not editing the entity)
+            } catch (Exception $exc) {
+                $error = $exc->getMessage();
+                return new JsonResponse(['error' => $error]);
+            }
+        }
+        else
+            $subject = $this->admin->getNewInstance();
+
+        $this->admin->setSubject($subject);
+
+        $form = $this->admin->getForm();
+        $form->setData($subject);
+        $form->submit($request->request->get($form->getName()));
+        $entity = $form->getData();
+
+        $field = $request->query->get('field', 'code');
+        $registry = $this->get('librinfo_core.code_generators'); 
+        $generator = $registry::getCodeGenerator(get_class($entity), $field);
+
+        try {
+            $code = $generator::generate($entity);
+            return new JsonResponse(['code' => $code]);
+        } catch (InvalidSeedBatchCodeException $exc) {
+            $error = $this->get('translator')->trans($exc->getMessage());
+            return new JsonResponse(['error' => $error, 'generator' => $generator]);
+        } catch (\Exception $exc) {
+            $error = $exc->getMessage();
+            return new JsonResponse(['error' => $error, 'generator' => $generator]);
+        }
+
+    }
+
+    /**
      * This method can be overloaded in your custom CRUD controller.
      * It's called from createAction.
      *
@@ -225,7 +278,7 @@ class CRUDController extends SonataController
     protected function preList(Request $request)
     {
     }
-    
+
     /**
      * This method can be overloaded in your custom CRUD controller.
      * It's called from duplicateAction.
@@ -237,4 +290,6 @@ class CRUDController extends SonataController
     protected function preDuplicate($object)
     {
     }
+
+
 }

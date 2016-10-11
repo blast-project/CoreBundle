@@ -28,17 +28,18 @@ abstract class CoreAdmin extends SonataAdmin
     ;
 
     protected $extraTemplates = [];
-    
+
     /**
      * Configure routes for list actions
-     * 
+     *
      * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
          $collection->add('duplicate');
+         $collection->add('generateEntityCode');
     }
-    
+
     /**
      * @param DatagridMapper $mapper
      */
