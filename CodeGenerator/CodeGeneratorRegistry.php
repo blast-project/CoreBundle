@@ -14,11 +14,12 @@ class CodeGeneratorRegistry
      */
     public static function register(CodeGeneratorInterface $codeGenerator)
     {
-        if (!isset($codeGenerator::$entityClass))
-            throw new \Exception(get_class($codeGenerator) . ' has no public static entityClass property.');
-        if (!isset($codeGenerator::$entityField))
-            throw new \Exception(get_class($codeGenerator) . ' has no public static entityField property.');
-        self::$generators[$codeGenerator::$entityClass][$codeGenerator::$entityField] = $codeGenerator;
+        $class = get_class($codeGenerator);
+        if (!defined("$class::ENTITY_CLASS"))
+            throw new \Exception($class . ' must define a ENTITY_CLASS constant.');
+        if (!defined("$class::ENTITY_FIELD"))
+            throw new \Exception($class . ' must define a ENTITY_FIELD constant.');
+        self::$generators[$codeGenerator::ENTITY_CLASS][$codeGenerator::ENTITY_FIELD] = $codeGenerator;
     }
 
     /**
