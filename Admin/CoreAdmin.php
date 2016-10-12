@@ -36,8 +36,9 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-         $collection->add('duplicate');
-         $collection->add('generateEntityCode');
+        parent::configureRoutes($collection);
+        $collection->add('duplicate');
+        $collection->add('generateEntityCode');
     }
 
     /**
