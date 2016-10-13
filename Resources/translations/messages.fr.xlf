@@ -41,11 +41,16 @@
                 <source></source>
                 <target></target>
             </trans-unit>
-
             <trans-unit id="DELETE">
                 <source>Delete</source>
                 <target>Supprimer</target>
             </trans-unit>
+            <trans-unit id="librinfo.label.generate_code">
+                <source>librinfo.label.generate_code</source>
+                <target>Générer le code</target>
+            </trans-unit>
+            
+
 <!-- List actions -->
             <trans-unit id="duplicate">
                 <source>Duplicate</source>

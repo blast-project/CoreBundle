@@ -1,3 +1,7 @@
 librinfo_core_choice_addChoice:
     path:     librinfo/ajax/choices/add
     defaults: { _controller: LibrinfoCoreBundle:Choice:addChoice }
+
+librinfo_core_generate_entity_code:
+    path:     librinfo/core/generateEntityCode
+    defaults: { _controller: LibrinfoCoreBundle:EntityCode:generateCode }

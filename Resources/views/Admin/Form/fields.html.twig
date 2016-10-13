@@ -101,3 +101,30 @@
         {% endif %}
     {% endspaceless %}
 {% endblock %}
+
+{% block librinfo_entitycode_widget %}
+    {% spaceless %}
+        {% set uniqid = sonata_admin.admin.uniqid %}
+        {% set linkId = uniqid ~ '_' ~ name ~ '_generate_code' %}
+
+        {{ block('form_widget') }}
+        <a href="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
+            {% trans %}librinfo.label.generate_code{% endtrans %}
+        </a>
+    {% endspaceless %}
+    <script>
+        $(document).ready(function () {
+            $('#{{ linkId }}').click(function(){
+                var url = $(this).attr('href');
+                var data = $(this).closest('form').serializeArray();
+                $.post(url, data, function(res){
+                    if (res['error'] !== undefined)
+                        alert(res['error']);
+                    else if (res['code'] !== undefined)
+                        $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
