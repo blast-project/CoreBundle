@@ -17,3 +17,8 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="{{ asset('bundles/librinfocore/css/list.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/librinfocore/css/main.css') }}" />
 {% endblock %}
+
+{% block sonata_wrapper %}
+    {{ parent() }}
+    {% block bottom_js %}{% endblock %}
+{% endblock %}
