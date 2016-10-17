@@ -70,22 +70,25 @@ trait CollectionsManager
 
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get' . ucfirst($coll);
-
+            
+            $subObjects = $object->$method();
+            
             // insert/update (forcing the foreign key to be set to $this->getId(), for instance)
-            foreach ($object->$method() as $subobj)
-            {
-                $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
-                
-                if( $targetAdmin != null )
-                    $targetAdmin->prePersist($subobj);
-            }
+            if( $subObjects != null )
+                foreach ($subObjects as $subobj)
+                {
+                    $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
 
-            if (!$object->$method() instanceof Doctrine\ORM\PersitentCollection || $object->$method()->count() == 0)
+                    if( $targetAdmin != null )
+                        $targetAdmin->prePersist($subobj);
+                }
+
+            if (!$subObjects instanceof Doctrine\ORM\PersitentCollection || $subObjects->count() == 0)
                 continue;
 
             // delete
-            foreach ($object->$method()->getSnapshot() as $subobj)
-                if (!$object->$method()->contains($subobj))
+            foreach ($subObjects->getSnapshot() as $subobj)
+                if (!$subObjects->contains($subobj))
                     $this->getModelManager()->delete($subobj);
         }
 
