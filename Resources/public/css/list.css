@@ -10,3 +10,14 @@
 .table > tbody > tr > td.sonata-ba-list-field-sort_rank {
     display: none;
 }
+
+/* filters */
+nav #list-filters {
+    overflow: auto;
+    height: 80vh;
+}
+
+#list-filters .separator {
+    border-top: 2px solid #3C8DBC;
+    margin: 3px 15px 3px 15px;
+}
