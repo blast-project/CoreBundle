@@ -1,103 +1,18 @@
 
 {% block librinfo_tinymce_widget %}
     {% spaceless %}
-        <textarea class="tinymce form-control" id="{{ id }}" name="{{ full_name }}" data-theme="advanced">{{ value }}</textarea>
+        <textarea class="tinymce form-control" id="{{ id }}" name="{{ full_name }}" data-theme="advanced">{{ value }}</textarea>    
     {% endspaceless%}
 {% endblock %}
 
 {% block librinfo_customchoice_widget %}
     {% spaceless %}
         {{ block('choice_widget') }}
-
         {% if is_filter == false %}
             <a id="{{ id }}_add_choice" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
-
-            <script>
-                $(document).ready(function () {
-
-                    $('#{{ id }}_add_choice').editable({
-                        type: 'text',
-                        url: '{{ path('librinfo_core_choice_addChoice') }}',
-                        pk: 1,
-                        params: {class: '{{ choices_class|e('js') }}', field: '{{ choices_field }}'},
-                        placement: 'top',
-                        savenochange: 'false',
-                        display: false,
-                        success: function (data) {
-                            appendChoice(data.value);
-                        },
-                        error: function (xhr) {
-                            if (xhr.status === 500)
-                                return 'Internal server error';
-                        }
-                    });
-
-                    $('#{{ id }}_add_choice').click(function () {
-                        $(this).editable('setValue', null)
-                                .removeClass('editable-unsaved');
-                    });
-
-                    var appendChoice = function (value) {
-
-                {% if expanded %}
-                    {% if multiple %}
-                                appendCheckboxChoice(value);
-                    {% else %}
-                                appendRadioChoice(value);
-                    {% endif %}
-                {% else %}
-                            appendSelectChoice(value);
-                {% endif %}
-                        };
-
-                        var appendSelectChoice = function (value) {
-
-                            var select = $('#{{ id }}');
-                            $('<option>').attr('value', value).text(value).appendTo(select);
-                {% if multiple %}
-                            var currentValue = select.val() != null ? select.val() : [];
-                            currentValue.push(value);
-                            select.val(currentValue);
-                {% else %}
-                            select.val(value);
-                {% endif %}
-                            select.trigger('change');
-
-                        };
-
-                        var appendCheckboxChoice = function (value) {
-                            var widget = $('#{{ id }}');
-                            var checkbox = $('<li><div class="checkbox">' +
-                                    '<label><input type="checkbox" name="{{ full_name }}[]" value="' + value + '"><span class="control-label__text">' +
-                                    value +
-                                    '</span></label></div></li>'
-                                    );
-
-                            checkbox.appendTo(widget);
-                            widget.iCheck({
-                                checkboxClass: 'icheckbox_square-blue'
-                            });
-                            checkbox.iCheck('check');
-
-                        };
-
-                        var appendRadioChoice = function (value) {
-
-                            var widget = $('#{{ id }}');
-                            var radio = $('<li><div class="radio">' +
-                                    '<label><input type="radio" name="{{ full_name }}" value="' + value + '"><span class="control-label__text">' +
-                                    value +
-                                    '</span></label></div></li>'
-                                    );
-
-                            radio.appendTo(widget);
-                            widget.iCheck({
-                                radioClass: 'iradio_square-blue'
-                            });
-                            radio.iCheck('check');
-                        };
-                    });
-            </script>
+            {% block customchoice_script %}
+                {% include 'LibrinfoCoreBundle:Script:custom_choice_script.js.twig' %}
+            {% endblock %}
         {% endif %}
     {% endspaceless %}
 {% endblock %}
@@ -112,19 +27,25 @@
             {% trans %}librinfo.label.generate_code{% endtrans %}
         </a>
     {% endspaceless %}
-    <script>
-        $(document).ready(function () {
-            $('#{{ linkId }}').click(function(){
-                var url = $(this).attr('href');
-                var data = $(this).closest('form').serializeArray();
-                $.post(url, data, function(res){
-                    if (res['error'] !== undefined)
-                        alert(res['error']);
-                    else if (res['code'] !== undefined)
-                        $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
+    {% block entitycode_script %}
+        <script>
+            $(document).ready(function () {
+                $('#{{ linkId }}').click(function(){
+                    var url = $(this).attr('href');
+                    {% block data %}    
+                        var data = $(this).closest('form').serializeArray();
+                    {% endblock %}
+                    {% block post %}
+                        $.post(url, data, function(res){
+                            if (res['error'] !== undefined)
+                                alert(res['error']);
+                            else if (res['code'] !== undefined)
+                                $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
+                        });
+                    {% endblock %}
+                    return false;
                 });
-                return false;
             });
-        });
-    </script>
+        </script>
+    {% endblock %}
 {% endblock %}
