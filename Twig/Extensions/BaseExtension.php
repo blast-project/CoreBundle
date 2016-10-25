@@ -2,13 +2,13 @@
 
 namespace Librinfo\CoreBundle\Twig\Extensions;
 
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Twig_Environment;
 
 class BaseExtension extends \Twig_Extension
 {
     /**
-     * @var Router
+     * @var RouterInterface
      */
     private $router;
 
@@ -116,7 +116,10 @@ class BaseExtension extends \Twig_Extension
         return 'librinfo_core_base_extension';
     }
 
-    public function setRouter(Router $router)
+    /**
+     * @param RouterInterface $router
+     */
+    public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
     }
