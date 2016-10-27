@@ -54,9 +54,21 @@ abstract class CoreAdmin extends SonataAdmin
      * @param ListMapper $mapper
      */
     protected function configureListFields(ListMapper $mapper)
-    {
+    {   
         if ( !$this->configureMapper($mapper) )
             $this->fallbackConfiguration($mapper, __FUNCTION__);
+        
+        $actions = $mapper->get('_action')->getOptions()['actions'];
+        
+        $duplicate = ['duplicate' => ['template' => 'LibrinfoCoreBundle:CRUD:list__action_duplicate.html.twig']];
+        
+        $actions = array_merge($duplicate, $actions);
+        
+        $mapper->remove('_action');
+        $mapper->add('_action', 'actions', array(
+                    'actions' => $actions
+                ))
+        ;
     }
 
     /**
