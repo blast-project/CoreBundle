@@ -2,15 +2,34 @@
 
 namespace Librinfo\CoreBundle\Tools\Reflection;
 
+use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer as KnpClassAnalyzer;
+
 class ClassAnalyzer
 {
+    /**
+     * Returns all parents of a class (parent, parent of parent, parent of parent's parent and so on)
+     *
+     * @param ReflectionClass|string   $class   A ReflectionClass object or a class name
+     * @return array
+     */
+    public static function getAncestors($class)
+    {
+        $rc = $class instanceof \ReflectionClass ? \ReflectionClass($class->getName()) : new \ReflectionClass($class);
+        $ancestors  = [];
+        while ($parent = $rc->getParentClass()) {
+            $ancestors[] = $parent->getName();
+            $rc = $parent;
+        }
+        return $ancestors;
+    }
+
     /**
      * getTraits
      *
      * This static method returns back all traits used by a given class
      * recursively
      *
-     * @param $class            A ReflectionClass object or a string describing an existing class
+     * @param ReflectionClass|string   $class   A ReflectionClass object or a class name
      * @return array
      */
     public static function getTraits($class)
@@ -24,9 +43,9 @@ class ClassAnalyzer
      * This static method returns back all traits used by a given class
      * recursively
      *
-     * @param $class            A ReflectionClass object or a string describing an existing class
-     * @param $traitName        A string representing an existing trait
-     * @return boolean          TRUE or FALSE
+     * @param ReflectionClass|string   $class            A ReflectionClass object or a class name
+     * @param string                   $traitName        A string representing an existing trait
+     * @return boolean
      */
     public static function hasTrait($class, $traitName)
     {
@@ -38,13 +57,13 @@ class ClassAnalyzer
      *
      * This static method says if a class has a property
      *
-     * @param $class            A ReflectionClass object or a string describing an existing class
-     * @param $propertyName     A string representing a property name
+     * @param ReflectionClass|string   $class            A ReflectionClass object or a class name
+     * @param string                   $propertyName      A string representing an existing property
      * @return boolean
      */
     public static function hasProperty($class, $propertyName)
     {
-        $analyzer = new Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
+        $analyzer = new KnpClassAnalyzer();
         return $analyzer->hasProperty($class instanceof \ReflectionClass ? $class : new ReflectionClass($class), $propertyName);
     }
 
@@ -53,8 +72,8 @@ class ClassAnalyzer
      *
      * This static method says if a class has a method
      *
-     * @param $class            A ReflectionClass object or a string describing an existing class
-     * @param $methodName       A string representing a method name
+     * @param ReflectionClass|string  $class            A ReflectionClass object or a class name
+     * @param string                  $methodName       a method name
      * @return boolean
      */
     public static function hasMethod($class, $methodName)
@@ -64,15 +83,13 @@ class ClassAnalyzer
     }
 
     /**
-     *
-     * @param \ReflectionClass $class
-     * @param array $traits
-     * @return type
+     * @param ReflectionClass|string   $class         A ReflectionClass object or a class name
+     * @param array                    $traits        An array of traits (strings)
+     * @return array
      */
     private static function _getTraits($class, array $traits = null)
     {
-        $rc = $class instanceof \ReflectionClass ? $class : new \ReflectionClass($class)
-        ;
+        $rc = $class instanceof \ReflectionClass ? $class : new \ReflectionClass($class);
         if ( is_null($traits) )
             $traits = array();
 
