@@ -2,8 +2,6 @@
 
 namespace Librinfo\CoreBundle\Tools\Reflection;
 
-use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer as KnpClassAnalyzer;
-
 class ClassAnalyzer
 {
     /**
@@ -63,8 +61,19 @@ class ClassAnalyzer
      */
     public static function hasProperty($class, $propertyName)
     {
-        $analyzer = new KnpClassAnalyzer();
-        return $analyzer->hasProperty($class instanceof \ReflectionClass ? $class : new ReflectionClass($class), $propertyName);
+        $rc = $class instanceof \ReflectionClass ? $class : new ReflectionClass($class);
+
+        if ($rc->hasProperty($propertyName)) {
+            return true;
+        }
+
+        $parentClass = $rc->getParentClass();
+
+        if (false === $parentClass) {
+            return false;
+        }
+
+        return $this->hasProperty($parentClass, $propertyName);
     }
 
     /**
