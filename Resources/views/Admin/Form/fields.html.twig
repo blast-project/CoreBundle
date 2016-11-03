@@ -32,8 +32,6 @@
         <script>
             $(document).ready(function () {
                 $('#{{ linkId }}').click(function(e){
-                    {#e.preventDefault();
-                    e.stopPropagation();#}
                     var url = $(this).attr('data-url');
                     {% block data %}    
                         var data = $(this).closest('form').serializeArray();
