@@ -2,8 +2,8 @@
 
 namespace Librinfo\CoreBundle\Form\Type;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
@@ -25,14 +25,14 @@ class CustomChoiceType extends BaseAbstractType
     {
         $this->manager = $manager;
     }
-    
+
     public function getParent()
     {
         return 'choice';
     }
-    
+
     public function getBlockPrefix(){
-        
+
         return 'librinfo_customchoice';
     }
 
