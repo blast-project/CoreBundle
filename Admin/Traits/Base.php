@@ -2,11 +2,12 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Librinfo\CoreBundle\Admin\CoreAdmin;
+use Librinfo\CoreBundle\DataSource\Iterator;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Librinfo\CoreBundle\DataSource\Iterator;
 
 trait Base
 {
@@ -20,7 +21,7 @@ trait Base
      */
     protected function configureDatagridFilters(DatagridMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        CoreAdmin::configureDatagridFilters($mapper);
     }
 
     /**
@@ -28,7 +29,7 @@ trait Base
      */
     protected function configureListFields(ListMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        CoreAdmin::configureListFields($mapper);
     }
 
     /**
@@ -36,7 +37,7 @@ trait Base
      */
     protected function configureFormFields(FormMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        CoreAdmin::configureFormFields($mapper);
     }
 
     /**
@@ -44,7 +45,7 @@ trait Base
      */
     protected function configureShowFields(ShowMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        CoreAdmin::configureShowFields($mapper);
     }
 
     // /**
