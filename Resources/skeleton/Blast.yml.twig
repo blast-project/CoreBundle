@@ -1,0 +1,41 @@
+{% set code %}
+{% for key, field in fields %}
+    {% if key == 0 %}
+    {{- field }}: ~
+    {% else %}
+            {{ field }}: ~
+    {% endif %}
+{% endfor%}
+{% endset %}
+{% if oldCode == '' %}
+parameters:
+    librinfo:
+{% endif %}
+{{- oldCode }}
+        ### {{ entity }}  ###
+        {{ fqcn }}:
+           # SHOW
+            Sonata\AdminBundle\Show\ShowMapper:
+                add:
+                {{ code }}
+            # FORM    
+            Sonata\AdminBundle\Form\FormMapper:
+                add:
+                {{ code }}
+            # LIST    
+            Sonata\AdminBundle\Datagrid\ListMapper:
+                add:
+                {{ code }}
+                    _actions:
+                        type: actions
+                        label: Action
+                        actions:
+                            show: ~
+                            edit: ~
+                            delete: ~
+                            duplicate:
+                                template: LibrinfoCoreBundle:CRUD:list__action_duplicate.html.twig
+            # FILTERS 
+            Sonata\AdminBundle\Datagrid\DatagridMapper:
+                add:
+                {{code }}
