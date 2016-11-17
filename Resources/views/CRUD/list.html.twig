@@ -12,6 +12,10 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
 
+{% block navbar_title %}
+    {{ ("librinfo.link." ~ admin.classnameLabel|lower ~ "_list")|trans({}, admin.translationdomain) }}
+{% endblock %}
+
 {% block actions %}
 {% spaceless %}
     {{ parent() }}
