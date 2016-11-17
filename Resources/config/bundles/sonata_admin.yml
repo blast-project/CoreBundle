@@ -31,8 +31,8 @@ default: # see available parameters with command : app/console debug:container -
         replace:
             layout: LibrinfoCoreBundle::standard_layout.html.twig
             user_block: LibrinfoCoreBundle:Block:user_block.html.twig
-            list: LibrinfoCoreBundle:CRUD:list.html.twig
-            show: LibrinfoCoreBundle:CRUD:show.html.twig
+            list: LibrinfoCoreBundle:CRUD:base_list.html.twig
+            show: LibrinfoCoreBundle:CRUD:base_show.html.twig
 
 #    sonata_doctrine_orm_admin.templates:
 #        default:
