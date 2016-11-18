@@ -15,6 +15,11 @@ trait Mapper
      * @var boolean
      */
     protected $forceTabs = false;
+
+    /**
+     * Links in the view navbar
+     * @var array
+     */
     protected $helperLinks = [];
 
     protected function configureMapper(BaseMapper $mapper)
@@ -80,7 +85,6 @@ trait Mapper
                     // Use "*" to remove all fields
                     if (in_array('*', $librinfo[$class][$mapper_class]['remove']))
                     foreach($mapper->keys() as $key)
-                    if (substr($key, 0, 1) != '_')
                         $librinfo[$class][$mapper_class]['remove'][] = $key;
 
                     foreach ($librinfo[$class][$mapper_class]['remove'] as $key) if ($mapper->has($key))
@@ -206,7 +210,7 @@ trait Mapper
             {
                 // groups/withs order
                 $groupsOrder = null;
-                if (isset($tabcontent['_options']) && isset($tabcontent['_options']['groupsOrder']))
+                if (isset($tabcontent['_options']['groupsOrder']))
                 {
                     $groupsOrder = $tabcontent['_options']['groupsOrder'];
                     unset($tabcontent['_options']['groupsOrder']);
@@ -392,8 +396,6 @@ trait Mapper
         {
             $this->addListActions($mapper);
         }
-
-
 
         // apply extra options
         foreach ($extras as $extra => $call)
