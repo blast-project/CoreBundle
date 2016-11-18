@@ -2,12 +2,11 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
-use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Mapper\BaseMapper;
+use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
-use Sonata\AdminBundle\Admin\FieldDescriptionCollection;
-use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
+use Sonata\AdminBundle\Mapper\BaseMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 
 trait Mapper
 {
@@ -26,8 +25,12 @@ trait Mapper
                 ->debug('[LibrinfoCoreBundle] Processing the configuration in this order: ' . implode(', ', $classes));
 
         $fcts = [
-            'tabs' => $mapper instanceof ShowMapper ? ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] : ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
-            'groups' => $mapper instanceof ShowMapper ? ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
+            'tabs' => $mapper instanceof ShowMapper ?
+                ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] :
+                ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
+            'groups' => $mapper instanceof ShowMapper ?
+                ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] :
+                ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
         ];
 
         // Figure out if we have to display tabs on the Show view
@@ -40,71 +43,77 @@ trait Mapper
             $this->forceTabs = true;
 
         // builds the configuration, based on the Mapper class
-        $cpt = ['remove' => 0, 'add' => 0];
         foreach ($classes as $class)
-            if (isset($librinfo[$class]))
+        {
+            if (!isset($librinfo[$class]))
+                continue;
+
+            // copy stuff from elsewhere
+            foreach (array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class)
+            if (isset($librinfo[$class][$mapper_class]) && !empty($librinfo[$class][$mapper_class]['_copy']))
             {
-                // copy stuff from elsewhere
-                foreach (array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class)
-                    if (isset($librinfo[$class][$mapper_class]))
-                    {
-                        if ( !empty($librinfo[$class][$mapper_class]['_copy']) )
-                        {
-                            if (!is_array($librinfo[$class][$mapper_class]['_copy']))
-                                $librinfo[$class][$mapper_class]['_copy'] = [$librinfo[$class][$mapper_class]['_copy']];
-                            foreach ($librinfo[$class][$mapper_class]['_copy'] as $copy)
-                                $list = array_merge(
-                                        $list, array_merge([$copy], array_values(class_parents($copy)))
-                                );
-                        }
-                    }
-
-                // process data...
-                foreach (array_reverse($list) as $mapper_class)
-                    if (isset($librinfo[$class][$mapper_class]))
-                    {
-                        // do not parse _batch_actions & co
-                        foreach (['_list_action', '_batch_action', '_export_format', '_extra_templates', '_helper_links'] as $specialKey)
-                        {
-                            if (isset($librinfo[$class][$mapper_class]['remove']) && ($key = array_search($specialKey, $librinfo[$class][$mapper_class]['remove'])) !== false)
-                                unset($librinfo[$class][$mapper_class]['remove'][$key]);
-                            if (isset($librinfo[$class][$mapper_class]['add']) && isset($librinfo[$class][$mapper_class]['add'][$specialKey]))
-                                unset($librinfo[$class][$mapper_class]['add'][$specialKey]);
-                        }
-
-                        // remove fields
-                        if (isset($librinfo[$class][$mapper_class]['remove'])) {
-                            $keys = (in_array('*', $librinfo[$class][$mapper_class]['remove'])) ?
-                                $mapper->keys() : $librinfo[$class][$mapper_class]['remove'];
-                            foreach ($keys as $key)
-                                if ($mapper->has($key))
-                                {
-                                    $cpt['remove'] ++;
-                                    $mapper->remove($key);
-
-                                    // compensating the partial removal in Sonata Admin, that does not touch the groups when removing a field
-                                    if ($mapper instanceof BaseGroupedMapper)
-                                        foreach ($groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group)
-                                            if (isset($group['fields'][$key]))
-                                            {
-                                                unset($groups[$groupkey]['fields'][$key]);
-                                                if (!$groups[$groupkey]['fields'])
-                                                    unset($groups[$groupkey]);
-                                                $this->{$fcts['groups']['setter']}($groups);
-                                            }
-                                }
-                        }
-
-                        // add fields & more
-                        if (isset($librinfo[$class][$mapper_class]['add']))
-                        {
-                            $cpt['add'] ++;
-                            $this->addContent($mapper, $librinfo[$class][$mapper_class]['add']);
-                        }
-                    }
+                if (!is_array($librinfo[$class][$mapper_class]['_copy']))
+                    $librinfo[$class][$mapper_class]['_copy'] = [$librinfo[$class][$mapper_class]['_copy']];
+                foreach ($librinfo[$class][$mapper_class]['_copy'] as $copy)
+                    $list = array_merge(
+                        $list, array_merge([$copy],
+                        array_values(class_parents($copy)))
+                    );
             }
 
-        if ($mapper instanceof BaseGroupedMapper)
+            $specialKeys = ['_list_action', '_batch_action', '_export_format', '_extra_templates', '_helper_links'];
+
+            // process data...
+            foreach (array_reverse($list) as $mapper_class)
+            {
+                if (!isset($librinfo[$class][$mapper_class]))
+                    continue;
+
+                // remove fields
+                if (isset($librinfo[$class][$mapper_class]['remove']))
+                {
+                    // Do not remove special keys
+                    foreach ($specialKeys as $sk)
+                    if (isset($librinfo[$class][$mapper_class]['remove'][$sk]))
+                        unset($librinfo[$class][$mapper_class]['remove'][$sk]);
+
+                    // Use "*" to remove all fields
+                    if (in_array('*', $librinfo[$class][$mapper_class]['remove']))
+                    foreach($mapper->keys() as $key)
+                    if (substr($key, 0, 1) != '_')
+                        $librinfo[$class][$mapper_class]['remove'][] = $key;
+
+                    foreach ($librinfo[$class][$mapper_class]['remove'] as $key) if ($mapper->has($key))
+                    {
+                        $mapper->remove($key);
+
+                        // compensating the partial removal in Sonata Admin, that does not touch the groups when removing a field
+                        if ($mapper instanceof BaseGroupedMapper)
+                        foreach ($groups = $this->{$fcts['groups']['getter']}() as $groupkey => $group)
+                        if (isset($group['fields'][$key]))
+                        {
+                            unset($groups[$groupkey]['fields'][$key]);
+                            if (!$groups[$groupkey]['fields'])
+                                unset($groups[$groupkey]);
+                            $this->{$fcts['groups']['setter']}($groups);
+                        }
+                    }
+                }
+
+                // add fields & more
+                if (isset($librinfo[$class][$mapper_class]['add']))
+                {
+                    // do not parse _batch_actions & co
+                    foreach ($specialKeys as $sk)
+                    if (isset($librinfo[$class][$mapper_class]['add'][$sk]))
+                        unset($librinfo[$class][$mapper_class]['add'][$sk]);
+
+                    $this->addContent($mapper, $librinfo[$class][$mapper_class]['add']);
+                }
+            }
+        }
+
+        if ($mapper instanceof BaseGroupedMapper) // ShowMapper and FormMapper
         {
             // removing empty groups
             $groups = $this->{$fcts['groups']['getter']}();
@@ -131,7 +140,7 @@ trait Mapper
                 $this->{$fcts['tabs']['setter']}($tabs);
             }
         }
-        //return array_sum($cpt);
+
         $this->fixTemplates($mapper);
         if (!$mapper instanceof FormMapper)
             $this->fixShowRoutes($mapper);
@@ -169,8 +178,12 @@ trait Mapper
         }
 
         $fcts = [
-            'tabs' => $mapper instanceof ShowMapper ? ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] : ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
-            'groups' => $mapper instanceof ShowMapper ? ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] : ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
+            'tabs' => $mapper instanceof ShowMapper ?
+                ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] :
+                ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
+            'groups' => $mapper instanceof ShowMapper ?
+                ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] :
+                ['getter' => 'getFormGroups', 'setter' => 'setFormGroups'],
         ];
 
         // if a grouped organization can be shapped
@@ -423,31 +436,30 @@ trait Mapper
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
 
         foreach ($this->getCurrentComposition() as $class)
-            if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
-            {
-                // remove / reset
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_batch_action']))
-                    $actions = parent::getBatchActions();
+        {
+            // remove / reset
+            if (isset($librinfo[$class][ListMapper::class]['remove']['_batch_action']))
+                $actions = parent::getBatchActions();
 
-                // add
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_batch_action']))
-                {
-                    $buf = $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_batch_action'];
-                    foreach ($buf['actions'] as $action => $props)
-                        if (substr($action, 0, 1) == '-')
-                            unset($actions[substr($action, 1)]);
-                        else
+            // add
+            if (isset($librinfo[$class][ListMapper::class]['add']['_batch_action']))
+            {
+                $buf = $librinfo[$class][ListMapper::class]['add']['_batch_action'];
+                foreach ($buf['actions'] as $action => $props)
+                    if (substr($action, 0, 1) == '-')
+                        unset($actions[substr($action, 1)]);
+                    else
+                    {
+                        if (isset($props['translation_domain']))
                         {
-                            if (isset($props['translation_domain']))
-                            {
-                                $props['label'] = $this->trans(
-                                        isset($props['label']) ? $props['label'] : 'batch_action_' . $action, array(), $props['translation_domain']
-                                );
-                            }
-                            $actions[$action] = $props;
+                            $props['label'] = $this->trans(
+                                    isset($props['label']) ? $props['label'] : 'batch_action_' . $action, array(), $props['translation_domain']
+                            );
                         }
-                }
+                        $actions[$action] = $props;
+                    }
             }
+        }
 
         return $actions;
     }
@@ -461,30 +473,28 @@ trait Mapper
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
 
         foreach ($this->getCurrentComposition() as $class)
-            if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
-            {
-                // remove / reset
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_list_action']))
-                    $this->setListActions([]);
+        {
+            // remove / reset
+            if (isset($librinfo[$class][ListMapper::class]['remove']['_list_action']))
+                $this->setListActions([]);
 
-                // add
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_list_action']))
-                {
-                    foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_list_action'] as $action => $props)
-                        if (substr($action, 0, 1) == '-')
-                            $this->removeListAction(substr($action, 1));
-                        else
-                        {
-                            if (isset($props['translation_domain']))
-                            {
-                                $props['label'] = $this->trans(
-                                        isset($props['label']) ? $props['label'] : 'list_action_' . $action, array(), $props['translation_domain']
-                                );
-                            }
-                            $this->addListAction($action, $props);
-                        }
+            // add
+            if (isset($librinfo[$class][ListMapper::class]['add']['_list_action']))
+            foreach ($librinfo[$class][ListMapper::class]['add']['_list_action'] as $action => $props)
+            {
+                if (substr($action, 0, 1) == '-') {
+                    $this->removeListAction(substr($action, 1));
+                    continue;
                 }
+                if (isset($props['translation_domain']))
+                {
+                    $props['label'] = $this->trans(
+                            isset($props['label']) ? $props['label'] : 'list_action_' . $action, array(), $props['translation_domain']
+                    );
+                }
+                $this->addListAction($action, $props);
             }
+        }
 
         return $this->getListActions();
     }
@@ -510,60 +520,58 @@ trait Mapper
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
         $this->exportFields = $formats;
 
-
         foreach ($this->getCurrentComposition() as $class)
-            if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
+        {
+            // remove / reset
+            if (isset($librinfo[$class][ListMapper::class]['remove']['_export_format']))
+                $this->exportFields = [];
+
+            // add
+            if (isset($librinfo[$class][ListMapper::class]['add']['_export_format']))
+            foreach ($librinfo[$class][ListMapper::class]['add']['_export_format'] as $format => $fields)
             {
-                // remove / reset
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_export_format']))
-                    $this->exportFields = [];
+                // if no fields are defined (not an associative array)
+                if (intval($format) . '' == '' . $format && !is_array($fields))
+                {
+                    $format = $fields;
+                    $this->exportFields[$format] = $fields = [];
+                }
 
-                // add
-                if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format']))
-                    foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'] as $format => $fields)
-                    {
-                        // if no fields are defined (not an associative array)
-                        if (intval($format) . '' == '' . $format && !is_array($fields))
-                        {
-                            $format = $fields;
-                            $this->exportFields[$format] = $fields = [];
-                        }
+                // if a copy of an other format is requested
+                if (!is_array($fields) && isset($librinfo[$class][ListMapper::class]['add']['_export_format'][$fields]))
+                {
+                    $librinfo[$class][ListMapper::class]['add']['_export_format'][$format] = // the global fields array
+                            $fields = // the local  fields array
+                            $librinfo[$class][ListMapper::class]['add']['_export_format'][$fields];  // the source fields array
+                }
 
-                        // if a copy of an other format is requested
-                        if (!is_array($fields) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$fields]))
-                        {
-                            $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$format] = // the global fields array
-                                    $fields = // the local  fields array
-                                    $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_export_format'][$fields];  // the source fields array
-                        }
+                // removes a specific format
+                if (substr($format, 0, 1) == '-')
+                {
+                    unset($this->exportFields[substr($format, 1)]);
+                    continue;
+                }
 
-                        // removes a specific format
-                        if (substr($format, 0, 1) == '-')
-                        {
-                            unset($this->exportFields[substr($format, 1)]);
-                            continue;
-                        }
+                // if an order is defined, use it to order the extracted fields
+                if (!$fields && isset($librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
+                {
+                    // get back default fields
+                    $tmp = parent::getExportFields();
+                    $fields = [];
 
-                        // if an order is defined, use it to order the extracted fields
-                        if (!$fields && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder']))
-                        {
-                            // get back default fields
-                            $tmp = parent::getExportFields();
-                            $fields = [];
+                    // takes the ordered fields
+                    foreach ($librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder'] as $field)
+                        if (in_array($field, $tmp))
+                            $fields[] = $field;
 
-                            // takes the ordered fields
-                            foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder'] as $field)
-                                if (in_array($field, $tmp))
-                                    $fields[] = $field;
-
-                            // then the forgotten fields as they come
-                            foreach ($tmp as $field)
-                                if (!in_array($field, $librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_options']['fieldsOrder']))
-                                    $fields[] = $field;
-                        }
-                        $this->exportFields[$format] = $fields;
-                    }
+                    // then the forgotten fields as they come
+                    foreach ($tmp as $field)
+                        if (!in_array($field, $librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
+                            $fields[] = $field;
+                }
+                $this->exportFields[$format] = $fields;
             }
+        }
 
         return $this->exportFields;
     }
@@ -576,17 +584,16 @@ trait Mapper
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
 
         foreach ($this->getCurrentComposition() as $class)
-        if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
         {
             // remove / reset
-            if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['remove']['_extra_templates']))
+            if (isset($librinfo[$class][ListMapper::class]['remove']['_extra_templates']))
             {
                 // TODO
             }
 
             // add
-            if (isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates']))
-                foreach ($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']['add']['_extra_templates'] as $template)
+            if (isset($librinfo[$class][ListMapper::class]['add']['_extra_templates']))
+                foreach ($librinfo[$class][ListMapper::class]['add']['_extra_templates'] as $template)
                     $this->addExtraTemplate('list', $template);
         }
     }
@@ -595,14 +602,13 @@ trait Mapper
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
         $mappers = [
-            'list' => 'Sonata\\AdminBundle\\Datagrid\\ListMapper',
-            'show' => 'Sonata\\AdminBundle\\Show\ShowMapper',
-            'form' => 'Sonata\\AdminBundle\\Form\\FormMapper',
+            'list' => ListMapper::class,
+            'show' => ShowMapper::class,
+            'form' => FormMapper::class,
         ];
+
         foreach ($this->getCurrentComposition() as $class)
-        if (isset($librinfo[$class]) && isset($librinfo[$class]['Sonata\\AdminBundle\\Datagrid\\ListMapper']))
         foreach ($mappers as $mapper => $mapper_class)
-        if (isset($librinfo[$class][$mapper_class]))
         {
             // remove / reset
             if (isset($librinfo[$class][$mapper_class]['remove']['_helper_links']))
@@ -612,8 +618,8 @@ trait Mapper
 
             // add
             if (isset($librinfo[$class][$mapper_class]['add']['_helper_links']))
-                foreach ($librinfo[$class][$mapper_class]['add']['_helper_links'] as $link)
-                    $this->addHelperLink($mapper, $link);
+            foreach ($librinfo[$class][$mapper_class]['add']['_helper_links'] as $link)
+                $this->addHelperLink($mapper, $link);
         }
     }
 
