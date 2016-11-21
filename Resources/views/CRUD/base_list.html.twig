@@ -16,7 +16,7 @@ file that was distributed with this source code.
     {% if admin.titles.list is defined %}
         {{ admin.titles.list|trans() }}
     {% else %}
-        {{ 'librinfo.link.%s._list' |format(admin.classnameLabel|lower) |trans() }}
+        {{ 'librinfo.link.%s_list' |format(admin.classnameLabel|lower) |trans() }}
     {% endif %}
 {% endblock %}
 
