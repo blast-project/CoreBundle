@@ -2,10 +2,6 @@
 
 {% import 'LibrinfoCoreBundle:CRUD:base_show_macro.html.twig' as librinfo_show_helper %}
 
-{% block navbar_title %}
-    {{ admin.label|trans() }}: {{ admin.toString(object)|truncate(15) }}
-{% endblock %}
-
 {% block tab_menu_navbar_header %}
     {% spaceless %}
     {% if admin.helperLinks('show')|length > 0 %}
@@ -20,6 +16,23 @@
     {% endspaceless %}
 
     {{ parent() }}
+{% endblock %}
+
+{% block title %}
+    {% if admin.titles.show is defined %}
+        {{ admin.titles.show|trans() }}
+    {% else %}
+        {# {{ admin.label|trans() }}: {{ admin.toString(object)|truncate(15) }} #}
+        {{ admin.label|trans() }}: {{ admin.toString(object) }}
+    {% endif %}
+{% endblock %}
+
+{% block navbar_title %}
+    {% if admin.titleTemplates.show is defined and admin.titleTemplates.show %}
+        {% include admin.titleTemplates.show %}
+    {% else %}
+        {{ block('title') }}
+    {% endif %}
 {% endblock %}
 
 {% block show %}

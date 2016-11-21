@@ -15,3 +15,22 @@
 
     {{ parent() }}
 {% endblock %}
+
+{% block title %}
+    {% if admin.titles.form is defined %}
+        {{ admin.titles.form|trans() }}
+    {% elseif admin.id(object) is not null %}
+        {# {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }} #}
+        {{ "title_edit"|trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
+    {% else %}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+    {% endif %}
+{% endblock %}
+
+{% block navbar_title %}
+    {% if admin.titleTemplates.form is defined and admin.titleTemplates.form %}
+        {% include admin.titleTemplates.form %}
+    {% else %}
+        {{ block('title') }}
+    {% endif %}
+{% endblock %}

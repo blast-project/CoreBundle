@@ -2,6 +2,7 @@
 
 namespace Librinfo\CoreBundle\Admin\Traits;
 
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
@@ -21,6 +22,18 @@ trait Mapper
      * @var array
      */
     protected $helperLinks = [];
+
+    /**
+     * Admin titles (for list, show, edit and create)
+     * @var string
+     */
+    public $titles = [];
+
+    /**
+     * Admin title templates (for list, show, edit and create)
+     * @var array
+     */
+    public $titleTemplates = [];
 
     protected function configureMapper(BaseMapper $mapper)
     {
@@ -114,6 +127,11 @@ trait Mapper
 
                     $this->addContent($mapper, $librinfo[$class][$mapper_class]['add']);
                 }
+
+                // set Admin titles
+                $titleTemplate = isset($librinfo[$class][$mapper_class]['titleTemplate']) ? $librinfo[$class][$mapper_class]['titleTemplate'] : null;
+                $title = isset($librinfo[$class][$mapper_class]['title']) ? $librinfo[$class][$mapper_class]['title'] : null;
+                $this->setTitles($mapper, $titleTemplate, $title);
             }
         }
 
@@ -151,6 +169,11 @@ trait Mapper
         return $this;
     }
 
+    /**
+     * @param BaseMapper $mapper
+     * @param array $group
+     * @return BaseMapper
+     */
     protected function addContent(BaseMapper $mapper, $group)
     {
         // helper links
@@ -623,6 +646,25 @@ trait Mapper
             foreach ($librinfo[$class][$mapper_class]['add']['_helper_links'] as $link)
                 $this->addHelperLink($mapper, $link);
         }
+    }
+
+
+    protected function setTitles(BaseMapper $mapper, $titleTemplate, $title)
+    {
+        $contexts = [
+            ListMapper::class => 'list',
+            ShowMapper::class => 'show',
+            FormMapper::class => 'form',
+        ];
+        if (!isset($contexts[get_class($mapper)]))
+            return;
+
+        $context = $contexts[get_class($mapper)];
+        if ($titleTemplate)
+            $this->titleTemplates[$context] = $titleTemplate;
+        if ($title)
+            $this->titles[$context] = $title;
+
     }
 
 }

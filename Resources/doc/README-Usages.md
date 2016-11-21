@@ -19,6 +19,8 @@ parameters:
                                                   # ↘ An other way to do the same things automagically is to use the trait Librinfo\CoreBundle\Admin\Traits\HandlesRelationsAdmin within your
                                                   # Sonata Admin form instead of the Librinfo\CoreBundle\Admin\Traits\Base
             Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
+                title: this is the form view title 
+                titleTemplate: 'myBundle:Dir:myEditTemplate.html.twig'
                 remove: [name, id]                # The fields that need to be removed from inheritance (array)
                 add:                              # What we want to display (associative array)
                     text:                         # The name of a field that needs to be directly injected (without any tab)
@@ -49,6 +51,8 @@ parameters:
                     _options:
                         tabsOrder: []
             Sonata\AdminBundle\Show\ShowMapper:   # The class of objects that needs to be configured (here the "show" view)
+                title: this is the show view title 
+                titleTemplate: 'myBundle:Dir:myShowTemplate.html.twig'
                 _copy: Sonata\AdminBundle\Form\FormMapper # indicates to take the configuration of an other class of the current Admin class extension (including its parents configuration)
                 remove: [field2]
                 add:
@@ -75,6 +79,8 @@ parameters:
                         field_type: fieldType
                         #_option: fieldType # can replace "field_type"
             Sonata\AdminBundle\Datagrid\ListMapper:   # The class of objects that needs to be configured (here the "list" view)
+                title: this is the list view title 
+                titleTemplate: 'myBundle:Dir:myListTemplate.html.twig'
                 remove:
                     - _batch_actions            # resets the batch actions as it was before using any customized CoreAdmin
                     - _export_formats           # resets the export formats as it was before using any customized CoreAdmin

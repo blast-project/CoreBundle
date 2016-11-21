@@ -12,9 +12,22 @@ file that was distributed with this source code.
 
 {% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
 
-{% block navbar_title %}
-    {{ ("librinfo.link." ~ admin.classnameLabel|lower ~ "_list")|trans({}, admin.translationdomain) }}
+{% block title %}
+    {% if admin.titles.list is defined %}
+        {{ admin.titles.list|trans() }}
+    {% else %}
+        {{ 'librinfo.link.%s._list' |format(admin.classnameLabel|lower) |trans() }}
+    {% endif %}
 {% endblock %}
+
+{% block navbar_title %}
+    {% if admin.titleTemplates.list is defined and admin.titleTemplates.list %}
+        {% include admin.titleTemplates.list %}
+    {% else %}
+        {{ block('title') }}
+    {% endif %}
+{% endblock %}
+
 
 {% block actions %}
 {% spaceless %}
