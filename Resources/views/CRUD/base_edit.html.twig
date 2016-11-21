@@ -23,7 +23,7 @@
         {# {{ "title_edit"|trans({'%name%': admin.toString(object)|truncate(15) }, 'SonataAdminBundle') }} #}
         {{ "title_edit"|trans({'%name%': admin.toString(object) }, 'SonataAdminBundle') }}
     {% else %}
-        {{ "title_create"|trans({}, 'SonataAdminBundle') }}
+        {{ "title_create"|trans({}, 'SonataAdminBundle') }} {{ admin.classnameLabel }}
     {% endif %}
 {% endblock %}
 
