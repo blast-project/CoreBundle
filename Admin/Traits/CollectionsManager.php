@@ -97,7 +97,7 @@ trait CollectionsManager
 
     private function configureCollectionsManager()
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $key = 'collections'; // name of the key in the librinfo.yml
         // merge configuration/parameters
         foreach ($this->getCurrentComposition() as $class)

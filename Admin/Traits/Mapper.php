@@ -37,7 +37,7 @@ trait Mapper
 
     protected function configureMapper(BaseMapper $mapper)
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $classes = $this->getCurrentComposition();
         $this->getConfigurationPool()->getContainer()->get('logger')
                 ->debug('[LibrinfoCoreBundle] Processing the configuration in this order: ' . implode(', ', $classes));
@@ -55,24 +55,24 @@ trait Mapper
         $this->forceTabs = false;
         if ( $mapper instanceof ShowMapper )
         foreach( $classes as $class )
-        if ( isset($librinfo[$class]) )
+        if ( isset($blast[$class]) )
         foreach ( array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class )
-        if ( !empty($librinfo[$class][$mapper_class]['forceTabs']) )
+        if ( !empty($blast[$class][$mapper_class]['forceTabs']) )
             $this->forceTabs = true;
 
         // builds the configuration, based on the Mapper class
         foreach ($classes as $class)
         {
-            if (!isset($librinfo[$class]))
+            if (!isset($blast[$class]))
                 continue;
 
             // copy stuff from elsewhere
             foreach (array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class)
-            if (isset($librinfo[$class][$mapper_class]) && !empty($librinfo[$class][$mapper_class]['_copy']))
+            if (isset($blast[$class][$mapper_class]) && !empty($blast[$class][$mapper_class]['_copy']))
             {
-                if (!is_array($librinfo[$class][$mapper_class]['_copy']))
-                    $librinfo[$class][$mapper_class]['_copy'] = [$librinfo[$class][$mapper_class]['_copy']];
-                foreach ($librinfo[$class][$mapper_class]['_copy'] as $copy)
+                if (!is_array($blast[$class][$mapper_class]['_copy']))
+                    $blast[$class][$mapper_class]['_copy'] = [$blast[$class][$mapper_class]['_copy']];
+                foreach ($blast[$class][$mapper_class]['_copy'] as $copy)
                     $list = array_merge(
                         $list, array_merge([$copy],
                         array_values(class_parents($copy)))
@@ -84,23 +84,23 @@ trait Mapper
             // process data...
             foreach (array_reverse($list) as $mapper_class)
             {
-                if (!isset($librinfo[$class][$mapper_class]))
+                if (!isset($blast[$class][$mapper_class]))
                     continue;
 
                 // remove fields
-                if (isset($librinfo[$class][$mapper_class]['remove']))
+                if (isset($blast[$class][$mapper_class]['remove']))
                 {
                     // Do not remove special keys
                     foreach ($specialKeys as $sk)
-                    if (isset($librinfo[$class][$mapper_class]['remove'][$sk]))
-                        unset($librinfo[$class][$mapper_class]['remove'][$sk]);
+                    if (isset($blast[$class][$mapper_class]['remove'][$sk]))
+                        unset($blast[$class][$mapper_class]['remove'][$sk]);
 
                     // Use "*" to remove all fields
-                    if (in_array('*', $librinfo[$class][$mapper_class]['remove']))
+                    if (in_array('*', $blast[$class][$mapper_class]['remove']))
                     foreach($mapper->keys() as $key)
-                        $librinfo[$class][$mapper_class]['remove'][] = $key;
+                        $blast[$class][$mapper_class]['remove'][] = $key;
 
-                    foreach ($librinfo[$class][$mapper_class]['remove'] as $key) if ($mapper->has($key))
+                    foreach ($blast[$class][$mapper_class]['remove'] as $key) if ($mapper->has($key))
                     {
                         $mapper->remove($key);
 
@@ -118,19 +118,19 @@ trait Mapper
                 }
 
                 // add fields & more
-                if (isset($librinfo[$class][$mapper_class]['add']))
+                if (isset($blast[$class][$mapper_class]['add']))
                 {
                     // do not parse _batch_actions & co
                     foreach ($specialKeys as $sk)
-                    if (isset($librinfo[$class][$mapper_class]['add'][$sk]))
-                        unset($librinfo[$class][$mapper_class]['add'][$sk]);
+                    if (isset($blast[$class][$mapper_class]['add'][$sk]))
+                        unset($blast[$class][$mapper_class]['add'][$sk]);
 
-                    $this->addContent($mapper, $librinfo[$class][$mapper_class]['add']);
+                    $this->addContent($mapper, $blast[$class][$mapper_class]['add']);
                 }
 
                 // set Admin titles
-                $titleTemplate = isset($librinfo[$class][$mapper_class]['titleTemplate']) ? $librinfo[$class][$mapper_class]['titleTemplate'] : null;
-                $title = isset($librinfo[$class][$mapper_class]['title']) ? $librinfo[$class][$mapper_class]['title'] : null;
+                $titleTemplate = isset($blast[$class][$mapper_class]['titleTemplate']) ? $blast[$class][$mapper_class]['titleTemplate'] : null;
+                $title = isset($blast[$class][$mapper_class]['title']) ? $blast[$class][$mapper_class]['title'] : null;
                 $this->setTitles($mapper, $titleTemplate, $title);
             }
         }
@@ -458,18 +458,18 @@ trait Mapper
      * */
     protected function addPresetBatchActions(array $actions = [])
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ($this->getCurrentComposition() as $class)
         {
             // remove / reset
-            if (isset($librinfo[$class][ListMapper::class]['remove']['_batch_action']))
+            if (isset($blast[$class][ListMapper::class]['remove']['_batch_action']))
                 $actions = parent::getBatchActions();
 
             // add
-            if (isset($librinfo[$class][ListMapper::class]['add']['_batch_action']))
+            if (isset($blast[$class][ListMapper::class]['add']['_batch_action']))
             {
-                $buf = $librinfo[$class][ListMapper::class]['add']['_batch_action'];
+                $buf = $blast[$class][ListMapper::class]['add']['_batch_action'];
                 foreach ($buf['actions'] as $action => $props)
                     if (substr($action, 0, 1) == '-')
                         unset($actions[substr($action, 1)]);
@@ -495,17 +495,17 @@ trait Mapper
     protected function addPresetListActions(array $actions = [])
     {
         $this->_listActionLoaded = true;
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ($this->getCurrentComposition() as $class)
         {
             // remove / reset
-            if (isset($librinfo[$class][ListMapper::class]['remove']['_list_action']))
+            if (isset($blast[$class][ListMapper::class]['remove']['_list_action']))
                 $this->setListActions([]);
 
             // add
-            if (isset($librinfo[$class][ListMapper::class]['add']['_list_action']))
-            foreach ($librinfo[$class][ListMapper::class]['add']['_list_action'] as $action => $props)
+            if (isset($blast[$class][ListMapper::class]['add']['_list_action']))
+            foreach ($blast[$class][ListMapper::class]['add']['_list_action'] as $action => $props)
             {
                 if (substr($action, 0, 1) == '-') {
                     $this->removeListAction(substr($action, 1));
@@ -542,18 +542,18 @@ trait Mapper
      * */
     protected function addPresetExportFormats(array $formats = [])
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $this->exportFields = $formats;
 
         foreach ($this->getCurrentComposition() as $class)
         {
             // remove / reset
-            if (isset($librinfo[$class][ListMapper::class]['remove']['_export_format']))
+            if (isset($blast[$class][ListMapper::class]['remove']['_export_format']))
                 $this->exportFields = [];
 
             // add
-            if (isset($librinfo[$class][ListMapper::class]['add']['_export_format']))
-            foreach ($librinfo[$class][ListMapper::class]['add']['_export_format'] as $format => $fields)
+            if (isset($blast[$class][ListMapper::class]['add']['_export_format']))
+            foreach ($blast[$class][ListMapper::class]['add']['_export_format'] as $format => $fields)
             {
                 // if no fields are defined (not an associative array)
                 if (intval($format) . '' == '' . $format && !is_array($fields))
@@ -563,11 +563,11 @@ trait Mapper
                 }
 
                 // if a copy of an other format is requested
-                if (!is_array($fields) && isset($librinfo[$class][ListMapper::class]['add']['_export_format'][$fields]))
+                if (!is_array($fields) && isset($blast[$class][ListMapper::class]['add']['_export_format'][$fields]))
                 {
-                    $librinfo[$class][ListMapper::class]['add']['_export_format'][$format] = // the global fields array
+                    $blast[$class][ListMapper::class]['add']['_export_format'][$format] = // the global fields array
                             $fields = // the local  fields array
-                            $librinfo[$class][ListMapper::class]['add']['_export_format'][$fields];  // the source fields array
+                            $blast[$class][ListMapper::class]['add']['_export_format'][$fields];  // the source fields array
                 }
 
                 // removes a specific format
@@ -578,20 +578,20 @@ trait Mapper
                 }
 
                 // if an order is defined, use it to order the extracted fields
-                if (!$fields && isset($librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
+                if (!$fields && isset($blast[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
                 {
                     // get back default fields
                     $tmp = parent::getExportFields();
                     $fields = [];
 
                     // takes the ordered fields
-                    foreach ($librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder'] as $field)
+                    foreach ($blast[$class][ListMapper::class]['add']['_options']['fieldsOrder'] as $field)
                         if (in_array($field, $tmp))
                             $fields[] = $field;
 
                     // then the forgotten fields as they come
                     foreach ($tmp as $field)
-                        if (!in_array($field, $librinfo[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
+                        if (!in_array($field, $blast[$class][ListMapper::class]['add']['_options']['fieldsOrder']))
                             $fields[] = $field;
                 }
                 $this->exportFields[$format] = $fields;
@@ -606,26 +606,26 @@ trait Mapper
      */
     protected function parseExtraTemplates()
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ($this->getCurrentComposition() as $class)
         {
             // remove / reset
-            if (isset($librinfo[$class][ListMapper::class]['remove']['_extra_templates']))
+            if (isset($blast[$class][ListMapper::class]['remove']['_extra_templates']))
             {
                 // TODO
             }
 
             // add
-            if (isset($librinfo[$class][ListMapper::class]['add']['_extra_templates']))
-                foreach ($librinfo[$class][ListMapper::class]['add']['_extra_templates'] as $template)
+            if (isset($blast[$class][ListMapper::class]['add']['_extra_templates']))
+                foreach ($blast[$class][ListMapper::class]['add']['_extra_templates'] as $template)
                     $this->addExtraTemplate('list', $template);
         }
     }
 
     protected function parseHelperLinks()
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $mappers = [
             'list' => ListMapper::class,
             'show' => ShowMapper::class,
@@ -636,14 +636,14 @@ trait Mapper
         foreach ($mappers as $mapper => $mapper_class)
         {
             // remove / reset
-            if (isset($librinfo[$class][$mapper_class]['remove']['_helper_links']))
+            if (isset($blast[$class][$mapper_class]['remove']['_helper_links']))
             {
                 // TODO
             }
 
             // add
-            if (isset($librinfo[$class][$mapper_class]['add']['_helper_links']))
-            foreach ($librinfo[$class][$mapper_class]['add']['_helper_links'] as $link)
+            if (isset($blast[$class][$mapper_class]['add']['_helper_links']))
+            foreach ($blast[$class][$mapper_class]['add']['_helper_links'] as $link)
                 $this->addHelperLink($mapper, $link);
         }
     }

@@ -13,7 +13,7 @@ trait Templates
      */
     protected function fixTemplates($mapper)
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         if (! isset($librinfo['configuration']) && isset($librinfo['configuration']['templates']) )
             return $this;
 

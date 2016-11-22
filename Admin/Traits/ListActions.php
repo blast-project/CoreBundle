@@ -72,7 +72,7 @@ trait ListActions
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ($this->getCurrentComposition() as $class)
         if (isset($librinfo[$class][ListMapper::class]['add']['_actions']))

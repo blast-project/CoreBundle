@@ -60,7 +60,7 @@ trait ManyToManyManager
 
     private function configureManyToManyManager()
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('librinfo');
+        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $key = 'manyToMany'; // name of the key in the librinfo.yml
 
         // merge configuration/parameters
