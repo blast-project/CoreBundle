@@ -45,11 +45,75 @@ This will download and install :
 * libre-informatique/base-entities-bundle
 * twig/twig ^1.22.1
 
-Sonata bundles
+Third party bundles, Sonata bundles
 --------------
 
 Please refer to the Sonata Project's instructions, foundable here :
-https://sonata-project.org/bundles/admin/2-3/doc/reference/installation.html
+https://sonata-project.org/bundles/admin/3-x/doc/reference/installation.html
+https://sonata-project.org/bundles/user/3-x/doc/reference/installation.html
+
+And follow the installation guides.
+
+At the end, you should have a ```app/AppKernel.php``` that looks like that:
+
+```php
+<?php
+
+use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Config\Loader\LoaderInterface;
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = [
+            //...
+            
+            // Add your dependencies
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            //...
+
+            // If you haven't already, add the storage bundle
+            // This example uses SonataDoctrineORMAdmin but
+            // it works the same with the alternatives
+            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+
+            // You have 2 options to initialize the SonataUserBundle in your AppKernel,
+            // you can select which bundle SonataUserBundle extends
+            // Most of the cases, you'll want to extend FOSUserBundle though ;)
+            // extend the ``FOSUserBundle``
+            //new FOS\UserBundle\FOSUserBundle(),
+            //new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+            // OR
+            // the bundle will NOT extend ``FOSUserBundle``
+            //new Sonata\UserBundle\SonataUserBundle(),
+
+            // Then add SonataAdminBundle
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Librinfo\CoreBundle\LibrinfoCoreBundle(),
+            
+            //...
+        ];
+        //...
+    }
+    //...
+}
+```
+
+And at the end of the ```app/config/config.yml``` file:
+
+```yml
+# ...
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+```
 
 PostgreSQL
 ----------
