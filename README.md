@@ -102,6 +102,19 @@ class AppKernel extends Kernel
 }
 ```
 
+And at the end of the ```app/config/config.yml``` file:
+
+```yml
+# ...
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+```
+
 PostgreSQL
 ----------
 
