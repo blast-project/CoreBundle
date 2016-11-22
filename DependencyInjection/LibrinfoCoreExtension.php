@@ -23,33 +23,45 @@ class LibrinfoCoreExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yml');
-        $loader->load('admin.yml');
-        $loader->load('config.yml');
-        $loader->load('librinfo.yml');
+        $rc = new \ReflectionClass($this);
+        $dir = dirname($rc->getFileName());
+        $prefix = '/../Resources/config/';
+        $bundlesPrefix = $prefix . 'bundles/';
+        $suffix = '.yml';
+        $file = 'blast';
+        $sonataFile = 'sonata_admin';
+        
+        $loader = new Loader\YamlFileLoader($container, new FileLocator($dir . $prefix));
 
-        $configSonataAdmin = Yaml::parse(
-            file_get_contents(__DIR__ . '/../Resources/config/bundles/sonata_admin.yml')
-        );
+        foreach(['services', 'admin', 'config', $file] as $fileName)
+        {
+            if( file_exists($dir . $prefix . $fileName . $suffix) )
+                if( $fileName != $file || $rc->getName() == 'LibrinfoCoreExtension' )
+                    $loader->load($fileName . $suffix);
+                else
+                    $this->mergeParameter('blast', $container, $dir . $prefix);       
+        }
+        
+        if( file_exists($path = $dir . $bundlesPrefix . $sonataFile . $suffix) )
+        {
+            $configSonataAdmin = Yaml::parse(
+                file_get_contents($path)
+            ); 
 
-        DefaultParameters::getInstance($container)
-            ->defineDefaultConfiguration(
-                $configSonataAdmin['default']
-            )
-        ;
+            DefaultParameters::getInstance($container)
+                ->defineDefaultConfiguration($configSonataAdmin['default'])
+            ;
+        }
     }
 
-    protected function mergeParameter($var, $container, $dir, $file_name = 'librinfo.yml')
+    protected function mergeParameter($var, $container, $dir, $file_name = 'blast.yml')
     {
         $loader = new Loader\YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
         $loader->load($file_name);
         
-        if ( !is_array($container->getParameter($var)) )
-        {
+        if ( !$container->hasParameter($var) || !is_array($container->getParameter($var)) )
             $container->setParameter($var, []);
-            return $this;
-        }
+        
         if ( !is_array($newContainer->getParameter($var)) )
             return $this;
         
@@ -57,11 +69,8 @@ class LibrinfoCoreExtension extends Extension
             $container->getParameter($var),
             $newContainer->getParameter($var)
         ));
+        
         return $this;
     }
-
-    protected function fixTemplatesConfiguration(array $configs, ContainerBuilder $container, array $defaultSonataDoctrineConfig = [])
-    {
-        die('glop');
-    }
+ 
 }

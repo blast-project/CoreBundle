@@ -1,0 +1,17 @@
+parameters:
+    blast:
+        configuration:
+            templates:
+                show:
+                    email: LibrinfoCoreBundle:CRUD:show_field_email.html.twig
+                list:
+                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
+        Librinfo\CoreBundle\Admin\CoreAdmin:
+            Sonata\AdminBundle\Datagrid\ListMapper:
+                add:
+                    _action:
+                        type: actions
+                        actions:
+                            show: ~
+                            edit: ~
+                            delete: ~
