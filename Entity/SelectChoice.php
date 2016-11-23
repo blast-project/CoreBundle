@@ -2,8 +2,8 @@
 
 namespace Librinfo\CoreBundle\Entity;
 
-use Librinfo\DoctrineBundle\Entity\Traits\BaseEntity;
-use Librinfo\DoctrineBundle\Entity\Traits\Jsonable;
+use Librinfo\BaseEntitiesBundle\Entity\Traits\BaseEntity;
+use Librinfo\BaseEntitiesBundle\Entity\Traits\Jsonable;
 
 /**
  * SelectChoice
