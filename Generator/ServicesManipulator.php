@@ -20,6 +20,7 @@ class ServicesManipulator extends BaseManipulator
             - name: sonata.admin
               manager_type: orm
               group: admin
+              label: %s
         calls: 
             - [ setTemplate, [ edit, LibrinfoCoreBundle:CRUD:base_edit.html.twig ] ]
             - [ setTemplate, [ list, LibrinfoCoreBundle:CRUD:base_list.html.twig ] ]
@@ -46,6 +47,9 @@ class ServicesManipulator extends BaseManipulator
      */
     public function addResource($serviceId, $modelClass, $adminClass, $controllerName, $managerType)
     {
+        $rc = new \ReflectionClass($modelClass);
+        $modelClassShortName = $rc->getShortName();
+        
         $code = "services:\n";
 
         if (is_file($this->file)) {
@@ -79,6 +83,7 @@ class ServicesManipulator extends BaseManipulator
             $adminClass,
             $modelClass,
             $controllerName,
+            $modelClassShortName,
             $managerType,
             current(array_slice(explode('\\', $modelClass), -1))
         );
