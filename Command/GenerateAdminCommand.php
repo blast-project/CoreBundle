@@ -48,7 +48,7 @@ class GenerateAdminCommand extends ContainerAwareCommand
     public function configure()
     {
         $this
-            ->setName('librinfo:generate:admin')
+            ->setName('blast:generate:admin')
             ->setDescription('Generates an admin class based on the given model class')
             ->addArgument('model', InputArgument::REQUIRED, 'The fully qualified model class')
             ->addOption('bundle', 'b', InputOption::VALUE_OPTIONAL, 'The bundle name')
