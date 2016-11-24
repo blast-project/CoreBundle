@@ -1,5 +1,5 @@
 {
-    "name": "libre-informatique/core-bundle",
+    "name": "blast/core-bundle",
     "type": "symfony-bundle",
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {
@@ -11,11 +11,19 @@
     },
     "license":  "GPL-3.0",
     "keywords": ["e-venement", "libio", "sonata", "symfony"],
-    "homepage": "https://github.com/libre-informatique/SymfonyLibrinfoCoreBundle",
+    "homepage": "https://github.com/symfony-blast/CoreBundle",
     "authors": [
         {
            "name": "Baptiste SIMON",
            "email": "baptiste.simon@libre-informatique.fr"
+        },
+        {
+           "name": "Marcos Bezerra de Menezes",
+           "email": "marcos.bezerrademenezes@libre-informatique.fr"
+        },
+        {
+           "name": "Romain SANCHEZ",
+           "email": "romain.sanchez@libre-informatique.fr"
         },
         {
             "name": "Libre Informatique",
@@ -23,7 +31,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Librinfo\\CoreBundle\\": "" }
+        "psr-4": { "Blast\\CoreBundle\\": "" }
     },
     "suggest": {
         "libre-informatique/crm-bundle": "Manage contacts, organisms and more..."
