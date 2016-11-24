@@ -1,4 +1,4 @@
-# SymfonyLibrinfoCoreBundle
+# Blast CoreBundle
 
 The goal of this bundle is to make the use of SonataAdmin "view-models" possible without writting a line of PHP, without loosing a feature of Sonata, and importing the idea of composite settings using lots of characteristics of an admin (its direct inheritance tree, the traits used by its Entity, the inheritance tree of its Entity...), making things more flexible, extendable, reusable and maintenable through many bundles and uses.
 
@@ -28,7 +28,7 @@ Prerequisites
 Downloading
 -----------
 
-  $ composer require libre-informatique/core-bundle dev-master
+  $ composer require blast-project/core-bundle dev-master
 
 This will download and install :
 * knplabs/knp-menu
@@ -41,7 +41,7 @@ This will download and install :
 * twig/extensions
 * sonata-project/admin-bundle
 * sonata-project/doctrine-orm-admin-bundle
-* libre-informatique/core-bundle
+* blast-project/core-bundle
 * libre-informatique/base-entities-bundle
 * twig/twig ^1.22.1
 
@@ -170,9 +170,9 @@ Going further...
 
 #### Going further using the CoreAdmin
 
-Instead of the ```Librinfo\CoreBundle\Admin\Traits\Base``` trait, you might be interested in :
-* ```Librinfo\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
-* ```Librinfo\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
+Instead of the ```Blast\CoreBundle\Admin\Traits\Base``` trait, you might be interested in :
+* ```Blast\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
+* ```Blast\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
 [Creating new field types](Resources/doc/README-CreatingFieldTypes.md).
 
@@ -191,6 +191,6 @@ Please refer yourself to the proper documentation from the Sonata Project...
 
 [Discover the configuration of the dashboard](Resources/doc/README-Dashboard.md).
 
-#### Using LibrinfoCore command tools for patches
+#### Using Blast Core command tools for patches
 
 [Discover how to implement patches](Resources/doc/README-Patches-HowTo.md)
