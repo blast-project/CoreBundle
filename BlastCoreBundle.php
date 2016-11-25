@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
 
-class LibrinfoCoreBundle extends Bundle
+class BlastCoreBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
