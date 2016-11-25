@@ -1,6 +1,6 @@
 {% extends 'SonataAdminBundle:CRUD:base_show.html.twig' %}
 
-{% import 'LibrinfoCoreBundle:CRUD:base_show_macro.html.twig' as librinfo_show_helper %}
+{% import 'BlastCoreBundle:CRUD:base_show_macro.html.twig' as blast_show_helper %}
 
 {% block tab_menu_navbar_header %}
     {% spaceless %}
@@ -67,7 +67,7 @@
                                         <p>{{ show_tab.description|raw }}</p>
                                     {% endif %}
 
-                                    {{ librinfo_show_helper.render_groups(admin, object, elements, show_tab.groups, has_tab) }}
+                                    {{ blast_show_helper.render_groups(admin, object, elements, show_tab.groups, has_tab) }}
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                 </div>
             </div>
         {% elseif admin.showtabs is iterable %}
-            {{ librinfo_show_helper.render_groups(admin, object, elements, admin.showtabs.default.groups, has_tab) }}
+            {{ blast_show_helper.render_groups(admin, object, elements, admin.showtabs.default.groups, has_tab) }}
         {% endif %}
 
     </div>

@@ -1,9 +1,9 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Librinfo\CoreBundle\Admin\CoreAdmin;
+use Blast\CoreBundle\Admin\CoreAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 

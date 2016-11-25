@@ -1,8 +1,7 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
-use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 trait CollectionsManager
 {

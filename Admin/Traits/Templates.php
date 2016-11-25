@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;

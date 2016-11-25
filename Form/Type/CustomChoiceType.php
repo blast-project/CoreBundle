@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Form\Type;
+namespace Blast\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -8,9 +8,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\Options;
 use Doctrine\ORM\EntityManager;
-use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
-use Librinfo\CoreBundle\Form\ChoiceLoader\CustomChoiceChoiceLoader;
-use Librinfo\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
+use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
+use Blast\CoreBundle\Form\ChoiceLoader\CustomChoiceChoiceLoader;
+use Blast\CoreBundle\Form\DataTransformer\MultipleChoiceTransformer;
 
 class CustomChoiceType extends BaseAbstractType
 {
@@ -39,7 +39,7 @@ class CustomChoiceType extends BaseAbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $manager = $this->manager;
-        $defaultClass = '\Librinfo\CoreBundle\Entity\SelectChoice';
+        $defaultClass = '\Blast\CoreBundle\Entity\SelectChoice';
 
         $choiceLoader = function (Options $options) use ($manager) {
             return new CustomChoiceChoiceLoader($manager, $options);

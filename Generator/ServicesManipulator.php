@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Generator;
+namespace Blast\CoreBundle\Generator;
 
 use Sonata\AdminBundle\Manipulator\ServicesManipulator as BaseManipulator;
 use Symfony\Component\Yaml\Yaml;

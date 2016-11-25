@@ -1,5 +1,5 @@
 {
-    "name": "blast/core-bundle",
+    "name": "blast-project/core-bundle",
     "type": "symfony-bundle",
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {

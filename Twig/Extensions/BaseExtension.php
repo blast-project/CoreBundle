@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Twig\Extensions;
+namespace Blast\CoreBundle\Twig\Extensions;
 
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Environment;

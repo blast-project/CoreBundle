@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Command;
+namespace Blast\CoreBundle\Command;
 
 use Symfony\Component\Yaml\Yaml;
 

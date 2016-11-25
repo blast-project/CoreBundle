@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\DependencyInjection;
+namespace Blast\CoreBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

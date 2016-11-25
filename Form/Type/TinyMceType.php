@@ -1,8 +1,8 @@
 <?php
 
-namespace Librinfo\CoreBundle\Form\Type;
+namespace Blast\CoreBundle\Form\Type;
 
-use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
+use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
 
 class TinyMceType extends BaseAbstractType
 {

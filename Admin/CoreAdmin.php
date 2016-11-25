@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin;
+namespace Blast\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -9,13 +9,13 @@ use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
-use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
-use Librinfo\CoreBundle\Admin\Traits\CollectionsManager;
-use Librinfo\CoreBundle\Admin\Traits\Mapper;
-use Librinfo\CoreBundle\Admin\Traits\Templates;
-use Librinfo\CoreBundle\Admin\Traits\PreEvents;
-use Librinfo\CoreBundle\Admin\Traits\ManyToManyManager;
-use Librinfo\CoreBundle\Admin\Traits\ListActions;
+use Blast\CoreBundle\Tools\Reflection\ClassAnalyzer;
+use Blast\CoreBundle\Admin\Traits\CollectionsManager;
+use Blast\CoreBundle\Admin\Traits\Mapper;
+use Blast\CoreBundle\Admin\Traits\Templates;
+use Blast\CoreBundle\Admin\Traits\PreEvents;
+use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
+use Blast\CoreBundle\Admin\Traits\ListActions;
 
 abstract class CoreAdmin extends SonataAdmin
 {

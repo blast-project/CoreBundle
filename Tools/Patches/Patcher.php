@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Tools\Patches;
+namespace Blast\CoreBundle\Tools\Patches;
 
 use Composer\Script\Event;
 use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\CodeGenerator;
+namespace Blast\CoreBundle\CodeGenerator;
 
 use Doctrine\ORM\EntityManager;
 

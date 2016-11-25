@@ -1,8 +1,7 @@
 <?php
 
-namespace Librinfo\CoreBundle\Generator;
+namespace Blast\CoreBundle\Generator;
 
-use Symfony\Component\Yaml\Yaml;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 
@@ -26,11 +25,7 @@ class BlastGenerator extends Generator
     }
     
     /**
-     * @param string $serviceId
      * @param string $modelClass
-     * @param string $adminClass
-     * @param string $controllerName
-     * @param string $managerType
      *
      * @throws \RuntimeException
      */

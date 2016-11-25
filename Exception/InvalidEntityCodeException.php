@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Exception;
+namespace Blast\CoreBundle\Exception;
 
 class InvalidEntityCodeException extends \Exception
 {

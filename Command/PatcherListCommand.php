@@ -1,14 +1,10 @@
 <?php
 
-namespace Librinfo\CoreBundle\Command;
+namespace Blast\CoreBundle\Command;
 
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class PatcherListCommand extends ContainerAwareCommand
 {

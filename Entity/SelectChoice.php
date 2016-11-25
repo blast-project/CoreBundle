@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Entity;
+namespace Blast\CoreBundle\Entity;
 
 use Librinfo\BaseEntitiesBundle\Entity\Traits\BaseEntity;
 use Librinfo\BaseEntitiesBundle\Entity\Traits\Jsonable;

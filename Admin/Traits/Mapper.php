@@ -1,8 +1,7 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;

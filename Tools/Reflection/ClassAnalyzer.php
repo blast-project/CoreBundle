@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Tools\Reflection;
+namespace Blast\CoreBundle\Tools\Reflection;
 
 class ClassAnalyzer
 {

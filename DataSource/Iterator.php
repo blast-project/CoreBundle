@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\DataSource;
+namespace Blast\CoreBundle\DataSource;
 
 use Exporter\Source\DoctrineORMQuerySourceIterator;
 use Doctrine\ORM\PersistentCollection;

@@ -1,9 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Command;
-
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
+namespace Blast\CoreBundle\Command;
 
 trait PatcherLogger
 {

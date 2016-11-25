@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Datagrid\ListMapper;

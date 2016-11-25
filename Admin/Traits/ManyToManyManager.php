@@ -1,8 +1,7 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
-use Librinfo\CoreBundle\Tools\Reflection\ClassAnalyzer;
 
 /**
  * This trait is used to delete many-to-many associated entities when the current

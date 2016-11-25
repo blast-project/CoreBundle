@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Form;
+namespace Blast\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
 

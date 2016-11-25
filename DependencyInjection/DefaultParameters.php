@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\DependencyInjection;
+namespace Blast\CoreBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class DefaultParameters
  *
- * @package Librinfo\CoreBundle\DependencyInjection
+ * @package Blast\CoreBundle\DependencyInjection
  */
 class DefaultParameters implements ContainerAwareInterface
 {

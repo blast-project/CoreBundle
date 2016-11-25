@@ -1,10 +1,10 @@
 <?php
 
-namespace Librinfo\CoreBundle\Form\Type;
+namespace Blast\CoreBundle\Form\Type;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use Librinfo\CoreBundle\Form\AbstractType as BaseAbstractType;
-use Librinfo\CoreBundle\Form\DataTransformer\CheckboxTransformer;
+use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
+use Blast\CoreBundle\Form\DataTransformer\CheckboxTransformer;
 
 class CustomCheckboxType extends BaseAbstractType
 {

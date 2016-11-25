@@ -1,10 +1,10 @@
 <?php
 
-namespace Librinfo\CoreBundle;
+namespace Blast\CoreBundle;
 
-use Librinfo\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
 
 class LibrinfoCoreBundle extends Bundle
 {

@@ -1,9 +1,8 @@
 <?php
 
-namespace Librinfo\CoreBundle\Services;
+namespace Blast\CoreBundle\Services;
 
 use FOS\UserBundle\Entity\UserManager;
-use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 

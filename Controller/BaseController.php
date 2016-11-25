@@ -1,17 +1,9 @@
 <?php
 
-namespace Librinfo\CoreBundle\Controller;
+namespace Blast\CoreBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Response;
-
-use Librinfo\BaseEntitiesBundle\Entity\Repository\SearchableRepository;
-
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class BaseController
@@ -19,7 +11,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Extends this controller if you want to render a custom view withing sonata'as admin layout.
  * Your view has to extends the sonata's admin layout (or overrided layouts)
  *
- * @package Librinfo\CoreBundle\Controller
+ * @package Blast\CoreBundle\Controller
  */
 class BaseController extends CoreController
 {

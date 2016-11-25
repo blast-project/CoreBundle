@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Generator;
+namespace Blast\CoreBundle\Generator;
 
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;

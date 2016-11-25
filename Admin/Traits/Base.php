@@ -1,9 +1,9 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin\Traits;
+namespace Blast\CoreBundle\Admin\Traits;
 
-use Librinfo\CoreBundle\Admin\CoreAdmin;
-use Librinfo\CoreBundle\DataSource\Iterator;
+use Blast\CoreBundle\Admin\CoreAdmin;
+use Blast\CoreBundle\DataSource\Iterator;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Form\ChoiceLoader;
+namespace Blast\CoreBundle\Form\ChoiceLoader;
 
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;

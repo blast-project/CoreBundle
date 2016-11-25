@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Librinfo\CoreBundle\Command;
+namespace Blast\CoreBundle\Command;
 
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
@@ -26,10 +26,10 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Command\Validators;
-use Librinfo\CoreBundle\Generator\AdminGenerator;
-use Librinfo\CoreBundle\Generator\ControllerGenerator;
-use Librinfo\CoreBundle\Generator\ServicesManipulator;
-use Librinfo\CoreBundle\Generator\BlastGenerator;
+use Blast\CoreBundle\Generator\AdminGenerator;
+use Blast\CoreBundle\Generator\ControllerGenerator;
+use Blast\CoreBundle\Generator\ServicesManipulator;
+use Blast\CoreBundle\Generator\BlastGenerator;
 
 /**
  * Class GenerateAdminCommand.

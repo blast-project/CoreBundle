@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Twig\Extensions;  
+namespace Blast\CoreBundle\Twig\Extensions;  
 
 use Html2Text\Html2Text;
 

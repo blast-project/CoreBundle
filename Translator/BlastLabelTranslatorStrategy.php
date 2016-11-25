@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Librinfo\CoreBundle\Translator;
+namespace Blast\CoreBundle\Translator;
 
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
@@ -23,7 +23,7 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  *
  * i.e. isValid => librinfo.label.is_valid
  */
-class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
+class BlastLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
     /**
      * {@inheritdoc}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Admin;
+namespace Blast\CoreBundle\Admin;
 
 use Exporter\Writer\WriterInterface;
 

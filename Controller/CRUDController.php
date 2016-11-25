@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Librinfo\CoreBundle\Controller;
+namespace Blast\CoreBundle\Controller;
 
-use Librinfo\CoreBundle\Exception\InvalidEntityCodeException;
+use Blast\CoreBundle\Exception\InvalidEntityCodeException;
 use Sonata\AdminBundle\Controller\CRUDController as SonataController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

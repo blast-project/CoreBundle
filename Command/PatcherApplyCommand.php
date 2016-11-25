@@ -1,6 +1,6 @@
 <?php
 
-namespace Librinfo\CoreBundle\Command;
+namespace Blast\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
