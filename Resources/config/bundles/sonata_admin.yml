@@ -30,11 +30,11 @@ default: # see available parameters with command : app/console debug:container -
             show: SonataAdminBundle:CRUD:show.html.twig
             edit: SonataAdminBundle:CRUD:edit.html.twig
         replace:
-            layout: LibrinfoCoreBundle::standard_layout.html.twig
-            user_block: LibrinfoCoreBundle:Block:user_block.html.twig
-            list: LibrinfoCoreBundle:CRUD:base_list.html.twig
-            show: LibrinfoCoreBundle:CRUD:base_show.html.twig
-            edit: LibrinfoCoreBundle:CRUD:base_edit.html.twig
+            layout: BlastCoreBundle::standard_layout.html.twig
+            user_block: BlastCoreBundle:Block:user_block.html.twig
+            list: BlastCoreBundle:CRUD:base_list.html.twig
+            show: BlastCoreBundle:CRUD:base_show.html.twig
+            edit: BlastCoreBundle:CRUD:base_edit.html.twig
 
 #    sonata_doctrine_orm_admin.templates:
 #        default:
@@ -42,4 +42,4 @@ default: # see available parameters with command : app/console debug:container -
 #                - SonataDoctrineORMAdminBundle:Admin/Form:form_admin_fields.html.twig
 #        replace:
 #            form:
-#                - LibrinfoCoreBundle:Admin/Form:admin_forms.html.twig
+#                - BlastCoreBundle:Admin/Form:admin_forms.html.twig

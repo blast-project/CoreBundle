@@ -11,9 +11,9 @@ Example
 
 I want to design and create a bundle as a toolbox for other bundles' entities. It will provide traits for email addresses and phonenumbers, for instance (cf. [LibrinfoBaseEntitiesBundle](https://github.com/libre-informatique/SymfonyLibrinfoBaseEntitiesBundle)).
 
-Using the LibrinfoCoreBundle, your "base" bundle will carry the traits, but also the way to display properties given by its traits in a SonataAdmin (which becomes a CoreAdmin) CRUD. Then using the traits of your "base" bundle in the entities of other bundles (also implementing the LibrinfoCoreBundle) will add the fields naturally, the columns in the list of objects, etc... as you set up for your trait in your "base" bundle, without having to write a line for this.
+Using the BlastCoreBundle, your "base" bundle will carry the traits, but also the way to display properties given by its traits in a SonataAdmin (which becomes a CoreAdmin) CRUD. Then using the traits of your "base" bundle in the entities of other bundles (also implementing the BlastCoreBundle) will add the fields naturally, the columns in the list of objects, etc... as you set up for your trait in your "base" bundle, without having to write a line for this.
 
-Imagine this feature appliable to 50 entities distributed in 10 bundles, and count in your mind the number of saved lines, the number of potential bugs avoided and the ease of maintenance when you want to change the nature of the field used by the provided email address or phonenumber... This is what the LibrinfoCoreBundle permits.
+Imagine this feature appliable to 50 entities distributed in 10 bundles, and count in your mind the number of saved lines, the number of potential bugs avoided and the ease of maintenance when you want to change the nature of the field used by the provided email address or phonenumber... This is what the BlastCoreBundle permits.
 
 Installation
 ============
@@ -92,7 +92,7 @@ class AppKernel extends Kernel
 
             // Then add SonataAdminBundle
             new Sonata\AdminBundle\SonataAdminBundle(),
-            new Librinfo\CoreBundle\LibrinfoCoreBundle(),
+            new Librinfo\CoreBundle\BlastCoreBundle(),
             
             //...
         ];
@@ -141,7 +141,7 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
             // ...
             
             // The libre-informatique bundles
-            new Librinfo\CoreBundle\LibrinfoCoreBundle(),
+            new Librinfo\CoreBundle\BlastCoreBundle(),
             
             // your personal bundles
         );
@@ -178,7 +178,7 @@ Instead of the ```Blast\CoreBundle\Admin\Traits\Base``` trait, you might be inte
 
 #### Using Sonata Project extensions
 
-If needed, you can easly use the LibrinfoCoreBundle in combination with other bundles from the Sonata Project, for instance :
+If needed, you can easly use the BlastCoreBundle in combination with other bundles from the Sonata Project, for instance :
 
 * [sonata-project/intl-bundle](https://sonata-project.org/bundles/intl/master/doc/index.html)
 * [sonata-project/notification-bundle](https://sonata-project.org/bundles/notification/master/doc/index.html)

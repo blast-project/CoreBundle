@@ -1,53 +1,53 @@
 services:
-    librinfo_core.twig.base_extension:
-        class: Librinfo\CoreBundle\Twig\Extensions\BaseExtension
+    blast_core.twig.base_extension:
+        class: Blast\CoreBundle\Twig\Extensions\BaseExtension
         tags: [{ name: twig.extension }]
         calls:
             - [setRouter,[@router]]
 
-    librinfo_core.services.authenticate:
-        class: Librinfo\CoreBundle\Services\Authenticate
+    blast_core.services.authenticate:
+        class: Blast\CoreBundle\Services\Authenticate
         arguments: [@security.token_storage]
         calls:
             - [setUserManager, ['@fos_user.user_manager']]
 
     sonata.admin.exporter:
-        class: Librinfo\CoreBundle\Admin\Exporter
+        class: Blast\CoreBundle\Admin\Exporter
         calls:
             - [setRouter, ['@router']]
 
-    librinfo_core.label.strategy.librinfo:
-        class: Librinfo\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
+    blast_core.label.strategy.librinfo:
+        class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
 
     ######### FORM TYPES ###########
-    librinfo_core.form.type.tinymce:
-        class: Librinfo\CoreBundle\Form\Type\TinyMceType
+    blast_core.form.type.tinymce:
+        class: Blast\CoreBundle\Form\Type\TinyMceType
         tags:
             - { name: form.type, alias: librinfo_tinymce }
-    librinfo_core.form.type.customchoice:
-        class: Librinfo\CoreBundle\Form\Type\CustomChoiceType
+    blast_core.form.type.customchoice:
+        class: Blast\CoreBundle\Form\Type\CustomChoiceType
         tags:
             - { name: form.type, alias: librinfo_customchoice }
         arguments: [ @doctrine.orm.entity_manager ]
-    librinfo_core.form.type.customcheckbox:
-        class: Librinfo\CoreBundle\Form\Type\CustomCheckboxType
+    blast_core.form.type.customcheckbox:
+        class: Blast\CoreBundle\Form\Type\CustomCheckboxType
         tags:
             - { name: form.type, alias: librinfo_customcheckbox }
-    librinfo_core.form.type.entity_code:
-        class: Librinfo\CoreBundle\Form\Type\EntityCodeType
+    blast_core.form.type.entity_code:
+        class: Blast\CoreBundle\Form\Type\EntityCodeType
         tags:
             - { name: form.type, alias: librinfo_entitycode }
 
 
     #########  TWIG EXTENSIONS ############
-    librinfo_core.twig_extension.html2text:
-        class: Librinfo\CoreBundle\Twig\Extensions\Html2textExtension
+    blast_core.twig_extension.html2text:
+        class: Blast\CoreBundle\Twig\Extensions\Html2textExtension
         tags:
             - { name: twig.extension }
 
 
     #########  ENTITY CODE GENERATORS ############
-    librinfo_core.code_generator_factory:
-        class: Librinfo\CoreBundle\CodeGenerator\CodeGeneratorFactory
-    librinfo_core.code_generators:
-        class: Librinfo\CoreBundle\CodeGenerator\CodeGeneratorRegistry
+    blast_core.code_generator_factory:
+        class: Blast\CoreBundle\CodeGenerator\CodeGeneratorFactory
+    blast_core.code_generators:
+        class: Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry

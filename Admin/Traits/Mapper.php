@@ -39,7 +39,7 @@ trait Mapper
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $classes = $this->getCurrentComposition();
         $this->getConfigurationPool()->getContainer()->get('logger')
-                ->debug('[LibrinfoCoreBundle] Processing the configuration in this order: ' . implode(', ', $classes));
+                ->debug('[BlastCoreBundle] Processing the configuration in this order: ' . implode(', ', $classes));
 
         $fcts = [
             'tabs' => $mapper instanceof ShowMapper ?
@@ -438,7 +438,7 @@ trait Mapper
 
                         // set the efficient template
                         if (!isset($extras['template']))
-                            $mapper->get($name)->setTemplate('LibrinfoCoreBundle:CRUD:show_association_admin.html.twig');
+                            $mapper->get($name)->setTemplate('BlastCoreBundle:CRUD:show_association_admin.html.twig');
                         break;
                 }
         }

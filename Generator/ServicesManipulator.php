@@ -22,9 +22,9 @@ class ServicesManipulator extends BaseManipulator
               group: admin
               label: %s
         calls: 
-            - [ setTemplate, [ edit, LibrinfoCoreBundle:CRUD:base_edit.html.twig ] ]
-            - [ setTemplate, [ list, LibrinfoCoreBundle:CRUD:base_list.html.twig ] ]
-            - [ setTemplate, [ show, LibrinfoCoreBundle:CRUD:base_show.html.twig ] ]
+            - [ setTemplate, [ edit, BlastCoreBundle:CRUD:base_edit.html.twig ] ]
+            - [ setTemplate, [ list, BlastCoreBundle:CRUD:base_list.html.twig ] ]
+            - [ setTemplate, [ show, BlastCoreBundle:CRUD:base_show.html.twig ] ]
             
 ';
     

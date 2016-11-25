@@ -113,7 +113,7 @@ class BaseExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'librinfo_core_base_extension';
+        return 'blast_core_base_extension';
     }
 
     /**

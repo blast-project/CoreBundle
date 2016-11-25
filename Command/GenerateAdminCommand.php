@@ -140,7 +140,7 @@ class GenerateAdminCommand extends ContainerAwareCommand
             $servicesManipulator = new ServicesManipulator($file);
             $controllerName = $controllerClassBasename
                 ? sprintf('%s:%s', $bundle->getName(), substr($controllerClassBasename, 0, -10))
-                : 'LibrinfoCoreBundle:CRUD'
+                : 'BlastCoreBundle:CRUD'
             ;
 
             try {

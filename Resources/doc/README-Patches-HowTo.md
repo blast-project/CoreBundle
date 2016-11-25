@@ -15,8 +15,8 @@ Execute the following command :
 ```path/to/your/modified-file``` can be a github URL (raw file URL) or any URL, or a path to a local file. This file contains your code modification to be applied.
 ```path/to/target-file``` must be a relative path to the file that will be patched (relative to the Symfony project root (the folder containing app/, src/, vendor/ ...))
 
-This command creates the patch file (e.g. : ```1447941862.txt```) under ```LibrinfoCoreBundle\Tools\Patches\``` directory.
-It adds an entry into ```patches.yml``` under ```LibrinfoCoreBundle\Tools\Patches\``` directory.
+This command creates the patch file (e.g. : ```1447941862.txt```) under ```BlastCoreBundle\Tools\Patches\``` directory.
+It adds an entry into ```patches.yml``` under ```BlastCoreBundle\Tools\Patches\``` directory.
 
 ##### Listing patch files managed by the tool
 

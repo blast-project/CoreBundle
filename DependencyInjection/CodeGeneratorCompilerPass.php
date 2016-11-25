@@ -14,12 +14,12 @@ class CodeGeneratorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!$container->has('librinfo_core.code_generators'))
+        if (!$container->has('blast_core.code_generators'))
             return;
 
-        $registry = $container->findDefinition('librinfo_core.code_generators');
+        $registry = $container->findDefinition('blast_core.code_generators');
 
-        $taggedServices = $container->findTaggedServiceIds('librinfo.entity_code_generator');
+        $taggedServices = $container->findTaggedServiceIds('blast.entity_code_generator');
 
         foreach ($taggedServices as $id => $tags)
             $registry->addMethodCall('register',  [new Reference($id)]);

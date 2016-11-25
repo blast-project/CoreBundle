@@ -149,7 +149,7 @@ Authenticates user defined in your configuration in order to allow testing of se
 /** @var User $user */
 $client = static::createClient();
 $datafixtures = $client->getContainer()->getParameter('librinfo.datafixtures');
-$user = $client->getContainer()->get('librinfo_core.services.authenticate')->authencicateUser($datafixtures['user']['username']);
+$user = $client->getContainer()->get('blast_core.services.authenticate')->authencicateUser($datafixtures['user']['username']);
 // ...
 ```
 

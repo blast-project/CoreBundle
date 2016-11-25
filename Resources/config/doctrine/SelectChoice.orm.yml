@@ -1,5 +1,5 @@
 # Entity to persist select choices lists
-Librinfo\CoreBundle\Entity\SelectChoice:
+Blast\CoreBundle\Entity\SelectChoice:
     type: entity
     table: select_choice
     librinfo:

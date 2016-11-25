@@ -36,7 +36,7 @@ class BlastCoreExtension extends Extension
         foreach(['services', 'admin', 'config', $file] as $fileName)
         {
             if( file_exists($dir . $prefix . $fileName . $suffix) )
-                if( $fileName != $file || $rc->getName() == 'LibrinfoCoreExtension' )
+                if( $fileName != $file || $rc->getName() == 'BlastCoreExtension' )
                     $loader->load($fileName . $suffix);
                 else
                     $this->mergeParameter('blast', $container, $dir . $prefix);       

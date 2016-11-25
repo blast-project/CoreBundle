@@ -47,9 +47,9 @@ parameters:
         configuration:
             templates:
                 show:
-                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
+                    email: BlastCoreBundle:CRUD:list_field_email.html.twig
                 list:
-                    email: LibrinfoCoreBundle:CRUD:list_field_email.html.twig
+                    email: BlastCoreBundle:CRUD:list_field_email.html.twig
 ```
 
 You can see that the definition of a new field type is set within the ```configuration``` librinfo parameter, using the ```templates``` keyword. Then the subkey is set by the action it refers to (```show``` or ```list```), and it is componed by pairs of ```type``` → ```template``` (written in the standard Symfony notation).

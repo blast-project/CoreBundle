@@ -13,7 +13,7 @@ file that was distributed with this source code.
 {% extends 'SonataDoctrineORMAdminBundle:CRUD:show_orm_one_to_many.html.twig' %}
 
 {% block field %}
-{% block librinfo_core_field %}
+{% block blast_core_field %}
 
 {% if not field_description.hasassociationadmin %}
     {{ value|render_relation_element(field_description) }}

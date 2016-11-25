@@ -23,7 +23,7 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  *
  * i.e. isValid => librinfo.label.is_valid
  */
-class BlastLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
+class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
     /**
      * {@inheritdoc}
