@@ -11,7 +11,7 @@
     },
     "license":  "GPL-3.0",
     "keywords": ["e-venement", "libio", "sonata", "symfony"],
-    "homepage": "https://github.com/symfony-blast/CoreBundle",
+    "homepage": "https://github.com/blast-project/CoreBundle",
     "authors": [
         {
            "name": "Baptiste SIMON",
@@ -34,6 +34,6 @@
         "psr-4": { "Blast\\CoreBundle\\": "" }
     },
     "suggest": {
-        "libre-informatique/crm-bundle": "Manage contacts, organisms and more..."
+        "blast-project/outer-extension-bundle": "Extend your doctrine entities from the outside"
     }
 }
