@@ -1,46 +1,26 @@
 <?php
 
-/*
- * This file is part of the Sonata Project package.
- *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Blast\CoreBundle\Command;
 
-use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
-use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Command\Validators;
-use Blast\CoreBundle\Generator\AdminGenerator;
-use Blast\CoreBundle\Generator\ControllerGenerator;
-use Blast\CoreBundle\Generator\ServicesManipulator;
-use Blast\CoreBundle\Generator\BlastGenerator;
+use Symfony\Component\ClassLoader\ClassMapGenerator;
+use Blast\CoreBundle\Command\Traits\Interaction;
 
 /**
  * Class GenerateAdminCommand.
  *
  */
-class GenerateAdminCommand extends ContainerAwareCommand
+class GenerateExtensionContainersCommand extends ContainerAwareCommand
 {
-    /**
-     * @var string[]
-     */
-    private $managerTypes;
+
+    use Interaction;
+
+    protected $count = 0;
+    protected $dir;
+    protected $output;
 
     /**
      * {@inheritdoc}
@@ -48,46 +28,10 @@ class GenerateAdminCommand extends ContainerAwareCommand
     public function configure()
     {
         $this
-            ->setName('blast:generate:admin')
-            ->setDescription('Generates an admin class based on the given model class')
-            ->addArgument('model', InputArgument::REQUIRED, 'The fully qualified model class')
-            ->addOption('bundle', 'b', InputOption::VALUE_OPTIONAL, 'The bundle name')
-            ->addOption('admin', 'a', InputOption::VALUE_OPTIONAL, 'The admin class basename')
-            ->addOption('controller', 'c', InputOption::VALUE_OPTIONAL, 'The controller class basename')
-            ->addOption('manager', 'm', InputOption::VALUE_OPTIONAL, 'The model manager type')
-            ->addOption('services', 'y', InputOption::VALUE_OPTIONAL, 'The services YAML file', 'services.yml')
-            ->addOption('id', 'i', InputOption::VALUE_OPTIONAL, 'The admin service ID')
+                ->setName('blast:outer-extension:generate:containers')
+                ->setDescription('Generates missing extension container traits')
+                ->addOption('dir', 'd', InputOption::VALUE_OPTIONAL, 'The namespace root where containers will be generated ex: "src", "vendor/acme"')
         ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled()
-    {
-        return class_exists('Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle');
-    }
-
-    /**
-     * @param string $managerType
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function validateManagerType($managerType)
-    {
-        $managerTypes = $this->getAvailableManagerTypes();
-
-        if (!isset($managerTypes[$managerType])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid manager type "%s". Available manager types are "%s".',
-                $managerType,
-                implode('", "', $managerTypes)
-            ));
-        }
-
-        return $managerType;
     }
 
     /**
@@ -95,76 +39,21 @@ class GenerateAdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $modelClass = Validators::validateClass($input->getArgument('model'));
-        $modelClassBasename = current(array_slice(explode('\\', $modelClass), -1));
-        $bundle = $this->getBundle($input->getOption('bundle') ?: $this->getBundleNameFromClass($modelClass));
-        $adminClassBasename = $input->getOption('admin') ?: $modelClassBasename.'Admin';
-        $adminClassBasename = Validators::validateAdminClassBasename($adminClassBasename);
-        $managerType = $input->getOption('manager') ?: $this->getDefaultManagerType();
-        $modelManager = $this->getModelManager($managerType);
-        $skeletonDirectory = __DIR__.'/../Resources/skeleton';
-        $adminGenerator = new AdminGenerator($modelManager, $skeletonDirectory);
+        $this->output = $output;
+        $this->dir = $input->getOption('dir');
+        $mapping = [];
 
-        try {
-            $adminGenerator->generate($bundle, $adminClassBasename, $modelClass);
-            $output->writeln(sprintf(
-                '%sThe admin class "<info>%s</info>" has been generated under the file "<info>%s</info>".',
-                PHP_EOL,
-                $adminGenerator->getClass(),
-                realpath($adminGenerator->getFile())
-            ));
-        } catch (\Exception $e) {
-            $this->writeError($output, $e->getMessage());
-        }
+        foreach ( $this->getBundles() as $bundle )
+            $mapping += ClassMapGenerator::createMap($bundle->getPath());
 
-        if ($controllerClassBasename = $input->getOption('controller')) {
-            $controllerClassBasename = Validators::validateControllerClassBasename($controllerClassBasename);
-            $controllerGenerator = new ControllerGenerator($skeletonDirectory);
+        spl_autoload_register(array($this, 'loadClass'), true, false);
 
-            try {
-                $controllerGenerator->generate($bundle, $controllerClassBasename);
-                $output->writeln(sprintf(
-                    '%sThe controller class "<info>%s</info>" has been generated under the file "<info>%s</info>".',
-                    PHP_EOL,
-                    $controllerGenerator->getClass(),
-                    realpath($controllerGenerator->getFile())
-                ));
-            } catch (\Exception $e) {
-                $this->writeError($output, $e->getMessage());
-            }
-        }
+        foreach ( $mapping as $class => $path )
+            if ( $this->isNormalEntity($class) )
+                require_once $path;
 
-        if ($servicesFile = $input->getOption('services')) {
-            $adminClass = $adminGenerator->getClass();
-            $file = sprintf('%s/Resources/config/%s', $bundle->getPath(), $servicesFile);
-            $servicesManipulator = new ServicesManipulator($file);
-            $controllerName = $controllerClassBasename
-                ? sprintf('%s:%s', $bundle->getName(), substr($controllerClassBasename, 0, -10))
-                : 'BlastCoreBundle:CRUD'
-            ;
-
-            try {
-                $id = $input->getOption('id') ?: $this->getAdminServiceId($bundle->getName(), $adminClassBasename);
-                $servicesManipulator->addResource($id, $modelClass, $adminClass, $controllerName, $managerType);
-                $output->writeln(sprintf(
-                    '%sThe service "<info>%s</info>" has been appended to the file <info>"%s</info>".%s',
-                    PHP_EOL,
-                    $id,
-                    realpath($file),
-                    PHP_EOL
-                ));
-            } catch (\Exception $e) {
-                $this->writeError($output, $e->getMessage());
-            }
-        }
-        
-        try {
-            $blastFile = sprintf('%s/Resources/config/blast.yml', $bundle->getPath());
-            $blastGenerator = new BlastGenerator($blastFile, $modelManager, $skeletonDirectory);
-            $blastGenerator->addResource($modelClass);
-        } catch (\Exception $e){
-            $this->writeError($output, $e->getMessage());
-        }
+        if ( $this->count < 1 )
+            $this->output->writeln('No missing traits were found');
 
         return 0;
     }
@@ -175,273 +64,118 @@ class GenerateAdminCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $questionHelper = $this->getQuestionHelper();
-        $questionHelper->writeSection($output, 'Welcome to the Libre informatique Sonata admin generator');
-        $modelClass = $this->askAndValidate(
-            $input,
-            $output,
-            'The fully qualified model class',
-            $input->getArgument('model'),
-            'Sonata\AdminBundle\Command\Validators::validateClass'
-        );
-        
-        $modelClassBasename = current(array_slice(explode('\\', $modelClass), -1));
-        $bundleName = $this->askAndValidate(
-            $input,
-            $output,
-            'The bundle name',
-            $input->getOption('bundle') ?: $this->getBundleNameFromClass($modelClass),
-            'Sensio\Bundle\GeneratorBundle\Command\Validators::validateBundleName'
-        );
-        $adminClassBasename = $this->askAndValidate(
-            $input,
-            $output,
-            'The admin class basename',
-            $input->getOption('admin') ?: $modelClassBasename.'Admin',
-            'Sonata\AdminBundle\Command\Validators::validateAdminClassBasename'
-        );
 
-        if (count($this->getAvailableManagerTypes()) > 1) {
-            $managerType = $this->askAndValidate(
-                $input,
-                $output,
-                'The manager type',
-                $input->getOption('manager') ?: $this->getDefaultManagerType(),
-                array($this, 'validateManagerType')
+        if ( !$input->getOption('dir') )
+        {
+            $questionHelper->writeSection($output, 'Welcome to the Blast extension container generator');
+
+            $dir = $this->askAndValidate(
+                    $input, $output, 'The source folder of your "AppBundle" where traits will be generated in Entity\OuterExtension\{BundleName}', 'src/'
             );
-            $input->setOption('manager', $managerType);
+
+            $input->setOption('dir', $dir);
         }
+    }
 
-        if ($this->askConfirmation($input, $output, 'Do you want to generate a controller', 'no', '?')) {
-            $controllerClassBasename = $this->askAndValidate(
-                $input,
-                $output,
-                'The controller class basename',
-                $input->getOption('controller') ?: $modelClassBasename.'AdminController',
-                'Sonata\AdminBundle\Command\Validators::validateControllerClassBasename'
-            );
-            $input->setOption('controller', $controllerClassBasename);
-        }
+    protected function getBundle($name)
+    {
+        $bundles = $this->getApplication()->getKernel()->getBundles();
 
-        if ($this->askConfirmation($input, $output, 'Do you want to update the services YAML configuration file', 'yes', '?')) {
-            $path = $this->getBundle($bundleName)->getPath().'/Resources/config/';
-            $servicesFile = $this->askAndValidate(
-                $input,
-                $output,
-                'The services YAML configuration file',
-                is_file($path.'admin.yml') ? 'admin.yml' : 'services.yml',
-                'Sonata\AdminBundle\Command\Validators::validateServicesFile'
-            );
-            $id = $this->askAndValidate(
-                $input,
-                $output,
-                'The admin service ID',
-                $this->getAdminServiceId($bundleName, $adminClassBasename),
-                'Sonata\AdminBundle\Command\Validators::validateServiceId'
-            );
-            $input->setOption('services', $servicesFile);
-            $input->setOption('id', $id);
-        }
+        if ( isset($bundles[$name]) )
+            return $bundles[$name];
 
-        $input->setArgument('model', $modelClass);
-        $input->setOption('admin', $adminClassBasename);
-        $input->setOption('bundle', $bundleName);
+        throw new \RuntimeException("There is no bundle named $name.");
+    }
+
+    protected function getBundles()
+    {
+        return $this->getApplication()->getKernel()->getBundles();
     }
 
     /**
-     * @param string $class
+     * Loads the given class or interface.
      *
-     * @return string|null
-     *
-     * @throws \InvalidArgumentException
+     * @param string $class The name of the class
      */
-    private function getBundleNameFromClass($class)
+    public function loadClass($class)
     {
-        $application = $this->getApplication();
-        /* @var $application Application */
+        if ( !isset($this->map[$class]) && $this->isNormalTrait($class) )
+        {
+            $path = $this->getFilePathFromClassPath($class);
+            $dir = dirname($path);
 
-        foreach ($application->getKernel()->getBundles() as $bundle) {
-            if (strpos($class, $bundle->getNamespace().'\\') === 0) {
-                return $bundle->getName();
+            if ( !is_dir($dir) )
+                if ( file_exists($dir) )
+                    throw new \Exception($dir . ' is a file...');
+                else
+                    mkdir($dir, 0755, true);
+
+            $result = file_put_contents(
+                    $path, sprintf(
+                            "<?php\n\nnamespace %s;\n\ntrait %s\n{\n}\n", str_replace('/', '\\', dirname(str_replace('\\', '/', $class))), pathinfo($path)['filename'])
+            );
+
+            if ( $result !== false || $result !== '' )
+            {
+                $this->count++;
+                $this->output->writeln(sprintf('Generated trait %s', $path));
             }
+
+            $this->map[$class] = $path;
         }
 
-        return;
+        if ( isset($this->map[$class]) )
+            require $this->map[$class];
     }
 
     /**
-     * @param string $name
+     * Returns the file path from the class path
      *
-     * @return BundleInterface
-     */
-    private function getBundle($name)
-    {
-        return $this->getKernel()->getBundle($name);
-    }
-
-    /**
-     * @param OutputInterface $output
-     * @param string          $message
-     */
-    private function writeError(OutputInterface $output, $message)
-    {
-        $output->writeln(sprintf("\n<error>%s</error>", $message));
-    }
-
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $questionText
-     * @param mixed           $default
-     * @param callable        $validator
-     *
-     * @return mixed
-     */
-    private function askAndValidate(InputInterface $input, OutputInterface $output, $questionText, $default, $validator)
-    {
-        $questionHelper = $this->getQuestionHelper();
-
-        // NEXT_MAJOR: Remove this BC code for SensioGeneratorBundle 2.3/2.4 after dropping support for Symfony 2.3
-        if ($questionHelper instanceof DialogHelper) {
-            return $questionHelper->askAndValidate($output, $questionHelper->getQuestion($questionText, $default), $validator, false, $default);
-        }
-
-        $question = new Question($questionHelper->getQuestion($questionText, $default), $default);
-
-        $question->setValidator($validator);
-
-        return $questionHelper->ask($input, $output, $question);
-    }
-
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     * @param string          $questionText
-     * @param string          $default
-     * @param string          $separator
-     *
+     * @param string $class The name of the class
      * @return string
      */
-    private function askConfirmation(InputInterface $input, OutputInterface $output, $questionText, $default, $separator)
+    public function getFilePathFromClassPath($class)
     {
-        $questionHelper = $this->getQuestionHelper();
-
-        // NEXT_MAJOR: Remove this BC code for SensioGeneratorBundle 2.3/2.4 after dropping support for Symfony 2.3
-        if ($questionHelper instanceof DialogHelper) {
-            $question = $questionHelper->getQuestion($questionText, $default, $separator);
-
-            return $questionHelper->askConfirmation($output, $question, ($default === 'no' ? false : true));
-        }
-
-        $question = new ConfirmationQuestion($questionHelper->getQuestion(
-            $questionText,
-            $default,
-            $separator
-        ), ($default === 'no' ? false : true));
-
-        return $questionHelper->ask($input, $output, $question);
+        return $this->dir . '/' . str_replace('\\', '/', $class) . '.php';
     }
 
     /**
-     * @return string
+     * Returns if the given class seems to be an entity
+     * basing the analysis on its namespace
      *
-     * @throws \RuntimeException
+     * @param string $class The name of the class
+     * @return boolean
      */
-    private function getDefaultManagerType()
+    public function isNormalEntity($class)
     {
-        if (!$managerTypes = $this->getAvailableManagerTypes()) {
-            throw new \RuntimeException('There are no model managers registered.');
-        }
-
-        return current($managerTypes);
+        return strpos($class, '\\Entity\\') !== false && strpos($class, '\\Tests\\') === false;
     }
 
     /**
-     * @param string $managerType
+     * Returns if the given class seems to be a trait
+     * basing the analysis on its namespace
      *
-     * @return ModelManagerInterface
+     * @param string $class The name of the class
+     * @return boolean
      */
-    private function getModelManager($managerType)
+    public function isNormalTrait($class)
     {
-        return $this->getContainer()->get('sonata.admin.manager.'.$managerType);
+        return strpos($class, '\\OuterExtension\\') !== false && strpos($class, '\\Tests\\') === false;
     }
 
     /**
-     * @param string $bundleName
-     * @param string $adminClassBasename
+     * Finds the path to the file where the class is defined.
      *
-     * @return string
+     * @param string $class The name of the class
+     *
+     * @return string|null The path, if found
      */
-    private function getAdminServiceId($bundleName, $adminClassBasename)
+    public function findFile($class)
     {
-        $prefix = substr($bundleName, -6) == 'Bundle' ? substr($bundleName, 0, -6) : $bundleName;
-        $suffix = substr($adminClassBasename, -5) == 'Admin' ? substr($adminClassBasename, 0, -5) : $adminClassBasename;
-        $suffix = str_replace('\\', '.', $suffix);
-
-        return Container::underscore(sprintf(
-            '%s.admin.%s',
-            $prefix,
-            $suffix
-        ));
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getAvailableManagerTypes()
-    {
-        $container = $this->getContainer();
-
-        if (!$container instanceof Container) {
-            return array();
+        if ( isset($this->map[$class]) )
+        {
+            return $this->map[$class];
         }
-
-        if ($this->managerTypes === null) {
-            $this->managerTypes = array();
-
-            foreach ($container->getServiceIds() as $id) {
-                if (strpos($id, 'sonata.admin.manager.') === 0) {
-                    $managerType = substr($id, 21);
-                    $this->managerTypes[$managerType] = $managerType;
-                }
-            }
-        }
-
-        return $this->managerTypes;
     }
 
-    /**
-     * @return KernelInterface
-     */
-    private function getKernel()
-    {
-        /* @var $application Application */
-        $application = $this->getApplication();
-
-        return $application->getKernel();
-    }
-
-    /**
-     * @return QuestionHelper|DialogHelper
-     */
-    private function getQuestionHelper()
-    {
-        // NEXT_MAJOR: Remove this BC code for SensioGeneratorBundle 2.3/2.4 after dropping support for Symfony 2.3
-        if (class_exists('Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper')) {
-            $questionHelper = $this->getHelper('dialog');
-
-            if (!$questionHelper instanceof DialogHelper) {
-                $questionHelper = new DialogHelper();
-                $this->getHelperSet()->set($questionHelper);
-            }
-        } else {
-            $questionHelper = $this->getHelper('question');
-
-            if (!$questionHelper instanceof QuestionHelper) {
-                $questionHelper = new QuestionHelper();
-                $this->getHelperSet()->set($questionHelper);
-            }
-        }
-
-        return $questionHelper;
-    }
 }
