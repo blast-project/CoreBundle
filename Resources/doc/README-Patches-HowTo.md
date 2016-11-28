@@ -66,13 +66,13 @@ To enable this feature, just add this line in your composer.json :
 
             # ...
 
-            "Librinfo\\CoreBundle\\Tools\\Patches\\Patcher::applyPatches"
+            "Blast\\CoreBundle\\Tools\\Patches\\Patcher::applyPatches"
         ],
         "post-update-cmd": [
 
             # ...
 
-            "Librinfo\\CoreBundle\\Tools\\Patches\\Patcher::applyPatches"
+            "Blast\\CoreBundle\\Tools\\Patches\\Patcher::applyPatches"
         ]
     },
 

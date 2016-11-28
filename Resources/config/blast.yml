@@ -6,7 +6,7 @@ parameters:
                     email: BlastCoreBundle:CRUD:show_field_email.html.twig
                 list:
                     email: BlastCoreBundle:CRUD:list_field_email.html.twig
-        Librinfo\CoreBundle\Admin\CoreAdmin:
+        Blast\CoreBundle\Admin\CoreAdmin:
             Sonata\AdminBundle\Datagrid\ListMapper:
                 add:
                     _action:

@@ -92,7 +92,7 @@ class AppKernel extends Kernel
 
             // Then add SonataAdminBundle
             new Sonata\AdminBundle\SonataAdminBundle(),
-            new Librinfo\CoreBundle\BlastCoreBundle(),
+            new Blast\CoreBundle\BlastCoreBundle(),
             
             //...
         ];
@@ -141,7 +141,7 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
             // ...
             
             // The libre-informatique bundles
-            new Librinfo\CoreBundle\BlastCoreBundle(),
+            new Blast\CoreBundle\BlastCoreBundle(),
             
             // your personal bundles
         );
