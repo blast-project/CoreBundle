@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Librinfo\CoreBundle\DependencyInjection\LibrinfoCoreExtension;
+use Blast\CoreBundle\DependencyInjection\LibrinfoCoreExtension;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -40,18 +40,18 @@ class LibrinfoCRMExtension extends LibrinfoCoreExtension
 
 Then create a ```Resources/config/librinfo.yml``` file in your bundle, matching the previous specifications.
 
-You'll notice the ```use Librinfo\CoreBundle\DependencyInjection\LibrinfoCoreExtension;```, the ```class LibrinfoCRMExtension extends LibrinfoCoreExtension``` and the ```$this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```Librinfo\CoreBundle```).
+You'll notice the ```use Blast\CoreBundle\DependencyInjection\LibrinfoCoreExtension;```, the ```class LibrinfoCRMExtension extends LibrinfoCoreExtension``` and the ```$this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```Blast\CoreBundle```).
 
 #### Keeping the original/default SonataAdmin configuration (fields)
 
-In fact when you generate an ```Admin``` component, it comes with the full list of fields representing the object you want to create/edit/list/show... So if you want, for any reason, to keep this configuration available, the best practice with ```Librinfo\CoreBundle``` is to extend this ```Admin``` component as: ```DemoAdmin``` -> ```DemoAdminConcrete```.
+In fact when you generate an ```Admin``` component, it comes with the full list of fields representing the object you want to create/edit/list/show... So if you want, for any reason, to keep this configuration available, the best practice with ```Blast\CoreBundle``` is to extend this ```Admin``` component as: ```DemoAdmin``` -> ```DemoAdminConcrete```.
 
 ```php
 <?php
 // src/AcmeBundle/Admin/DemoAdminConcrete.php
 namespace AcmeBundle\Admin;
 
-use Librinfo\CoreBundle\Admin\Traits\Base as BaseAdmin;
+use Blast\CoreBundle\Admin\Traits\Base as BaseAdmin;
 
 class DemoAdminConcrete extends DemoAdmin
 {
