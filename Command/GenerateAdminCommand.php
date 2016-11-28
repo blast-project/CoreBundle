@@ -30,6 +30,7 @@ use Blast\CoreBundle\Generator\AdminGenerator;
 use Blast\CoreBundle\Generator\ControllerGenerator;
 use Blast\CoreBundle\Generator\ServicesManipulator;
 use Blast\CoreBundle\Generator\BlastGenerator;
+use Blast\CoreBundle\Command\Traits\Interaction;
 
 /**
  * Class GenerateAdminCommand.
@@ -37,6 +38,8 @@ use Blast\CoreBundle\Generator\BlastGenerator;
  */
 class GenerateAdminCommand extends ContainerAwareCommand
 {
+    use Interaction;
+    
     /**
      * @var string[]
      */
@@ -175,7 +178,7 @@ class GenerateAdminCommand extends ContainerAwareCommand
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $questionHelper = $this->getQuestionHelper();
-        $questionHelper->writeSection($output, 'Welcome to the Libre informatique Sonata admin generator');
+        $questionHelper->writeSection($output, 'Welcome to the Blast Sonata admin generator');
         $modelClass = $this->askAndValidate(
             $input,
             $output,
