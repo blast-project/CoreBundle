@@ -59,8 +59,7 @@ parameters:
                     gfx_tab:
                         gfx_group2:
                             field2:
-                                _options:
-                                    template: LibrinfoCRMBundle:CRUD:field_subobject.html.twig # this allows you
+                                template: LibrinfoCRMBundle:CRUD:field_subobject.html.twig # this allows you
                                                 # to display this field using a specific template of your own.
             Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "filters")
                 add:
