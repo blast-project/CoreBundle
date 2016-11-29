@@ -5,12 +5,6 @@ services:
         calls:
             - [setRouter,[@router]]
 
-    blast_core.services.authenticate:
-        class: Blast\CoreBundle\Services\Authenticate
-        arguments: [@security.token_storage]
-        calls:
-            - [setUserManager, ['@fos_user.user_manager']]
-
     sonata.admin.exporter:
         class: Blast\CoreBundle\Admin\Exporter
         calls:
