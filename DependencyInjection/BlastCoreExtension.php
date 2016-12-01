@@ -20,8 +20,7 @@ class BlastCoreExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration(new Configuration, $configs);
 
         $rc = new \ReflectionClass($this);
         $dir = dirname($rc->getFileName());
@@ -33,25 +32,38 @@ class BlastCoreExtension extends Extension
         
         $loader = new Loader\YamlFileLoader($container, new FileLocator($dir . $prefix));
 
-        foreach(['services', 'admin', 'config', $file] as $fileName)
+        foreach ( ['services', 'admin', 'config', $file] as $fileName )
+        if ( file_exists($dir . $prefix . $fileName . $suffix) )
         {
-            if( file_exists($dir . $prefix . $fileName . $suffix) )
-                if( $fileName != $file || $rc->getName() == 'BlastCoreExtension' )
-                    $loader->load($fileName . $suffix);
-                else
-                    $this->mergeParameter('blast', $container, $dir . $prefix);       
+            if ( $fileName != $file || $rc->getName() == 'BlastCoreExtension' )
+                $loader->load($fileName . $suffix);
+            else
+                $this->mergeParameter('blast', $container, $dir . $prefix);
         }
         
-        if( file_exists($path = $dir . $bundlesPrefix . $sonataFile . $suffix) )
+        if ( file_exists($path = $dir . $bundlesPrefix . $sonataFile . $suffix) )
         {
             $configSonataAdmin = Yaml::parse(
                 file_get_contents($path)
-            ); 
+            );
 
             DefaultParameters::getInstance($container)
                 ->defineDefaultConfiguration($configSonataAdmin['default'])
             ;
         }
+        
+        $this->doLoad($container, $config, $loader);
+    }
+    
+    /**
+     * This method is called at the end of the self::load() process, to add some logic
+     *
+     * @param $container ContainerBuilder
+     * @param $config array
+     * @return void
+     */
+    protected function doLoad(ContainerBuilder $container, array $config, Loader\FileLoader $loader)
+    {
     }
 
     protected function mergeParameter($var, $container, $dir, $file_name = 'blast.yml')
