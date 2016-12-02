@@ -2,7 +2,7 @@
 Blast\CoreBundle\Entity\SelectChoice:
     type: entity
     table: select_choice
-    librinfo:
+    blast:
         loggable:     true
     fields:
         label: 

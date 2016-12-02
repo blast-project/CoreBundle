@@ -2,8 +2,8 @@
 
 namespace Blast\CoreBundle\Entity;
 
-use Librinfo\BaseEntitiesBundle\Entity\Traits\BaseEntity;
-use Librinfo\BaseEntitiesBundle\Entity\Traits\Jsonable;
+use Blast\BaseEntitiesBundle\Entity\Traits\BaseEntity;
+use Blast\BaseEntitiesBundle\Entity\Traits\Jsonable;
 
 /**
  * SelectChoice

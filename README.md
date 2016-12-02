@@ -9,7 +9,7 @@ It is also the core of [Libre Informatique](https://github.com/libre-informatiqu
 Example
 ========
 
-I want to design and create a bundle as a toolbox for other bundles' entities. It will provide traits for email addresses and phonenumbers, for instance (cf. [LibrinfoBaseEntitiesBundle](https://github.com/libre-informatique/SymfonyLibrinfoBaseEntitiesBundle)).
+I want to design and create a bundle as a toolbox for other bundles' entities. It will provide traits for email addresses and phonenumbers, for instance (cf. [BlastBaseEntitiesBundle](https://github.com/libre-informatique/SymfonyBlastBaseEntitiesBundle)).
 
 Using the BlastCoreBundle, your "base" bundle will carry the traits, but also the way to display properties given by its traits in a SonataAdmin (which becomes a CoreAdmin) CRUD. Then using the traits of your "base" bundle in the entities of other bundles (also implementing the BlastCoreBundle) will add the fields naturally, the columns in the list of objects, etc... as you set up for your trait in your "base" bundle, without having to write a line for this.
 
