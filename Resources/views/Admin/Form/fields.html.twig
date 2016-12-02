@@ -1,22 +1,4 @@
 
-{% block blast_tinymce_widget %}
-    {% spaceless %}
-        <textarea class="tinymce form-control" id="{{ id }}" name="{{ full_name }}" data-theme="advanced">{{ value }}</textarea>    
-    {% endspaceless%}
-{% endblock %}
-
-{% block blast_custom_choice_widget %}
-    {% spaceless %}
-        {{ block('choice_widget') }}
-        {% if is_filter == false %}
-            <a id="{{ id }}_add_choice" class="add-choice editable editable-click inline-input" href="#"><i class="fa fa-plus-circle"></i></a>
-            {% block customchoice_script %}
-                {% include 'BlastCoreBundle:Script:custom_choice_script.js.twig' %}
-            {% endblock %}
-        {% endif %}
-    {% endspaceless %}
-{% endblock %}
-
 {% block librinfo_entitycode_widget %}
     {% spaceless %}
         {% set uniqid = sonata_admin.admin.uniqid %}
