@@ -5,7 +5,8 @@ namespace Blast\CoreBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\FileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -23,17 +24,15 @@ class BlastCoreExtension extends Extension
         $config = $this->processConfiguration($this->getConfiguration([], $container), $configs);
         $this->initialize();
         $loader = $this->buildLoader($container);
-        
-        $this
-            ->loadServices($loader)
-            ->loadCodeGenerators($container, $config)
-            ->loadDataFixtures($container, $loader)
-            ->loadParameters($container)
-            ->loadSecurity()
-            ->loadSonataAdmin($container, $loader)
-            ->loadListeners($container, $config)
-            ->doLoad($container, $loader, $config)
-        ;
+
+        $this->loadServices($loader);
+        $this->loadCodeGenerators($container, $config);
+        $this->loadDataFixtures($container, $loader);
+        $this->loadParameters($container);
+        $this->loadSecurity($container);
+        $this->loadSonataAdmin($container, $loader);
+        $this->loadListeners($container, $config);
+        $this->doLoad($container, $loader, $config);
     }
     
     public function initialize()
@@ -44,31 +43,33 @@ class BlastCoreExtension extends Extension
         $this->bundlesPrefix = $this->prefix . 'bundles/';
         $this->suffix = '.yml';
         $this->file = 'blast';
+        
         return $this;
     }
     
     /**
-     * the buildLoader returns the required Loader\FileLoader
+     * the buildLoader returns the required FileLoader
      * 
-     * @return Loader\FileLoader
+     * @return FileLoader
      **/
     public function buildLoader(ContainerBuilder $container)
     {
-        return new Loader\YamlFileLoader($container, new FileLocator($this->dir . $this->prefix));
+        return new YamlFileLoader($container, new FileLocator($this->dir . $this->prefix));
     }
     
     /**
      * This method is called during the self::load() process, to add the logic related to SonataAdmin
      *
-     * @param $loader Loader\FileLoader
+     * @param $loader FileLoader
      * @return $this
      */
-    public function loadServices(Loader\FileLoader $loader)
+    public function loadServices(FileLoader $loader)
     {
         // services, admin & config files
         foreach ( ['services', 'admin', 'config'] as $fileName )
         if ( file_exists($this->dir . $this->prefix . $fileName . $this->suffix) )
             $loader->load($fileName . $this->suffix);
+        
         return $this;
     }
     
@@ -88,10 +89,10 @@ class BlastCoreExtension extends Extension
      * This method is called after loading the services in the self::load() process, to load data fixtures
      *
      * @param $container ContainerBuilder
-     * @param $loader Loader\FileLoader
+     * @param $loader FileLoader
      * @return $this
      */
-    public function loadDataFixtures(ContainerBuilder $container, Loader\FileLoader $loader)
+    public function loadDataFixtures(ContainerBuilder $container, FileLoader $loader)
     {
         return $this;
     }
@@ -107,15 +108,16 @@ class BlastCoreExtension extends Extension
         // the blast.yml
         if ( file_exists($this->dir . $this->prefix . $this->file . $this->suffix) )
             $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
+        
         return $this;
     }
         
     /**
-     * This method is called at the end of the self::load() process, to add logic security related
+     * This method is called at the end of the self::load() process, to add security related logic 
      *
      * @return $this
      */
-    public function loadSecurity()
+    public function loadSecurity(ContainerBuilder $container)
     {
         return $this;
     }
@@ -124,10 +126,10 @@ class BlastCoreExtension extends Extension
      * This method is called at the end of the self::load() process, to add the logic related to SonataAdmin
      *
      * @param $container ContainerBuilder
-     * @param $loader Loader\FileLoader
+     * @param $loader FileLoader
      * @return $this
      */
-    public function loadSonataAdmin(ContainerBuilder $container, Loader\FileLoader $loader)
+    public function loadSonataAdmin(ContainerBuilder $container, FileLoader $loader)
     {
         if ( file_exists($path = $this->dir . $this->bundlesPrefix . 'sonata_admin' . $this->suffix) )
         {
@@ -139,6 +141,7 @@ class BlastCoreExtension extends Extension
                 ->defineDefaultConfiguration($configSonataAdmin['default'])
             ;
         }
+        
         return $this;
     }
     
@@ -158,18 +161,18 @@ class BlastCoreExtension extends Extension
      * This method is called at the end of the self::load() process, to add any logic needed
      *
      * @param $container ContainerBuilder
-     * @param $loader Loader\FileLoader
+     * @param $loader FileLoader
      * @param $config array
      * @return $this
      */
-    public function doLoad(ContainerBuilder $container, Loader\FileLoader $loader, array $config)
+    public function doLoad(ContainerBuilder $container, FileLoader $loader, array $config)
     {
         return $this;
     }
     
     protected function mergeParameter($var, $container, $dir, $file_name = 'blast.yml')
     {
-        $loader = new Loader\YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
+        $loader = new YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
         $loader->load($file_name);
         
         if ( !$container->hasParameter($var) || !is_array($container->getParameter($var)) )
