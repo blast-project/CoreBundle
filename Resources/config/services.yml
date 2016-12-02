@@ -1,9 +1,9 @@
 services:
-    blast_core.twig.base_extension:
-        class: Blast\CoreBundle\Twig\Extensions\BaseExtension
-        tags: [{ name: twig.extension }]
-        calls:
-            - [setRouter,[@router]]
+#    blast_core.twig.base_extension:
+#        class: Blast\CoreBundle\Twig\Extensions\BaseExtension
+#        tags: [{ name: twig.extension }]
+#        calls:
+#            - [setRouter,[@router]]
 
     sonata.admin.exporter:
         class: Blast\CoreBundle\Admin\Exporter
@@ -14,30 +14,10 @@ services:
         class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
 
     ######### FORM TYPES ###########
-    blast_core.form.type.tinymce:
-        class: Blast\CoreBundle\Form\Type\TinyMceType
-        tags:
-            - { name: form.type, alias: librinfo_tinymce }
-    blast_core.form.type.customchoice:
-        class: Blast\CoreBundle\Form\Type\CustomChoiceType
-        tags:
-            - { name: form.type, alias: librinfo_customchoice }
-        arguments: [ @doctrine.orm.entity_manager ]
-    blast_core.form.type.customcheckbox:
-        class: Blast\CoreBundle\Form\Type\CustomCheckboxType
-        tags:
-            - { name: form.type, alias: librinfo_customcheckbox }
     blast_core.form.type.entity_code:
         class: Blast\CoreBundle\Form\Type\EntityCodeType
         tags:
             - { name: form.type, alias: librinfo_entitycode }
-
-
-    #########  TWIG EXTENSIONS ############
-    blast_core.twig_extension.html2text:
-        class: Blast\CoreBundle\Twig\Extensions\Html2textExtension
-        tags:
-            - { name: twig.extension }
 
 
     #########  ENTITY CODE GENERATORS ############

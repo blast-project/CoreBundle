@@ -33,7 +33,7 @@ class CustomChoiceType extends BaseAbstractType
 
     public function getBlockPrefix(){
 
-        return 'librinfo_customchoice';
+        return 'blast_custom_choice';
     }
 
     public function configureOptions(OptionsResolver $resolver)

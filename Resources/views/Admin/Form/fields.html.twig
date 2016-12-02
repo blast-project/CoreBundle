@@ -1,11 +1,11 @@
 
-{% block librinfo_tinymce_widget %}
+{% block blast_tinymce_widget %}
     {% spaceless %}
         <textarea class="tinymce form-control" id="{{ id }}" name="{{ full_name }}" data-theme="advanced">{{ value }}</textarea>    
     {% endspaceless%}
 {% endblock %}
 
-{% block librinfo_customchoice_widget %}
+{% block blast_custom_choice_widget %}
     {% spaceless %}
         {{ block('choice_widget') }}
         {% if is_filter == false %}

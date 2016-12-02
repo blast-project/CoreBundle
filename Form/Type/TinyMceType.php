@@ -13,6 +13,6 @@ class TinyMceType extends BaseAbstractType
     
     public function getBlockPrefix()
     {
-        return 'librinfo_tinymce';
+        return 'blast_tinymce';
     }
 }
