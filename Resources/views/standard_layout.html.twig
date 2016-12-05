@@ -22,3 +22,31 @@ file that was distributed with this source code.
     {{ parent() }}
     {% block bottom_js %}{% endblock %}
 {% endblock %}
+
+{# Temporary fix for fr_FR locale scripts #}
+{% block javascripts %}
+    {% block sonata_javascript_config %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block sonata_javascript_pool %}
+         {{ parent() }}
+    {% endblock %}
+
+    {% set locale = app.request.locale %}
+    {# localize moment #}
+    {% if locale[:2] != 'en' %}
+        {% if locale == 'fr_FR' %}{% set locale = 'fr' %}{% endif %}
+        <script src="{{ asset('bundles/sonatacore/vendor/moment/locale/' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
+    {% endif %}
+
+    {# localize select2 #}
+    {% if sonata_admin.adminPool.getOption('use_select2') %}
+        {% if locale == 'pt' %}{% set locale = 'pt_PT' %}{% endif %}
+
+        {# omit default EN locale #}
+        {% if locale[:2] != 'en' %}
+            <script src="{{ asset('bundles/sonatacore/vendor/select2/select2_locale_' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
+        {% endif %}
+    {% endif %}
+{% endblock %}
