@@ -21,7 +21,7 @@ trait ListActions
     public function getListActions()
     {
         if ( !$this->_listActionLoaded )
-            $this->addPresetListActions($this->listActions);
+            $this->handleListActions($this->listActions);
         return $this->listActions;
     }
 
