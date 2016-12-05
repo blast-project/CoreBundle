@@ -1,6 +1,3 @@
-blast_core_choice_addChoice:
-    path:     blast/ajax/choices/add
-    defaults: { _controller: BlastCoreBundle:Choice:addChoice }
 
 blast_core_generate_entity_code:
     path:     blast/core/generateEntityCode
