@@ -39,6 +39,21 @@ abstract class CoreAdmin extends SonataAdmin
         parent::configureRoutes($collection);
         $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
         $collection->add('generateEntityCode');
+        
+        //Disabling list actions by disabling the corresponding route
+        $actionKey = '_actions';
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+
+        foreach( $this->getCurrentComposition() as $class )
+            if( isset($blast[$class][ListMapper::class]) )
+            {
+                $config = $blast[$class][ListMapper::class];
+                
+                if( isset($config['remove'][$actionKey]) )
+                foreach($config['remove'][$actionKey] as $key)
+                if( $collection->has($key) )
+                    $collection->remove($key);
+            }
     }
 
     /**
