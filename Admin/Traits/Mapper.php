@@ -93,7 +93,7 @@ trait Mapper
                         foreach ( $mapper->keys() as $key )
                             $blast[$class][$mapper_class]['remove'][] = $key;
 
-                    foreach ( $blast[$class][$mapper_class]['remove'] as $key => $key )
+                    foreach ( $blast[$class][$mapper_class]['remove'] as $key => $field )
                     {
                         if ( in_array($key, $specialKeys) )
                             continue;
