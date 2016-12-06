@@ -3,8 +3,8 @@ Creating new field types
 
 To create a new field type, you need :
 
-1. to use this type in your Sonata Admin ```librinfo.yml``` definitions
-2. defining this field type in your ```librinfo.yml``` file
+1. to use this type in your Sonata Admin ```blast.yml``` definitions
+2. defining this field type in your ```blast.yml``` file
 3. (if necessary) creating a new Twig template
 4. test it
 
@@ -16,9 +16,9 @@ e.g.:
 Let's define the ```email``` field type, which by-the-way is already defined in this bundle :
 
 ```yaml
-# Resources/config/librinfo.yml
+# Resources/config/blast.yml
 parameters:
-    librinfo:
+    blast:
         Librinfo\BaseEntitiesBundle\Entity\Traits\Emailable:
             Sonata\AdminBundle\Datagrid\ListMapper:
                 _copy: Sonata\AdminBundle\Datagrid\DatagridMapper
@@ -41,9 +41,9 @@ parameters:
 ----------------------------
 
 ```yaml
-# Resources/config/librinfo.yml
+# Resources/config/blast.yml
 parameters:
-    librinfo:
+    blast:
         configuration:
             templates:
                 show:
@@ -52,7 +52,7 @@ parameters:
                     email: BlastCoreBundle:CRUD:list_field_email.html.twig
 ```
 
-You can see that the definition of a new field type is set within the ```configuration``` librinfo parameter, using the ```templates``` keyword. Then the subkey is set by the action it refers to (```show``` or ```list```), and it is componed by pairs of ```type``` → ```template``` (written in the standard Symfony notation).
+You can see that the definition of a new field type is set within the ```configuration``` blast parameter, using the ```templates``` keyword. Then the subkey is set by the action it refers to (```show``` or ```list```), and it is componed by pairs of ```type``` → ```template``` (written in the standard Symfony notation).
 
 3. Create a template (if needed) for it
 ---------------------------------------
