@@ -22,3 +22,68 @@ file that was distributed with this source code.
     {{ parent() }}
     {% block bottom_js %}{% endblock %}
 {% endblock %}
+
+{% block sonata_sidebar_search %}
+    <form action="{{ path('blast_admin_search') }}" method="GET" class="sidebar-form" role="search">
+        <div class="custom-search-form">
+            <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
+        </div>
+        <div id="custom-search-admins">
+            <select name="admin">
+                {# This list is temporarily hardcoded #}
+                {# TODO: this list should be configured in bast.yml (inside blast.configuration.search section) #}
+                <option value="libio.admin.variety">Variété</option>
+                <option value="librinfo_emailcrm.admin.organism">Tiers</option>
+            </select>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            var searchForm = $("form.sidebar-form[role=search]");
+            var ajaxSearchUrl = searchForm.attr('action');
+            var searchAdminSelect = searchForm.find('select[name=admin]');
+
+            function searchFormatResult(item) {
+               var markup = '<div class="row-fluid">' + item.label + '</div>';
+               return markup;
+            }
+
+            function searchFormatSelection(item) {
+               return item.label;
+            }
+
+            searchForm.find("input[name=q]").select2({
+                minimumInputLength: 1,
+                ajax: {
+                    url: ajaxSearchUrl,
+                    dataType: 'json',
+                    quietMillis: 250,
+                    data: function (term, page) {
+                        return {
+                            q: term,
+                            admin: searchAdminSelect.find('option:selected').attr('value')
+                        };
+                    },
+                    results: function (data, page) {
+                        return {
+                            results: data.results
+                        };
+                    },
+                    cache: true
+                },
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                formatResult: searchFormatResult,
+                formatSelection: searchFormatSelection
+            });
+
+            searchForm.find("input[name=q]").on("change", function(e){
+
+                if (e.added !== undefined && e.added.link !== undefined) {
+                    console.log(e.added.link);
+                    window.location = e.added.link;
+                }
+            });
+        });
+    </script>
+{% endblock sonata_sidebar_search %}
