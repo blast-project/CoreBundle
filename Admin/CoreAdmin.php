@@ -15,6 +15,7 @@ use Blast\CoreBundle\Admin\Traits\Mapper;
 use Blast\CoreBundle\Admin\Traits\Templates;
 use Blast\CoreBundle\Admin\Traits\PreEvents;
 use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
+use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
 
 abstract class CoreAdmin extends SonataAdmin
@@ -24,6 +25,7 @@ abstract class CoreAdmin extends SonataAdmin
         Mapper,
         Templates,
         PreEvents,
+        Actions,
         ListActions
     ;
 
@@ -40,20 +42,7 @@ abstract class CoreAdmin extends SonataAdmin
         $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
         $collection->add('generateEntityCode');
         
-        //Disabling list actions by disabling the corresponding route
-        $actionKey = '_actions';
-        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
-
-        foreach( $this->getCurrentComposition() as $class )
-            if( isset($blast[$class][ListMapper::class]) )
-            {
-                $config = $blast[$class][ListMapper::class];
-                
-                if( isset($config['remove'][$actionKey]) )
-                foreach($config['remove'][$actionKey] as $key)
-                if( $collection->has($key) )
-                    $collection->remove($key);
-            }
+        $this->removeActions($collection);
     }
 
     /**

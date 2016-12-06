@@ -77,7 +77,7 @@ trait Mapper
                         );
                 }
 
-            $specialKeys = ['_list_actions', '_batch_actions', '_export_formats', '_extra_templates', '_helper_links'];
+            $specialKeys = ['_actions', '_list_actions', '_batch_actions', '_export_formats', '_extra_templates', '_helper_links'];
 
             // process data...
             foreach ( array_reverse($list) as $mapper_class )
@@ -181,7 +181,10 @@ trait Mapper
 
         // flat organization (DatagridMapper / ListMapper...)
         if ( !$mapper instanceof BaseGroupedMapper )
-        {
+        {   
+            //list actions
+            $this->addActions($mapper);
+            
             // options pre-treatment
             $options = [];
             if ( isset($group['_options']) )
@@ -373,7 +376,6 @@ trait Mapper
 
     protected function addField(BaseMapper $mapper, $name, $options = [], $fieldDescriptionOptions = [])
     {
-
         // avoid duplicates
         if ( $mapper->has($name) )
             $mapper->remove($name);
@@ -414,11 +416,6 @@ trait Mapper
             }
 
         $mapper->add($name, $type, $options, $fieldDescriptionOptions);
-
-        if ( $name == '_action' )
-        {
-            $this->addListActions($mapper);
-        }
 
         // apply extra options
         foreach ( $extras as $extra => $call )
@@ -488,7 +485,7 @@ trait Mapper
                         foreach ( [
                             'label' => $name,
                             'params' => [],
-                            'translation_domain' => '',
+                            'translation_domain' => $this->getTranslationDomain(),
                             'action' => $name,
                             'route' => 'batch_' . $action,
                         ] as $field => $value )
@@ -506,7 +503,7 @@ trait Mapper
     /**
      * @param array     $actions
      * */
-    protected function addPresetListActions(array $actions = [])
+    protected function handleListActions(array $actions = [])
     {
         $this->_listActionLoaded = true;
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
@@ -514,42 +511,26 @@ trait Mapper
         foreach ( $this->getCurrentComposition() as $class )
         {
             // remove / reset
-            if ( isset($blast[$class][ListMapper::class]['remove']['_list_action']) )
+            if ( isset($blast[$class][ListMapper::class]['remove']['_list_actions']) )
                 $this->setListActions([]);
 
             // add
-            if ( isset($blast[$class][ListMapper::class]['add']['_list_action']) )
-                foreach ( $blast[$class][ListMapper::class]['add']['_list_action'] as $action => $props )
+            if ( isset($blast[$class][ListMapper::class]['add']['_list_actions']) )
+                foreach ( $blast[$class][ListMapper::class]['add']['_list_actions'] as $action => $props )
                 {
                     if ( substr($action, 0, 1) == '-' )
                     {
                         $this->removeListAction(substr($action, 1));
                         continue;
                     }
-                    if ( isset($props['translation_domain']) )
-                    {
-                        $props['label'] = $this->trans(
-                                isset($props['label']) ? $props['label'] : 'list_action_' . $action, array(), $props['translation_domain']
-                        );
-                    }
+                    
+                    $props['translation_domain'] = isset($props['translation_domain']) ? $props['translation_domain'] : $this->getTranslationDomain();
+                    
                     $this->addListAction($action, $props);
                 }
         }
 
         return $this->getListActions();
-    }
-
-    protected function addListActions($mapper)
-    {
-        if ( $mapper->has('_actions') )
-        {
-            $actions = $mapper->has('_actions') ? $mapper->get('_actions')->getOptions() : array();
-
-            $mapper->remove('_action');
-            $mapper->remove('_actions');
-
-            $mapper->add('_action', 'actions', $actions);
-        }
     }
 
     /**
