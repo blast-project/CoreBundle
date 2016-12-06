@@ -15,3 +15,5 @@ parameters:
                             show: ~
                             edit: ~
                             delete: ~
+                            duplicate:
+                                template: BlastCoreBundle:CRUD:list__action_duplicate.html.twig

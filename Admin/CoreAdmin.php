@@ -15,6 +15,7 @@ use Blast\CoreBundle\Admin\Traits\Mapper;
 use Blast\CoreBundle\Admin\Traits\Templates;
 use Blast\CoreBundle\Admin\Traits\PreEvents;
 use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
+use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
 
 abstract class CoreAdmin extends SonataAdmin
@@ -24,6 +25,7 @@ abstract class CoreAdmin extends SonataAdmin
         Mapper,
         Templates,
         PreEvents,
+        Actions,
         ListActions
     ;
 
@@ -39,6 +41,8 @@ abstract class CoreAdmin extends SonataAdmin
         parent::configureRoutes($collection);
         $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
         $collection->add('generateEntityCode');
+        
+        $this->removeActions($collection);
     }
 
     /**

@@ -48,13 +48,13 @@ trait Base
         CoreAdmin::configureShowFields($mapper);
     }
 
-    // /**
-    //  * {@inheritdoc}
-    //  **/
-    // public function getBatchActions()
-    // {
-    //     return $this->addPresetBatchActions(parent::getBatchActions());
-    // }
+     /**
+      * {@inheritdoc}
+      **/
+     public function getBatchActions()
+     {
+         return $this->handleBatchActions(parent::getBatchActions());
+     }
 
     /**
      * {@inheritdoc}
