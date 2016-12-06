@@ -1,9 +1,4 @@
 services:
-#    blast_core.twig.base_extension:
-#        class: Blast\CoreBundle\Twig\Extensions\BaseExtension
-#        tags: [{ name: twig.extension }]
-#        calls:
-#            - [setRouter,[@router]]
 
     sonata.admin.exporter:
         class: Blast\CoreBundle\Admin\Exporter
@@ -25,3 +20,11 @@ services:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorFactory
     blast_core.code_generators:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry
+        
+    ############ TWIG EXTENSIONS ##########
+    blast_core.extension.global_search:
+        class: Blast\CoreBundle\Twig\GlobalSearchExtension
+        public: false
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension }

@@ -23,18 +23,17 @@ file that was distributed with this source code.
     {% block bottom_js %}{% endblock %}
 {% endblock %}
 
-
 {% block sonata_sidebar_search %}
+    {% dump %}
     <form action="{{ path('blast_admin_search') }}" method="GET" class="sidebar-form" role="search">
         <div class="custom-search-form">
             <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
         </div>
         <div id="custom-search-admins">
             <select name="admin">
-                {# This list is temporarily hardcoded #}
-                {# TODO: this list should be configured in bast.yml (inside blast.configuration.search section) #}
-                <option value="libio.admin.variety">Variété</option>
-                <option value="librinfo_emailcrm.admin.organism">Tiers</option>
+                {% for admin in getGlobalSearchAdmins() %}
+                    <option value="{{ admin }}">{{ admin_pool.getAdminByAdminCode(admin).label|trans() }}</option>
+                {% endfor %}
             </select>
         </div>
     </form>
