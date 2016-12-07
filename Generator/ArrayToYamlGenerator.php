@@ -32,6 +32,9 @@ class ArrayToYamlGenerator extends Generator
         
         $file = implode('.', $parts) . '.yml';
         
+        if( file_exists($file) )
+            return;
+        
         $this->renderFile($skeleton, $file, array(
             'array'   => $array
         ));

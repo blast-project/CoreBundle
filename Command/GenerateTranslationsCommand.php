@@ -12,13 +12,13 @@
 namespace Blast\CoreBundle\Command;
 
 use Blast\CoreBundle\Generator\ArrayToYamlGenerator;
-use Blast\CoreBundle\Command\Traits\Interaction;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Class GenerateAdminCommand.
@@ -26,8 +26,6 @@ use Symfony\Component\DomCrawler\Crawler;
  */
 class GenerateTranslationsCommand extends ContainerAwareCommand
 {
-    use Interaction;
-
     /**
      * {@inheritdoc}
      */
@@ -36,7 +34,7 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
         $this
             ->setName('blast:generate:translations')
             ->setDescription('Generates translation files from XLIFF to YAML')
-            ->addOption('bundle', 'b', InputOption::VALUE_OPTIONAL, 'the bundle to update the translations for (ex: AcmeAppBundle)')
+            ->addArgument('bundle', InputArgument::REQUIRED, 'The bundle to generate translations for (ex: AcmeDemoBundle)')
         ;
     }
 
@@ -53,7 +51,7 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $bundle = $input->getOptions('bundle');
+        $bundle = $input->getArgument('bundle');
         $fs = new Filesystem();
         $finder = new Finder();
         $crawler = new Crawler();
@@ -71,7 +69,7 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
             }
             
         foreach( $finder->files()->in($transPath) as $file )
-        {
+        {            
             $translations = [];
 
             $crawler->addXmlContent(file_get_contents($file->getPathName()));
@@ -101,23 +99,6 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
         }
         
         return 0;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    protected function interact(InputInterface $input, OutputInterface $output)
-    {
-        $questionHelper = $this->getQuestionHelper();
-
-        $questionHelper->writeSection($output, 'Welcome to the Blast translations generator');
-        
-        if ( !$input->getOption('bundle') )
-        {
-            $bundle = $this->askAndValidate($input, $output, 'The bundle to generate translations for');
-
-            $input->setOption('bundle', $bundle);
-        }
     }
 
 }
