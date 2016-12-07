@@ -39,7 +39,7 @@ Trait Interaction
      *
      * @return mixed
      */
-    private function askAndValidate(InputInterface $input, OutputInterface $output, $questionText, $default, $validator = null)
+    private function askAndValidate(InputInterface $input, OutputInterface $output, $questionText, $default = null, $validator = null)
     {
         $questionHelper = $this->getQuestionHelper();
 
