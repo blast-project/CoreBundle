@@ -88,7 +88,7 @@ parameters:
                 title: this is the list view title 
                 titleTemplate: 'myBundle:Dir:myListTemplate.html.twig'
                 remove:
-                createdAt: ~                          #removing a simple field
+                    createdAt: ~                      # removing a simple field
                     _batch_actions: [delete]          # removes bacth actions (bottom of the list view)
                     _list_actions: [create]           # removes list actions (generic actions in top bar of the list view)
                     _export_formats: ~                # resets the export formats as it was before using any customized CoreAdmin
@@ -109,7 +109,7 @@ parameters:
                                             # optional
                             ask_confirmation:   false
                                             # true by default, and then ask for a user confirmation
-                    _export_format:         # exportable formats
+                    _export_formats:        # exportable formats
                         csv: [name, url]    # adds the CSV format, with fields name & url (and overwrites the previous configurations!!)
                         xml: [id, name, url]# adds the XML format, with fields id, name & url
                         json: ~             # adds the json format, with default fields
@@ -120,7 +120,7 @@ parameters:
                                             # if this format support multi-dimensional data, you can build 2 levels data
                                             #    using collections ; then [collection].name will iterate on each element
                                             #    to get back its name an produce a 2 dimension array
-                    _list_action: # add custom action to generic top bar actions in list view
+                    _list_actions: # add custom action to generic top bar actions in list view
                         test:
                             action: create      # can be an action or a route
                             translation_domain: LibrinfoCRMBundle # if no translation_domain is defined, then the label will not be translated
