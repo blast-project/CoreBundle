@@ -6,7 +6,7 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 
 /**
- * Class ServicesManipulator.
+ * Class BlastGenerator
  */
 class BlastGenerator extends Generator
 {   
