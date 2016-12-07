@@ -88,7 +88,7 @@ parameters:
                 title: this is the list view title 
                 titleTemplate: 'myBundle:Dir:myListTemplate.html.twig'
                 remove:
-                createdAt: ~                          #removing a simple field
+                    createdAt: ~                      # removing a simple field
                     _batch_actions: [delete]          # removes bacth actions (bottom of the list view)
                     _list_actions: [create]           # removes list actions (generic actions in top bar of the list view)
                     _export_formats: ~                # resets the export formats as it was before using any customized CoreAdmin
