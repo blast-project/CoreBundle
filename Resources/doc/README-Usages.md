@@ -11,7 +11,12 @@ So it is structured as :
 ```yaml
 # app/config/config.yml (or any other file that is loaded by your bundle)
 parameters:
-    librinfo:
+    blast:
+        configuration: #global configuration
+            search: #list of admin services that will be available in the global search box (they will appear in the same order)
+                - librinfo_crm.admin.contact
+                - librinfo_crm.admin.organism
+                - librinfo_email.admin.email
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
             manage:
                 collections: []                   # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
@@ -21,7 +26,9 @@ parameters:
             Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
                 title: this is the form view title 
                 titleTemplate: 'myBundle:Dir:myEditTemplate.html.twig'
-                remove: [name, id]                # The fields that need to be removed from inheritance (array)
+                remove:                           # The fields that need to be removed from inheritance (array)
+                    - name: ~
+                    - createdAt: ~
                 add:                              # What we want to display (associative array)
                     text:                         # The name of a field that needs to be directly injected (without any tab)
                         type: textarea            # The type of field to display
@@ -81,28 +88,27 @@ parameters:
                 title: this is the list view title 
                 titleTemplate: 'myBundle:Dir:myListTemplate.html.twig'
                 remove:
-                    - _batch_actions            # resets the batch actions as it was before using any customized CoreAdmin
-                    - _export_formats           # resets the export formats as it was before using any customized CoreAdmin
+                createdAt: ~                          #removing a simple field
+                    _batch_actions: [delete]          # removes bacth actions (bottom of the list view)
+                    _list_actions: [create]           # removes list actions (generic actions in top bar of the list view)
+                    _export_formats: ~                # resets the export formats as it was before using any customized CoreAdmin
                 add:
                     name: ~
                     _actions:
-                        type: actions
-                        _actions:
-                            show: ~
-                            edit: ~
-                            delete: ~
-                            myAction:
-                                template: AcmeBundle:list__action_myaction.html.twig 
-                                route: myaction #(defaults to action name if not set)
-
+                        show: ~
+                        edit: ~
+                        delete: ~
+                        myAction:
+                            template: AcmeBundle:list__action_myaction.html.twig 
+                            route: myaction # defaults to action name if not set
                     _batch_actions:         # batch actions
                         merge:
+                            action: myAction # points to a custom action previously defined in _actions key
                             label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
                             translation_domain: LibrinfoCRMBundle
-                                            # if none is specified, no translation is done on this action
+                                            # optional
                             ask_confirmation:   false
                                             # true by default, and then ask for a user confirmation
-                        -delete: ~          # removes specifically one action within the existing pool of actions
                     _export_format:         # exportable formats
                         csv: [name, url]    # adds the CSV format, with fields name & url (and overwrites the previous configurations!!)
                         xml: [id, name, url]# adds the XML format, with fields id, name & url
@@ -114,7 +120,7 @@ parameters:
                                             # if this format support multi-dimensional data, you can build 2 levels data
                                             #    using collections ; then [collection].name will iterate on each element
                                             #    to get back its name an produce a 2 dimension array
-                    _list_action:
+                    _list_action: # add custom action to generic top bar actions in list view
                         test:
                             action: create      # can be an action or a route
                             translation_domain: LibrinfoCRMBundle # if no translation_domain is defined, then the label will not be translated

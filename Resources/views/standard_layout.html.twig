@@ -77,9 +77,7 @@ file that was distributed with this source code.
             });
 
             searchForm.find("input[name=q]").on("change", function(e){
-
                 if (e.added !== undefined && e.added.link !== undefined) {
-                    console.log(e.added.link);
                     window.location = e.added.link;
                 }
             });
