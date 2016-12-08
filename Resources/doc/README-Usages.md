@@ -14,9 +14,10 @@ parameters:
     blast:
         configuration: #global configuration
             search: #list of admin services that will be available in the global search box (they will appear in the same order)
-                - librinfo_crm.admin.contact
-                - librinfo_crm.admin.organism
-                - librinfo_email.admin.email
+                add:
+                    - librinfo_crm.admin.contact
+                    - librinfo_crm.admin.organism
+                    - librinfo_email.admin.email
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
             manage:
                 collections: []                   # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
