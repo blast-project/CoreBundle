@@ -3,7 +3,9 @@
 /*
  * This file is part of the Blast package.
  *
- * (c) romain SANCHEZ <romain.sanchez@libre-informatique.fr>
+ * (c) 2016 Romain SANCHEZ <romain.sanchez@libre-informatique.fr>
+ * (c) 2016 Baptiste SIMON <baptiste.simon@libre-informatique.fr>
+ * (c) 2016 Libre Informatique [http://www.libre-informatique.fr/]
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,6 +21,11 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 
+/**
+ * This trait is the perfect copy of the Blast\OuterExtensionBundle\Command\Traits\Interaction
+ * They are still distinct because of the few amount of code to factorize, but it will be done
+ * as soon as we have a bit more to make generic
+ **/
 Trait Interaction
 {
     /**
