@@ -60,7 +60,11 @@
                 <source>action_duplicate</source>
                 <target>Dupliquer</target>
             </trans-unit>
-            
+<!-- global search -->
+            <trans-unit id="search_categories">
+                <source>Search categories</source>
+                <target>Catégories de recherche</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

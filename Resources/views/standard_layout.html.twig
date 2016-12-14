@@ -25,15 +25,15 @@ file that was distributed with this source code.
 
 {% block sonata_sidebar_search %}
     <form action="{{ path('blast_admin_search') }}" method="GET" class="sidebar-form" role="search">
-        <div class="custom-search-form">
-            <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
-        </div>
         <div id="custom-search-admins">
-            <select name="admin" multiple>
+            <select name="admin" multiple data-placeholder="{{ 'Search categories'| trans() }}">
                 {% for admin in getGlobalSearchAdmins() %}
                     <option value="{{ admin }}">{{ admin_pool.getAdminByAdminCode(admin).label|trans() }}</option>
                 {% endfor %}
             </select>
+        </div>
+        <div class="custom-search-form">
+            <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
         </div>
     </form>
 
