@@ -29,7 +29,7 @@ file that was distributed with this source code.
             <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
         </div>
         <div id="custom-search-admins">
-            <select name="admin">
+            <select name="admin" multiple>
                 {% for admin in getGlobalSearchAdmins() %}
                     <option value="{{ admin }}">{{ admin_pool.getAdminByAdminCode(admin).label|trans() }}</option>
                 {% endfor %}
