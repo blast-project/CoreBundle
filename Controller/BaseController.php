@@ -2,7 +2,7 @@
 
 namespace Blast\CoreBundle\Controller;
 
-use Sonata\AdminBundle\Controller\CoreController;
+use Sonata\AdminBundle\Controller\CoreController as BaseCoreController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @package Blast\CoreBundle\Controller
  */
-class BaseController extends CoreController
+class BaseController extends BaseCoreController
 {
     /**
      * render
