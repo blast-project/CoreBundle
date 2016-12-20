@@ -3,10 +3,21 @@
     {% if key == 0 %}
     {{- field }}: ~
     {% else %}
+                    {{ field }}: ~
+    {% endif %}
+{% endfor%}
+{% endset %}
+
+{% set listcode %}
+{% for key, field in fields %}
+    {% if key == 0 %}
+    {{- field }}: ~
+    {% else %}
             {{ field }}: ~
     {% endif %}
 {% endfor%}
 {% endset %}
+
 {% if oldCode == '' %}
 parameters:
     blast:
@@ -17,15 +28,19 @@ parameters:
             # SHOW
             Sonata\AdminBundle\Show\ShowMapper:
                 add:
-                {{ code }}
+                    main_tab:
+                        main_group:
+                        {{ code }}
             # FORM    
             Sonata\AdminBundle\Form\FormMapper:
                 add:
-                {{ code }}
+                    main_tab:
+                        main_group:
+                        {{ code }}
             # LIST    
             Sonata\AdminBundle\Datagrid\ListMapper:
                 add:
-                {{ code }}
+                {{ listcode }}
                     _actions:
                         show: ~
                         edit: ~
@@ -35,6 +50,4 @@ parameters:
             # FILTERS 
             Sonata\AdminBundle\Datagrid\DatagridMapper:
                 add:
-                {{code }}
-
-        ###
+                {{ listcode }}
