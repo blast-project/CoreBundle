@@ -13,6 +13,14 @@
             </trans-unit>
 
 <!-- FORMS -->
+            <trans-unit id="main_tab">
+                <source>main_tab</source>
+                <target>Général</target>
+            </trans-unit>
+            <trans-unit id="main_group">
+                <source>main_group</source>
+                <target>Général</target>
+            </trans-unit>
             <trans-unit id="form_group_general">
                 <source>form_group_general</source>
                 <target>Général</target>
