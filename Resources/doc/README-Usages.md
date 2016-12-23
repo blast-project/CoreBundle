@@ -9,7 +9,7 @@ The YAML reference
 So it is structured as :
 
 ```yaml
-# app/config/config.yml (or any other file that is loaded by your bundle)
+# Acmebundle/Resources/config/blast.yml ( if the dependencyinjection extension class extends BlastCoreExtension this file will be automatically parsed)
 parameters:
     blast:
         configuration: #global configuration
