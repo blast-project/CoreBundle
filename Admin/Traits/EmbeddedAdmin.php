@@ -14,7 +14,7 @@ trait EmbeddedAdmin
      */
     protected function configureFormFields(FormMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        $this->configureFields(__FUNCTION__, $mapper, $this);
         if ( $this->getParentFieldDescription() )
             $mapper->remove($this->getParentFieldDescription()->getAssociationMapping()['mappedBy']);
     }
