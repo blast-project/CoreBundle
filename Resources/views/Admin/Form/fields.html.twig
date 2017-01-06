@@ -30,9 +30,11 @@
                         
                     {% block post %}
                         $.post(url, data, function(res){
-                            if (res['error'] !== undefined)
+                            if (res['error'] !== undefined) {
                                 alert(res['error']);
-                            else if (res['code'] !== undefined) {
+                                loader.hide();
+                                link.show();
+                            } else if (res['code'] !== undefined) {
                                 $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
                                 loader.hide();
                                 link.show();
