@@ -88,6 +88,12 @@ trait Mapper
                 // remove fields
                 if ( isset($blast[$class][$mapper_class]['remove']) )
                 {
+                    if( isset($blast['all'][$mapper_class]['remove']) )
+                        $blast[$class][$mapper_class]['remove'] = array_merge_recursive(
+                                    $blast[$class][$mapper_class]['remove'], 
+                                    $blast['all'][$mapper_class]['remove']
+                                );
+                    
                     // Use "*" to remove all fields
                     if ( in_array('*', $blast[$class][$mapper_class]['remove']) )
                         foreach ( $mapper->keys() as $key )
@@ -119,6 +125,12 @@ trait Mapper
                 // add fields & more
                 if ( isset($blast[$class][$mapper_class]['add']) )
                 {
+                    if( isset($blast['all'][$mapper_class]['add']) )
+                        $blast[$class][$mapper_class]['add'] = array_merge(
+                                    $blast[$class][$mapper_class]['add'], 
+                                    $blast['all'][$mapper_class]['add']
+                                );
+                    
                     // do not parse _batch_actions & co
                     foreach ( $specialKeys as $sk )
                         if ( isset($blast[$class][$mapper_class]['add'][$sk]) )
@@ -166,6 +178,7 @@ trait Mapper
         $this->fixTemplates($mapper);
         if ( !$mapper instanceof FormMapper )
             $this->fixShowRoutes($mapper);
+        
         return $this;
     }
 

@@ -10,13 +10,21 @@ trait Actions
     protected function addActions($mapper)
     {
         $actionKey = '_actions';
+        $mapperClass = ListMapper::class;
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ( $this->getCurrentComposition() as $class )
-        if ( isset($blast[$class][ListMapper::class]) )
+        if ( isset($blast[$class][$mapperClass]) )
         {
-            $config = $blast[$class][ListMapper::class];
-
+            $config = $blast[$class][$mapperClass];
+            
+            if( isset($blast['all'][$mapperClass]) )
+                $config = array_merge_recursive(
+                    $config, 
+                    $blast['all'][$mapperClass]
+                );
+            
+            
             if ( isset($config['add'][$actionKey]) )
             {
                 $listFields = $this->getListFieldDescriptions();
@@ -42,17 +50,24 @@ trait Actions
     {
         //Removing list actions by disabling the corresponding route
         $actionKey = '_actions';
+        $mapperClass = ListMapper::class;
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach( $this->getCurrentComposition() as $class )
-        if( isset($blast[$class][ListMapper::class]) )
+        if( isset($blast[$class][$mapperClass]) )
         {
-            $config = $blast[$class][ListMapper::class];
-
+            $config = $blast[$class][$mapperClass];
+            
+            if( isset($blast['all'][$mapperClass]) )
+                $config = array_merge_recursive(
+                    $config, 
+                    $blast['all'][$mapperClass]
+                );
+            
             if( isset($config['remove'][$actionKey]) )
-            foreach($config['remove'][$actionKey] as $key)
-            if( $collection->has($key) )
-                $collection->remove($key);
+                foreach($config['remove'][$actionKey] as $key)
+                    if( $collection->has($key) )
+                        $collection->remove($key);
         }
     }
 }
