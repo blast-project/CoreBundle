@@ -4,6 +4,7 @@ namespace Blast\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Blast\CoreBundle\Admin\CoreAdmin;
 
 trait EmbeddedAdmin
 {
@@ -14,7 +15,7 @@ trait EmbeddedAdmin
      */
     protected function configureFormFields(FormMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this);
+        CoreAdmin::configureFormFields($mapper);
         if ( $this->getParentFieldDescription() )
             $mapper->remove($this->getParentFieldDescription()->getAssociationMapping()['mappedBy']);
     }
@@ -24,7 +25,7 @@ trait EmbeddedAdmin
      */
     protected function configureShowFields(ShowMapper $mapper)
     {
-        $this->configureFields(__FUNCTION__, $mapper, $this->getGrandParentClass());
+        CoreAdmin::configureShowFields($mapper);
         if ( $this->getParentFieldDescription() )
             $mapper->remove($this->getParentFieldDescription()->getAssociationMapping()['mappedBy']);
     }
