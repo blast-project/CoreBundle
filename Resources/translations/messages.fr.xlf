@@ -73,6 +73,10 @@
                 <source>Search categories</source>
                 <target>Catégories de recherche</target>
             </trans-unit>
+            <trans-unit id="search_query">
+                <source>search_query</source>
+                <target>Recherche</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

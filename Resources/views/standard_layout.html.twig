@@ -33,61 +33,14 @@ file that was distributed with this source code.
             </select>
         </div>
         <div class="custom-search-form">
-            <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
+            <input type="text" name="q" value="{{ app.request.get('q') }}" class="form-control" data-placeholder="{{ 'search_query'| trans() }}">
         </div>
     </form>
-
-    <script>
-        $(document).ready(function(){
-            var searchForm = $("form.sidebar-form[role=search]");
-            var ajaxSearchUrl = searchForm.attr('action');
-            var searchAdminSelect = searchForm.find('select[name=admin]');
-
-            function searchFormatResult(item) {
-               var markup = '<div class="row-fluid">' + item.label + '</div>';
-               return markup;
-            }
-
-            function searchFormatSelection(item) {
-               return item.label;
-            }
-
-            searchForm.find("input[name=q]").select2({
-                minimumInputLength: 1,
-                ajax: {
-                    url: ajaxSearchUrl,
-                    dataType: 'json',
-                    quietMillis: 250,
-                    data: function (term, page) {
-                        return {
-                            q: term,
-                            admin: searchAdminSelect.find('option:selected').attr('value')
-                        };
-                    },
-                    results: function (data, page) {
-                        return {
-                            results: data.results
-                        };
-                    },
-                    cache: true
-                },
-                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-                formatResult: searchFormatResult,
-                formatSelection: searchFormatSelection
-            });
-
-            searchForm.find("input[name=q]").on("change", function(e){
-                if (e.added !== undefined && e.added.link !== undefined) {
-                    window.location = e.added.link;
-                }
-            });
-        });
-    </script>
 {% endblock sonata_sidebar_search %}
 
 
-{# Temporary fix for fr_FR locale scripts #}
 {% block javascripts %}
+  {# Temporary fix for fr_FR locale scripts #}
     {% block sonata_javascript_config %}
         {{ parent() }}
     {% endblock %}
@@ -95,7 +48,7 @@ file that was distributed with this source code.
     {% block sonata_javascript_pool %}
          {{ parent() }}
     {% endblock %}
-
+    
     {% set locale = app.request.locale %}
     {# localize moment #}
     {% if locale[:2] != 'en' %}
@@ -112,5 +65,8 @@ file that was distributed with this source code.
             <script src="{{ asset('bundles/sonatacore/vendor/select2/select2_locale_' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
         {% endif %}
     {% endif %}
+  {# end fix #}
+    
+    <script src="{{ asset('bundles/blastcore/js/globalSearch.js') }}"></script>
 {% endblock javascripts %}
 
