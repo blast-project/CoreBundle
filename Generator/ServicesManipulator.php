@@ -21,11 +21,7 @@ class ServicesManipulator extends BaseManipulator
               manager_type: orm
               group: admin
               label: %s
-        calls: 
-            - [ setTemplate, [ edit, BlastCoreBundle:CRUD:base_edit.html.twig ] ]
-            - [ setTemplate, [ list, BlastCoreBundle:CRUD:base_list.html.twig ] ]
-            - [ setTemplate, [ show, BlastCoreBundle:CRUD:base_show.html.twig ] ]
-            
+
 ';
     
     /**
