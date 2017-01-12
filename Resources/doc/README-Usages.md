@@ -18,6 +18,13 @@ parameters:
                     - librinfo_crm.admin.contact
                     - librinfo_crm.admin.organism
                     - librinfo_email.admin.email
+        all: # add or remove for all the admins in your application
+            add:
+                description:
+                    type: blast_tinymce
+            remove:
+                _actions: [delete]
+                
         AcmeBundle\Admin\DemoAdmin:               # The Admin class extension
             manage:
                 collections: []                   # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
