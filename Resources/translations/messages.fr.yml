@@ -1,14 +1,19 @@
 
-'librinfo.label._action': 'Action'
-'librinfo.label._list_action': 'Action groupée'
+librinfo:
+    label:
+        _action: 'Action'
+        _list_action: 'Action groupée'
+        generate_code: 'Générer le code'
+'main_tab': 'Général'
+'main_group': 'Général'
 'form_group_general': 'Général'
 'form_group_specifics': 'Spécifique'
 'form_group_misc': 'Divers'
 'form_group_details': 'Détails'
 'form_tab_history': 'Historique'
 'form_group_history': 'Historique'
-'': ''
 'Delete': 'Supprimer'
-'librinfo.label.generate_code': 'Générer le code'
 'Duplicate': 'Dupliquer'
 'action_duplicate': 'Dupliquer'
+'Search categories': 'Catégories de recherche'
+'search_query': 'Recherche'
