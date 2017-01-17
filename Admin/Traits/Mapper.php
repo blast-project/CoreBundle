@@ -470,16 +470,26 @@ trait Mapper
     protected function handleBatchActions(array $actions = [])
     {
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
-
+        $mapperClass = ListMapper::class;
+        $actionKey = '_batch_actions';
+        
         foreach ( $this->getCurrentComposition() as $class )
-            if ( isset($blast[$class]) )
+            if ( isset($blast[$class][$mapperClass]) )
             {
+                $config = $blast[$class][$mapperClass];
+                
+                if( isset($blast['all'][$mapperClass]) )
+                    $config = array_merge_recursive(
+                        $config, 
+                        $blast['all'][$mapperClass]
+                    );
+                
                 // remove / reset
-                if ( isset($blast[$class][ListMapper::class]['remove']['_batch_actions']) )
+                if ( isset($config['remove'][$actionKey]) )
                 {
                     $actions = parent::getBatchActions();
 
-                    foreach ( $blast[$class][ListMapper::class]['remove']['_batch_actions'] as $action )
+                    foreach ( $config['remove'][$actionKey] as $action )
                     {
                         if ( isset($actions[$action]) )
                             unset($actions[$action]);
@@ -487,9 +497,9 @@ trait Mapper
                 }
 
                 // add
-                if ( isset($blast[$class][ListMapper::class]['add']['_batch_actions']) )
+                if ( isset($config['add'][$actionKey]) )
                 {
-                    $buf = $blast[$class][ListMapper::class]['add']['_batch_actions'];
+                    $buf = $config['add'][$actionKey];
 
                     foreach ( $buf as $action => $props )
                     {
