@@ -14,20 +14,21 @@
     
     {% block entitycode_script %}
         <script>
-            $(document).ready(function () {
+            var generateCode = function(){
+
                 $('#{{ linkId }}').click(function(e){
-                    
+
                     var link = $(this);
                     var url = link.attr('data-url');
                     var loader = link.next('.loader');
 
                     link.hide();
                     loader.show();
-                    
+
                     {% block data %}    
                         var data = $(this).closest('form').serializeArray();
                     {% endblock %}
-                        
+
                     {% block post %}
                         $.post(url, data, function(res){
                             if (res['error'] !== undefined) {
@@ -43,7 +44,10 @@
                     {% endblock %}
                     return false;
                 });
-            });
+            };
+
+            $(document).ready(generateCode);
+            $(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', generateCode);
         </script>
     {% endblock %}
 {% endblock %}
