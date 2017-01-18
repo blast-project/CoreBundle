@@ -503,7 +503,7 @@ trait Mapper
 
                     foreach ( $buf as $action => $props )
                     {
-                        $name = 'action_' . $action;
+                        $name = 'batch_action_' . $action;
 
                         foreach ( [
                             'label' => $name,
