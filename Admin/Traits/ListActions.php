@@ -29,7 +29,7 @@ trait ListActions
      * setListActions()
      *
      * @param  $actions     array
-     * @return $this
+     * @return self
      **/
     public function setListActions(array $actions)
     {
@@ -43,7 +43,7 @@ trait ListActions
      *
      * @param  $name        string|null
      * @param  $action      array
-     * @return $this
+     * @return self
      **/
     public function addListAction($name, array $action)
     {
@@ -94,7 +94,7 @@ trait ListActions
      * removeListAction()
      *
      * @param  $name        string|null
-     * @return $this
+     * @return self
      **/
     public function removeListAction($name)
     {
@@ -106,7 +106,7 @@ trait ListActions
      * hasListAction()
      *
      * @param  $name        string|null
-     * @return $this
+     * @return self
      **/
     public function hasListAction($name)
     {

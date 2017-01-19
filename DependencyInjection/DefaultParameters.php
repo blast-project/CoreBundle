@@ -78,7 +78,7 @@ class DefaultParameters implements ContainerAwareInterface
     }
 
     /**
-     * @return $this
+     * @return self
      */
     public static function getInstance(ContainerInterface $container)
     {
