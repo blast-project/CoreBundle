@@ -48,13 +48,22 @@ trait Base
         CoreAdmin::configureShowFields($mapper);
     }
 
-     /**
-      * {@inheritdoc}
-      **/
-     public function getBatchActions()
-     {
-         return $this->handleBatchActions(parent::getBatchActions());
-     }
+    /**
+     * {@inheritdoc}
+     **/
+    public function getBatchActions()
+    {
+       $actions = [];
+
+       if ( $this->isGranted('DELETE') )
+           $actions['delete'] = array(
+               'label' => 'action_delete',
+               'translation_domain' => 'SonataAdminBundle',
+               'ask_confirmation' => true,
+           );
+
+       return $this->handleBatchActions($actions);
+    }
 
     /**
      * {@inheritdoc}
