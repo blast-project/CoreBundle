@@ -35,6 +35,9 @@ class BlastCoreExtension extends Extension
         $this->doLoad($container, $loader, $config);
     }
 
+    /**
+     * @return self
+     */
     public function initialize()
     {
         $rc = new \ReflectionClass($this);
@@ -50,8 +53,9 @@ class BlastCoreExtension extends Extension
     /**
      * the buildLoader returns the required FileLoader
      *
+     * @param  ContainerBuilder $container
      * @return FileLoader
-     **/
+     */
     public function buildLoader(ContainerBuilder $container)
     {
         return new YamlFileLoader($container, new FileLocator($this->dir . $this->prefix));
@@ -60,7 +64,7 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called during the self::load() process, to add the logic related to SonataAdmin
      *
-     * @param $loader FileLoader
+     * @param  FileLoader $loader
      * @return self
      */
     public function loadServices(FileLoader $loader)
@@ -76,8 +80,8 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called after loading the services in the self::load() process, to load code generators
      *
-     * @param $container ContainerBuilder
-     * @param $config array
+     * @param  ContainerBuilder $container
+     * @param  array            $config
      * @return self
      */
     public function loadCodeGenerators(ContainerBuilder $container, array $config)
@@ -88,8 +92,8 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called after loading the services in the self::load() process, to load data fixtures
      *
-     * @param $container ContainerBuilder
-     * @param $loader FileLoader
+     * @param  ContainerBuilder $container
+     * @param  FileLoader       $loader
      * @return self
      */
     public function loadDataFixtures(ContainerBuilder $container, FileLoader $loader)
@@ -100,7 +104,7 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called after loading the services in the self::load() process, to load data fixtures
      *
-     * @param $container ContainerBuilder
+     * @param  ContainerBuilder $container
      * @return self
      */
     public function loadParameters(ContainerBuilder $container)
@@ -115,6 +119,7 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called at the end of the self::load() process, to add security related logic
      *
+     * @param  ContainerBuilder $container
      * @return self
      */
     public function loadSecurity(ContainerBuilder $container)
@@ -125,8 +130,8 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called at the end of the self::load() process, to add the logic related to SonataAdmin
      *
-     * @param $container ContainerBuilder
-     * @param $loader FileLoader
+     * @param  ContainerBuilder $container
+     * @param  FileLoader       $loader
      * @return self
      */
     public function loadSonataAdmin(ContainerBuilder $container, FileLoader $loader)
@@ -148,8 +153,8 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called during the self::load() process, to add the logic related to SonataAdmin
      *
-     * @param $container ContainerBuilder
-     * @param $config array
+     * @param  ContainerBuilder $container
+     * @param  array            $config
      * @return self
      */
     public function loadListeners(ContainerBuilder $container, array $config)
@@ -160,9 +165,9 @@ class BlastCoreExtension extends Extension
     /**
      * This method is called at the end of the self::load() process, to add any logic needed
      *
-     * @param $container ContainerBuilder
-     * @param $loader FileLoader
-     * @param $config array
+     * @param  ContainerBuilder $container
+     * @param  FileLoader       $loader
+     * @param  array $config
      * @return self
      */
     public function doLoad(ContainerBuilder $container, FileLoader $loader, array $config)
@@ -170,6 +175,13 @@ class BlastCoreExtension extends Extension
         return $this;
     }
 
+    /**
+     * @param  string           $var  the parameter name
+     * @param  ContainerBuilder $container
+     * @param  string           $dir
+     * @param  string           $file_name
+     * @return self
+     */
     protected function mergeParameter($var, $container, $dir, $file_name = 'blast.yml')
     {
         $loader = new YamlFileLoader($newContainer = new ContainerBuilder(), new FileLocator($dir));
