@@ -205,11 +205,8 @@ class CRUDController extends SonataController
         try {
             $code = $generator::generate($entity);
             return new JsonResponse(['code' => $code]);
-        } catch (InvalidEntityCodeException $exc) {
-            $error = $this->get('translator')->trans($exc->getMessage());
-            return new JsonResponse(['error' => $error, 'generator' => get_class($generator)]);
         } catch (\Exception $exc) {
-            $error = $exc->getMessage();
+            $error = $this->get('translator')->trans($exc->getMessage());
             return new JsonResponse(['error' => $error, 'generator' => get_class($generator)]);
         }
 
