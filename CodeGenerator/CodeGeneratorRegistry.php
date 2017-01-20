@@ -37,4 +37,13 @@ class CodeGeneratorRegistry
         return self::$generators[$entityClass][$entityField];
     }
 
+    /**
+     * @param  string $entityClass
+     * @return boolean
+     */
+    public static function hasGeneratorForClass($entityClass)
+    {
+        return !empty(self::$generators[$entityClass]);
+    }
+
 }
