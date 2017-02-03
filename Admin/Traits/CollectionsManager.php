@@ -2,6 +2,8 @@
 
 namespace Blast\CoreBundle\Admin\Traits;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+
 
 trait CollectionsManager
 {
@@ -52,6 +54,7 @@ trait CollectionsManager
         foreach ($this->managedCollections as $coll)
         if ( isset($this->formFieldDescriptions[$coll]) )
         {
+            if ($coll == 'packagings') dump($this->formFieldDescriptions[$coll]);
             // preparing stuff
             if ( $admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code') ) {
                 $targetAdmin = $this->getConfigurationPool()->getAdminByAdminCode($admin_code);
@@ -69,14 +72,15 @@ trait CollectionsManager
 
             $rcentity = new \ReflectionClass($this->getClass());
             $method = 'get' . ucfirst($coll);
-            
+
             $subObjects = $object->$method();
-            
+
             // insert/update (forcing the foreign key to be set to $this->getId(), for instance)
             if( $subObjects != null )
                 foreach ($subObjects as $subobj)
                 {
-                    $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
+                    if ($this->formFieldDescriptions[$coll]->getMappingType() != ClassMetadataInfo::MANY_TO_MANY)
+                        $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
 
                     if( $targetAdmin != null )
                         $targetAdmin->prePersist($subobj);
