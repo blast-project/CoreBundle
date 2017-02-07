@@ -51,7 +51,7 @@ class CRUDController extends SonataController
     /**
      * Create action.
      *
-     * @param Request $request
+     * @param object $object
      *
      * @return Response
      *
