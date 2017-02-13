@@ -36,18 +36,29 @@ trait Mapper
 
     protected function configureMapper(BaseMapper $mapper)
     {
-        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $classes = $this->getCurrentComposition();
-        $this->getConfigurationPool()->getContainer()->get('logger')
-                ->debug('[BlastCoreBundle] Processing the configuration in this order: ' . implode(', ', $classes));
+        $blast = $this
+            ->getConfigurationPool()
+            ->getContainer()
+            ->getParameter('blast')
+        ;
+        $this
+            ->getConfigurationPool()
+            ->getContainer()
+            ->get('logger')
+            ->debug(sprintf(
+                '[BlastCoreBundle] Processing the configuration in this order: %s',
+                 implode(', ', $classes)
+            ))
+        ;
 
         $fcts = [
             'tabs' => $mapper instanceof ShowMapper ?
-            ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] :
-            ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
+                ['getter' => 'getShowTabs', 'setter' => 'setShowTabs'] :
+                ['getter' => 'getFormTabs', 'setter' => 'setFormTabs'],
             'groups' => $mapper instanceof ShowMapper ?
-            ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] :
-            ['getter' => 'getFormGroups', 'setter' => 'setFormGroups']
+                ['getter' => 'getShowGroups', 'setter' => 'setShowGroups'] :
+                ['getter' => 'getFormGroups', 'setter' => 'setFormGroups']
         ];
 
         // Figure out if we have to display tabs on the Show view
