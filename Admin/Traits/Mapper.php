@@ -75,7 +75,7 @@ trait Mapper
         {
             if ( !isset($blast[$class]) )
                 continue;
-
+            
             // copy stuff from elsewhere
             foreach ( array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class )
                 if ( isset($blast[$class][$mapper_class]) && !empty($blast[$class][$mapper_class]['_copy']) )
@@ -187,6 +187,7 @@ trait Mapper
         }  
 
         $this->fixTemplates($mapper);
+        
         if ( !$mapper instanceof FormMapper )
             $this->fixShowRoutes($mapper);
         
@@ -694,5 +695,17 @@ trait Mapper
         if ( $title )
             $this->titles[$context] = $title;
     }
-
+    
+    protected function getFormThemeMapping()
+    {
+        $theme = [];
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+        
+        foreach ( $this->getCurrentComposition() as $class )
+            if( isset($blast[$class]) )
+                if( isset($blast[$class]['form_theme']) )
+                    $theme = array_merge($theme, $blast[$class]['form_theme']) ;
+            
+        return $theme;
+    }
 }

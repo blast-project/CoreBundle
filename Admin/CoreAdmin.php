@@ -44,6 +44,11 @@ abstract class CoreAdmin extends SonataAdmin
         
         $this->removeActions($collection);
     }
+    
+    public function getFormTheme()
+    {
+        return array_merge($this->formTheme, $this->getFormThemeMapping());
+    }
 
     /**
      * @param DatagridMapper $mapper
