@@ -41,10 +41,10 @@ abstract class CoreAdmin extends SonataAdmin
         parent::configureRoutes($collection);
         $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
         $collection->add('generateEntityCode');
-        
+
         $this->removeActions($collection);
     }
-    
+
     public function getFormTheme()
     {
         return array_merge($this->formTheme, $this->getFormThemeMapping());
@@ -234,6 +234,44 @@ abstract class CoreAdmin extends SonataAdmin
         if (in_array($bundle, $kernelBundles))
             return true;
         return false;
+    }
+
+    /**
+     * Rename a form group
+     *
+     * @param  string $group  the old group name
+     * @param  string $tab    the tab the group belongs to
+     * @param  string $newGroupName  the new group name
+     * @return self
+     */
+    public function renameFormGroup($group, $tab, $newGroupName)
+    {
+        $groups = $this->getFormGroups();
+
+        // When the default tab is used, the tabname is not prepended to the index in the group array
+        if ($tab !== 'default') {
+            $group = $tab.'.'.$group;
+        }
+        $newGroup = ($tab !== 'default') ? $tab.'.'.$newGroupName : $newGroupName;
+
+        if (isset($groups[$newGroup]))
+            throw new \Exception(sprintf('%s form group already exists.', $newGroup));
+
+        $groups[$newGroup] = $groups[$group];
+        $groups[$newGroup]['name'] = $newGroupName;
+        unset($groups[$group]);
+
+        $tabs = $this->getFormTabs();
+        $key = array_search($group, $tabs[$tab]['groups']);
+
+        if (false !== $key) {
+            $tabs[$tab]['groups'][$key] = $newGroup;
+        }
+
+        $this->setFormTabs($tabs);
+        $this->setFormGroups($groups);
+
+        return $this;
     }
 }
 
