@@ -75,7 +75,7 @@ trait Mapper
         {
             if ( !isset($blast[$class]) )
                 continue;
-            
+
             // copy stuff from elsewhere
             foreach ( array_reverse($list = array_merge([get_class($mapper)], array_values(class_parents($mapper)))) as $mapper_class )
                 if ( isset($blast[$class][$mapper_class]) && !empty($blast[$class][$mapper_class]['_copy']) )
@@ -101,14 +101,9 @@ trait Mapper
                 {
                     if( isset($blast['all'][$mapper_class]['remove']) )
                         $blast[$class][$mapper_class]['remove'] = array_merge_recursive(
-                                    $blast[$class][$mapper_class]['remove'], 
-                                    $blast['all'][$mapper_class]['remove']
-                                );
-                    
-                    // Use "*" to remove all fields
-                    if ( in_array('*', $blast[$class][$mapper_class]['remove']) )
-                        foreach ( $mapper->keys() as $key )
-                            $blast[$class][$mapper_class]['remove'][] = $key;
+                            $blast[$class][$mapper_class]['remove'],
+                            $blast['all'][$mapper_class]['remove']
+                        );
 
                     foreach ( $blast[$class][$mapper_class]['remove'] as $key => $field )
                     {
@@ -138,10 +133,10 @@ trait Mapper
                 {
                     if( isset($blast['all'][$mapper_class]['add']) )
                         $blast[$class][$mapper_class]['add'] = array_merge(
-                                    $blast[$class][$mapper_class]['add'], 
+                                    $blast[$class][$mapper_class]['add'],
                                     $blast['all'][$mapper_class]['add']
                                 );
-                    
+
                     // do not parse _batch_actions & co
                     foreach ( $specialKeys as $sk )
                         if ( isset($blast[$class][$mapper_class]['add'][$sk]) )
@@ -178,19 +173,19 @@ trait Mapper
                     foreach ( $tab['groups'] as $groupkey => $group )
                     if ( !isset($this->{$fcts['groups']['getter']}()[$group]) )
                         unset($tabs[$tabkey]['groups'][$groupkey]);
-                    
+
                     if ( !$tabs[$tabkey]['groups'] )
                         unset($tabs[$tabkey]);
                 }
                 $this->{$fcts['tabs']['setter']}($tabs);
             }
-        }  
+        }
 
         $this->fixTemplates($mapper);
-        
+
         if ( !$mapper instanceof FormMapper )
             $this->fixShowRoutes($mapper);
-        
+
         return $this;
     }
 
@@ -206,10 +201,10 @@ trait Mapper
 
         // flat organization (DatagridMapper / ListMapper...)
         if ( !$mapper instanceof BaseGroupedMapper )
-        {   
+        {
             //list actions
             $this->addActions($mapper);
-            
+
             // options pre-treatment
             $options = [];
             if ( isset($group['_options']) )
@@ -484,18 +479,18 @@ trait Mapper
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $mapperClass = ListMapper::class;
         $actionKey = '_batch_actions';
-        
+
         foreach ( $this->getCurrentComposition() as $class )
             if ( isset($blast[$class][$mapperClass]) )
             {
                 $config = $blast[$class][$mapperClass];
-                
+
                 if( isset($blast['all'][$mapperClass]) )
                     $config = array_merge_recursive(
-                        $config, 
+                        $config,
                         $blast['all'][$mapperClass]
                     );
-                
+
                 // remove / reset
                 if ( isset($config['remove'][$actionKey]) )
                 {
@@ -558,9 +553,9 @@ trait Mapper
                         $this->removeListAction(substr($action, 1));
                         continue;
                     }
-                    
+
                     $props['translation_domain'] = isset($props['translation_domain']) ? $props['translation_domain'] : $this->getTranslationDomain();
-                    
+
                     $this->addListAction($action, $props);
                 }
         }
@@ -695,17 +690,17 @@ trait Mapper
         if ( $title )
             $this->titles[$context] = $title;
     }
-    
+
     protected function getFormThemeMapping()
     {
         $theme = [];
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
-        
+
         foreach ( $this->getCurrentComposition() as $class )
             if( isset($blast[$class]) )
                 if( isset($blast[$class]['form_theme']) )
                     $theme = array_merge($theme, $blast[$class]['form_theme']) ;
-            
+
         return $theme;
     }
 }
