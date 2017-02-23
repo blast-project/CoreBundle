@@ -203,7 +203,8 @@ trait Mapper
         if ( !$mapper instanceof BaseGroupedMapper )
         {
             //list actions
-            $this->addActions($mapper);
+            $this->addActions();
+            $this->removeActions();
 
             // options pre-treatment
             $options = [];

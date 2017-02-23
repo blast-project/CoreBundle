@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Route\RouteCollection;
 
 trait Actions
 {
-    protected function addActions($mapper)
+    protected function addActions()
     {
         $actionKey = '_actions';
         $mapperClass = ListMapper::class;
@@ -17,14 +17,14 @@ trait Actions
         if ( isset($blast[$class][$mapperClass]) )
         {
             $config = $blast[$class][$mapperClass];
-            
+
             if( isset($blast['all'][$mapperClass]) )
                 $config = array_merge_recursive(
-                    $config, 
+                    $config,
                     $blast['all'][$mapperClass]
                 );
-            
-            
+
+
             if ( isset($config['add'][$actionKey]) )
             {
                 $listFields = $this->getListFieldDescriptions();
@@ -34,10 +34,10 @@ trait Actions
                     $conf = $listFields['_action'];
                     $options = $conf->getOptions();
                     $actions = $options['actions'];
-    
+
                     foreach ( $config['add'][$actionKey] as $key => $action )
                         $actions[$key] = $action;
-    
+
                     $options['actions'] = $actions;
                     $conf->setOptions($options);
                     $listFields['_action'] = $conf;
@@ -45,29 +45,40 @@ trait Actions
             }
         }
     }
-    
-    protected function removeActions(RouteCollection $collection)
+
+    protected function removeActions()
     {
-        //Removing list actions by disabling the corresponding route
-        $actionKey = '_actions';
-        $mapperClass = ListMapper::class;
         $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach( $this->getCurrentComposition() as $class )
-        if( isset($blast[$class][$mapperClass]) )
         {
-            $config = $blast[$class][$mapperClass];
-            
-            if( isset($blast['all'][$mapperClass]) )
+            if( !isset($blast[$class][ListMapper::class]) )
+                continue;
+
+            $listFields = $this->getListFieldDescriptions();
+            if ( !isset($listFields['_action']) )
+                continue;
+
+            $config = $blast[$class][ListMapper::class];
+            if( isset($blast['all'][ListMapper::class]) )
                 $config = array_merge_recursive(
-                    $config, 
-                    $blast['all'][$mapperClass]
+                    $config,
+                    $blast['all'][ListMapper::class]
                 );
-            
-            if( isset($config['remove'][$actionKey]) )
-                foreach($config['remove'][$actionKey] as $key)
-                    if( $collection->has($key) )
-                        $collection->remove($key);
+            if ( !isset($config['remove']['_actions']) )
+                continue;
+
+            $conf = $listFields['_action'];
+            $options = $conf->getOptions();
+            $actions = $options['actions'];
+
+            foreach ( $config['remove']['_actions'] as $action )
+            if (isset($actions[$action]))
+                unset ($actions[$action]);
+
+            $options['actions'] = $actions;
+            $conf->setOptions($options);
+            $listFields['_action'] = $conf;
         }
     }
 }

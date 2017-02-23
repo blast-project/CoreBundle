@@ -41,8 +41,6 @@ abstract class CoreAdmin extends SonataAdmin
         parent::configureRoutes($collection);
         $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
         $collection->add('generateEntityCode');
-
-        $this->removeActions($collection);
     }
 
     public function getFormTheme()
