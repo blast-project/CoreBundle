@@ -543,22 +543,16 @@ trait Mapper
         {
             // remove / reset
             if ( isset($blast[$class][ListMapper::class]['remove']['_list_actions']) )
-                $this->setListActions([]);
+            foreach($blast[$class][ListMapper::class]['remove']['_list_actions'] as $action)
+                $this->removeListAction($action);
 
             // add
             if ( isset($blast[$class][ListMapper::class]['add']['_list_actions']) )
-                foreach ( $blast[$class][ListMapper::class]['add']['_list_actions'] as $action => $props )
-                {
-                    if ( substr($action, 0, 1) == '-' )
-                    {
-                        $this->removeListAction(substr($action, 1));
-                        continue;
-                    }
-
-                    $props['translation_domain'] = isset($props['translation_domain']) ? $props['translation_domain'] : $this->getTranslationDomain();
-
-                    $this->addListAction($action, $props);
-                }
+            foreach ( $blast[$class][ListMapper::class]['add']['_list_actions'] as $action => $props )
+            {
+                $props['translation_domain'] = isset($props['translation_domain']) ? $props['translation_domain'] : $this->getTranslationDomain();
+                $this->addListAction($action, $props);
+            }
         }
 
         return $this->getListActions();
