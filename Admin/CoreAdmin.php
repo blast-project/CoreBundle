@@ -233,6 +233,41 @@ abstract class CoreAdmin extends SonataAdmin
             return true;
         return false;
     }
+    
+    /**
+     * Rename a form tab after form fields have been configured
+     * 
+     * TODO: groups of the renamed tab are still prefixed with the old tab name 
+     * 
+     * @param type $tabName the name of the tab to be renamed
+     * @param type $newTabName the new name for the tab
+     */
+    public function renameFormTab($tabName, $newTabName, $keepOrder = true)
+    {
+        $tabs = $this->getFormTabs();
+        
+        if(!$tabs)
+            return;
+        
+        if( !isset($tabs[$tabName]) )
+            throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
+        
+        if(isset($tabs[$newTabName]))
+            throw new \Exception(sprintf('Cannot rename tab %s to %s, tab %s already exists', $tabName, $newTabName, $newTabName));
+        
+        if($keepOrder)
+        {
+            $keys = array_keys($tabs);
+            $keys[array_search($tabName, $keys)] = $newTabName;
+            $tabs = array_combine($keys, $tabs);
+        }else
+        {
+            $tabs[$newTabName] = $tabs[$tabName];
+            unset($tabs[$tabName]);
+        }
+        
+        $this->setFormTabs($tabs);   
+    }
 
     /**
      * Rename a form group
