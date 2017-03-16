@@ -253,7 +253,7 @@ abstract class CoreAdmin extends SonataAdmin
             throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
         
         if(isset($tabs[$newTabName]))
-            throw new \Exception(sprintf('Cannot rename tab %s to %s, tab %s already exists', $tabName, $newTabName, $newTabName));
+            return;
         
         if($keepOrder)
         {
@@ -267,6 +267,41 @@ abstract class CoreAdmin extends SonataAdmin
         }
         
         $this->setFormTabs($tabs);   
+    }
+    
+    /**
+     * Rename a show tab after show fields have been configured
+     * 
+     * TODO: groups of the renamed tab are still prefixed with the old tab name 
+     * 
+     * @param type $tabName the name of the tab to be renamed
+     * @param type $newTabName the new name for the tab
+     */
+    public function renameShowTab($tabName, $newTabName, $keepOrder = true)
+    {
+        $tabs = $this->getShowTabs();
+        
+        if(!$tabs)
+            return;
+        
+        if( !isset($tabs[$tabName]) )
+            throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
+        
+        if(isset($tabs[$newTabName]))
+            return;
+        
+        if($keepOrder)
+        {
+            $keys = array_keys($tabs);
+            $keys[array_search($tabName, $keys)] = $newTabName;
+            $tabs = array_combine($keys, $tabs);
+        }else
+        {
+            $tabs[$newTabName] = $tabs[$tabName];
+            unset($tabs[$tabName]);
+        }
+        
+        $this->setShowTabs($tabs);   
     }
 
     /**
