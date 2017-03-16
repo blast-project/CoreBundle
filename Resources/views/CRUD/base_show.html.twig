@@ -82,3 +82,8 @@
 
     {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/blastcore/js/showView.js') }}"></script>
+{% endblock javascripts %}
