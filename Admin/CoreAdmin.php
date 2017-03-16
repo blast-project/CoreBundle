@@ -233,28 +233,28 @@ abstract class CoreAdmin extends SonataAdmin
             return true;
         return false;
     }
-    
+
     /**
      * Rename a form tab after form fields have been configured
-     * 
-     * TODO: groups of the renamed tab are still prefixed with the old tab name 
-     * 
+     *
+     * TODO: groups of the renamed tab are still prefixed with the old tab name
+     *
      * @param type $tabName the name of the tab to be renamed
      * @param type $newTabName the new name for the tab
      */
     public function renameFormTab($tabName, $newTabName, $keepOrder = true)
     {
         $tabs = $this->getFormTabs();
-        
+
         if(!$tabs)
             return;
-        
+
         if( !isset($tabs[$tabName]) )
             throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
-        
+
         if(isset($tabs[$newTabName]))
             return;
-        
+
         if($keepOrder)
         {
             $keys = array_keys($tabs);
@@ -265,31 +265,31 @@ abstract class CoreAdmin extends SonataAdmin
             $tabs[$newTabName] = $tabs[$tabName];
             unset($tabs[$tabName]);
         }
-        
-        $this->setFormTabs($tabs);   
+
+        $this->setFormTabs($tabs);
     }
-    
+
     /**
      * Rename a show tab after show fields have been configured
-     * 
-     * TODO: groups of the renamed tab are still prefixed with the old tab name 
-     * 
+     *
+     * TODO: groups of the renamed tab are still prefixed with the old tab name
+     *
      * @param type $tabName the name of the tab to be renamed
      * @param type $newTabName the new name for the tab
      */
     public function renameShowTab($tabName, $newTabName, $keepOrder = true)
     {
         $tabs = $this->getShowTabs();
-        
+
         if(!$tabs)
             return;
-        
+
         if( !isset($tabs[$tabName]) )
             throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
-        
+
         if(isset($tabs[$newTabName]))
             return;
-        
+
         if($keepOrder)
         {
             $keys = array_keys($tabs);
@@ -300,8 +300,8 @@ abstract class CoreAdmin extends SonataAdmin
             $tabs[$newTabName] = $tabs[$tabName];
             unset($tabs[$tabName]);
         }
-        
-        $this->setShowTabs($tabs);   
+
+        $this->setShowTabs($tabs);
     }
 
     /**
