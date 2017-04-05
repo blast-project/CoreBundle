@@ -4,11 +4,13 @@ from pygments.lexers.web import PhpLexer
 import sphinx_rtd_theme
 
 
-extensions = ['sphinx.ext.intersphinx',
+extensions = [
+    'sphinx.ext.intersphinx',
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.ifconfig']
+    'sphinx.ext.ifconfig'
+]
 
 
 templates_path = ['_templates']
