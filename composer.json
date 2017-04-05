@@ -4,7 +4,7 @@
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {
         "symfony/symfony": "3.2.*",
-        "sonata-project/doctrine-orm-admin-bundle": "3.x-dev",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.1",
         "twig/twig": "^1.24",
         "stfalcon/tinymce-bundle": "2.1"
     },
