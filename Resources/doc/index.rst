@@ -1,4 +1,4 @@
-last CoreBundle
+Blast CoreBundle
 ================
 
 The goal of this bundle is to make the use of SonataAdmin “view-models”
@@ -49,8 +49,9 @@ Prerequisites
 
 Downloading
 -----------
+.. code-block:: bash
 
-$ composer require blast-project/core-bundle dev-master
+  $ composer require blast-project/core-bundle dev-master
 
 This will download and install :
 
@@ -80,13 +81,11 @@ And follow the installation guides.
 At the end, you should have a ``app/AppKernel.php`` that looks like
 that:
 
-| \`\`\`php
-| <?php
+.. code-block:: php
 
-| use Symfony\\Component\\HttpKernel\\Kernel;
-| use Symfony\\Component\\Config\\Loader\\LoaderInterface;
+    use Symfony\\Component\\HttpKernel\\Kernel;
+    use Symfony\\Component\\Config\\Loader\\LoaderInterface;
 
-c
 
 .. _Libre Informatique: https://github.com/libre-informatique/
 .. _BlastBaseEntitiesBundle: https://github.com/libre-informatique/SymfonyBlastBaseEntitiesBundle
