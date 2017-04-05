@@ -19,4 +19,4 @@ Blast CoreBundle
 Other Bundles
 ================
 
- * `BaseEntitiesBundle <http://docs.blast-project.io/projects/baseentitiesbundle/en/latest/index.html>`_: provides some tools for a better integration in Sonata Admin
+ * `BaseEntitiesBundle <http://docs.blast-project.org/projects/baseentitiesbundle/en/latest/index.html>`_: provides some tools for a better integration in Sonata Admin
