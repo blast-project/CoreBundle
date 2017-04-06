@@ -38,3 +38,7 @@ and count in your mind the number of saved lines, the number of
 potential bugs avoided and the ease of maintenance when you want to
 change the nature of the field used by the provided email address or
 phonenumber… This is what the BlastCoreBundle permits.
+
+
+.. _Libre Informatique: https://github.com/libre-informatique/
+.. _BlastBaseEntitiesBundle: https://github.com/libre-informatique/SymfonyBlastBaseEntitiesBundle
