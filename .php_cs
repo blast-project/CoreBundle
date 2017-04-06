@@ -1,14 +1,11 @@
 <?php
-/*
- * Package `sllh/php-cs-fixer-styleci-bridge` is required to get it working.
- */
-
-require_once __DIR__.'/vendor/sllh/php-cs-fixer-styleci-bridge/autoload.php';
-use SLLH\StyleCIBridge\ConfigBridge;
 
 $header = <<<EOF
-This file is part of the Sonata Project package.
-(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+This file is part of the Blast Project package.
+
+Copyright (C) 2015-2017 Libre Informatique
+
+This file is licenced under the GNU GPL v3.
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 EOF;
@@ -18,9 +15,21 @@ if (class_exists('Symfony\CS\Fixer\Contrib\HeaderCommentFixer')) {
     \Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
 }
 
-$config = ConfigBridge::create()
-    ->setUsingCache(true);
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('somedir')
+    ->notPath('src/Symfony/Component/Translation/Tests/fixtures/resources.php')
+    ->in(__DIR__)
+;
 
+$config = PhpCsFixer\Config::create()
+    ->setRules(array(
+        '@Symfony' => true,
+        'binary_operator_spaces' => array(
+            'align_double_arrow' => true,
+            'align_equals' => true,
+        ),
+    ))
+    ->setFinder($finder);
 
 // PHP-CS-Fixer 2.x
 if (method_exists($config, 'setRules')) {
