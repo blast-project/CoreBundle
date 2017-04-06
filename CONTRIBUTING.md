@@ -1,6 +1,6 @@
 # Contributing to Bloc
 
-The following is a set of guidelines for contributing to [Bloc](https://github.com/pharo-graphics/Bloc), which are hosted in the [Pharo Graphics Organization](https://github.com/pharo-graphics) on GitHub.
+The following is a set of guidelines for contributing to [Blast CoreBundle](https://github.com/blast-project/CoreBundle), which are hosted in the [Blast Project Organization](https://github.com/blast-project) on GitHub.
 
 #### Table Of Contents
 * [How Can I Contribute?](#how-can-i-contribute)
