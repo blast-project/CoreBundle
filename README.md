@@ -1,6 +1,9 @@
 # Blast CoreBundle
 
-[![Build Status](https://scrutinizer-ci.com/g/blast-project/CoreBundle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/blast-project/CoreBundle/build-status/master)
+[![Scrutinizer](https://img.shields.io/scrutinizer/g/filp/whoops.svg?style=flat-square)][scrutinizer]
+[![Travis](https://img.shields.io/travis/blast-project/CoreBundle.svg?style=flat-square)][travis]
+[![Coveralls](https://img.shields.io/coveralls/blast-project/CoreBundle.svg?style=flat-square)][coveralls]
+[![License](https://img.shields.io/github/license/blast-project/CoreBundle.svg?style=flat-square)][license]
 
 The goal of this bundle is to make the use of SonataAdmin "view-models" possible without writting a line of PHP, without loosing a feature of Sonata, and importing the idea of composite settings using lots of characteristics of an admin (its direct inheritance tree, the traits used by its Entity, the inheritance tree of its Entity...), making things more flexible, extendable, reusable and maintenable through many bundles and uses.
 
@@ -196,3 +199,11 @@ Please refer yourself to the proper documentation from the Sonata Project...
 #### Using Blast Core command tools for patches
 
 [Discover how to implement patches](Resources/doc/README-Patches-HowTo.md)
+
+
+
+[scrutinizer]: https://scrutinizer-ci.com/g/blast-project/CoreBundle
+[travis]: https://travis-ci.org/blast-project/CoreBundle
+[license]: ./LICENSE
+[contributing]: ./CONTRIBUTING.md
+[coveralls]: https://coveralls.io/github/blast-project/CoreBundle?branch=master
