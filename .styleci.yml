@@ -13,6 +13,9 @@ enabled:
   - no_useless_else
   - ordered_class_elements
   - ordered_use
+  
+disabled:
+  - unalign_double_arrow
 # Comment strict rules for the moment. Should be uncomment later to see StyleCI PR results
 #  - strict
 #  - strict_param
