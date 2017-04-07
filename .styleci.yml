@@ -16,6 +16,7 @@ enabled:
   
 disabled:
   - unalign_double_arrow
+  - unalign_equals
 # Comment strict rules for the moment. Should be uncomment later to see StyleCI PR results
 #  - strict
 #  - strict_param
