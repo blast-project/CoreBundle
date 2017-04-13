@@ -21,7 +21,7 @@ class BlastCoreBundleTest extends KernelTestCase
         $this->container = self::$kernel->getContainer();
     }
 
-    public function its_services_are_initializable()
+    public function testServicesAreInitializable()
     {
 
         $serviceIds = array_filter($this->container->getServiceIds(), function ($serviceId) {
@@ -29,8 +29,6 @@ class BlastCoreBundleTest extends KernelTestCase
         });
 
         foreach ($serviceIds as $serviceId) {
-            echo $serviceId;
-            echo "\n";
             $this->assertNotNull($this->container->get($serviceId));
         }
 
@@ -38,7 +36,7 @@ class BlastCoreBundleTest extends KernelTestCase
     }
 
 
-      public function check_if_services_exists()
+      public function testServicesExists()
       {
 
           /*
