@@ -3,70 +3,105 @@
 namespace Blast\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 
 trait ListActions
 {
     /**
      * @var array
      **/
-    protected $listActions = [];
+    protected $listActions = array();
     private $_listActionLoaded = false;
 
     /**
-     * getListActions()
+     * getListActions().
      *
      * @return array
      **/
     public function getListActions()
     {
-        if ( !$this->_listActionLoaded )
+        if (!$this->_listActionLoaded) {
             $this->handleListActions($this->listActions);
+        }
+
         return $this->listActions;
     }
 
     /**
-     * setListActions()
+     * setListActions().
      *
      * @param  $actions     array
+     *
      * @return self
      **/
     public function setListActions(array $actions)
     {
-        foreach ( $actions as $key => $action )
+        foreach ($actions as $key => $action) {
             $this->addListAction($key, $action);
+        }
+
         return $this;
     }
 
     /**
-     * addListAction()
+     * addListAction().
      *
      * @param  $name        string|null
      * @param  $action      array
+     *
      * @return self
      **/
     public function addListAction($name, array $action)
     {
-        foreach ( [
+        foreach (array(
             'label' => $name,
-            'params' => [],
+            'params' => array(),
             'translation_domain' => '',
             'action' => '',
             'route' => '',
-        ] as $field => $value )
-        if ( empty($action[$field]) )
-            $action[$field] = $value;
+        ) as $field => $value) {
+            if (empty($action[$field])) {
+                $action[$field] = $value;
+            }
+        }
 
-        if ( !$action['action'] && !$action['route'] )
+        if (!$action['action'] && !$action['route']) {
             return $this;
+        }
 
         $this->listActions[$name ? $name : $action['label']] = $action;
+
         return $this;
     }
 
     /**
+     * removeListAction().
+     *
+     * @param  $name        string|null
+     *
+     * @return self
+     **/
+    public function removeListAction($name)
+    {
+        unset($this->listActions[$name]);
+
+        return $this;
+    }
+
+    /**
+     * hasListAction().
+     *
+     * @param  $name        string|null
+     *
+     * @return self
+     **/
+    public function hasListAction($name)
+    {
+        return isset($this->listActions[$name]);
+    }
+
+    /**
      * Add routes for custom list actions
-     * overrides SonataAdmin/Admin::configureRoutes() so that it is called automatically by Admin::buildRoutes()
+     * overrides SonataAdmin/Admin::configureRoutes() so that it is called automatically by Admin::buildRoutes().
      *
      * @param RouteCollection $collection
      */
@@ -74,42 +109,19 @@ trait ListActions
     {
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
-        foreach ($this->getCurrentComposition() as $class)
-        if (isset($librinfo[$class][ListMapper::class]['add']['_actions']))
-        {
-            $actions = $librinfo[$class][ListMapper::class]['add']['_actions'] ? $librinfo[$class][ListMapper::class]['add']['_actions'] : [];
+        foreach ($this->getCurrentComposition() as $class) {
+            if (isset($librinfo[$class]['Sonata\AdminBundle\Datagrid\ListMapper']['add']['_actions'])) {
+                $actions = $librinfo[$class]['Sonata\AdminBundle\Datagrid\ListMapper']['add']['_actions'] ? $librinfo[$class]['Sonata\AdminBundle\Datagrid\ListMapper']['add']['_actions'] : array();
 
-            foreach ($actions['actions'] as $key => $action)
-            {
-                if (!empty($action['route']))
-                    $routeSuffix = $action['route'];
-                else
-                    $routeSuffix = $key;
-                $collection->add($key, $this->getRouterIdParameter().'/'.$routeSuffix);
+                foreach ($actions['actions'] as $key => $action) {
+                    if (!empty($action['route'])) {
+                        $routeSuffix = $action['route'];
+                    } else {
+                        $routeSuffix = $key;
+                    }
+                    $collection->add($key, $this->getRouterIdParameter().'/'.$routeSuffix);
+                }
             }
         }
-    }
-
-    /**
-     * removeListAction()
-     *
-     * @param  $name        string|null
-     * @return self
-     **/
-    public function removeListAction($name)
-    {
-        unset($this->listActions[$name]);
-        return $this;
-    }
-
-    /**
-     * hasListAction()
-     *
-     * @param  $name        string|null
-     * @return self
-     **/
-    public function hasListAction($name)
-    {
-        return isset($this->listActions[$name]);
     }
 }

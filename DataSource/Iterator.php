@@ -2,8 +2,8 @@
 
 namespace Blast\CoreBundle\DataSource;
 
-use Exporter\Source\DoctrineORMQuerySourceIterator;
 use Doctrine\ORM\PersistentCollection;
+use Exporter\Source\DoctrineORMQuerySourceIterator;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 
 class Iterator extends DoctrineORMQuerySourceIterator
@@ -18,53 +18,55 @@ class Iterator extends DoctrineORMQuerySourceIterator
      *              ['name' => 'XXX', 'organism.name' => 'YYY'],
      *              ['name' => 'AAA', 'organism.name' => 'BBB'],
      *          ]
-     *       ];
+     *       ];.
      */
     public function current()
     {
-        $data = [];
+        $data = array();
         $propertyPaths = $this->propertyPaths;
-        
+
         // then complete it for "fields" representing a collection of sub-entities
-        foreach ( $this->propertyPaths as $i => $propertyPath )
-        try
-        {
-            if ( ($property = $this->propertyAccessor->getValue($this->iterator->current()[0], $propertyPath)) instanceof PersistentCollection )
-            {
-                if (!( isset($data[(string)$propertyPath]) && is_array($data[(string)$propertyPath]) ))
-                    $data[(string)$propertyPath] = [];
-                
-                foreach ( $property as $subEntity )
-                    $data[(string)$propertyPath][] = (string)$subEntity;
-                
+        foreach ($this->propertyPaths as $i => $propertyPath) {
+            try {
+                if (($property = $this->propertyAccessor->getValue($this->iterator->current()[0], $propertyPath)) instanceof PersistentCollection) {
+                    if (!(isset($data[(string) $propertyPath]) && is_array($data[(string) $propertyPath]))) {
+                        $data[(string) $propertyPath] = array();
+                    }
+
+                    foreach ($property as $subEntity) {
+                        $data[(string) $propertyPath][] = (string) $subEntity;
+                    }
+
+                    unset($this->propertyPaths[$i]);
+                }
+            } catch (NoSuchPropertyException $e) {
+                $collection = preg_replace('/\..+$/', '', $propertyPath);
+                $subProperty = preg_replace('/^.+\./U', '', $propertyPath);
+                if ($collection != (string) $propertyPath && $subProperty) {
+                    if (($property = $this->propertyAccessor->getValue($this->iterator->current()[0], $collection)) instanceof PersistentCollection) {
+                        if (!(isset($data[$collection]) && is_array($data[$collection]))) {
+                            $data[$collection] = array();
+                        }
+
+                        foreach ($property as $subEntity) {
+                            $data[$collection][spl_object_hash($subEntity)][$subProperty] = (string) $this->propertyAccessor->getValue($subEntity, $subProperty);
+                        }
+                    }
+                }
                 unset($this->propertyPaths[$i]);
             }
         }
-        catch ( NoSuchPropertyException $e )
-        {
-            $collection = preg_replace('/\..+$/', '', $propertyPath);
-            $subProperty = preg_replace('/^.+\./U', '', $propertyPath);
-            if ( $collection != (string)$propertyPath && $subProperty )
-            if ( ($property = $this->propertyAccessor->getValue($this->iterator->current()[0], $collection)) instanceof PersistentCollection )
-            {
-                if (!( isset($data[$collection]) && is_array($data[$collection]) ))
-                    $data[$collection] = [];
-                
-                foreach ( $property as $subEntity )
-                    $data[$collection][spl_object_hash($subEntity)][$subProperty] = (string)$this->propertyAccessor->getValue($subEntity, $subProperty);
-            }
-            unset($this->propertyPaths[$i]);
-        }
-        
+
         // first do the "normal" stuff
         $data = array_merge($data, parent::current());
-        
+
         $this->propertyPaths = $propertyPaths;
+
         return $data;
     }
-    
+
     /**
-     * getQuery()
+     * getQuery().
      *
      * @return Doctrine\ORM\Query
      **/

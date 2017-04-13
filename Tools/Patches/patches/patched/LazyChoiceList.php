@@ -118,14 +118,15 @@ class LazyChoiceList implements ChoiceListInterface
      */
     public function getChoicesForValues(array $values)
     {
-        if (empty($values))
+        if (empty($values)) {
             return array();
-        else
-        {
-            $first = reset($values);
-            if (empty($first))
-                return array();
         }
+
+        $first = reset($values);
+        if (empty($first)) {
+            return array();
+        }
+
         if (!$this->loadedList) {
             return $this->loader->loadChoicesForValues($values, $this->value);
         }

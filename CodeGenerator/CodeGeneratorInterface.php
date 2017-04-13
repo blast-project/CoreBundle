@@ -13,6 +13,7 @@ interface CodeGeneratorInterface
 
     /**
      * @param mixed $entity
+     *
      * @return string
      */
     public static function generate($entity);
@@ -20,7 +21,8 @@ interface CodeGeneratorInterface
     /**
      * @param string $code
      * @param mixed  $entity
-     * @return boolean
+     *
+     * @return bool
      */
     public static function validate($code, $entity = null);
 
@@ -29,4 +31,3 @@ interface CodeGeneratorInterface
      */
     public static function getHelp();
 }
-
