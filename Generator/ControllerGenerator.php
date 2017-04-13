@@ -2,8 +2,8 @@
 
 namespace Blast\CoreBundle\Generator;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Sonata\AdminBundle\Generator\ControllerGenerator as BaseControllerGenerator;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
  * Class ControllerGenerator.

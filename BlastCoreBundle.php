@@ -2,9 +2,9 @@
 
 namespace Blast\CoreBundle;
 
+use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
 
 class BlastCoreBundle extends Bundle
 {
