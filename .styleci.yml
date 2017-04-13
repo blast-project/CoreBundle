@@ -3,8 +3,6 @@
 preset: symfony
 
 enabled:
-  - align_double_arrow
-  - align_equals
   - class_keyword_remove
   - combine_consecutive_unsets
   - long_array_syntax
