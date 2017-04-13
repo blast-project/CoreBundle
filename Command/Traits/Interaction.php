@@ -20,12 +20,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
+
 /**
  * This trait is the perfect copy of the Blast\OuterExtensionBundle\Command\Traits\Interaction
  * They are still distinct because of the few amount of code to factorize, but it will be done
- * as soon as we have a bit more to make generic.
+ * as soon as we have a bit more to make generic
  **/
-trait Interaction
+Trait Interaction
 {
     /**
      * @param OutputInterface $output
@@ -56,9 +57,8 @@ trait Interaction
 
         $question = new Question($questionHelper->getQuestion($questionText, $default), $default);
 
-        if (null !== $validator) {
+        if( null !== $validator)
             $question->setValidator($validator);
-        }
 
         return $questionHelper->ask($input, $output, $question);
     }

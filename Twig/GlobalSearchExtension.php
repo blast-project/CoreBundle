@@ -7,12 +7,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GlobalSearchExtension extends \Twig_Extension
 {
     private $container;
-
+    
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-
+    
     public function getFunctions()
     {
         return array(
@@ -23,26 +23,22 @@ class GlobalSearchExtension extends \Twig_Extension
     public function parseConfig()
     {
         $blast = $this->container->getParameter('blast');
-        $admins = array();
-
-        if (isset($blast['configuration']['search'])) {
+        $admins = [];
+        
+        if( isset($blast['configuration']['search']) )
+        {
             $search = $blast['configuration']['search'];
-
-            if (isset($search['add'])) {
-                foreach ($search['add'] as $key => $admin) {
+            
+            if( isset($search['add']) )
+                foreach( $search['add'] as $key => $admin)
                     $admins[] = $admin;
-                }
-            }
-
-            if (isset($search['remove'])) {
-                foreach ($search['remove'] as $admin) {
-                    if (in_array($admin, $admins)) {
+            
+            if( isset($search['remove']) )
+                foreach( $search['remove'] as $admin )
+                    if( in_array($admin, $admins) )
                         unset($admins[$admin]);
-                    }
-                }
-            }
-        }
-
+        }            
+        
         return $admins;
     }
 

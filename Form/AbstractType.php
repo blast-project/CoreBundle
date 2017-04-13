@@ -15,26 +15,25 @@ class AbstractType extends SymfonyAbstractType
     {
         return $this->getBlockPrefix();
     }
-
+    
     /**
-     * getBlockPrefix.
+     * getBlockPrefix
      *
      * When $this is a AppBundle\Form\Type\MyType, it returns app_my
      * When $this is a Librinfo\AppBundle\Form\Type\MyType, it returns librinfo_app_my
      *
-     * @return string
+     * @return  string
      */
     public function getBlockPrefix()
     {
         $rc = new \ReflectionClass($this);
-
+        
         // Non-greedy ("+?") to match "type" suffix, if present
         $fqcn = preg_replace(
             array('/([^\\\\])(Bundle)?\\\\Form\\\\Type(\\\\[^\\\\]+?)(Type)?$/i', '/\\\\/'),
             array('\\1\\3', '_'),
             $rc->getName()
         );
-
         return strtolower($fqcn);
     }
 }

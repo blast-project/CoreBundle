@@ -6,12 +6,14 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class DefaultParameters.
+ * Class DefaultParameters
+ *
+ * @package Blast\CoreBundle\DependencyInjection
  */
 class DefaultParameters implements ContainerAwareInterface
 {
     /**
-     * @var
+     * @var $this
      */
     private static $instance;
 
@@ -29,29 +31,30 @@ class DefaultParameters implements ContainerAwareInterface
     }
 
     /**
-     * defineDefaultConfiguration.
+     * defineDefaultConfiguration
      *
      * @param array $parameters
      */
-    public function defineDefaultConfiguration(array $parameters)
+    public function defineDefaultConfiguration(Array $parameters)
     {
-        foreach ($parameters as $parameterKey => $change) {
+        foreach ($parameters as $parameterKey => $change)
+        {
             // retrieve current defined parameters
             $containerParameters = $this->container->getParameter($parameterKey);
 
             // replacing parameter only if defined in yml file
-            if (array_key_exists('replace', $change)) {
+            if (array_key_exists('replace', $change))
+            {
                 // default parameters in an array, so checking its content and replacing matching keys
-                if (is_array($containerParameters) && is_array($change['default'])) {
-                    foreach ($containerParameters as $defaultKey => $defaultValue) {
-                        if (in_array($defaultValue, $change['default'])) {
+                if (is_array($containerParameters) && is_array($change['default']))
+                {
+                    foreach ($containerParameters as $defaultKey => $defaultValue)
+                        if (in_array($defaultValue, $change['default']))
                             $containerParameters[$defaultKey] = $change['replace'][$defaultKey];
-                        }
-                    }
-                } elseif // default parameters in a string, simply replacing it
-                    ($change['default'] == $containerParameters) {
-                    $containerParameters = $change['replace'];
                 }
+                else // default parameters in a string, simply replacing it
+                    if ($change['default'] == $containerParameters)
+                        $containerParameters = $change['replace'];
 
                 // overriding parameters with our default values
                 $this->container->setParameter($parameterKey, $containerParameters);
@@ -60,7 +63,7 @@ class DefaultParameters implements ContainerAwareInterface
     }
 
     /**
-     * parameterExists.
+     * parameterExists
      *
      * @param $name
      *
@@ -68,11 +71,10 @@ class DefaultParameters implements ContainerAwareInterface
      */
     public function parameterExists($name)
     {
-        if ($this->container->hasParameter($name)) {
+        if ($this->container->hasParameter($name))
             return $this->container->getParameter($name);
-        }
-
-        return false;
+        else
+            return false;
     }
 
     /**
@@ -80,7 +82,8 @@ class DefaultParameters implements ContainerAwareInterface
      */
     public static function getInstance(ContainerInterface $container)
     {
-        if (self::$instance == null) {
+        if (self::$instance == null)
+        {
             self::$instance = new self($container);
         }
 
@@ -98,4 +101,5 @@ class DefaultParameters implements ContainerAwareInterface
     {
         $this->container = $container;
     }
+
 }

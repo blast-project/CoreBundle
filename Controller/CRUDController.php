@@ -11,6 +11,7 @@
 
 namespace Blast\CoreBundle\Controller;
 
+use Blast\CoreBundle\Exception\InvalidEntityCodeException;
 use Sonata\AdminBundle\Controller\CRUDController as SonataController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class CRUDController extends SonataController
     protected $admin;
 
     /**
-     * Duplicate action.
+     * Duplicate action
      *
      * @return response
      */
@@ -179,19 +180,17 @@ class CRUDController extends SonataController
             $subject = $this->admin->getObject($id);
             if (!$subject) {
                 $error = sprintf('unable to find the object with id : %s', $id);
-
-                return new JsonResponse(array('error' => $error));
+                return new JsonResponse(['error' => $error]);
             }
             try {
                 $this->admin->checkAccess('edit', $subject); // TODO: is it necessary ? (we are not editing the entity)
             } catch (Exception $exc) {
                 $error = $exc->getMessage();
-
-                return new JsonResponse(array('error' => $error));
+                return new JsonResponse(['error' => $error]);
             }
-        } else {
-            $subject = $this->admin->getNewInstance();
         }
+        else
+            $subject = $this->admin->getNewInstance();
 
         $this->admin->setSubject($subject);
 
@@ -205,13 +204,12 @@ class CRUDController extends SonataController
         $generator = $registry::getCodeGenerator(get_class($entity), $field);
         try {
             $code = $generator::generate($entity);
-
-            return new JsonResponse(array('code' => $code));
+            return new JsonResponse(['code' => $code]);
         } catch (\Exception $exc) {
             $error = $this->get('translator')->trans($exc->getMessage());
-
-            return new JsonResponse(array('error' => $error, 'generator' => get_class($generator)));
+            return new JsonResponse(['error' => $error, 'generator' => get_class($generator)]);
         }
+
     }
 
     /**
@@ -289,4 +287,6 @@ class CRUDController extends SonataController
     protected function preDuplicate($object)
     {
     }
+
+
 }

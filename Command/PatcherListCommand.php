@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PatcherListCommand extends ContainerAwareCommand
 {
+
     use PatcherConfig,
         PatcherLogger;
 
@@ -24,13 +25,14 @@ class PatcherListCommand extends ContainerAwareCommand
 
         $this->info("\nListing available patches:\n\n");
         $this->info('  - - - -  ');
-        foreach ($this->config['patches'] as $patch) {
+        foreach ($this->config['patches'] as $patch)
+        {
             $this->info('id: ', false);
             $this->comment($patch['id']);
             $this->info('enabled: ', false);
-            $this->comment($patch['enabled'] ? 'true' : 'false');
+            $this->comment($patch['enabled'] ? 'true':'false');
             $this->info('patched: ', false);
-            $this->comment($patch['patched'] ? 'true' : 'false');
+            $this->comment($patch['patched'] ? 'true':'false');
             $this->info('targetFile: ', false);
             $this->comment($patch['targetFile']);
             $this->info('patchFile: ', false);
@@ -40,4 +42,5 @@ class PatcherListCommand extends ContainerAwareCommand
 
         $this->displayMessages($output);
     }
+
 }

@@ -14,73 +14,7 @@ trait Base
     /**
      * @var array
      */
-    protected $exportFields = array();
-
-    /**
-     * {@inheritdoc}
-     **/
-    public function getBatchActions()
-    {
-        $actions = array();
-
-        if ($this->isGranted('DELETE')) {
-            $actions['delete'] = array(
-               'label' => 'action_delete',
-               'translation_domain' => 'SonataAdminBundle',
-               'ask_confirmation' => true,
-           );
-        }
-
-        return $this->handleBatchActions($actions);
-    }
-
-    /**
-     * {@inheritdoc}
-     **/
-    public function getExportFormats()
-    {
-        $formats = array();
-        foreach (parent::getExportFormats() as $format) {
-            $formats[$format] = array();
-        }
-
-        return array_keys($this->addPresetExportFormats($formats));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExportFields()
-    {
-        // prerequisites
-        $fields = parent::getExportFields();
-        $this->getExportFormats();
-
-        // nothing to add
-        if (!$this->exportFields) {
-            return parent::getExportFields();
-        }
-
-        // nothing specific to add
-        if (!($this->getConfigurationPool()->getContainer()->get('request')->get('format')
-            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]))) {
-            return parent::getExportFields();
-        }
-
-        // specificities for this format
-        return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataSourceIterator()
-    {
-        $datagrid = $this->getDatagrid();
-        $datagrid->buildPager();
-
-        return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
-    }
+    protected $exportFields = [];
 
     /**
      * @param DatagridMapper $mapper
@@ -112,5 +46,66 @@ trait Base
     protected function configureShowFields(ShowMapper $mapper)
     {
         CoreAdmin::configureShowFields($mapper);
+    }
+
+    /**
+     * {@inheritdoc}
+     **/
+    public function getBatchActions()
+    {
+       $actions = [];
+
+       if ( $this->isGranted('DELETE') )
+           $actions['delete'] = array(
+               'label' => 'action_delete',
+               'translation_domain' => 'SonataAdminBundle',
+               'ask_confirmation' => true,
+           );
+
+       return $this->handleBatchActions($actions);
+    }
+
+    /**
+     * {@inheritdoc}
+     **/
+    public function getExportFormats()
+    {
+        $formats = [];
+        foreach ( parent::getExportFormats() as $format )
+            $formats[$format] = [];
+        return array_keys($this->addPresetExportFormats($formats));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExportFields()
+    {
+        // prerequisites
+        $fields = parent::getExportFields();
+        $this->getExportFormats();
+
+        // nothing to add
+        if ( !$this->exportFields )
+            return parent::getExportFields();
+
+        // nothing specific to add
+        if (!( $this->getConfigurationPool()->getContainer()->get('request')->get('format')
+            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]) ))
+            return parent::getExportFields();
+
+        // specificities for this format
+        return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataSourceIterator()
+    {
+        $datagrid = $this->getDatagrid();
+        $datagrid->buildPager();
+
+        return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
     }
 }

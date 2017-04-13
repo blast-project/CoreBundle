@@ -4,14 +4,16 @@ namespace Blast\CoreBundle\Admin\Traits;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
+
 trait CollectionsManager
 {
-    protected $managedCollections = array();
+
+    protected $managedCollections = [];
 
     /**
-     * function getManagedCollections.
+     * function getManagedCollections
      *
-     * @return array
+     * @return  array
      * */
     public function getManagedCollections()
     {
@@ -19,17 +21,15 @@ trait CollectionsManager
     }
 
     /**
-     * function addManagedCollections.
+     * function addManagedCollections
      *
      * @param $collections      array or string, describing the collections to manage
-     *
-     * @return CoreAdmin $this
+     * @return CoreAdmin        $this
      * */
     public function addManagedCollections($collections)
     {
-        if (!is_array($collections)) {
+        if (!is_array($collections))
             $collections = array($collections);
-        }
         $this->managedCollections = array_merge($this->managedCollections, $collections);
 
         return $this;
@@ -51,15 +51,15 @@ trait CollectionsManager
         $this->configureCollectionsManager();
 
         // for each given collection
-        foreach ($this->managedCollections as $coll) {
-            if (isset($this->formFieldDescriptions[$coll])) {
-                if ($coll == 'packagings') {
-                    dump($this->formFieldDescriptions[$coll]);
-                }
+        foreach ($this->managedCollections as $coll)
+        if ( isset($this->formFieldDescriptions[$coll]) )
+        {
+            if ($coll == 'packagings') dump($this->formFieldDescriptions[$coll]);
             // preparing stuff
-            if ($admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code')) {
+            if ( $admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code') ) {
                 $targetAdmin = $this->getConfigurationPool()->getAdminByAdminCode($admin_code);
-            } else {
+            }
+            else {
                 $target = $this->getModelManager()
                     ->getEntityManager($object)
                     ->getClassMetadata($this->getClass())
@@ -70,35 +70,29 @@ trait CollectionsManager
                 $targetAdmin = $this->getConfigurationPool()->getAdminByClass($rctarget->getName());
             }
 
-                $rcentity = new \ReflectionClass($this->getClass());
-                $method = 'get'.ucfirst($coll);
+            $rcentity = new \ReflectionClass($this->getClass());
+            $method = 'get' . ucfirst($coll);
 
-                $subObjects = $object->$method();
+            $subObjects = $object->$method();
 
             // insert/update (forcing the foreign key to be set to $this->getId(), for instance)
-            if ($subObjects != null) {
-                foreach ($subObjects as $subobj) {
-                    if ($this->formFieldDescriptions[$coll]->getMappingType() != ClassMetadataInfo::MANY_TO_MANY) {
-                        $subobj->{'set'.ucfirst($rcentity->getShortName())}($object);
-                    }
+            if( $subObjects != null )
+                foreach ($subObjects as $subobj)
+                {
+                    if ($this->formFieldDescriptions[$coll]->getMappingType() != ClassMetadataInfo::MANY_TO_MANY)
+                        $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
 
-                    if ($targetAdmin != null) {
+                    if( $targetAdmin != null )
                         $targetAdmin->prePersist($subobj);
-                    }
                 }
-            }
 
-                if (!$subObjects instanceof Doctrine\ORM\PersitentCollection || $subObjects->count() == 0) {
-                    continue;
-                }
+            if (!$subObjects instanceof Doctrine\ORM\PersitentCollection || $subObjects->count() == 0)
+                continue;
 
             // delete
-            foreach ($subObjects->getSnapshot() as $subobj) {
-                if (!$subObjects->contains($subobj)) {
+            foreach ($subObjects->getSnapshot() as $subobj)
+                if (!$subObjects->contains($subobj))
                     $this->getModelManager()->delete($subobj);
-                }
-            }
-            }
         }
 
         return $this;
@@ -109,15 +103,15 @@ trait CollectionsManager
         $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
         $key = 'collections'; // name of the key in the librinfo.yml
         // merge configuration/parameters
-        foreach ($this->getCurrentComposition() as $class) {
-            if (isset($librinfo[$class]) && isset($librinfo[$class]['manage']) && isset($librinfo[$class]['manage'][$key])) {
-                if (!is_array($librinfo[$class]['manage'][$key])) {
-                    $librinfo[$class]['manage'][$key] = array($librinfo[$class]['manage'][$key]);
-                }
+        foreach ($this->getCurrentComposition() as $class)
+            if (isset($librinfo[$class]) && isset($librinfo[$class]['manage']) && isset($librinfo[$class]['manage'][$key]))
+            {
+                if (!is_array($librinfo[$class]['manage'][$key]))
+                    $librinfo[$class]['manage'][$key] = [$librinfo[$class]['manage'][$key]];
                 $this->addManagedCollections($librinfo[$class]['manage'][$key]);
             }
-        }
 
         return $this;
     }
+
 }
