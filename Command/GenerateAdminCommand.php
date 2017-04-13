@@ -11,8 +11,15 @@
 
 namespace Blast\CoreBundle\Command;
 
+use Blast\CoreBundle\Command\Traits\Interaction;
+use Blast\CoreBundle\Generator\AdminGenerator;
+use Blast\CoreBundle\Generator\BlastGenerator;
+use Blast\CoreBundle\Generator\ControllerGenerator;
+use Blast\CoreBundle\Generator\ServicesManipulator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
+use Sonata\AdminBundle\Command\Validators;
+use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,22 +31,14 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Command\Validators;
-use Blast\CoreBundle\Generator\AdminGenerator;
-use Blast\CoreBundle\Generator\ControllerGenerator;
-use Blast\CoreBundle\Generator\ServicesManipulator;
-use Blast\CoreBundle\Generator\BlastGenerator;
-use Blast\CoreBundle\Command\Traits\Interaction;
 
 /**
  * Class GenerateAdminCommand.
- *
  */
 class GenerateAdminCommand extends ContainerAwareCommand
 {
     use Interaction;
-    
+
     /**
      * @var string[]
      */
@@ -160,12 +159,12 @@ class GenerateAdminCommand extends ContainerAwareCommand
                 $this->writeError($output, $e->getMessage());
             }
         }
-        
+
         try {
             $blastFile = sprintf('%s/Resources/config/blast.yml', $bundle->getPath());
             $blastGenerator = new BlastGenerator($blastFile, $modelManager, $skeletonDirectory);
             $blastGenerator->addResource($modelClass);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->writeError($output, $e->getMessage());
         }
 
@@ -186,7 +185,7 @@ class GenerateAdminCommand extends ContainerAwareCommand
             $input->getArgument('model'),
             'Sonata\AdminBundle\Command\Validators::validateClass'
         );
-        
+
         $modelClassBasename = current(array_slice(explode('\\', $modelClass), -1));
         $bundleName = $this->askAndValidate(
             $input,

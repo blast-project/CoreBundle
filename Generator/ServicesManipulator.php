@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class ServicesManipulator.
  */
 class ServicesManipulator extends BaseManipulator
-{   
+{
     /**
      * @var string
      */
@@ -23,7 +23,7 @@ class ServicesManipulator extends BaseManipulator
               label: %s
 
 ';
-    
+
     /**
      * @param string $file
      */
@@ -31,7 +31,7 @@ class ServicesManipulator extends BaseManipulator
     {
         $this->file = (string) $file;
     }
-    
+
     /**
      * @param string $serviceId
      * @param string $modelClass
@@ -45,7 +45,7 @@ class ServicesManipulator extends BaseManipulator
     {
         $rc = new \ReflectionClass($modelClass);
         $modelClassShortName = $rc->getShortName();
-        
+
         $code = "services:\n";
 
         if (is_file($this->file)) {

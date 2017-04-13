@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Extension of Sonata CoreController
+ * Extension of Sonata CoreController.
  *
  * @author Marcos Bezerra de Menezes <marcos.bezerra@libre-informatique.fr>
  */
@@ -26,7 +26,9 @@ class CoreController extends BaseCoreController
 {
     /**
      * @param Request $request
+     *
      * @return JsonResponse|Response
+     *
      * @throws \RuntimeException
      */
     public function searchAction(Request $request)

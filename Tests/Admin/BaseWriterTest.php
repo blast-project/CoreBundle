@@ -5,13 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Blast\CoreBundle\Test\Admin\Writer;
 
-use Blast\CoreBundle\Admin\BaseWriter;
+namespace Blast\CoreBundle\Test\Admin\Writer;
 
 class BaseWriterTest extends \PHPUnit_Framework_TestCase
 {
-
     protected $filename;
 
     public function setUp()
@@ -37,7 +35,7 @@ class BaseWriterTest extends \PHPUnit_Framework_TestCase
     public function testConfigure()
     {
         touch($this->filename);
-        $stub = $this->getMockForAbstractClass(BaseWriter::class);
+        $stub = $this->getMockForAbstractClass('Blast\CoreBundle\Admin\BaseWriter');
         $stub->configure($this->filename);
     }
 }

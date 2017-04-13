@@ -2,9 +2,9 @@
 
 namespace Blast\CoreBundle\Generator;
 
+use Sonata\AdminBundle\Generator\AdminGenerator as BaseAdminGenerator;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Sonata\AdminBundle\Generator\AdminGenerator as BaseAdminGenerator;
 
 class AdminGenerator extends BaseAdminGenerator
 {
