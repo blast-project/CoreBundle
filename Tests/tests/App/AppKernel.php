@@ -8,6 +8,7 @@ class AppKernel extends Kernel
     /*
      * @todo check what we need to register or not
      * @todo find a way to load this only on Functional test
+     * @todo check what need to main composer.json 
      */
     
     public function registerBundles()
