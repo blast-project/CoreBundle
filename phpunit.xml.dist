@@ -11,27 +11,34 @@
          syntaxCheck="false"
          bootstrap="Tests/tests/bootstrap.php"
 >
-    <testsuites>
-        <testsuite name="AdminBundle Test Suite">
-            <directory>./Tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Tests/</directory>
-                <directory>./DataFixtures/</directory>
-                <directory>./Resources/</directory>
-                <directory>./vendor/</directory>
-                <directory>./coverage/</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-
-    <php>
-        <ini name="precision" value="8"/>
-    </php>
-
+  
+  
+   <testsuites>
+     <testsuite name="Unit">
+       <directory>./Tests/Unit</directory>
+     </testsuite>
+     <testsuite name="Functional">
+       <directory>./Tests/Functional</directory>
+     </testsuite>
+  </testsuites>
+  
+  
+  <filter>
+    <whitelist>
+      <directory>./</directory>
+      <exclude>
+        <directory>./Tests/</directory>
+        <directory>./DataFixtures/</directory>
+        <directory>./Resources/</directory>
+        <directory>./vendor/</directory>
+        <directory>./coverage/</directory>
+      </exclude>
+    </whitelist>
+  </filter>
+  
+  <php>
+    <server name="KERNEL_DIR" value="Tests/tests/App/" />
+      <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
+  </php>
+  
 </phpunit>
