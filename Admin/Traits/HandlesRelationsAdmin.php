@@ -9,7 +9,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 trait HandlesRelationsAdmin
 {
-
     use Base;
 
     /**
@@ -22,20 +21,23 @@ trait HandlesRelationsAdmin
         // relationships that will be handled by CollectionsManager
         $type = 'sonata_type_collection';
 
-        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription)
-            if ($fieldDescription->getType() == $type)
+        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription) {
+            if ($fieldDescription->getType() == $type) {
                 $this->addManagedCollections($fieldname);
-
-        // relationships that will be handled by ManyToManyManager
-        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription)
-        {
-            $mapping = $fieldDescription->getAssociationMapping();
-            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'])
-                $this->addManyToManyCollections($fieldname);
+            }
         }
 
-        if (method_exists($this, 'postConfigureFormFields'))
+        // relationships that will be handled by ManyToManyManager
+        foreach ($this->formFieldDescriptions as $fieldname => $fieldDescription) {
+            $mapping = $fieldDescription->getAssociationMapping();
+            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide']) {
+                $this->addManyToManyCollections($fieldname);
+            }
+        }
+
+        if (method_exists($this, 'postConfigureFormFields')) {
             $this->postConfigureFormFields($mapper);
+        }
     }
 
     /**
@@ -46,21 +48,23 @@ trait HandlesRelationsAdmin
         CoreAdmin::configureShowFields($mapper);
 
         // relationships that will be handled by CollectionsManager
-        $types = ['sonata_type_collection', 'orm_one_to_many'];
-        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription)
-            if (in_array($fieldDescription->getType(), $types))
+        $types = array('sonata_type_collection', 'orm_one_to_many');
+        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription) {
+            if (in_array($fieldDescription->getType(), $types)) {
                 $this->addManagedCollections($fieldname);
-
-        // relationships that will be handled by ManyToManyManager
-        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription)
-        {
-            $mapping = $fieldDescription->getAssociationMapping();
-            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide'])
-                $this->addManyToManyCollections($fieldname);
+            }
         }
 
-        if (method_exists($this, 'postConfigureShowFields'))
-            $this->postConfigureShowFields($mapper);
-    }
+        // relationships that will be handled by ManyToManyManager
+        foreach ($this->showFieldDescriptions as $fieldname => $fieldDescription) {
+            $mapping = $fieldDescription->getAssociationMapping();
+            if ($mapping['type'] == ClassMetadataInfo::MANY_TO_MANY && !$mapping['isOwningSide']) {
+                $this->addManyToManyCollections($fieldname);
+            }
+        }
 
+        if (method_exists($this, 'postConfigureShowFields')) {
+            $this->postConfigureShowFields($mapper);
+        }
+    }
 }

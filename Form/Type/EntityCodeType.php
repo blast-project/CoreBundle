@@ -6,7 +6,8 @@ use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
 
 class EntityCodeType extends BaseAbstractType
 {
-    public function getParent() {
+    public function getParent()
+    {
         return 'text';
     }
 
@@ -14,5 +15,4 @@ class EntityCodeType extends BaseAbstractType
     {
         return 'librinfo_entitycode';
     }
-    
 }
