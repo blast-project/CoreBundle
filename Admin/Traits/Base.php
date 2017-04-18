@@ -14,7 +14,7 @@ trait Base
     /**
      * @var array
      */
-    protected $exportFields = [];
+    protected $exportFields = array();
 
     /**
      * @param DatagridMapper $mapper
@@ -53,16 +53,17 @@ trait Base
      **/
     public function getBatchActions()
     {
-       $actions = [];
+        $actions = array();
 
-       if ( $this->isGranted('DELETE') )
-           $actions['delete'] = array(
+        if ($this->isGranted('DELETE')) {
+            $actions['delete'] = array(
                'label' => 'action_delete',
                'translation_domain' => 'SonataAdminBundle',
                'ask_confirmation' => true,
            );
+        }
 
-       return $this->handleBatchActions($actions);
+        return $this->handleBatchActions($actions);
     }
 
     /**
@@ -70,9 +71,11 @@ trait Base
      **/
     public function getExportFormats()
     {
-        $formats = [];
-        foreach ( parent::getExportFormats() as $format )
-            $formats[$format] = [];
+        $formats = array();
+        foreach (parent::getExportFormats() as $format) {
+            $formats[$format] = array();
+        }
+
         return array_keys($this->addPresetExportFormats($formats));
     }
 
@@ -86,13 +89,15 @@ trait Base
         $this->getExportFormats();
 
         // nothing to add
-        if ( !$this->exportFields )
+        if (!$this->exportFields) {
             return parent::getExportFields();
+        }
 
         // nothing specific to add
-        if (!( $this->getConfigurationPool()->getContainer()->get('request')->get('format')
-            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]) ))
+        if (!($this->getConfigurationPool()->getContainer()->get('request')->get('format')
+            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]))) {
             return parent::getExportFields();
+        }
 
         // specificities for this format
         return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];

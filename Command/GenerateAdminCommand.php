@@ -34,12 +34,11 @@ use Blast\CoreBundle\Command\Traits\Interaction;
 
 /**
  * Class GenerateAdminCommand.
- *
  */
 class GenerateAdminCommand extends ContainerAwareCommand
 {
     use Interaction;
-    
+
     /**
      * @var string[]
      */
@@ -160,12 +159,12 @@ class GenerateAdminCommand extends ContainerAwareCommand
                 $this->writeError($output, $e->getMessage());
             }
         }
-        
+
         try {
             $blastFile = sprintf('%s/Resources/config/blast.yml', $bundle->getPath());
             $blastGenerator = new BlastGenerator($blastFile, $modelManager, $skeletonDirectory);
             $blastGenerator->addResource($modelClass);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->writeError($output, $e->getMessage());
         }
 
@@ -186,7 +185,7 @@ class GenerateAdminCommand extends ContainerAwareCommand
             $input->getArgument('model'),
             'Sonata\AdminBundle\Command\Validators::validateClass'
         );
-        
+
         $modelClassBasename = current(array_slice(explode('\\', $modelClass), -1));
         $bundleName = $this->askAndValidate(
             $input,
