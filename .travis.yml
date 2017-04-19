@@ -20,7 +20,7 @@ cache:
 env:
   global:
     - PATH="$HOME/.local/bin:$PATH"
-    - SCRIPTS_FOLDER=etc
+    - SCRIPTS_FOLDER=bin/ci-scripts
     - SYMFONY_DEPRECATIONS_HELPER=weak
     - TARGET=test
     - UPSTREAM_URL=https://github.com/blast-project/CoreBundle.git
