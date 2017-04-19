@@ -1,8 +1,9 @@
 <?php
-namespace Blast\CoreBundle\Generator;
+namespace Blast\CoreBundle\Tests\Unit\Generator;
 
 use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStream;
+use Blast\CoreBundle\Generator\BlastGenerator;
 
 class BlastGeneratorTest extends TestCase
 {
@@ -33,7 +34,7 @@ class BlastGeneratorTest extends TestCase
         /*
          *   @todo test with and/or without original content
          */
-        $this->file->setContent(file_get_contents('Resources/config/blast.yml'));
+        $this->file->setContent(file_get_contents('src/Resources/config/blast.yml'));
 
         $this->blastFile = vfsStream::url('BlastTestRessources/blast.yml');
 
@@ -41,7 +42,7 @@ class BlastGeneratorTest extends TestCase
          * @todo check if it should be tested with other skeleton
          */
         
-        $this->skeletonDirectory = 'Resources/skeleton';
+        $this->skeletonDirectory = 'src/Resources/skeleton';
 
         
 
