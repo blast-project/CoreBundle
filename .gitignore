@@ -4,4 +4,4 @@
 /composer.lock
 /vendor/
 /Resources/doc/_build
-/bin
+/bin/phpunit
