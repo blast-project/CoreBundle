@@ -13,6 +13,7 @@ Blast CoreBundle
    reference/getting_started
    reference/configuration
    reference/architecture
+   reference/contributing
 
 
 
