@@ -18,7 +18,12 @@
         "doctrine/doctrine-bundle": "^1.6"
     },
     "license": "GPL-3.0",
-    "keywords": ["e-venement", "libio", "sonata", "symfony"],
+    "keywords": [
+        "e-venement",
+        "libio",
+        "sonata",
+        "symfony"
+    ],
     "homepage": "https://github.com/blast-project/CoreBundle",
     "authors": [
         {
