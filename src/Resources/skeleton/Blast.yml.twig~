@@ -41,7 +41,12 @@ parameters:
             Sonata\AdminBundle\Datagrid\ListMapper:
                 add:
                 {{ listcode }}
-                    
+                    _actions:
+                        show: ~
+                        edit: ~
+                        delete: ~
+                        duplicate:
+                            template: BlastCoreBundle:CRUD:list__action_duplicate.html.twig
             # FILTERS 
             Sonata\AdminBundle\Datagrid\DatagridMapper:
                 add:
