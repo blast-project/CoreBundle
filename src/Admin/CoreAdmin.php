@@ -322,6 +322,10 @@ abstract class CoreAdmin extends SonataAdmin
 
         if (isset($groups[$newGroup]))
             throw new \Exception(sprintf('%s form group already exists.', $newGroup));
+        
+        if (!array_key_exists($group, $groups)) {
+            throw new \Exception(sprintf('form group « %s » doesn\'t exists.', $group));
+        }
 
         $groups[$newGroup] = $groups[$group];
         $groups[$newGroup]['name'] = $newGroupName;
