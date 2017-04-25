@@ -20,6 +20,7 @@ use Blast\CoreBundle\Admin\Traits\ListActions;
 
 abstract class CoreAdmin extends SonataAdmin
 {
+
     use CollectionsManager,
         ManyToManyManager,
         Mapper,
@@ -39,7 +40,7 @@ abstract class CoreAdmin extends SonataAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
+        $collection->add('duplicate', $this->getRouterIdParameter() . '/duplicate');
         $collection->add('generateEntityCode');
     }
 
@@ -53,7 +54,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $mapper)
     {
-        if ( !$this->configureMapper($mapper) )
+        if (!$this->configureMapper($mapper))
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
 
@@ -62,7 +63,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function configureListFields(ListMapper $mapper)
     {
-        if ( !$this->configureMapper($mapper) )
+        if (!$this->configureMapper($mapper))
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
 
@@ -71,7 +72,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function configureFormFields(FormMapper $mapper)
     {
-        if ( !$this->configureMapper($mapper) )
+        if (!$this->configureMapper($mapper))
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
 
@@ -80,7 +81,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function configureShowFields(ShowMapper $mapper)
     {
-        if ( !$this->configureMapper($mapper) )
+        if (!$this->configureMapper($mapper))
             $this->fallbackConfiguration($mapper, __FUNCTION__);
     }
 
@@ -89,16 +90,15 @@ abstract class CoreAdmin extends SonataAdmin
      */
     protected function fixShowRoutes(BaseMapper $mapper)
     {
-        foreach ( ['getShow', 'getList'] as $fct )
-        foreach ( $this->$fct()->getElements() as $field )
-        {
-            $options = $field->getOptions();
-            if ( $options['route']['name'] != 'edit' )
-                continue;
+        foreach (['getShow', 'getList'] as $fct)
+            foreach ($this->$fct()->getElements() as $field) {
+                $options = $field->getOptions();
+                if ($options['route']['name'] != 'edit')
+                    continue;
 
-            $options['route']['name'] = 'show';
-            $field->setOptions($options);
-        }
+                $options['route']['name'] = 'show';
+                $field->setOptions($options);
+            }
 
         return $this;
     }
@@ -108,10 +108,10 @@ abstract class CoreAdmin extends SonataAdmin
         // traits of the current Entity
         $classes = ClassAnalyzer::getTraits($this->getClass());
         // inheritance of the current Entity
-        foreach ( array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class )
+        foreach (array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class)
             $classes[] = $class;
         // inheritance of the current Admin
-        foreach ( array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin )
+        foreach (array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin)
             $classes[] = $admin;
 
         return $classes;
@@ -121,7 +121,7 @@ abstract class CoreAdmin extends SonataAdmin
     {
         // fallback
         $rm = new \ReflectionMethod($this->getParentClass(), $function);
-        if ( $rm->class == $this->getParentClass() )
+        if ($rm->class == $this->getParentClass())
             $this->configureFields($function, $mapper, $this->getParentClass());
     }
 
@@ -131,18 +131,18 @@ abstract class CoreAdmin extends SonataAdmin
      * @param  integer $level : do not use, just used for recursivity
      * @return int : depth
      */
-    private static function arrayDepth( $array, $level = 0 )
+    private static function arrayDepth($array, $level = 0)
     {
-        if ( !$array )
+        if (!$array)
             return $level;
 
-        if ( !is_array($array) )
+        if (!is_array($array))
             return $level;
 
         $level++;
-        foreach ( $array as $key => $value )
-        if ( is_array($value) )
-            $level = $level < self::arrayDepth($value, $level) ? self::arrayDepth($value, $level) : $level;
+        foreach ($array as $key => $value)
+            if (is_array($value))
+                $level = $level < self::arrayDepth($value, $level) ? self::arrayDepth($value, $level) : $level;
 
         return $level;
     }
@@ -151,14 +151,17 @@ abstract class CoreAdmin extends SonataAdmin
     {
         return get_called_class();
     }
+
     protected function getParentClasses()
     {
         return class_parents($this->getOriginalClass());
     }
+
     protected function getParentClass()
     {
         return get_parent_class($this->getOriginalClass());
     }
+
     protected function getGrandParentClass()
     {
         return get_parent_class(get_parent_class($this->getOriginalClass()));
@@ -170,9 +173,9 @@ abstract class CoreAdmin extends SonataAdmin
      */
     public function addExtraTemplate($view, $template)
     {
-        if ( empty($this->extraTemplates[$view]) )
+        if (empty($this->extraTemplates[$view]))
             $this->extraTemplates[$view] = [];
-        if ( !in_array($template, $this->extraTemplates[$view]) )
+        if (!in_array($template, $this->extraTemplates[$view]))
             $this->extraTemplates[$view][] = $template;
     }
 
@@ -182,11 +185,10 @@ abstract class CoreAdmin extends SonataAdmin
      */
     public function getExtraTemplates($view)
     {
-        if ( empty($this->extraTemplates[$view]) )
+        if (empty($this->extraTemplates[$view]))
             $this->extraTemplates[$view] = [];
         return $this->extraTemplates[$view];
     }
-
 
     /**
      * @param string $view      'list', 'show', 'form', etc
@@ -194,7 +196,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     public function addHelperLink($view, $link)
     {
-        if ( empty($this->helperLinks[$view]) )
+        if (empty($this->helperLinks[$view]))
             $this->helperLinks[$view] = [];
 
         // Do not add links without URL
@@ -203,8 +205,8 @@ abstract class CoreAdmin extends SonataAdmin
 
         // Do not add two links with the same URL
         foreach ($this->helperLinks[$view] as $l)
-        if ($l['url'] == $link['url'])
-            return;
+            if ($l['url'] == $link['url'])
+                return;
 
         $this->helperLinks[$view][] = $link;
     }
@@ -215,7 +217,7 @@ abstract class CoreAdmin extends SonataAdmin
      */
     public function getHelperLinks($view)
     {
-        if ( empty($this->helperLinks[$view]) )
+        if (empty($this->helperLinks[$view]))
             $this->helperLinks[$view] = [];
         return $this->helperLinks[$view];
     }
@@ -246,22 +248,20 @@ abstract class CoreAdmin extends SonataAdmin
     {
         $tabs = $this->getFormTabs();
 
-        if(!$tabs)
+        if (!$tabs)
             return;
 
-        if( !isset($tabs[$tabName]) )
+        if (!isset($tabs[$tabName]))
             throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
 
-        if(isset($tabs[$newTabName]))
+        if (isset($tabs[$newTabName]))
             return;
 
-        if($keepOrder)
-        {
+        if ($keepOrder) {
             $keys = array_keys($tabs);
             $keys[array_search($tabName, $keys)] = $newTabName;
             $tabs = array_combine($keys, $tabs);
-        }else
-        {
+        } else {
             $tabs[$newTabName] = $tabs[$tabName];
             unset($tabs[$tabName]);
         }
@@ -281,22 +281,20 @@ abstract class CoreAdmin extends SonataAdmin
     {
         $tabs = $this->getShowTabs();
 
-        if(!$tabs)
+        if (!$tabs)
             return;
 
-        if( !isset($tabs[$tabName]) )
+        if (!isset($tabs[$tabName]))
             throw new \Exception(sprintf('Tab %s does not exist.', $tabName));
 
-        if(isset($tabs[$newTabName]))
+        if (isset($tabs[$newTabName]))
             return;
 
-        if($keepOrder)
-        {
+        if ($keepOrder) {
             $keys = array_keys($tabs);
             $keys[array_search($tabName, $keys)] = $newTabName;
             $tabs = array_combine($keys, $tabs);
-        }else
-        {
+        } else {
             $tabs[$newTabName] = $tabs[$tabName];
             unset($tabs[$tabName]);
         }
@@ -318,9 +316,9 @@ abstract class CoreAdmin extends SonataAdmin
 
         // When the default tab is used, the tabname is not prepended to the index in the group array
         if ($tab !== 'default') {
-            $group = $tab.'.'.$group;
+            $group = $tab . '.' . $group;
         }
-        $newGroup = ($tab !== 'default') ? $tab.'.'.$newGroupName : $newGroupName;
+        $newGroup = ($tab !== 'default') ? $tab . '.' . $newGroupName : $newGroupName;
 
         if (isset($groups[$newGroup]))
             throw new \Exception(sprintf('%s form group already exists.', $newGroup));
@@ -341,5 +339,5 @@ abstract class CoreAdmin extends SonataAdmin
 
         return $this;
     }
-}
 
+}
