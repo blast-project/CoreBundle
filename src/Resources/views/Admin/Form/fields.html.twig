@@ -25,8 +25,10 @@
                     link.hide();
                     loader.show();
 
+                    var data = [];
+
                     {% block data %}    
-                        var data = $(this).closest('form').serializeArray();
+                        data = $(this).closest('form').serializeArray();
                     {% endblock %}
 
                     {% block post %}
