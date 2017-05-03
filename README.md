@@ -204,6 +204,6 @@ Please refer yourself to the proper documentation from the Sonata Project...
 
 [scrutinizer]: https://scrutinizer-ci.com/g/blast-project/CoreBundle
 [travis]: https://travis-ci.org/blast-project/CoreBundle
-[license]: ./LICENSE
+[license]: ./LICENSE.md
 [contributing]: ./CONTRIBUTING.md
 [coveralls]: https://coveralls.io/github/blast-project/CoreBundle?branch=master
