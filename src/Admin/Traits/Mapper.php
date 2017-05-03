@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 
 trait Mapper
 {
@@ -697,5 +698,22 @@ trait Mapper
                     $theme = array_merge($theme, $blast[$class]['form_theme']) ;
 
         return $theme;
+    }
+    
+    protected function getBaseRouteMapping()
+    {
+        $baseRoute = [];
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+
+        foreach ( $this->getCurrentComposition() as $class ) {
+            if( isset($blast[$class]) && isset($blast[$class]['baseRoute']) ) {
+                $reflexionClass = new \ReflectionClass($class);
+                if(!$reflexionClass->isTrait()) {
+                    $baseRoute = array_merge($baseRoute, $blast[$class]['baseRoute']);
+                }
+            }
+        }
+
+        return $baseRoute;
     }
 }

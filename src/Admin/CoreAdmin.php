@@ -44,6 +44,33 @@ abstract class CoreAdmin extends SonataAdmin
         $collection->add('generateEntityCode');
     }
 
+    public function getBaseRouteName()
+    {
+        $configuredBaseRoute = $this->getBaseRouteMapping();
+
+        if (count($configuredBaseRoute) > 0) {
+            $this->cachedBaseRouteName = null;
+            if (isset($configuredBaseRoute['name']) && $this->baseRouteName === null) {
+                $this->baseRouteName = $configuredBaseRoute['name'];
+            }
+        }
+
+        return parent::getBaseRouteName();
+    }
+
+    public function getBaseRoutePattern()
+    {
+        $configuredBaseRoute = $this->getBaseRouteMapping();
+
+        if (count($configuredBaseRoute) > 0) {
+            $this->cachedBaseRoutePattern = null;
+            if (isset($configuredBaseRoute['pattern']) && $this->baseRoutePattern === null) {
+                $this->baseRoutePattern = $configuredBaseRoute['pattern'];
+            }
+        }
+        return parent::getBaseRoutePattern();
+    }
+
     public function getFormTheme()
     {
         return array_merge($this->formTheme, $this->getFormThemeMapping());
@@ -322,7 +349,7 @@ abstract class CoreAdmin extends SonataAdmin
 
         if (isset($groups[$newGroup]))
             throw new \Exception(sprintf('%s form group already exists.', $newGroup));
-        
+
         if (!array_key_exists($group, $groups)) {
             throw new \Exception(sprintf('form group « %s » doesn\'t exist.', $group));
         }

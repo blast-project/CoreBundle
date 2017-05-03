@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Generator\AdminGenerator as BaseAdminGenerator;
 
 class AdminGenerator extends BaseAdminGenerator
 {
+
     /**
      * @var ModelManagerInterface
      */
@@ -54,10 +55,20 @@ class AdminGenerator extends BaseAdminGenerator
             ));
         }
 
+        // Manage route pattern generation
+        $routes = $parts;
+        array_walk($routes, function(&$item, $k) use (&$routes) {
+            $item = preg_replace('/(admin)|(bundle)/', '', strtolower($item));
+            if ($item == "") {
+                array_splice($routes, $k, 1);
+            }
+        });
+
         $this->renderFile('Admin.php.twig', $this->file, array(
+            'route_name'    => implode('_', array_map('strtolower', $routes)),
             'classBasename' => array_pop($parts),
-            'namespace' => implode('\\', $parts),
-            'fields' => $this->modelManager->getExportFields($modelClass),
+            'namespace'     => implode('\\', $parts),
+            'fields'        => $this->modelManager->getExportFields($modelClass),
         ));
     }
 
@@ -76,4 +87,5 @@ class AdminGenerator extends BaseAdminGenerator
     {
         return $this->file;
     }
+
 }
