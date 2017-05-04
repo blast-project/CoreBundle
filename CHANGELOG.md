@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.4.2](https://github.com/blast-project/CoreBundle/tree/0.4.2) (2017-05-03)
+## [0.4.2](https://github.com/blast-project/CoreBundle/tree/0.4.2) (2017-05-04)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.2...0.4.2)
 
 **Merged pull requests:**
@@ -18,10 +18,7 @@
 - Start PhpUnit [\#9](https://github.com/blast-project/CoreBundle/pull/9) ([FanchTheSystem](https://github.com/FanchTheSystem))
 
 ## [0.2](https://github.com/blast-project/CoreBundle/tree/0.2) (2017-03-16)
-[Full Changelog](https://github.com/blast-project/CoreBundle/compare/pre-sf3.2...0.2)
-
-## [pre-sf3.2](https://github.com/blast-project/CoreBundle/tree/pre-sf3.2) (2017-03-16)
-[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.1...pre-sf3.2)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.1...0.2)
 
 ## [0.1](https://github.com/blast-project/CoreBundle/tree/0.1) (2017-02-15)
 **Closed issues:**
