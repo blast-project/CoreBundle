@@ -17,7 +17,7 @@
         "sensio/generator-bundle": "^3.1",
         "doctrine/doctrine-bundle": "^1.6"
     },
-    "license": "GPL-3.0",
+    "license": "LGPL-3.0",
     "keywords": [
         "e-venement",
         "libio",
