@@ -1,3 +1,5 @@
+{# DO NOT APPLY AUTO FORMATTING ON THIS FILE !!! #}
+{%spaceless%}
 {% set code %}
 {% for key, field in fields %}
     {% if key == 0 %}
@@ -7,7 +9,7 @@
     {% endif %}
 {% endfor%}
 {% endset %}
-
+{# #}
 {% set listcode %}
 {% for key, field in fields %}
     {% if key == 0 %}
@@ -17,13 +19,17 @@
     {% endif %}
 {% endfor%}
 {% endset %}
-
+{# #}
 {% if oldCode == '' %}
 parameters:
     blast:
 {% endif %}
 {{- oldCode }}
-        ### {{ entity }}  ###
+
+################################################################################
+# {{ entity }}  
+################################################################################
+
         {{ fqcn }}:
             # SHOW
             Sonata\AdminBundle\Show\ShowMapper:
@@ -46,3 +52,4 @@ parameters:
             Sonata\AdminBundle\Datagrid\DatagridMapper:
                 add:
                 {{ listcode }}
+{%endspaceless%}
