@@ -49,6 +49,11 @@
             "Blast\\CoreBundle\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.4.x-dev"
+        }
+    },
     "scripts": {
         "phpunit-install": [
             "wget https://phar.phpunit.de/phpunit-5.7.phar --output-document=bin/phpunit",
