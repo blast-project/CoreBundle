@@ -9,9 +9,9 @@
         <a href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
             {% trans %}librinfo.label.generate_code{% endtrans %}
         </a>
-        <div class="loader"></div>
+        <div class="loader hidden"></div>
     {% endspaceless %}
-    
+
     {% block entitycode_script %}
         <script>
             var generateCode = function(){
@@ -23,11 +23,11 @@
                     var loader = link.next('.loader');
 
                     link.hide();
-                    loader.show();
+                    loader.removeClass('hidden');
 
                     var data = [];
 
-                    {% block data %}    
+                    {% block data %}
                         data = $(this).closest('form').serializeArray();
                     {% endblock %}
 
@@ -35,11 +35,11 @@
                         $.post(url, data, function(res){
                             if (res['error'] !== undefined) {
                                 alert(res['error']);
-                                loader.hide();
+                                loader.addClass('hidden');
                                 link.show();
                             } else if (res['code'] !== undefined) {
                                 $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
-                                loader.hide();
+                                loader.addClass('hidden');
                                 link.show();
                             }
                         });
