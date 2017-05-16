@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-05-16)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.2...0.4.3)
+
 ## [0.4.2](https://github.com/blast-project/CoreBundle/tree/0.4.2) (2017-05-04)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.2...0.4.2)
 
