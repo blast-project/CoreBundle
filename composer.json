@@ -7,6 +7,7 @@
         "symfony/symfony": "3.2.*",
         "doctrine/doctrine-bundle": "^1.6",
         "sonata-project/doctrine-orm-admin-bundle": "^3.1",
+        "sensio/generator-bundle": "^3.1",
         "twig/twig": "^1.24",
         "stfalcon/tinymce-bundle": "2.1.*"
     },
@@ -14,8 +15,7 @@
         "matthiasnoback/symfony-dependency-injection-test": "^0.1 || ^1.0",
         "sllh/php-cs-fixer-styleci-bridge": "^2.0",
         "symfony/phpunit-bridge": "^2.7 || ^3.0",
-        "mikey179/vfsStream": "^1.6",
-        "sensio/generator-bundle": "^3.1"
+        "mikey179/vfsStream": "^1.6"
     },
     "license": "GPL-3.0",
     "keywords": [
