@@ -37,7 +37,7 @@
   </filter>
   
   <php>
-    <server name="KERNEL_DIR" value="tests/Resources/app/" />
+    <server name="KERNEL_DIR" value="tests/Resources/App/" />
       <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
   </php>
   
