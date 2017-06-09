@@ -4,9 +4,8 @@ librinfo:
         _action: 'Action'
         _list_action: 'Action groupée'
         generate_code: 'Générer le code'
-main_tab:
-    main_group: 'Général'
-'main_tab': 'Général'
+main_tab.main_group: 'Général'
+main_tab: 'Général'
 'main_group': 'Général'
 'show_tab_general': 'Général'
 'show_group_general': 'Général'
