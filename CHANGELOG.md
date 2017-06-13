@@ -1,5 +1,16 @@
 # Change Log
 
+## [Unreleased](https://github.com/blast-project/CoreBundle/tree/HEAD)
+
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.3...HEAD)
+
+**Merged pull requests:**
+
+- DevKit updates for CoreBundle [\#31](https://github.com/blast-project/CoreBundle/pull/31) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for CoreBundle [\#30](https://github.com/blast-project/CoreBundle/pull/30) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for CoreBundle [\#29](https://github.com/blast-project/CoreBundle/pull/29) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for CoreBundle [\#26](https://github.com/blast-project/CoreBundle/pull/26) ([BlastCI](https://github.com/BlastCI))
+
 ## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-05-16)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.2...0.4.3)
 
