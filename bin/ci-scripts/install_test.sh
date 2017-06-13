@@ -3,15 +3,10 @@ set -ev
 
 mkdir --parents "${HOME}/bin"
 
-# PHPUnit install
-# strange sh operator '<' ...
-if [ ${TRAVIS_PHP_VERSION} '<' '7.0' ]; then
-    PHPUNIT_PHAR=phpunit-5.7.phar
-else
-    PHPUNIT_PHAR=phpunit.phar
-fi
-wget "https://phar.phpunit.de/${PHPUNIT_PHAR}" --output-document="${HOME}/bin/phpunit"
-chmod u+x "${HOME}/bin/phpunit"
+composer install --no-interaction --prefer-dist
+composer require --no-interaction --dev phpunit/phpunit 
+composer update --prefer-dist --no-interaction --prefer-stable
+
 
 # Coveralls client install
 wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar --output-document="${HOME}/bin/coveralls"
