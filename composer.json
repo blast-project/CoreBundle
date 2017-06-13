@@ -16,7 +16,7 @@
         "symfony/phpunit-bridge": ">=3.2",
         "mikey179/vfsStream": "^1.6"
     },
-    "license": "GPL-3.0",
+    "license": "LGPL-3.0",
     "keywords": [
         "e-venement",
         "libio",
