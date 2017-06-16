@@ -1,8 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/blast-project/CoreBundle/tree/HEAD)
+## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-06-13)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.2...0.4.3)
 
-[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.3...HEAD)
+**Closed issues:**
+
+- Add Explicit Dependency for doctrine and generator [\#24](https://github.com/blast-project/CoreBundle/issues/24)
 
 **Merged pull requests:**
 
@@ -10,13 +13,6 @@
 - DevKit updates for CoreBundle [\#30](https://github.com/blast-project/CoreBundle/pull/30) ([BlastCI](https://github.com/BlastCI))
 - DevKit updates for CoreBundle [\#29](https://github.com/blast-project/CoreBundle/pull/29) ([BlastCI](https://github.com/BlastCI))
 - DevKit updates for CoreBundle [\#26](https://github.com/blast-project/CoreBundle/pull/26) ([BlastCI](https://github.com/BlastCI))
-
-## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-05-16)
-[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.2...0.4.3)
-
-**Closed issues:**
-
-- Add Explicit Dependency for doctrine and generator [\#24](https://github.com/blast-project/CoreBundle/issues/24)
 
 ## [0.4.2](https://github.com/blast-project/CoreBundle/tree/0.4.2) (2017-05-04)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.2...0.4.2)
