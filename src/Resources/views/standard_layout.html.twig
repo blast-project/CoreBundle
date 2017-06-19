@@ -48,7 +48,7 @@ file that was distributed with this source code.
     {% block sonata_javascript_pool %}
          {{ parent() }}
     {% endblock %}
-    
+
     {% set locale = app.request.locale %}
     {# localize moment #}
     {% if locale[:2] != 'en' %}
@@ -66,7 +66,7 @@ file that was distributed with this source code.
         {% endif %}
     {% endif %}
   {# end fix #}
-    
-    <script src="{{ asset('bundles/blastcore/js/globalSearch.js') }}"></script>
-{% endblock javascripts %}
 
+    <script src="{{ asset('bundles/blastcore/js/globalSearch.js') }}"></script>
+    <script src="{{ asset('bundles/blastcore/js/tabNavigation.js') }}"></script>
+{% endblock javascripts %}
