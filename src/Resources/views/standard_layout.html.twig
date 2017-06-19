@@ -50,6 +50,13 @@ file that was distributed with this source code.
     {% endblock %}
 
     {% set locale = app.request.locale %}
+
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script>
+        Translator.locale = '{{locale[:2]}}';
+    </script>
+    <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages' }) }}?locales={{locale[:2]}}"></script>
+
     {# localize moment #}
     {% if locale[:2] != 'en' %}
         {% if locale == 'fr_FR' %}{% set locale = 'fr' %}{% endif %}
