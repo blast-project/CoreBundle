@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 trait Mapper
 {
@@ -425,11 +426,16 @@ trait Mapper
             $type = $options['type'];
             unset($options['type']);
         }
+
+        if (isset($options['required']) && $options['required'] === true) {
+            $options['constraints'] = [new NotBlank()];
+        }
+
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ( [
-    'template' => 'setTemplate',
-    'initializeAssociationAdmin' => NULL,
+            'template' => 'setTemplate',
+            'initializeAssociationAdmin' => NULL,
         ] as $extra => $method )
             if ( isset($fieldDescriptionOptions[$extra]) )
             {
@@ -699,7 +705,7 @@ trait Mapper
 
         return $theme;
     }
-    
+
     protected function getBaseRouteMapping()
     {
         $baseRoute = [];
