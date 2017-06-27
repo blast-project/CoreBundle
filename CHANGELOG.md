@@ -1,6 +1,9 @@
 # Change Log
 
-## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-06-13)
+## [0.4.4](https://github.com/blast-project/CoreBundle/tree/0.4.4) (2017-06-26)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.3...0.4.4)
+
+## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-06-15)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.2...0.4.3)
 
 **Closed issues:**
