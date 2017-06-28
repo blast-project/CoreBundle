@@ -1,2 +1,2 @@
 patches:
-    - { id: 1447941862, enabled: true, patched: true, targetFile: vendor/symfony/symfony/src/Symfony/Component/Form/ChoiceList/LazyChoiceList.php, patchFile: src/Librinfo/CoreBundle/Command/../Tools/Patches/patches/1447941862.txt }
+    - { id: 1498652336, enabled: true, patched: true, targetFile: vendor/sylius/sylius/src/Sylius/Bundle/CoreBundle/Doctrine/ORM/ProductRepository.php, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1498652336.txt }
