@@ -5,11 +5,15 @@
         {% set linkId = uniqid ~ '_' ~ name ~ '_generate_code' %}
 
         {{ block('form_widget') }}
+        <div class="entityCodeGeneratorActions">
+
         {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
-        <a href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
+        <a class="entityCodeGeneratorButton" href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
             {% trans %}librinfo.label.generate_code{% endtrans %}
         </a>
         <div class="loader hidden"></div>
+
+        </div>
     {% endspaceless %}
 
     {% block entitycode_script %}
