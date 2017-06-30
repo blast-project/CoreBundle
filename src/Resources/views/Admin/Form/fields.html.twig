@@ -1,59 +1,68 @@
-
 {% block librinfo_entitycode_widget %}
     {% spaceless %}
         {% set uniqid = sonata_admin.admin.uniqid %}
         {% set linkId = uniqid ~ '_' ~ name ~ '_generate_code' %}
+        <div class="entityCodeGeneratorContainer">
 
-        {{ block('form_widget') }}
-        <div class="entityCodeGeneratorActions">
+            {{ block('form_widget') }}
+                <div class="entityCodeGeneratorActions">
 
-        {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
-        <a class="entityCodeGeneratorButton" href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
-            {% trans %}librinfo.label.generate_code{% endtrans %}
-        </a>
-        <div class="loader hidden"></div>
+                    {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
+                    <a class="entityCodeGeneratorButton" href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
+                        {% trans %}librinfo.label.generate_code{% endtrans %}
+                    </a>
+                    <div class="loader hidden"></div>
 
-        </div>
-    {% endspaceless %}
+                </div>
 
-    {% block entitycode_script %}
-        <script>
-            var generateCode = function(){
+            </div>
+        {% endspaceless %}
 
-                $('#{{ linkId }}').click(function(e){
+        {% block entitycode_script %}
+            <script>
+                var generateCode = function() {
 
-                    var link = $(this);
-                    var url = link.attr('data-url');
-                    var loader = link.next('.loader');
+                    $('#{{ linkId }}').click(function(e) {
 
-                    link.hide();
-                    loader.removeClass('hidden');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
 
-                    var data = [];
+                        var link = $(this);
+                        var url = link.attr('data-url');
+                        var loader = link.next('.loader');
+                        var input = link.closest('.entityCodeGeneratorContainer').find('input');
 
-                    {% block data %}
-                        data = $(this).closest('form').serializeArray();
-                    {% endblock %}
+                        link.hide();
+                        loader.removeClass('hidden');
 
-                    {% block post %}
-                        $.post(url, data, function(res){
-                            if (res['error'] !== undefined) {
-                                alert(res['error']);
-                                loader.addClass('hidden');
-                                link.show();
-                            } else if (res['code'] !== undefined) {
-                                $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
-                                loader.addClass('hidden');
-                                link.show();
-                            }
-                        });
-                    {% endblock %}
-                    return false;
-                });
-            };
+                        var data = [];
 
-            $(document).ready(generateCode);
-            $(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', generateCode);
-        </script>
+                        {% block data %}
+                            data = $(this).closest('form').serializeArray();
+                        {% endblock %}
+
+                        data.push({name: 'caller', value: input.attr('name')});
+
+                        {% block post %}
+                            $.post(url, data, function(res) {
+                                if (res['error'] !== undefined) {
+                                    alert(res['error']);
+                                    loader.addClass('hidden');
+                                    link.show();
+                                } else if (res['code'] !== undefined) {
+                                    $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
+                                    loader.addClass('hidden');
+                                    link.show();
+                                }
+                            });
+                        {% endblock %}
+                        return false;
+                    });
+                };
+
+                $(document).ready(generateCode);
+                $(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', generateCode);
+            </script>
+        {% endblock %}
     {% endblock %}
-{% endblock %}
