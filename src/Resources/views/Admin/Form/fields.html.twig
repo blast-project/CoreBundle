@@ -5,6 +5,7 @@
         <div class="entityCodeGeneratorContainer">
 
             {{ block('form_widget') }}
+            {% if not attr['readonly'] and not  attr['disabled'] %}
                 <div class="entityCodeGeneratorActions">
 
                     {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
@@ -14,55 +15,56 @@
                     <div class="loader hidden"></div>
 
                 </div>
+            {% endif %}
 
-            </div>
-        {% endspaceless %}
+        </div>
+    {% endspaceless %}
 
-        {% block entitycode_script %}
-            <script>
-                var generateCode = function() {
+    {% block entitycode_script %}
+        <script>
+            var generateCode = function() {
 
-                    $('#{{ linkId }}').click(function(e) {
+                $('#{{ linkId }}').click(function(e) {
 
-                        e.preventDefault();
-                        e.stopPropagation();
-                        e.stopImmediatePropagation();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
 
-                        var link = $(this);
-                        var url = link.attr('data-url');
-                        var loader = link.next('.loader');
-                        var input = link.closest('.entityCodeGeneratorContainer').find('input');
+                    var link = $(this);
+                    var url = link.attr('data-url');
+                    var loader = link.next('.loader');
+                    var input = link.closest('.entityCodeGeneratorContainer').find('input');
 
-                        link.hide();
-                        loader.removeClass('hidden');
+                    link.hide();
+                    loader.removeClass('hidden');
 
-                        var data = [];
+                    var data = [];
 
-                        {% block data %}
-                            data = $(this).closest('form').serializeArray();
-                        {% endblock %}
+                    {% block data %}
+                        data = $(this).closest('form').serializeArray();
+                    {% endblock %}
 
-                        data.push({name: 'caller', value: input.attr('name')});
+                    data.push({name: 'caller', value: input.attr('name')});
 
-                        {% block post %}
-                            $.post(url, data, function(res) {
-                                if (res['error'] !== undefined) {
-                                    alert(res['error']);
-                                    loader.addClass('hidden');
-                                    link.show();
-                                } else if (res['code'] !== undefined) {
-                                    $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
-                                    loader.addClass('hidden');
-                                    link.show();
-                                }
-                            });
-                        {% endblock %}
-                        return false;
-                    });
-                };
+                    {% block post %}
+                        $.post(url, data, function(res) {
+                            if (res['error'] !== undefined) {
+                                alert(res['error']);
+                                loader.addClass('hidden');
+                                link.show();
+                            } else if (res['code'] !== undefined) {
+                                $('input#{{ form.parent.vars.id }}_{{ name }}').val(res['code']);
+                                loader.addClass('hidden');
+                                link.show();
+                            }
+                        });
+                    {% endblock %}
+                    return false;
+                });
+            };
 
-                $(document).ready(generateCode);
-                $(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', generateCode);
-            </script>
-        {% endblock %}
+            $(document).ready(generateCode);
+            $(document).on('sonata-admin-setup-list-modal sonata-admin-append-form-element', generateCode);
+        </script>
     {% endblock %}
+{% endblock %}
