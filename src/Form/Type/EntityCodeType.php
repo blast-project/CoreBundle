@@ -1,12 +1,23 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blast\CoreBundle\Form\Type;
 
 use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
 
 class EntityCodeType extends BaseAbstractType
 {
-    public function getParent() {
+    public function getParent()
+    {
         return 'text';
     }
 
@@ -14,5 +25,4 @@ class EntityCodeType extends BaseAbstractType
     {
         return 'librinfo_entitycode';
     }
-    
 }

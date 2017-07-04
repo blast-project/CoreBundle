@@ -1,12 +1,12 @@
 <?php
 
 /*
- * This file is part of the BLAST package <http://blast.libre-informatique.fr>.
+ * This file is part of the Blast Project package.
  *
- * Copyright (C) 2015-2016 Libre Informatique
+ * Copyright (C) 2015-2017 Libre Informatique
  *
- * This file is licenced under the GNU GPL v3.
- * For the full copyright and license information, please view the LICENSE
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Extension of Sonata CoreController
+ * Extension of Sonata CoreController.
  *
  * @author Marcos Bezerra de Menezes <marcos.bezerra@libre-informatique.fr>
  */
@@ -26,7 +26,9 @@ class CoreController extends BaseCoreController
 {
     /**
      * @param Request $request
+     *
      * @return JsonResponse|Response
+     *
      * @throws \RuntimeException
      */
     public function searchAction(Request $request)
