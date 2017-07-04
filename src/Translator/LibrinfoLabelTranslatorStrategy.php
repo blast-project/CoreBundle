@@ -1,12 +1,12 @@
 <?php
 
 /*
- * This file is part of Librinfo software
+ * This file is part of the Blast Project package.
  *
- * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
- * (c) Marcos Bezerra de Menezes <marcos.bezerra@libre-informatique.fr>
+ * Copyright (C) 2015-2017 Libre Informatique
  *
- * For the full copyright and license information, please view the LICENSE
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -32,6 +32,6 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
     {
         $label = str_replace('.', '_', $label);
 
-        return sprintf('%s.%s.%s', "librinfo", $type, strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
+        return sprintf('%s.%s.%s', 'librinfo', $type, strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
     }
 }
