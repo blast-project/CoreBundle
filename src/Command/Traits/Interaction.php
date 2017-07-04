@@ -1,13 +1,12 @@
 <?php
 
 /*
- * This file is part of the Blast package.
+ * This file is part of the Blast Project package.
  *
- * (c) 2016 Romain SANCHEZ <romain.sanchez@libre-informatique.fr>
- * (c) 2016 Baptiste SIMON <baptiste.simon@libre-informatique.fr>
- * (c) 2016 Libre Informatique [http://www.libre-informatique.fr/]
+ * Copyright (C) 2015-2017 Libre Informatique
  *
- * For the full copyright and license information, please view the LICENSE
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -20,13 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-
 /**
  * This trait is the perfect copy of the Blast\OuterExtensionBundle\Command\Traits\Interaction
  * They are still distinct because of the few amount of code to factorize, but it will be done
- * as soon as we have a bit more to make generic
+ * as soon as we have a bit more to make generic.
  **/
-Trait Interaction
+trait Interaction
 {
     /**
      * @param OutputInterface $output
@@ -57,8 +55,9 @@ Trait Interaction
 
         $question = new Question($questionHelper->getQuestion($questionText, $default), $default);
 
-        if( null !== $validator)
+        if (null !== $validator) {
             $question->setValidator($validator);
+        }
 
         return $questionHelper->ask($input, $output, $question);
     }

@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blast\CoreBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -7,12 +17,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GlobalSearchExtension extends \Twig_Extension
 {
     private $container;
-    
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-    
+
     public function getFunctions()
     {
         return array(
@@ -24,21 +34,25 @@ class GlobalSearchExtension extends \Twig_Extension
     {
         $blast = $this->container->getParameter('blast');
         $admins = [];
-        
-        if( isset($blast['configuration']['search']) )
-        {
+
+        if (isset($blast['configuration']['search'])) {
             $search = $blast['configuration']['search'];
-            
-            if( isset($search['add']) )
-                foreach( $search['add'] as $key => $admin)
+
+            if (isset($search['add'])) {
+                foreach ($search['add'] as $key => $admin) {
                     $admins[] = $admin;
-            
-            if( isset($search['remove']) )
-                foreach( $search['remove'] as $admin )
-                    if( in_array($admin, $admins) )
+                }
+            }
+
+            if (isset($search['remove'])) {
+                foreach ($search['remove'] as $admin) {
+                    if (in_array($admin, $admins)) {
                         unset($admins[$admin]);
-        }            
-        
+                    }
+                }
+            }
+        }
+
         return $admins;
     }
 

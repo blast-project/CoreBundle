@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blast\CoreBundle\Admin\Traits;
 
 use Blast\CoreBundle\Admin\CoreAdmin;
@@ -53,16 +63,17 @@ trait Base
      **/
     public function getBatchActions()
     {
-       $actions = [];
+        $actions = [];
 
-       if ( $this->isGranted('DELETE') )
-           $actions['delete'] = array(
+        if ($this->isGranted('DELETE')) {
+            $actions['delete'] = array(
                'label' => 'action_delete',
                'translation_domain' => 'SonataAdminBundle',
                'ask_confirmation' => true,
            );
+        }
 
-       return $this->handleBatchActions($actions);
+        return $this->handleBatchActions($actions);
     }
 
     /**
@@ -71,8 +82,10 @@ trait Base
     public function getExportFormats()
     {
         $formats = [];
-        foreach ( parent::getExportFormats() as $format )
+        foreach (parent::getExportFormats() as $format) {
             $formats[$format] = [];
+        }
+
         return array_keys($this->addPresetExportFormats($formats));
     }
 
@@ -86,13 +99,15 @@ trait Base
         $this->getExportFormats();
 
         // nothing to add
-        if ( !$this->exportFields )
+        if (!$this->exportFields) {
             return parent::getExportFields();
+        }
 
         // nothing specific to add
-        if (!( $this->getConfigurationPool()->getContainer()->get('request')->get('format')
-            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]) ))
+        if (!($this->getConfigurationPool()->getContainer()->get('request')->get('format')
+            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]))) {
             return parent::getExportFields();
+        }
 
         // specificities for this format
         return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
