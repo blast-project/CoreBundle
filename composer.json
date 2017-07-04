@@ -43,8 +43,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Blast\\CoreBundle\\": "src/",
-            "Blast\\CoreBundle\\Tests\\": "tests/"
+            "Blast\\CoreBundle\\": "src/"
         }
     },
     "extra": {

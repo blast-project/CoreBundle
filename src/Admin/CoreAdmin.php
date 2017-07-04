@@ -9,6 +9,7 @@ use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
+use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Blast\CoreBundle\Tools\Reflection\ClassAnalyzer;
 use Blast\CoreBundle\Admin\Traits\CollectionsManager;
 use Blast\CoreBundle\Admin\Traits\Mapper;
@@ -119,12 +120,14 @@ abstract class CoreAdmin extends SonataAdmin
     {
         foreach (['getShow', 'getList'] as $fct)
             foreach ($this->$fct()->getElements() as $field) {
-                $options = $field->getOptions();
-                if ($options['route']['name'] != 'edit')
-                    continue;
+                if($field instanceof FieldDescription) {
+                    $options = $field->getOptions();
+                    if ($options['route']['name'] != 'edit')
+                        continue;
 
-                $options['route']['name'] = 'show';
-                $field->setOptions($options);
+                    $options['route']['name'] = 'show';
+                    $field->setOptions($options);
+                }
             }
 
         return $this;

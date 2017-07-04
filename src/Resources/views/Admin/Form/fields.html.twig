@@ -1,26 +1,41 @@
-
 {% block librinfo_entitycode_widget %}
     {% spaceless %}
         {% set uniqid = sonata_admin.admin.uniqid %}
         {% set linkId = uniqid ~ '_' ~ name ~ '_generate_code' %}
+        <div class="entityCodeGeneratorContainer">
 
-        {{ block('form_widget') }}
-        {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
-        <a href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
-            {% trans %}librinfo.label.generate_code{% endtrans %}
-        </a>
-        <div class="loader hidden"></div>
+            {{ block('form_widget') }}
+            {% if attr['readonly'] is defined and attr['readonly'] and attr['disabled'] is defined and attr['disabled'] %}
+
+            {% else %}
+                <div class="entityCodeGeneratorActions">
+
+                    {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
+                    <a class="entityCodeGeneratorButton" href="" data-url="{{ sonata_admin.admin.generateObjectUrl('generateEntityCode', sonata_admin.admin.subject, {'field': name, 'uniqid': uniqid}) }}" id="{{ linkId }}">
+                        {% trans %}librinfo.label.generate_code{% endtrans %}
+                    </a>
+                    <div class="loader hidden"></div>
+
+                </div>
+            {% endif %}
+
+        </div>
     {% endspaceless %}
 
     {% block entitycode_script %}
         <script>
-            var generateCode = function(){
+            var generateCode = function() {
 
-                $('#{{ linkId }}').click(function(e){
+                $('#{{ linkId }}').click(function(e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
 
                     var link = $(this);
                     var url = link.attr('data-url');
                     var loader = link.next('.loader');
+                    var input = link.closest('.entityCodeGeneratorContainer').find('input');
 
                     link.hide();
                     loader.removeClass('hidden');
@@ -31,8 +46,10 @@
                         data = $(this).closest('form').serializeArray();
                     {% endblock %}
 
+                    data.push({name: 'caller', value: input.attr('name')});
+
                     {% block post %}
-                        $.post(url, data, function(res){
+                        $.post(url, data, function(res) {
                             if (res['error'] !== undefined) {
                                 alert(res['error']);
                                 loader.addClass('hidden');
