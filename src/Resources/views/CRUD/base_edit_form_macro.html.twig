@@ -1,0 +1,38 @@
+{% macro render_groups(admin, form, groups, has_tab) %}
+    <div class="row">
+        {% for code in groups if admin.formgroups[code]is defined %}
+            {% set form_group = admin.formgroups[code] %}
+
+            {% if groups|length <= 1 %}
+                {% set defaultGroupClass = 'col-md-12' %}
+            {% else %}
+                {% set defaultGroupClass = 'col-md-6' %}
+            {% endif %}
+
+            <div class="{{ form_group.class|default(defaultGroupClass) }}">
+                <div class="{{ form_group.box_class }}">
+                    {% if form_group.name != '' %}
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                {{ form_group.name|trans({}, form_group.translation_domain ?: admin.translationDomain) }}
+                            </h4>
+                        </div>
+                    {% endif %}
+                    <div class="box-body">
+                        <div class="sonata-ba-collapsed-fields">
+                            {% if form_group.description %}
+                                <p>{{ form_group.description|raw }}</p>
+                            {% endif %}
+
+                            {% for field_name in form_group.fields if form[field_name]is defined %}
+                                {{ form_row(form[field_name])}}
+                            {% else %}
+                                <em>{{ 'message_form_group_empty'|trans({}, 'SonataAdminBundle') }}</em>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
