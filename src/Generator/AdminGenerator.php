@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blast\CoreBundle\Generator;
 
 use Sonata\AdminBundle\Model\ModelManagerInterface;
@@ -8,7 +18,6 @@ use Sonata\AdminBundle\Generator\AdminGenerator as BaseAdminGenerator;
 
 class AdminGenerator extends BaseAdminGenerator
 {
-
     /**
      * @var ModelManagerInterface
      */
@@ -57,18 +66,18 @@ class AdminGenerator extends BaseAdminGenerator
 
         // Manage route pattern generation
         $routes = $parts;
-        array_walk($routes, function(&$item, $k) use (&$routes) {
+        array_walk($routes, function (&$item, $k) use (&$routes) {
             $item = preg_replace('/(admin)|(bundle)/', '', strtolower($item));
-            if ($item == "") {
+            if ($item == '') {
                 array_splice($routes, $k, 1);
             }
         });
 
         $this->renderFile('Admin.php.twig', $this->file, array(
-            'route_name'    => implode('_', array_map('strtolower', $routes)),
+            'route_name' => implode('_', array_map('strtolower', $routes)),
             'classBasename' => array_pop($parts),
-            'namespace'     => implode('\\', $parts),
-            'fields'        => $this->modelManager->getExportFields($modelClass),
+            'namespace' => implode('\\', $parts),
+            'fields' => $this->modelManager->getExportFields($modelClass),
         ));
     }
 
@@ -87,5 +96,4 @@ class AdminGenerator extends BaseAdminGenerator
     {
         return $this->file;
     }
-
 }
