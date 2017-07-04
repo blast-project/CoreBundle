@@ -1,11 +1,12 @@
 <?php
 
 /*
- * This file is part of the Symfony package.
+ * This file is part of the Blast Project package.
  *
- * (c) Fabien Potencier <fabien@symfony.com>
+ * Copyright (C) 2015-2017 Libre Informatique
  *
- * For the full copyright and license information, please view the LICENSE
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -118,13 +119,13 @@ class LazyChoiceList implements ChoiceListInterface
      */
     public function getChoicesForValues(array $values)
     {
-        if (empty($values))
+        if (empty($values)) {
             return array();
-        else
-        {
+        } else {
             $first = reset($values);
-            if (empty($first))
+            if (empty($first)) {
                 return array();
+            }
         }
         if (!$this->loadedList) {
             return $this->loader->loadChoicesForValues($values, $this->value);

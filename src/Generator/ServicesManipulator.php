@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Blast Project package.
+ *
+ * Copyright (C) 2015-2017 Libre Informatique
+ *
+ * This file is licenced under the GNU LGPL v3.
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
 namespace Blast\CoreBundle\Generator;
 
 use Sonata\AdminBundle\Manipulator\ServicesManipulator as BaseManipulator;
@@ -9,7 +19,7 @@ use Symfony\Component\Yaml\Yaml;
  * Class ServicesManipulator.
  */
 class ServicesManipulator extends BaseManipulator
-{   
+{
     /**
      * @var string
      */
@@ -23,7 +33,7 @@ class ServicesManipulator extends BaseManipulator
               label: %s
 
 ';
-    
+
     /**
      * @param string $file
      */
@@ -31,7 +41,7 @@ class ServicesManipulator extends BaseManipulator
     {
         $this->file = (string) $file;
     }
-    
+
     /**
      * @param string $serviceId
      * @param string $modelClass
@@ -45,7 +55,7 @@ class ServicesManipulator extends BaseManipulator
     {
         $rc = new \ReflectionClass($modelClass);
         $modelClassShortName = $rc->getShortName();
-        
+
         $code = "services:\n";
 
         if (is_file($this->file)) {
