@@ -5,7 +5,9 @@
         <div class="entityCodeGeneratorContainer">
 
             {{ block('form_widget') }}
-            {% if not attr['readonly'] and not  attr['disabled'] %}
+            {% if attr['readonly'] is defined and attr['readonly'] and attr['disabled'] is defined and attr['disabled'] %}
+
+            {% else %}
                 <div class="entityCodeGeneratorActions">
 
                     {# put url in data-url instead of href to avoid sonata edit_orm_many_association_script from catching the action #}
