@@ -16,7 +16,13 @@ Extends Sonata's base_show_macro by :
         {% set show_group = admin.showgroups[code] %}
         {% set group_title = admin.trans(show_group.name, {}, show_group.translation_domain) %}
 
-        <div class="{{ show_group.class|default('col-md-12') }} {{ no_padding ? 'nopadding' }}">
+        {% if groups|length <= 1 %}
+            {% set defaultGroupClass = 'col-md-12' %}
+        {% else %}
+            {% set defaultGroupClass = 'col-md-6' %}
+        {% endif %}
+
+        <div class="{{ show_group.class|default(defaultGroupClass) }} {{ no_padding ? 'nopadding' }}">
             <div class="{{ show_group.box_class }}">
                 {% if group_title %}
                 <div class="box-header">
