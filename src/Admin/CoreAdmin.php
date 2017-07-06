@@ -419,4 +419,42 @@ abstract class CoreAdmin extends SonataAdmin
 
         return $this;
     }
+
+    /**
+     * Removes tab in current form Mapper.
+     *
+     * @param string|array $tabNames name or array of names of tabs to be removed
+     * @param FormMapper   $mapper   Sonata Admin form mapper
+     */
+    public function removeTab($tabNames, $mapper)
+    {
+        $currentTabs = $this->getFormTabs();
+        foreach ($currentTabs as $k => $item) {
+            if (is_array($tabNames) && in_array($item['name'], $tabNames) || !is_array($tabNames) && $item['name'] === $tabNames) {
+                foreach ($item['groups'] as $groupName) {
+                    $this->removeAllFieldsFromFormGroup($groupName, $mapper);
+                }
+                unset($currentTabs[$k]);
+            }
+        }
+        $this->setFormTabs($currentTabs);
+    }
+
+    /**
+     * Removes all fields from form groups and remove them from mapper.
+     *
+     * @param string     $groupName Name of the group to remove
+     * @param FormMapper $mapper    Sonata Admin form mapper
+     */
+    public function removeAllFieldsFromFormGroup($groupName, $mapper)
+    {
+        $formGroups = $this->getFormGroups();
+        foreach ($formGroups as $name => $formGroup) {
+            if ($name === $groupName) {
+                foreach ($formGroups[$name]['fields'] as $key => $field) {
+                    $mapper->remove($key);
+                }
+            }
+        }
+    }
 }
