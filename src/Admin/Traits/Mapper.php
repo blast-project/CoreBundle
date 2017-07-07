@@ -290,8 +290,7 @@ trait Mapper
                 $endgroup = $endtab = false;
 
                 // tab
-                if (!empty($tabcontent['_options']['hideTitle']) ||
-                        $mapper instanceof ShowMapper && !$this->forceTabs) {
+                if (!empty($tabcontent['_options']['hideTitle']) || $mapper instanceof ShowMapper && !$this->forceTabs) {
                     // display tabs as groups
                     $tabs = $this->{$fcts['tabs']['getter']}();
                     $groups = $this->{$fcts['groups']['getter']}();
@@ -311,6 +310,19 @@ trait Mapper
                     $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : []);
                     $endtab = true;
                 }
+
+
+                // adding count of collections items in tab
+                if (isset($tabcontent['_options']['countChildItems']) && is_array($tabcontent['_options']['countChildItems'])) {
+                    $tabs = $this->{$fcts['tabs']['getter']}();
+                    $tabs[$tab]['class'] .= ' countable-tab';
+                    foreach ($tabcontent['_options']['countChildItems'] as $fieldToCount) {
+                        $tabs[$tab]['class'] .= ' count-'.$fieldToCount;
+                    }
+                    $this->{$fcts['tabs']['setter']}($tabs);
+                }
+
+                // clearing tabcontent options
                 if (isset($tabcontent['_options'])) {
                     unset($tabcontent['_options']);
                 }
