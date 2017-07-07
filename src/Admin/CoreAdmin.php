@@ -29,7 +29,7 @@ use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
 use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
 
-abstract class CoreAdmin extends SonataAdmin
+abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 {
     use CollectionsManager,
         ManyToManyManager,
@@ -456,5 +456,57 @@ abstract class CoreAdmin extends SonataAdmin
                 }
             }
         }
+    }
+
+    public function jsonSerialize()
+    {
+        $propertiesToShow = [
+            'baseRouteName',
+            'baseRoutePattern',
+            'extraTemplates',
+            'listFieldDescriptions',
+            'showFieldDescriptions',
+            'formFieldDescriptions',
+            'filterFieldDescriptions',
+            'maxPerPage',
+            'maxPageLinks',
+            'classnameLabel',
+            'translationDomain',
+            'formOptions',
+            'datagridValues',
+            'perPageOptions',
+            'pagerType',
+            'code',
+            'label',
+            'routes',
+            'subject',
+            'children',
+            'parent',
+            'baseCodeRoute',
+            'uniqid',
+            'extensions',
+            'class',
+            'subClasses',
+            'list',
+            'show',
+            'form',
+            'filter',
+            'formGroups',
+            'formTabs',
+            'showGroups',
+            'showTabs',
+            'managedCollections',
+            'helperLinks',
+            'titles',
+        ];
+
+        $properties = [];
+        foreach ($this as $key => $value) {
+            if (in_array($key, $propertiesToShow)) {
+                $properties[$key] = $value;
+            }
+        }
+
+        return $properties;
     }
 }
