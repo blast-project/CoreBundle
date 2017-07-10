@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\ORM\QueryBuilder;
 
 trait Mapper
 {
@@ -478,6 +479,10 @@ trait Mapper
             $options['constraints'] = [new NotBlank()];
         }
 
+        if (isset($options['query'])) {
+            $this->manageQueryCallback($mapper, $options);
+        }
+
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ([
@@ -780,5 +785,22 @@ trait Mapper
         }
 
         return $baseRoute;
+    }
+
+    protected function manageQueryCallback($mapper, &$options) {
+        $query = $options['query'];
+        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
+
+        if(!$query instanceof QueryBuilder) {
+            if(!is_array($query)) {
+                throw new Exception('« query » option must be an array : ["FQDN"=>"static method name"]');
+            }
+
+            list($className,$methodName) = $options['query'];
+
+            $queryFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
+
+            $options['query'] = $queryFunction;
+        }
     }
 }
