@@ -787,16 +787,17 @@ trait Mapper
         return $baseRoute;
     }
 
-    protected function manageQueryCallback($mapper, &$options) {
+    protected function manageQueryCallback($mapper, &$options)
+    {
         $query = $options['query'];
         $entityClass = $options['class'] ? $options['class'] : $this->getClass();
 
-        if(!$query instanceof QueryBuilder) {
-            if(!is_array($query)) {
+        if (!$query instanceof QueryBuilder) {
+            if (!is_array($query)) {
                 throw new Exception('« query » option must be an array : ["FQDN"=>"static method name"]');
             }
 
-            list($className,$methodName) = $options['query'];
+            list($className, $methodName) = $options['query'];
 
             $queryFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
 
