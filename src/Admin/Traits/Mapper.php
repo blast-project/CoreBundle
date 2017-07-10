@@ -827,7 +827,5 @@ trait Mapper
             return $options['choices'];
         });
         unset($options['choicesCallback']);
-
-        dump($options);
     }
 }
