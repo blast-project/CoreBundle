@@ -18,6 +18,7 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Doctrine\ORM\QueryBuilder;
 
 trait Mapper
@@ -483,6 +484,10 @@ trait Mapper
             $this->manageQueryCallback($mapper, $options);
         }
 
+        if (isset($options['choicesCallback'])) {
+            $this->manageChoicesCallback($mapper, $options);
+        }
+
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ([
@@ -797,11 +802,33 @@ trait Mapper
                 throw new Exception('« query » option must be an array : ["FQDN"=>"static method name"]');
             }
 
-            list($className, $methodName) = $options['query'];
+            list($className, $methodName) = $query;
 
             $queryFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
 
             $options['query'] = $queryFunction;
         }
+    }
+
+    protected function manageChoicesCallback($mapper, &$options)
+    {
+        $callback = $options['choicesCallback'];
+        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
+
+        if (!is_array($callback)) {
+            throw new Exception('« choicesCallback » option must be an array : ["FQDN"=>"static method name"]');
+        }
+
+        list($className, $methodName) = $callback;
+
+        $choicesFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
+
+        $options['choices'] = $choicesFunction;
+        $options['choice_loader'] = new CallbackChoiceLoader(function() use ($options) {
+            return $options['choices'];
+        });
+        unset($options['choicesCallback']);
+
+        dump($options);
     }
 }
