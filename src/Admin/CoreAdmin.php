@@ -28,6 +28,8 @@ use Blast\CoreBundle\Admin\Traits\PreEvents;
 use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
 use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
+use Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 {
@@ -508,5 +510,19 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
         }
 
         return $properties;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prePersist($object)
+    {
+        $hasCodeGenerator = CodeGeneratorRegistry::hasGeneratorForClass(get_class($object));
+        if ($hasCodeGenerator) {
+            $accessor = PropertyAccess::createPropertyAccessor();
+            foreach (CodeGeneratorRegistry::getCodeGenerators(get_class($object)) as $name => $generator) {
+                $accessor->setValue($object, $name, $generator->generate($object));
+            }
+        }
     }
 }
