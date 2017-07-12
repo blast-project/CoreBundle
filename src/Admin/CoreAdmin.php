@@ -1,11 +1,11 @@
 <?php
 
 /*
- * This file is part of the Blast Project package.
+ * This file is part of the Lisem Project.
  *
  * Copyright (C) 2015-2017 Libre Informatique
  *
- * This file is licenced under the GNU LGPL v3.
+ * This file is licenced under the GNU GPL v3.
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
@@ -50,7 +50,7 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
+        $collection->add('duplicate', $this->getRouterIdParameter() . '/duplicate');
         $collection->add('generateEntityCode');
     }
 
@@ -392,9 +392,9 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
         // When the default tab is used, the tabname is not prepended to the index in the group array
         if ($tab !== 'default') {
-            $group = $tab.'.'.$group;
+            $group = $tab . '.' . $group;
         }
-        $newGroup = ($tab !== 'default') ? $tab.'.'.$newGroupName : $newGroupName;
+        $newGroup = ($tab !== 'default') ? $tab . '.' . $newGroupName : $newGroupName;
 
         if (isset($groups[$newGroup])) {
             throw new \Exception(sprintf('%s form group already exists.', $newGroup));
