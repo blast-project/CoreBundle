@@ -15,8 +15,8 @@ $(document).on('ifChecked','.sonata-ba-field-inline-natural input[type="checkbox
             formRow.remove();
         } else {
             e.preventDefault();
-            e.stopPropaggation();
-            e.stopImmediatePropaggation();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
             return false;
         }
     }
