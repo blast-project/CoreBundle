@@ -14,10 +14,8 @@ $(document).on('ifChecked','.sonata-ba-field-inline-natural input[type="checkbox
         if (r == true) {
             formRow.remove();
         } else {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            return false;
+            // throw exception to avoid checkbox checking
+            e.dummy();
         }
     }
 });
