@@ -4,6 +4,8 @@ librinfo:
         _action: 'Action'
         _list_action: 'Action groupée'
         generate_code: 'Générer le code'
+    confirm:
+        delete_collection_item: 'Voulez-vous vraiment supprimer cet élément ?'
 main_tab.main_group: 'Général'
 main_tab: 'Général'
 'main_group': 'Général'
