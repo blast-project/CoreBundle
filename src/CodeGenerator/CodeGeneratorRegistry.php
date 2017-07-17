@@ -27,10 +27,10 @@ class CodeGeneratorRegistry
     {
         $class = get_class($codeGenerator);
         if (!defined("$class::ENTITY_CLASS")) {
-            throw new \Exception($class.' must define a ENTITY_CLASS constant.');
+            throw new \Exception($class . ' must define a ENTITY_CLASS constant.');
         }
         if (!defined("$class::ENTITY_FIELD")) {
-            throw new \Exception($class.' must define a ENTITY_FIELD constant.');
+            throw new \Exception($class . ' must define a ENTITY_FIELD constant.');
         }
         self::$generators[$codeGenerator::ENTITY_CLASS][$codeGenerator::ENTITY_FIELD] = $codeGenerator;
     }
@@ -50,6 +50,7 @@ class CodeGeneratorRegistry
         if (!isset(self::$generators[$entityClass][$entityField])) {
             throw new \Exception("There is no registered entity code generator for class $entityClass and field $entityField");
         }
+
         return self::$generators[$entityClass][$entityField];
     }
 

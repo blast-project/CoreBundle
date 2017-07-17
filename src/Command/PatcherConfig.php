@@ -20,7 +20,7 @@ trait PatcherConfig
 
     private function loadConfig()
     {
-        $configPath = __DIR__.'/../Tools/Patches/patches.yml';
+        $configPath = __DIR__ . '/../Tools/Patches/patches.yml';
 
         $this->config = Yaml::parse(
             file_get_contents($configPath)
@@ -31,8 +31,8 @@ trait PatcherConfig
         }
 
         $this->config['paths'] = [
-            'patchFilesDir' => __DIR__.'/../Tools/Patches/patches',
-            'rootDir' => str_replace('/app/..', '', $this->getContainer()->getParameter('kernel.root_dir').'/..'),
+            'patchFilesDir' => __DIR__ . '/../Tools/Patches/patches',
+            'rootDir' => str_replace('/app/..', '', $this->getContainer()->getParameter('kernel.root_dir') . '/..'),
             'configFile' => $configPath,
         ];
     }

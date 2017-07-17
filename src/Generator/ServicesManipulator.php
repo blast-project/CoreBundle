@@ -79,7 +79,7 @@ class ServicesManipulator extends BaseManipulator
                     $code .= "\n";
                 }
             } else {
-                $code .= $code === '' ? '' : "\n"."services:\n";
+                $code .= $code === '' ? '' : "\n" . "services:\n";
             }
         }
 

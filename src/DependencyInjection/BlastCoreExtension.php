@@ -53,7 +53,7 @@ class BlastCoreExtension extends Extension
         $rc = new \ReflectionClass($this);
         $this->dir = dirname($rc->getFileName());
         $this->prefix = '/../Resources/config/';
-        $this->bundlesPrefix = $this->prefix.'bundles/';
+        $this->bundlesPrefix = $this->prefix . 'bundles/';
         $this->suffix = '.yml';
         $this->file = 'blast';
 
@@ -69,7 +69,7 @@ class BlastCoreExtension extends Extension
      */
     public function buildLoader(ContainerBuilder $container)
     {
-        return new YamlFileLoader($container, new FileLocator($this->dir.$this->prefix));
+        return new YamlFileLoader($container, new FileLocator($this->dir . $this->prefix));
     }
 
     /**
@@ -83,8 +83,8 @@ class BlastCoreExtension extends Extension
     {
         // services, admin & config files
         foreach (['services', 'admin', 'config'] as $fileName) {
-            if (file_exists($this->dir.$this->prefix.$fileName.$this->suffix)) {
-                $loader->load($fileName.$this->suffix);
+            if (file_exists($this->dir . $this->prefix . $fileName . $this->suffix)) {
+                $loader->load($fileName . $this->suffix);
             }
         }
 
@@ -127,8 +127,8 @@ class BlastCoreExtension extends Extension
     public function loadParameters(ContainerBuilder $container)
     {
         // the blast.yml
-        if (file_exists($this->dir.$this->prefix.$this->file.$this->suffix)) {
-            $this->mergeParameter('blast', $container, $this->dir.$this->prefix);
+        if (file_exists($this->dir . $this->prefix . $this->file . $this->suffix)) {
+            $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
         }
 
         return $this;
@@ -156,7 +156,7 @@ class BlastCoreExtension extends Extension
      */
     public function loadSonataAdmin(ContainerBuilder $container, FileLoader $loader)
     {
-        if (file_exists($path = $this->dir.$this->bundlesPrefix.'sonata_admin'.$this->suffix)) {
+        if (file_exists($path = $this->dir . $this->bundlesPrefix . 'sonata_admin' . $this->suffix)) {
             $configSonataAdmin = Yaml::parse(
                 file_get_contents($path)
             );

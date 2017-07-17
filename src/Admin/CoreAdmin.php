@@ -50,7 +50,7 @@ abstract class CoreAdmin extends SonataAdmin
     protected function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
-        $collection->add('duplicate', $this->getRouterIdParameter().'/duplicate');
+        $collection->add('duplicate', $this->getRouterIdParameter() . '/duplicate');
         $collection->add('generateEntityCode');
     }
 
@@ -392,9 +392,9 @@ abstract class CoreAdmin extends SonataAdmin
 
         // When the default tab is used, the tabname is not prepended to the index in the group array
         if ($tab !== 'default') {
-            $group = $tab.'.'.$group;
+            $group = $tab . '.' . $group;
         }
-        $newGroup = ($tab !== 'default') ? $tab.'.'.$newGroupName : $newGroupName;
+        $newGroup = ($tab !== 'default') ? $tab . '.' . $newGroupName : $newGroupName;
 
         if (isset($groups[$newGroup])) {
             throw new \Exception(sprintf('%s form group already exists.', $newGroup));

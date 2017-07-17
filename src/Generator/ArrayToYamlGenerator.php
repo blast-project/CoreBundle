@@ -40,7 +40,7 @@ class ArrayToYamlGenerator extends Generator
         $parts = explode('.', $this->file->getPathName());
         array_pop($parts);
 
-        $file = implode('.', $parts).'.yml';
+        $file = implode('.', $parts) . '.yml';
 
         if (file_exists($file)) {
             return;

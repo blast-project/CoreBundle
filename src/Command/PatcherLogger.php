@@ -28,14 +28,14 @@ trait PatcherLogger
 
     public function error($message, $ln = true)
     {
-        $this->addMessage('error', "\n\r\n\r  ".$message."\n\r", $ln);
+        $this->addMessage('error', "\n\r\n\r  " . $message . "\n\r", $ln);
     }
 
     public function addMessage($severity, $message, $ln = true)
     {
         $this->messages[] = [
             'ln' => $ln,
-            'message' => '<'.$severity.'>'.$message.'</'.$severity.'>',
+            'message' => '<' . $severity . '>' . $message . '</' . $severity . '>',
         ];
     }
 

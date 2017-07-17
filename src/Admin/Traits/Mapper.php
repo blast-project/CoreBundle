@@ -554,14 +554,14 @@ trait Mapper
                     $buf = $config['add'][$actionKey];
 
                     foreach ($buf as $action => $props) {
-                        $name = 'batch_action_'.$action;
+                        $name = 'batch_action_' . $action;
 
                         foreach ([
                             'label' => $name,
                             'params' => [],
                             'translation_domain' => $this->getTranslationDomain(),
                             'action' => $name,
-                            'route' => 'batch_'.$action,
+                            'route' => 'batch_' . $action,
                         ] as $field => $value) {
                             if (empty($props[$field])) {
                                 $props[$field] = $value;
@@ -623,7 +623,7 @@ trait Mapper
             if (isset($blast[$class][ListMapper::class]['add']['_export_format'])) {
                 foreach ($blast[$class][ListMapper::class]['add']['_export_format'] as $format => $fields) {
                     // if no fields are defined (not an associative array)
-                    if (intval($format).'' == ''.$format && !is_array($fields)) {
+                    if (intval($format) . '' == '' . $format && !is_array($fields)) {
                         $format = $fields;
                         $this->exportFields[$format] = $fields = [];
                     }

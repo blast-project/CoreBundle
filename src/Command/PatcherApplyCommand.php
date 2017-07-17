@@ -53,15 +53,15 @@ class PatcherApplyCommand extends ContainerAwareCommand
 
     private function applyPatch($targetFile, $patchFile, $patchId)
     {
-        $targetFile = $this->config['paths']['rootDir'].'/'.$targetFile;
+        $targetFile = $this->config['paths']['rootDir'] . '/' . $targetFile;
 
         if (!file_exists($targetFile) || !file_exists($patchFile)) {
             $this->error('Missing patches :');
             if (!file_exists($targetFile)) {
-                $this->comment(' - '.$targetFile);
+                $this->comment(' - ' . $targetFile);
             }
             if (!file_exists($patchFile)) {
-                $this->comment(' - '.$patchFile);
+                $this->comment(' - ' . $patchFile);
             }
 
             return;
@@ -76,7 +76,7 @@ class PatcherApplyCommand extends ContainerAwareCommand
         system($command, $out);
 
         if ($out != 0) {
-            $this->error('The patch '.$patchFile.' has not been applyed on file '.$targetFile);
+            $this->error('The patch ' . $patchFile . ' has not been applyed on file ' . $targetFile);
         } else {
             foreach ($this->config['patches'] as $key => $patch) {
                 if ($patch['id'] == $patchId) {

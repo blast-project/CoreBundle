@@ -54,10 +54,10 @@ trait ManyToManyManager
         $this->configureManyToManyManager();
 
         $rc = new \ReflectionClass($this->getClass());
-        $remove_method = 'remove'.ucfirst($rc->getShortName());
+        $remove_method = 'remove' . ucfirst($rc->getShortName());
 
         foreach ($this->manyToManyCollections as $fieldname) {
-            $get_method = 'get'.ucfirst($fieldname);
+            $get_method = 'get' . ucfirst($fieldname);
             $orig_collection = $object->$get_method()->getSnapshot();
             $new_collection = $object->$get_method();
             foreach ($orig_collection as $entity) {
