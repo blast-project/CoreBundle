@@ -88,10 +88,10 @@ class PatcherGenerateCommand extends ContainerAwareCommand
         if (!file_exists($originalPath) || !file_exists($modifiedPath)) {
             $this->error('Files not found :');
             if (!file_exists($originalPath)) {
-                $this->comment(' - '.$originalPath);
+                $this->comment(' - ' . $originalPath);
             }
             if (!file_exists($modifiedPath)) {
-                $this->comment(' - '.$modifiedPath);
+                $this->comment(' - ' . $modifiedPath);
             }
 
             return;
@@ -101,7 +101,7 @@ class PatcherGenerateCommand extends ContainerAwareCommand
             $this->command,
             $originalPath,
             $modifiedPath,
-            $this->config['paths']['patchFilesDir'].'/'.$this->now->getTimestamp().'.txt'
+            $this->config['paths']['patchFilesDir'] . '/' . $this->now->getTimestamp() . '.txt'
         );
 
         $this->info('Executing command : ');
@@ -110,17 +110,17 @@ class PatcherGenerateCommand extends ContainerAwareCommand
 
         $this->addPatchToConfigFile(
             $targetPath,
-            $this->config['paths']['patchFilesDir'].'/'.$this->now->getTimestamp().'.txt'
+            $this->config['paths']['patchFilesDir'] . '/' . $this->now->getTimestamp() . '.txt'
         );
     }
 
     private function managePath($path, $type)
     {
         if (substr($path, 0, 1) !== '/' && !filter_var($path, FILTER_VALIDATE_URL)) {
-            $path = $this->config['paths']['rootDir'].'/'.$path;
+            $path = $this->config['paths']['rootDir'] . '/' . $path;
         } elseif (filter_var($path, FILTER_VALIDATE_URL)) {
-            if (copy($path, $this->config['paths']['patchFilesDir']."/$type/".$this->now->getTimestamp())) {
-                $path = $this->config['paths']['patchFilesDir']."/$type/".$this->now->getTimestamp();
+            if (copy($path, $this->config['paths']['patchFilesDir'] . "/$type/" . $this->now->getTimestamp())) {
+                $path = $this->config['paths']['patchFilesDir'] . "/$type/" . $this->now->getTimestamp();
             }
         }
 
@@ -136,7 +136,7 @@ class PatcherGenerateCommand extends ContainerAwareCommand
                     'enabled' => true,
                     'patched' => false,
                     'targetFile' => $targetPath,
-                    'patchFile' => str_replace($this->config['paths']['rootDir'].'/', '', $patchFile),
+                    'patchFile' => str_replace($this->config['paths']['rootDir'] . '/', '', $patchFile),
                 ],
             ],
         ];

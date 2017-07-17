@@ -47,7 +47,7 @@ trait Templates
         $templates = $librinfo['configuration']['templates'][$mapType];
 
         // checks if something has to be done
-        foreach ($this->{$mapType.'FieldDescriptions'} as $fd) {
+        foreach ($this->{$mapType . 'FieldDescriptions'} as $fd) {
             if (isset($templates[$fd->getType()])) {
                 $fd->setTemplate($templates[$fd->getType()]);
             }

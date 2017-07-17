@@ -48,7 +48,7 @@ abstract class BaseWriter implements WriterInterface
 
     protected function _write($data, $separator = "\n")
     {
-        fwrite($this->file, ($this->position > 0 ? $separator : '').$data);
+        fwrite($this->file, ($this->position > 0 ? $separator : '') . $data);
         ++$this->position;
     }
 }

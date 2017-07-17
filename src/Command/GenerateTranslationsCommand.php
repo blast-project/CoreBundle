@@ -56,8 +56,8 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
         $finder = new Finder();
         $crawler = new Crawler();
 
-        $path = $this->getContainer()->get('kernel')->locateResource('@'.$bundle);
-        $transPath = $path.'Resources/translations/';
+        $path = $this->getContainer()->get('kernel')->locateResource('@' . $bundle);
+        $transPath = $path . 'Resources/translations/';
 
         if (!$fs->exists($transPath)) {
             try {
@@ -91,7 +91,7 @@ class GenerateTranslationsCommand extends ContainerAwareCommand
                 $translations[$source] = $target;
             }
 
-            $ymlGenerator = new ArrayToYamlGenerator($file, __DIR__.'/../Resources/skeleton');
+            $ymlGenerator = new ArrayToYamlGenerator($file, __DIR__ . '/../Resources/skeleton');
             $ymlGenerator->generate($translations, 'Messages.yml.twig');
         }
 

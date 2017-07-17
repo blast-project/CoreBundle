@@ -81,7 +81,7 @@ trait CollectionsManager
             }
 
                 $rcentity = new \ReflectionClass($this->getClass());
-                $method = 'get'.ucfirst($coll);
+                $method = 'get' . ucfirst($coll);
 
                 $subObjects = $object->$method();
 
@@ -89,7 +89,7 @@ trait CollectionsManager
             if ($subObjects != null) {
                 foreach ($subObjects as $subobj) {
                     if ($this->formFieldDescriptions[$coll]->getMappingType() != ClassMetadataInfo::MANY_TO_MANY) {
-                        $subobj->{'set'.ucfirst($rcentity->getShortName())}($object);
+                        $subobj->{'set' . ucfirst($rcentity->getShortName())}($object);
                     }
 
                     if ($targetAdmin != null) {

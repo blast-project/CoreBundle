@@ -53,7 +53,7 @@ trait PreEvents
         $analyzer = new ClassAnalyzer();
         foreach ($analyzer->getTraits($this) as $traitname) {
             $rc = new \ReflectionClass($traitname);
-            if (method_exists($this, $exec = $method.$rc->getShortName())) {
+            if (method_exists($this, $exec = $method . $rc->getShortName())) {
                 $this->$exec($object);
             } // executes $this->prePersistMyTrait() or $this->preUpdateMyTrait() method
         }

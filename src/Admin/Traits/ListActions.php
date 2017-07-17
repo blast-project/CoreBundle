@@ -104,7 +104,7 @@ trait ListActions
                     } else {
                         $routeSuffix = $key;
                     }
-                    $collection->add($key, $this->getRouterIdParameter().'/'.$routeSuffix);
+                    $collection->add($key, $this->getRouterIdParameter() . '/' . $routeSuffix);
                 }
             }
         }
