@@ -316,11 +316,17 @@ trait Mapper
                 // adding count of collections items in tab
                 if (isset($tabcontent['_options']['countChildItems']) && is_array($tabcontent['_options']['countChildItems'])) {
                     $tabs = $this->{$fcts['tabs']['getter']}();
-                    $tabs[$tab]['class'] .= ' countable-tab';
-                    foreach ($tabcontent['_options']['countChildItems'] as $fieldToCount) {
-                        $tabs[$tab]['class'] .= ' count-' . $fieldToCount;
+                    if (strpos($tabs[$tab]['class'], 'countable-tab') === false) {
+                        $tabs[$tab]['class'] .= ' countable-tab';
+
+                        foreach ($tabcontent['_options']['countChildItems'] as $fieldToCount) {
+                            if (strpos($tabs[$tab]['class'], 'count-' . $fieldToCount) === false) {
+                                $tabs[$tab]['class'] .= ' count-' . $fieldToCount;
+                            }
+                        }
+
+                        $this->{$fcts['tabs']['setter']}($tabs);
                     }
-                    $this->{$fcts['tabs']['setter']}($tabs);
                 }
 
                 // clearing tabcontent options
