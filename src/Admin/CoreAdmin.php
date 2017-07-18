@@ -28,8 +28,10 @@ use Blast\CoreBundle\Admin\Traits\PreEvents;
 use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
 use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
+use Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
-abstract class CoreAdmin extends SonataAdmin
+abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 {
     use CollectionsManager,
         ManyToManyManager,
@@ -454,6 +456,72 @@ abstract class CoreAdmin extends SonataAdmin
                 foreach ($formGroups[$name]['fields'] as $key => $field) {
                     $mapper->remove($key);
                 }
+            }
+        }
+    }
+
+    public function jsonSerialize()
+    {
+        $propertiesToShow = [
+            'baseRouteName',
+            'baseRoutePattern',
+            'extraTemplates',
+            'listFieldDescriptions',
+            'showFieldDescriptions',
+            'formFieldDescriptions',
+            'filterFieldDescriptions',
+            'maxPerPage',
+            'maxPageLinks',
+            'classnameLabel',
+            'translationDomain',
+            'formOptions',
+            'datagridValues',
+            'perPageOptions',
+            'pagerType',
+            'code',
+            'label',
+            'routes',
+            'subject',
+            'children',
+            'parent',
+            'baseCodeRoute',
+            'uniqid',
+            'extensions',
+            'class',
+            'subClasses',
+            'list',
+            'show',
+            'form',
+            'filter',
+            'formGroups',
+            'formTabs',
+            'showGroups',
+            'showTabs',
+            'managedCollections',
+            'helperLinks',
+            'titles',
+        ];
+
+        $properties = [];
+        foreach ($this as $key => $value) {
+            if (in_array($key, $propertiesToShow)) {
+                $properties[$key] = $value;
+            }
+        }
+
+        return $properties;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prePersist($object)
+    {
+        $hasCodeGenerator = CodeGeneratorRegistry::hasGeneratorForClass(get_class($object));
+        if ($hasCodeGenerator) {
+            $accessor = PropertyAccess::createPropertyAccessor();
+            foreach (CodeGeneratorRegistry::getCodeGenerators(get_class($object)) as $name => $generator) {
+                $accessor->setValue($object, $name, $generator->generate($object));
             }
         }
     }

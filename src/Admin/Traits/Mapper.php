@@ -18,6 +18,8 @@ use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
+use Doctrine\ORM\QueryBuilder;
 
 trait Mapper
 {
@@ -290,8 +292,7 @@ trait Mapper
                 $endgroup = $endtab = false;
 
                 // tab
-                if (!empty($tabcontent['_options']['hideTitle']) ||
-                        $mapper instanceof ShowMapper && !$this->forceTabs) {
+                if (!empty($tabcontent['_options']['hideTitle']) || $mapper instanceof ShowMapper && !$this->forceTabs) {
                     // display tabs as groups
                     $tabs = $this->{$fcts['tabs']['getter']}();
                     $groups = $this->{$fcts['groups']['getter']}();
@@ -311,6 +312,18 @@ trait Mapper
                     $mapper->tab($tab, isset($tabcontent['_options']) ? $tabcontent['_options'] : []);
                     $endtab = true;
                 }
+
+                // adding count of collections items in tab
+                if (isset($tabcontent['_options']['countChildItems']) && is_array($tabcontent['_options']['countChildItems'])) {
+                    $tabs = $this->{$fcts['tabs']['getter']}();
+                    $tabs[$tab]['class'] .= ' countable-tab';
+                    foreach ($tabcontent['_options']['countChildItems'] as $fieldToCount) {
+                        $tabs[$tab]['class'] .= ' count-' . $fieldToCount;
+                    }
+                    $this->{$fcts['tabs']['setter']}($tabs);
+                }
+
+                // clearing tabcontent options
                 if (isset($tabcontent['_options'])) {
                     unset($tabcontent['_options']);
                 }
@@ -464,6 +477,14 @@ trait Mapper
 
         if (isset($options['required']) && $options['required'] === true) {
             $options['constraints'] = [new NotBlank()];
+        }
+
+        if (isset($options['query'])) {
+            $this->manageQueryCallback($mapper, $options);
+        }
+
+        if (isset($options['choicesCallback'])) {
+            $this->manageChoicesCallback($mapper, $options);
         }
 
         // save-and-remove CoreBundle-specific options
@@ -768,5 +789,43 @@ trait Mapper
         }
 
         return $baseRoute;
+    }
+
+    protected function manageQueryCallback($mapper, &$options)
+    {
+        $query = $options['query'];
+        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
+
+        if (!$query instanceof QueryBuilder) {
+            if (!is_array($query)) {
+                throw new Exception('« query » option must be an array : ["FQDN"=>"static method name"]');
+            }
+
+            list($className, $methodName) = $query;
+
+            $queryFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
+
+            $options['query'] = $queryFunction;
+        }
+    }
+
+    protected function manageChoicesCallback($mapper, &$options)
+    {
+        $callback = $options['choicesCallback'];
+        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
+
+        if (!is_array($callback)) {
+            throw new Exception('« choicesCallback » option must be an array : ["FQDN"=>"static method name"]');
+        }
+
+        list($className, $methodName) = $callback;
+
+        $choicesFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
+
+        $options['choices'] = $choicesFunction;
+        $options['choice_loader'] = new CallbackChoiceLoader(function () use ($options) {
+            return $options['choices'];
+        });
+        unset($options['choicesCallback']);
     }
 }

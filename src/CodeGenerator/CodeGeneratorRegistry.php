@@ -55,6 +55,22 @@ class CodeGeneratorRegistry
     }
 
     /**
+     * Returns registred code generators for specifyed entity class.
+     *
+     * @param string $entityClass
+     *
+     * @return array
+     */
+    public static function getCodeGenerators($entityClass)
+    {
+        if (!isset(self::$generators[$entityClass])) {
+            throw new \Exception("There is no registered entity code generator for class $entityClass");
+        }
+
+        return self::$generators[$entityClass];
+    }
+
+    /**
      * @param string $entityClass
      *
      * @return bool
