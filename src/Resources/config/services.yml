@@ -1,5 +1,5 @@
 services:
-
+    
     sonata.admin.exporter:
         class: Blast\CoreBundle\Admin\Exporter
         calls:
@@ -20,7 +20,7 @@ services:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorFactory
     blast_core.code_generators:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry
-        
+
     ############ TWIG EXTENSIONS ##########
     blast_core.extension.global_search:
         class: Blast\CoreBundle\Twig\GlobalSearchExtension
