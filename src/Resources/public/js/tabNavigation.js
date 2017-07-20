@@ -16,11 +16,20 @@ $(document).ready(function() {
             });
 
             $.each(countableClasses, function(i, cls) {
+                var collectionAsForm, collectionAsTable = 0;
                 var fieldName = cls.replace('count-', '');
-                var fieldId = 'field_widget_' + Admin.currentAdmin.uniqid + '_' + fieldName;
 
-                var collectionAsForm = $('#' + fieldId + ' > div.sonata-ba-tabs > div');
-                var collectionAsTable = $('#' + fieldId + ' > table > tbody > tr');
+                if (Admin.currentAdmin) {
+                    var fieldId = 'field_widget_' + Admin.currentAdmin.uniqid + '_' + fieldName;
+
+                    collectionAsForm = $('#' + fieldId + ' > div.sonata-ba-tabs > div');
+                    collectionAsTable = $('#' + fieldId + ' > table > tbody > tr');
+                } else {
+                    var field = $('*[data-field-name="'+fieldName+'"]');
+
+                    collectionAsForm = field.find('> div.box');
+                    collectionAsTable = '';
+                }
 
                 tab.data('currentCount', parseInt(tab.data('currentCount'), 10) + (
                     parseInt(collectionAsForm.length, 10) +
