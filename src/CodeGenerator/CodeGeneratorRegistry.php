@@ -67,11 +67,11 @@ class CodeGeneratorRegistry
             if (!isset(self::$generators[$entityClass])) {
                 throw new \Exception("There is no registered entity code generator for class $entityClass");
             }
+
             return self::$generators[$entityClass];
         } else {
             return self::$generators;
         }
-
     }
 
     /**
