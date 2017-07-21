@@ -1,0 +1,92 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+    {# <span class="icon">
+        <i class="fa fa-user-circle"></i>
+    </span> #}
+    <span class="sf-toolbar-status">Blast</span>
+    {% endset %}
+
+    {% set text %}
+    {% for key, data in collector.getData() %}
+        {% if data.display == 'toolbar' or data.display == 'both' %}
+            <div class="sf-toolbar-info-piece">
+                <b>{{ key|capitalize }}</b>
+                <span>
+                    {% if data.file is defined %}
+                        <a href="{{data.file|file_link(1)}}">{{ data.class }}</a>
+                    {% else %}
+                        {{ data.class }}
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        {# <span class="icon">
+            <i class="fa fa-user-circle"></i>
+        </span> #}
+        <strong>Blast</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {% for key, data in collector.getData() %}
+        {% if data.display == 'profiler' or data.display == 'both' %}
+            <table>
+                <tr>
+                    <th colspan="100%" style="text-align:center">{{ key|capitalize }}</th>
+                </tr>
+                {% if data.class is defined %}
+                <tr>
+                    <td style="width:30%;text-align:right">
+                        <b>Class</b>
+                    </td>
+                    <td>
+                        {% if data.file is defined %}
+                            <a href="{{data.file|file_link(1)}}">
+                                {{ data.class }}
+                            </a>
+                        {% else %}
+                            {{ data.class }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+                {% if data.array is defined %}
+                    {% for key,item in data.array %}
+                        <tr>
+                            <td style="width:30%;text-align:right">
+                                <b>{{ key }}</b>
+                            </td>
+                            <td>
+                                {{ item }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if data.dump is defined %}
+                    <tr>
+                        <td style="width:30%;text-align:right">
+                            <b>Object</b>
+                        </td>
+                        <td>
+                            {{ dump(data.dump) }}
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

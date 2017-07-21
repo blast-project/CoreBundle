@@ -215,6 +215,10 @@ trait Mapper
             $this->fixShowRoutes($mapper);
         }
 
+        // Debug profiler
+        $this->getConfigurationPool()->getContainer()->get('blast_core.profiler.collector')
+            ->collect($mapper);
+
         return $this;
     }
 

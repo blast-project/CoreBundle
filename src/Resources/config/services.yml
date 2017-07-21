@@ -1,5 +1,5 @@
 services:
-    
+
     sonata.admin.exporter:
         class: Blast\CoreBundle\Admin\Exporter
         calls:
@@ -28,3 +28,17 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: twig.extension }
+
+    blast_core.profiler.collector:
+        class: Blast\CoreBundle\Profiler\Collector
+
+    blast_core.profiler.admin_collector:
+        class: Blast\CoreBundle\Profiler\AdminCollector
+        calls:
+            - [setCollector,['@blast_core.profiler.collector']]
+        tags:
+             -
+                name:     data_collector
+                template: 'BlastCoreBundle:Profiler/AdminCollector:toolbar.html.twig'
+                id:       'blast.admin_collector'
+        public: false
