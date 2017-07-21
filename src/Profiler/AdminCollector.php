@@ -54,7 +54,7 @@ class AdminCollector extends DataCollector
 
             $this->data['form tabs / groups'] = [
                 'display' => 'toolbar',
-                'class' => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups())
+                'class' => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups()),
             ];
 
             $this->data['form'] = [
@@ -62,12 +62,12 @@ class AdminCollector extends DataCollector
                 'dump' => [
                     'tabs' => $admin->getFormGroups(),
                     'groups' => $admin->getFormTabs(),
-                ]
+                ],
             ];
 
             $this->data['show tabs / groups'] = [
                 'display' => 'toolbar',
-                'class' => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups())
+                'class' => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups()),
             ];
 
             $this->data['show'] = [
@@ -75,7 +75,7 @@ class AdminCollector extends DataCollector
                 'dump' => [
                     'tabs' => $admin->getShowGroups(),
                     'groups' => $admin->getShowTabs(),
-                ]
+                ],
             ];
         } else {
             $this->data = [

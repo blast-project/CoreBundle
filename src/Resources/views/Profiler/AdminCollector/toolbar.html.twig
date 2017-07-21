@@ -49,23 +49,23 @@
                     <th colspan="100%" style="text-align:center">{{ key|capitalize }}</th>
                 </tr>
                 {% if data.class is defined %}
-                <tr>
-                    <td style="width:30%;text-align:right">
-                        <b>Class</b>
-                    </td>
-                    <td>
-                        {% if data.file is defined %}
-                            <a href="{{data.file|file_link(1)}}">
+                    <tr>
+                        <td style="width:30%;text-align:right">
+                            <b>Class</b>
+                        </td>
+                        <td>
+                            {% if data.file is defined %}
+                                <a href="{{data.file|file_link(1)}}">
+                                    {{ data.class }}
+                                </a>
+                            {% else %}
                                 {{ data.class }}
-                            </a>
-                        {% else %}
-                            {{ data.class }}
-                        {% endif %}
-                    </td>
-                </tr>
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endif %}
                 {% if data.array is defined %}
-                    {% for key,item in data.array %}
+                    {% for key, item in data.array %}
                         <tr>
                             <td style="width:30%;text-align:right">
                                 <b>{{ key }}</b>
