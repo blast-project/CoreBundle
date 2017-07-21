@@ -517,6 +517,8 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
      */
     public function prePersist($object)
     {
+        parent::prePersist($object);
+
         $hasCodeGenerator = CodeGeneratorRegistry::hasGeneratorForClass(get_class($object));
         if ($hasCodeGenerator) {
             $accessor = PropertyAccess::createPropertyAccessor();
