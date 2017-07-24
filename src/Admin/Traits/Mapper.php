@@ -20,6 +20,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Doctrine\ORM\QueryBuilder;
+use Blast\CoreBundle\Profiler\DataCollection;
 
 trait Mapper
 {
@@ -217,7 +218,8 @@ trait Mapper
 
         // Debug profiler
         $this->getConfigurationPool()->getContainer()->get('blast_core.profiler.collector')
-            ->collect($mapper);
+            ->collect('Mapper', $mapper)
+            ->collect('Classes', $classes);
 
         return $this;
     }

@@ -1,27 +1,48 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
+
+    {% set dest_toolbar = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
+    {% set dest_profiler = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
+    {% set dest_both = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
+
     {% set icon %}
-    {# <span class="icon">
-        <i class="fa fa-user-circle"></i>
-    </span> #}
-    <span class="sf-toolbar-status">Blast</span>
+    <span class="icon">
+        <i class="fa fa-list"></i>
+    </span>
+    <span class="sf-toolbar-label">Blast</span>
+
+    <span class="sf-toolbar-status">
+        {{collector.getData()[dest_toolbar]|length}}
+    </span>
     {% endset %}
 
     {% set text %}
-    {% for key, data in collector.getData() %}
-        {% if data.display == 'toolbar' or data.display == 'both' %}
+    {% for k, d in collector.getData()[dest_toolbar] %}
+        <b>{{ k }}</b>
+        {% for key, data in d %}
             <div class="sf-toolbar-info-piece">
                 <b>{{ key|capitalize }}</b>
                 <span>
-                    {% if data.file is defined %}
+                    {% if data.file is defined and data.class != constant('Blast\\CoreBundle\\Profiler\\AdminCollector::TYPE_NOT_MANAGED') %}
                         <a href="{{data.file|file_link(1)}}">{{ data.class }}</a>
+                    {% elseif data is iterable %}
+                        <ul>
+                        {% for item in data %}
+                            <li>
+                                {{item}}
+                            </li>
+                        {% endfor %}
+                        </ul>
                     {% else %}
                         {{ data.class }}
                     {% endif %}
                 </span>
             </div>
-        {% endif %}
+        {% endfor %}
+        <hr/>
+    {% else %}
+        See profiler panel for more details
     {% endfor %}
     {% endset %}
 
@@ -42,16 +63,18 @@
 {% endblock %}
 
 {% block panel %}
-    {% for key, data in collector.getData() %}
-        {% if data.display == 'profiler' or data.display == 'both' %}
-            <table>
-                <tr>
-                    <th colspan="100%" style="text-align:center">{{ key|capitalize }}</th>
-                </tr>
+
+    {% set dest_toolbar = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
+    {% set dest_profiler = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
+    {% set dest_both = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
+
+    {% for k, d in collector.getData()[dest_profiler] %}
+        <table>
+            {% for key, data in d %}
                 {% if data.class is defined %}
                     <tr>
                         <td style="width:30%;text-align:right">
-                            <b>Class</b>
+                            <b>{{ key|capitalize }}</b>
                         </td>
                         <td>
                             {% if data.file is defined %}
@@ -64,14 +87,14 @@
                         </td>
                     </tr>
                 {% endif %}
-                {% if data.array is defined %}
-                    {% for key, item in data.array %}
+                {% if data is iterable %}
+                    {% for key, item in data if key not in ['class','file','display'] %}
                         <tr>
                             <td style="width:30%;text-align:right">
                                 <b>{{ key }}</b>
                             </td>
                             <td>
-                                {{ item }}
+                                {# {{ item }} #} {{dump(item)}}
                             </td>
                         </tr>
                     {% endfor %}
@@ -79,14 +102,16 @@
                 {% if data.dump is defined %}
                     <tr>
                         <td style="width:30%;text-align:right">
-                            <b>Object</b>
+                            <b>&nbsp;</b>
                         </td>
                         <td>
                             {{ dump(data.dump) }}
                         </td>
                     </tr>
                 {% endif %}
-            </table>
-        {% endif %}
+
+            {% endfor %}
+        </table>
+        <hr/>
     {% endfor %}
 {% endblock %}

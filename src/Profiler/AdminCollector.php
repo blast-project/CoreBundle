@@ -15,10 +15,13 @@ namespace Blast\CoreBundle\Profiler;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Mapper\BaseMapper;
+use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
 
 class AdminCollector extends DataCollector
 {
+    const TYPE_NOT_MANAGED = 'Not Managed';
+
     /**
      * @var Collector
      */
@@ -26,76 +29,79 @@ class AdminCollector extends DataCollector
 
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $this->data = [];
+        $this->data = [
+            DataCollection::DESTINATION_TOOLBAR => [],
+            DataCollection::DESTINATION_PROFILER => [],
+        ];
 
         $collectedData = $this->collector->getData();
 
-        if ($collectedData instanceof FormMapper) {
-            $entity = $collectedData->getAdmin()->getClass();
-            $admin = $collectedData->getAdmin();
+        foreach ($collectedData as $k => $dataCollection) {
+            $data = $dataCollection->getData();
 
-            $this->data['entity'] = [
-                'display' => 'both', // 'toolbar', 'profiler', 'both'
-                'class' => $entity,
-                'file' => $this->getClassLink($entity),
-            ];
+            if ($data instanceof BaseGroupedMapper || $data instanceof BaseMapper) {
+                $entity = $data->getAdmin()->getClass();
+                $admin = $data->getAdmin();
 
-            $this->data['admin'] = [
-                'display' => 'both',
-                'class' => get_class($admin),
-                'file' => $this->getClassLink(get_class($admin)),
-            ];
+                $this->addToProfiler($k, 'entity', [
+                    'display' => DataCollection::DESTINATION_PROFILER, // 'toolbar', 'profiler', 'both'
+                    'class' => $entity,
+                    'file' => $this->getClassLink($entity),
+                ]);
 
-            $this->data['mapper'] = [
-                'display' => 'both',
-                'class' => get_class($collectedData),
-                'file' => $this->getClassLink(get_class($collectedData)),
-            ];
+                $this->addToProfiler($k, 'admin', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'class' => get_class($admin),
+                    'file' => $this->getClassLink(get_class($admin)),
+                ]);
 
-            $this->data['form tabs / groups'] = [
-                'display' => 'toolbar',
-                'class' => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups()),
-            ];
+                $this->addToProfiler($k, 'mapper', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'class' => get_class($data),
+                    'file' => $this->getClassLink(get_class($data)),
+                ]);
 
-            $this->data['form'] = [
-                'display' => 'profiler',
-                'dump' => [
-                    'tabs' => $admin->getFormGroups(),
-                    'groups' => $admin->getFormTabs(),
-                ],
-            ];
+                $this->addToProfiler($k, 'form tabs / groups', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'class' => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups()),
+                ]);
 
-            $this->data['show tabs / groups'] = [
-                'display' => 'toolbar',
-                'class' => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups()),
-            ];
+                $this->addToProfiler($k, 'form', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'dump' => [
+                        'tabs' => $admin->getFormGroups(),
+                        'groups' => $admin->getFormTabs(),
+                    ],
+                ]);
 
-            $this->data['show'] = [
-                'display' => 'profiler',
-                'dump' => [
-                    'tabs' => $admin->getShowGroups(),
-                    'groups' => $admin->getShowTabs(),
-                ],
-            ];
-        } else {
-            $this->data = [
-                'entity' => ['display' => 'toolbar', 'class' => 'N/A', 'file' => false],
-                'admin' => ['display' => 'toolbar', 'class' => 'N/A', 'file' => false],
-                'mapper' => ['display' => 'toolbar', 'class' => 'N/A', 'file' => false],
-            ];
+                $this->addToProfiler($k, 'show tabs / groups', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'class' => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups()),
+                ]);
+
+                $this->addToProfiler($k, 'show', [
+                    'display' => DataCollection::DESTINATION_PROFILER,
+                    'dump' => [
+                        'tabs' => $admin->getShowGroups(),
+                        'groups' => $admin->getShowTabs(),
+                    ],
+                ]);
+            } else {
+                $this->addToProfiler($k, $dataCollection->getName(), $dataCollection);
+            }
         }
     }
 
     public function getData($name = null)
     {
-        if ($name !== null) {
-            if (array_key_exists($name, $this->data)) {
-                return $this->data[$name];
-            } else {
-                return 'N/A';
-            }
-        } else {
+        if ($name === null) {
             return $this->data;
+        }
+
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        } else {
+            return self::TYPE_NOT_MANAGED;
         }
     }
 
@@ -129,5 +135,25 @@ class AdminCollector extends DataCollector
         $reflector = new \ReflectionClass($class);
 
         return $reflector->getFileName();
+    }
+
+    private function addToProfiler($rootKey, $key, $data)
+    {
+        if ($data instanceof DataCollection) {
+            $this->data[$data->getDestination()][$rootKey][$key] = $data->getData();
+        } else {
+            switch ($data['display']) {
+                case DataCollection::DESTINATION_TOOLBAR:
+                case DataCollection::DESTINATION_PROFILER:
+                    $this->data[$data['display']][$rootKey][$key] = $data;
+                    break;
+                case DataCollection::DESTINATION_BOTH:
+                    $this->data[DataCollection::DESTINATION_TOOLBAR][$rootKey][$key] = $data;
+                    $this->data[DataCollection::DESTINATION_PROFILER][$rootKey][$key] = $data;
+                    break;
+                default:
+                    $this->data[DataCollection::DESTINATION_PROFILER][$rootKey][$key] = $data;
+            }
+        }
     }
 }

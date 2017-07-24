@@ -12,8 +12,6 @@
 
 namespace Blast\CoreBundle\Profiler;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 class Collector
 {
     /**
@@ -23,15 +21,20 @@ class Collector
 
     public function __construct()
     {
-        // $this->data = [];
+        $this->data = [];
     }
 
     /**
      * @param mixed $data
+     *
+     * @return Collector
      */
-    public function collect($data)
+    public function collect($name, $data, $destination = DataCollection::DESTINATION_PROFILER, $type = null)
     {
-        $this->data = $data;
+        $dataCollection = new DataCollection($name, $data, $destination, $type);
+        $this->data[] = $dataCollection;
+
+        return $this;
     }
 
     /**
