@@ -1,6 +1,19 @@
 # Change Log
 
-## [0.4.4](https://github.com/blast-project/CoreBundle/tree/0.4.4) (2017-06-26)
+## [0.4.5](https://github.com/blast-project/CoreBundle/tree/0.4.5) (2017-07-26)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.4...0.4.5)
+
+**Merged pull requests:**
+
+- DevKit updates for CoreBundle [\#44](https://github.com/blast-project/CoreBundle/pull/44) ([BlastCI](https://github.com/BlastCI))
+- Lisem fix & features [\#42](https://github.com/blast-project/CoreBundle/pull/42) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- DevKit updates for CoreBundle [\#41](https://github.com/blast-project/CoreBundle/pull/41) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for CoreBundle [\#40](https://github.com/blast-project/CoreBundle/pull/40) ([BlastCI](https://github.com/BlastCI))
+- Wip lisem [\#39](https://github.com/blast-project/CoreBundle/pull/39) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- DevKit updates for CoreBundle [\#38](https://github.com/blast-project/CoreBundle/pull/38) ([BlastCI](https://github.com/BlastCI))
+- DevKit updates for CoreBundle [\#37](https://github.com/blast-project/CoreBundle/pull/37) ([BlastCI](https://github.com/BlastCI))
+
+## [0.4.4](https://github.com/blast-project/CoreBundle/tree/0.4.4) (2017-06-27)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.3...0.4.4)
 
 ## [0.4.3](https://github.com/blast-project/CoreBundle/tree/0.4.3) (2017-06-15)
