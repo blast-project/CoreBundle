@@ -1,0 +1,117 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+
+    {% set dest_toolbar = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
+    {% set dest_profiler = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
+    {% set dest_both = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
+
+    {% set icon %}
+    <span class="icon">
+        <i class="fa fa-list"></i>
+    </span>
+    <span class="sf-toolbar-label">Blast</span>
+
+    <span class="sf-toolbar-status">
+        {{collector.getData()[dest_toolbar]|length}}
+    </span>
+    {% endset %}
+
+    {% set text %}
+    {% for k, d in collector.getData()[dest_toolbar] %}
+        <b>{{ k }}</b>
+        {% for key, data in d %}
+            <div class="sf-toolbar-info-piece">
+                <b>{{ key|capitalize }}</b>
+                <span>
+                    {% if data.file is defined and data.class != constant('Blast\\CoreBundle\\Profiler\\AdminCollector::TYPE_NOT_MANAGED') %}
+                        <a href="{{data.file|file_link(1)}}">{{ data.class }}</a>
+                    {% elseif data is iterable %}
+                        <ul>
+                        {% for item in data %}
+                            <li>
+                                {{item}}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ data.class }}
+                    {% endif %}
+                </span>
+            </div>
+        {% endfor %}
+        <hr/>
+    {% else %}
+        See profiler panel for more details
+    {% endfor %}
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        {# <span class="icon">
+            <i class="fa fa-user-circle"></i>
+        </span> #}
+        <strong>Blast</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+
+    {% set dest_toolbar = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
+    {% set dest_profiler = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
+    {% set dest_both = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
+
+    {% for k, d in collector.getData()[dest_profiler] %}
+        <table>
+            {% for key, data in d %}
+                {% if data.class is defined %}
+                    <tr>
+                        <td style="width:30%;text-align:right">
+                            <b>{{ key|capitalize }}</b>
+                        </td>
+                        <td>
+                            {% if data.file is defined %}
+                                <a href="{{data.file|file_link(1)}}">
+                                    {{ data.class }}
+                                </a>
+                            {% else %}
+                                {{ data.class }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if data is iterable %}
+                    {% for key, item in data if key not in ['class','file','display'] %}
+                        <tr>
+                            <td style="width:30%;text-align:right">
+                                <b>{{ key }}</b>
+                            </td>
+                            <td>
+                                {# {{ item }} #} {{dump(item)}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                {% if data.dump is defined %}
+                    <tr>
+                        <td style="width:30%;text-align:right">
+                            <b>&nbsp;</b>
+                        </td>
+                        <td>
+                            {{ dump(data.dump) }}
+                        </td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+        </table>
+        <hr/>
+    {% endfor %}
+{% endblock %}

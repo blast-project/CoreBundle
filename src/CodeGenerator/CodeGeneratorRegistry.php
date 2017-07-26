@@ -61,13 +61,17 @@ class CodeGeneratorRegistry
      *
      * @return array
      */
-    public static function getCodeGenerators($entityClass)
+    public static function getCodeGenerators($entityClass = null)
     {
-        if (!isset(self::$generators[$entityClass])) {
-            throw new \Exception("There is no registered entity code generator for class $entityClass");
-        }
+        if ($entityClass) {
+            if (!isset(self::$generators[$entityClass])) {
+                throw new \Exception("There is no registered entity code generator for class $entityClass");
+            }
 
-        return self::$generators[$entityClass];
+            return self::$generators[$entityClass];
+        } else {
+            return self::$generators;
+        }
     }
 
     /**

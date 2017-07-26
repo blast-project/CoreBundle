@@ -20,7 +20,7 @@ services:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorFactory
     blast_core.code_generators:
         class: Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry
-        
+
     ############ TWIG EXTENSIONS ##########
     blast_core.extension.global_search:
         class: Blast\CoreBundle\Twig\GlobalSearchExtension
@@ -28,3 +28,17 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: twig.extension }
+
+    blast_core.profiler.collector:
+        class: Blast\CoreBundle\Profiler\Collector
+
+    blast_core.profiler.admin_collector:
+        class: Blast\CoreBundle\Profiler\AdminCollector
+        calls:
+            - [setCollector,['@blast_core.profiler.collector']]
+        tags:
+             -
+                name:     data_collector
+                template: 'BlastCoreBundle:Profiler/AdminCollector:toolbar.html.twig'
+                id:       'blast.admin_collector'
+        public: false
