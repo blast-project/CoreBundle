@@ -20,7 +20,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Doctrine\ORM\QueryBuilder;
-use Blast\CoreBundle\Profiler\DataCollection;
 
 trait Mapper
 {
