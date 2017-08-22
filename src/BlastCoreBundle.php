@@ -15,6 +15,7 @@ namespace Blast\CoreBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
+use Blast\CoreBundle\DependencyInjection\DashboardBlocksCompilerPass;
 
 class BlastCoreBundle extends Bundle
 {
@@ -23,5 +24,6 @@ class BlastCoreBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new CodeGeneratorCompilerPass());
+        $container->addCompilerPass(new DashboardBlocksCompilerPass());
     }
 }

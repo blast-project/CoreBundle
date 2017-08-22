@@ -1,0 +1,11 @@
+sonata_block:
+    blocks:
+        blast_core.dashboard.main_block: ~
+
+sonata_admin:
+    dashboard:
+        blocks:
+            -
+                class:    col-xs-12
+                position: top
+                type:     blast_core.dashboard.main_block
