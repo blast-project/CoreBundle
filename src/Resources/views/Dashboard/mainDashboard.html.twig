@@ -1,3 +1,5 @@
-{% for blk in dashboard_blocks %}
-    {{ blk.render()|raw }}
-{% endfor %}
+<div class="librinfo-dashboard-container">
+    {% for blk in dashboard_blocks %}
+        {{ blk.render()|raw }}
+    {% endfor %}
+</div>
