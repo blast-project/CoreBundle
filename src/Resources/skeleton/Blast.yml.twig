@@ -1,5 +1,8 @@
-{# DO NOT APPLY AUTO FORMATTING ON THIS FILE !!! #}
-{%spaceless%}
+{#
+    DO NOT APPLY AUTO FORMATTING ON THIS FILE !!!
+#}
+
+{% spaceless %}
 {% set code %}
 {% for key, field in fields %}
     {% if key == 0 %}
@@ -7,7 +10,7 @@
     {% else %}
                     {{ field }}: ~
     {% endif %}
-{% endfor%}
+{% endfor %}
 {% endset %}
 {# #}
 {% set listcode %}
@@ -17,7 +20,7 @@
     {% else %}
             {{ field }}: ~
     {% endif %}
-{% endfor%}
+{% endfor %}
 {% endset %}
 {# #}
 {% if oldCode == '' %}
@@ -27,29 +30,29 @@ parameters:
 {{- oldCode }}
 
 ################################################################################
-# {{ entity }}  
+# {{ entity }}
 ################################################################################
 
         {{ fqcn }}:
             # SHOW
             Sonata\AdminBundle\Show\ShowMapper:
                 add:
-                    main_tab:
-                        main_group:
+                    show_tab_general:
+                        show_group_general:
                         {{ code }}
-            # FORM    
+            # FORM
             Sonata\AdminBundle\Form\FormMapper:
                 add:
-                    main_tab:
-                        main_group:
+                    form_tab_general:
+                        form_group_general:
                         {{ code }}
-            # LIST    
+            # LIST
             Sonata\AdminBundle\Datagrid\ListMapper:
                 add:
                 {{ listcode }}
-                    
-            # FILTERS 
+
+            # FILTERS
             Sonata\AdminBundle\Datagrid\DatagridMapper:
                 add:
                 {{ listcode }}
-{%endspaceless%}
+{% endspaceless %}
