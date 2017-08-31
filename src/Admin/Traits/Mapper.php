@@ -430,26 +430,25 @@ trait Mapper
 
         // ordering the ShowMapper
         if ($mapper instanceof ShowMapper) {
-            $order = [];
-            $groups = $this->{$fcts['groups']['getter']}();
-            foreach ($this->{$fcts['tabs']['getter']}() as $tab) {
-                foreach ($tab['groups'] as $group) {
-                    if (isset($groups[$group])) {
-                        $order[] = $group;
-                    }
+            foreach ($group as $tabName => $tabContent) {
+                $tabOptions = null;
+                if (isset($tabContent['_options'])) {
+                    $tabOptions = $tabContent['_options'];
+                    unset($tabContent['_options']);
                 }
-            }
-            foreach ($groups as $name => $content) {
-                if (!in_array($name, $order)) {
-                    $order[] = $name;
-                }
-            }
 
-            $newgroups = [];
-            foreach ($order as $grp) {
-                $newgroups[$grp] = $groups[$grp];
+                if (isset($tabOptions['groupsOrder'])) {
+                    $tabs = $this->{$fcts['tabs']['getter']}();
+                    $groups = $this->{$fcts['groups']['getter']}();
+
+                    $groupOrder = $tabOptions['groupsOrder'];
+
+                    $properOrderedArray = array_merge(array_flip($groupOrder), $groups);
+
+                    $this->{$fcts['groups']['setter']}($properOrderedArray);
+                    $this->{$fcts['tabs']['setter']}($tabs);
+                }
             }
-            $this->{$fcts['groups']['setter']}($newgroups);
         }
 
         return $mapper;
