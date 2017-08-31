@@ -94,20 +94,10 @@
                                 <b>{{ key }}</b>
                             </td>
                             <td>
-                                {# {{ item }} #} {{dump(item)}}
+                                {{dump(item)}}
                             </td>
                         </tr>
                     {% endfor %}
-                {% endif %}
-                {% if data.dump is defined %}
-                    <tr>
-                        <td style="width:30%;text-align:right">
-                            <b>&nbsp;</b>
-                        </td>
-                        <td>
-                            {{ dump(data.dump) }}
-                        </td>
-                    </tr>
                 {% endif %}
 
             {% endfor %}

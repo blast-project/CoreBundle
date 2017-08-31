@@ -30,7 +30,7 @@ class AdminCollector extends DataCollector
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $this->data = [
-            DataCollection::DESTINATION_TOOLBAR => [],
+            DataCollection::DESTINATION_TOOLBAR  => [],
             DataCollection::DESTINATION_PROFILER => [],
         ];
 
@@ -45,45 +45,45 @@ class AdminCollector extends DataCollector
 
                 $this->addToProfiler($k, 'entity', [
                     'display' => DataCollection::DESTINATION_PROFILER, // 'toolbar', 'profiler', 'both'
-                    'class' => $entity,
-                    'file' => $this->getClassLink($entity),
+                    'class'   => $entity,
+                    'file'    => $this->getClassLink($entity),
                 ]);
 
                 $this->addToProfiler($k, 'admin', [
                     'display' => DataCollection::DESTINATION_PROFILER,
-                    'class' => get_class($admin),
-                    'file' => $this->getClassLink(get_class($admin)),
+                    'class'   => get_class($admin),
+                    'file'    => $this->getClassLink(get_class($admin)),
                 ]);
 
                 $this->addToProfiler($k, 'mapper', [
                     'display' => DataCollection::DESTINATION_PROFILER,
-                    'class' => get_class($data),
-                    'file' => $this->getClassLink(get_class($data)),
+                    'class'   => get_class($data),
+                    'file'    => $this->getClassLink(get_class($data)),
                 ]);
 
                 $this->addToProfiler($k, 'form tabs / groups', [
                     'display' => DataCollection::DESTINATION_PROFILER,
-                    'class' => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups()),
+                    'class'   => count($admin->getFormTabs()) . ' / ' . count($admin->getFormGroups()),
                 ]);
 
                 $this->addToProfiler($k, 'form', [
-                    'display' => DataCollection::DESTINATION_PROFILER,
-                    'dump' => [
-                        'tabs' => $admin->getFormGroups(),
-                        'groups' => $admin->getFormTabs(),
+                    'display'         => DataCollection::DESTINATION_PROFILER,
+                    'Tabs and Groups' => [
+                        'tabs'   => $admin->getFormTabs(),
+                        'groups' => $admin->getFormGroups(),
                     ],
                 ]);
 
                 $this->addToProfiler($k, 'show tabs / groups', [
                     'display' => DataCollection::DESTINATION_PROFILER,
-                    'class' => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups()),
+                    'class'   => count($admin->getShowTabs()) . ' / ' . count($admin->getShowGroups()),
                 ]);
 
                 $this->addToProfiler($k, 'show', [
-                    'display' => DataCollection::DESTINATION_PROFILER,
-                    'dump' => [
-                        'tabs' => $admin->getShowGroups(),
-                        'groups' => $admin->getShowTabs(),
+                    'display'         => DataCollection::DESTINATION_PROFILER,
+                    'Tabs and Groups' => [
+                        'tabs'   => $admin->getShowTabs(),
+                        'groups' => $admin->getShowGroups(),
                     ],
                 ]);
             } else {
