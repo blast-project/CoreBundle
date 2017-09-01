@@ -79,3 +79,31 @@ file that was distributed with this source code.
         {% include template %}
     {% endfor %}
 {% endblock sonata_wrapper %}
+
+{% block list_filters_actions %}
+
+    {%- if admin.datagrid.filters|length %}
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown sonata-actions">
+            <a href="#" class="dropdown-toggle sonata-ba-action" data-toggle="dropdown">
+                <i class="fa fa-save" aria-hidden="true"></i>
+                {{ 'link_custom_filters'|trans({}, 'SonataAdminBundle') }} <b class="caret"></b>
+            </a>
+
+            <ul class="dropdown-menu" role="menu">
+
+            </ul>
+        </li>
+    </ul>
+    {% endif -%}
+    {{ parent() }}
+{% endblock list_filters_actions %}
+
+{% block list_filters %}
+    {{ parent() }}
+    {% if admin.datagrid.filters %}
+        <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}-savefilter">
+            Save filters
+        </div>
+    {% endif %}
+{% endblock list_filters %}
