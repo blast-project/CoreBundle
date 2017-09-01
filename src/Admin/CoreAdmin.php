@@ -45,6 +45,16 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     protected $extraTemplates = [];
 
     /**
+     * {@inheritdoc}
+     */
+    public function getLabelTranslatorStrategy()
+    {
+        $this->labelTranslatorStrategy->setAdmin($this);
+
+        return $this->labelTranslatorStrategy;
+    }
+
+    /**
      * Configure routes for list actions.
      *
      * @param RouteCollection $collection

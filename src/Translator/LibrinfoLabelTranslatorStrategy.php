@@ -25,6 +25,8 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  */
 class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
+    private $admin;
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +34,26 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
     {
         $label = str_replace('.', '_', $label);
 
-        return sprintf('%s.%s.%s', 'librinfo', $type, strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
+        return sprintf('%s.%s.%s.%s', 'librinfo', $type, strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $this->getAdmin()->getClassnameLabel())), strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param mixed admin
+     *
+     * @return self
+     */
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+
+        return $this;
     }
 }
