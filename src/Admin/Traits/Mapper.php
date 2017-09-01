@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
-use Doctrine\ORM\QueryBuilder;
+use Exception;
 
 trait Mapper
 {
@@ -497,6 +497,10 @@ trait Mapper
             $this->manageChoicesCallback($mapper, $options);
         }
 
+        if (isset($options['serviceCallback'])) {
+            $this->manageServiceCallback($mapper, $options);
+        }
+
         // save-and-remove CoreBundle-specific options
         $extras = [];
         foreach ([
@@ -801,41 +805,50 @@ trait Mapper
         return $baseRoute;
     }
 
+    protected function manageCallback($mapper, &$options, $callbackType)
+    {
+        $option = $options[$callbackType];
+
+        $entityClass = isset($options['class']) ? $options['class'] : $this->getClass();
+
+        if (!is_array($option)) {
+            throw new Exception('« $callbackType » option must be an array : ["FQDN"=>"static method name"]');
+        }
+
+        list($serviceNameOrClass, $methodName, $targetOptions) = $option;
+
+        if ($this->getConfigurationPool()->getContainer()->has($serviceNameOrClass)) {
+            $callBackFunction = [$this->getConfigurationPool()->getContainer()->get($serviceNameOrClass), $methodName];
+        } else {
+            $callBackFunction = call_user_func($serviceNameOrClass . '::' . $methodName, $this->getModelManager(), $entityClass);
+        }
+
+        if ($targetOptions !== null) {
+            $options[$targetOptions] = $callBackFunction;
+            unset($options[$callbackType]);
+        }
+
+        return $callBackFunction;
+    }
+
     protected function manageQueryCallback($mapper, &$options)
     {
-        $query = $options['query'];
-        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
-
-        if (!$query instanceof QueryBuilder) {
-            if (!is_array($query)) {
-                throw new Exception('« query » option must be an array : ["FQDN"=>"static method name"]');
-            }
-
-            list($className, $methodName) = $query;
-
-            $queryFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
-
-            $options['query'] = $queryFunction;
-        }
+        $callback = $this->manageCallback($mapper, $options, 'query');
+        $options['query'] = $callback;
     }
 
     protected function manageChoicesCallback($mapper, &$options)
     {
-        $callback = $options['choicesCallback'];
-        $entityClass = $options['class'] ? $options['class'] : $this->getClass();
+        $callback = $this->manageCallback($mapper, $options, 'choicesCallback');
 
-        if (!is_array($callback)) {
-            throw new Exception('« choicesCallback » option must be an array : ["FQDN"=>"static method name"]');
-        }
-
-        list($className, $methodName) = $callback;
-
-        $choicesFunction = call_user_func($className . '::' . $methodName, $this->getModelManager(), $entityClass);
-
-        $options['choices'] = $choicesFunction;
+        $options['choices'] = $callback;
         $options['choice_loader'] = new CallbackChoiceLoader(function () use ($options) {
             return $options['choices'];
         });
-        unset($options['choicesCallback']);
+    }
+
+    public function manageServiceCallback($mapper, &$options)
+    {
+        $this->manageCallback($mapper, $options, 'serviceCallback');
     }
 }
