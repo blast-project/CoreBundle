@@ -24,86 +24,88 @@ file that was distributed with this source code.
     {% if admin.titleTemplates.list is defined and admin.titleTemplates.list %}
         {% include admin.titleTemplates.list %}
     {% else %}
-        {{ block('title') }}
-    {% endif %}
-{% endblock %}
+        {{ block('title') }}{% endif %}
+    {% endblock %}
 
-
-{% block actions %}
-{% spaceless %}
-    {{ parent() }}
-    {% for elt in admin.listActions %}
-        {% if admin.subClasses is empty %}
-            <li>
-                <a class="sonata-action-element" href="{% if elt.route is empty %}{{ admin.generateUrl(elt.action) }}{% else %}{{ path(elt.route) }}{% endif %}">
-                    <i class="fa fa-plus-circle"></i>
-                    {{ elt.label }}
-                </a>
-            </li>
-        {% else %}
-            <li class="divider" role="presentation"></li>
-            {% for subclass in admin.subclasses|keys %}
-                <li>
-                    <a href="{{ elt }}">
-                        <i class="fa fa-plus-circle"></i>
-                        {{ 'core_bundle_link_action_special'|trans({}, 'SonataAdminBundle') }} {{ subclass|trans({}, admin.translationdomain) }}
-                    </a>
-                </li>
+    {% block actions %}
+        {% spaceless %}
+            {{ parent() }}
+            {% for elt in admin.listActions %}
+                {% if admin.subClasses is empty %}
+                    <li>
+                        <a class="sonata-action-element" href="{% if elt.route is empty %}{{ admin.generateUrl(elt.action) }}{% else %}{{ path(elt.route) }}{% endif %}">
+                            <i class="fa fa-plus-circle"></i>
+                            {{ elt.label }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="divider" role="presentation"></li>
+                    {% for subclass in admin.subclasses | keys %}
+                        <li>
+                            <a href="{{ elt }}">
+                                <i class="fa fa-plus-circle"></i>
+                                {{ 'core_bundle_link_action_special'|trans({}, 'SonataAdminBundle') }}
+                                {{ subclass|trans({}, admin.translationdomain) }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    <li class="divider" role="presentation"></li>
+                {% endif %}
             {% endfor %}
-            <li class="divider" role="presentation"></li>
-        {% endif %}
-    {% endfor %}
-{% endspaceless %}
-{% endblock %}
+        {% endspaceless %}
+    {% endblock %}
 
-{% block tab_menu_navbar_header %}
-    {% spaceless %}
-    {% if admin.helperLinks('list')|length > 0 %}
-        <div class="helper-links navbar-header">
-        {% for link in admin.helperLinks('list') %}
-            <a href="{{ link.url }}" class="navbar-brand {{ link.class is defined ? link.class : '' }}" title="{{ link.title is defined ? link.title : '' }}" target="_blank">
-                {{ link.label is defined ? link.label|raw : ' ' }}
-            </a>
+    {% block tab_menu_navbar_header %}
+        {% spaceless %}
+            {% if admin.helperLinks('list') | length > 0 %}
+                <div class="helper-links navbar-header">
+                    {% for link in admin.helperLinks('list') %}
+                        <a href="{{ link.url }}" class="navbar-brand {{ link.class is defined ? link.class : '' }}" title="{{ link.title is defined ? link.title : '' }}" target="_blank">
+                            {{ link.label is defined ? link.label|raw : ' ' }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endspaceless %}
+
+        {{ parent() }}
+    {% endblock %}
+
+    {% block sonata_wrapper %}
+        {{ parent() }}
+
+        {% for template in admin.extraTemplates('list') %}
+            {% include template %}
         {% endfor %}
-        </div>
-    {% endif %}
-    {% endspaceless %}
+    {% endblock sonata_wrapper %}
 
-    {{ parent() }}
-{% endblock %}
+    {% block list_filters_actions %}
 
-{% block sonata_wrapper %}
-    {{ parent() }}
+        {%- if admin.datagrid.filters|length %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown sonata-actions">
+                    <a href="#" class="dropdown-toggle sonata-ba-action" data-toggle="dropdown">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                        {{ 'link_custom_filters'|trans({}, 'SonataAdminBundle') }}
+                        <b class="caret"></b>
+                    </a>
 
-    {% for template in admin.extraTemplates('list') %}
-        {% include template %}
-    {% endfor %}
-{% endblock sonata_wrapper %}
-
-{% block list_filters_actions %}
-
-    {%- if admin.datagrid.filters|length %}
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown sonata-actions">
-            <a href="#" class="dropdown-toggle sonata-ba-action" data-toggle="dropdown">
-                <i class="fa fa-save" aria-hidden="true"></i>
-                {{ 'link_custom_filters'|trans({}, 'SonataAdminBundle') }} <b class="caret"></b>
-            </a>
-
-            <ul class="dropdown-menu" role="menu">
-
+                    <ul class="dropdown-menu" role="menu"></ul>
+                </li>
             </ul>
-        </li>
-    </ul>
-    {% endif -%}
-    {{ parent() }}
-{% endblock list_filters_actions %}
+        {% endif -%}
+        {{ parent() }}
+    {% endblock list_filters_actions %}
 
-{% block list_filters %}
-    {{ parent() }}
-    {% if admin.datagrid.filters %}
-        <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}-savefilter">
-            Save filters
-        </div>
-    {% endif %}
-{% endblock list_filters %}
+    {% block list_filters %}
+        {{ parent() }}
+        {% if admin.datagrid.filters %}
+            <div class="col-xs-12 col-md-12 sonata-filters-box" style="display: {{ admin.datagrid.hasDisplayableFilters ? 'block' : 'none' }}" id="filter-container-{{ admin.uniqid() }}-savefilter">
+                <div class="box box-primary">
+                    <div class="box-body">
+                        {{ blast_hook('admin.custom_filters.save', { 'admin': admin }) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock list_filters %}
