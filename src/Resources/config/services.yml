@@ -42,3 +42,23 @@ services:
                 template: 'BlastCoreBundle:Profiler/AdminCollector:toolbar.html.twig'
                 id:       'blast.admin_collector'
         public: false
+
+    blast_core.dashboard.registry:
+        class: Blast\CoreBundle\Dashboard\DashboardBlockRegistry
+
+    blast_core.dashboard.main_block:
+        class: Blast\CoreBundle\Dashboard\DashboardSonataBlock
+        arguments:
+            - blast_core.dashboard.main_block
+            - "@templating"
+        calls:
+            - [ setRegistry, ["@blast_core.dashboard.registry"]]
+        tags:
+            - { name: sonata.block }
+
+    blast_core.dashboard.block:
+        abstract: true
+        class: Blast\CoreBundle\Dashboard\AbstractDashboardBlock
+        calls:
+            - [ setTemplating, ["@templating"]]
+            - [ setContainer, ["@service_container"]]
