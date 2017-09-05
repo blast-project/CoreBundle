@@ -16,6 +16,7 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/edit.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/list.css') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/main.css') }}" />
+    {{ blast_hook('layout.stylesheets') }}
 {% endblock %}
 
 {% block sonata_wrapper %}
@@ -89,9 +90,11 @@ file that was distributed with this source code.
         {% endif %}
     {% endif %}
   {# end fix #}
-    
+
     <script src="{{ asset('bundles/blastcore/js/flashes.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/globalSearch.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/tabNavigation.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/deleteCheckboxCollection.js') }}"></script>
+
+    {{ blast_hook('layout.javascripts') }}
 {% endblock javascripts %}
