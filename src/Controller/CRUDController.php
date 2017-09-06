@@ -72,8 +72,8 @@ class CRUDController extends SonataController
                 'SonataAdminBundle:CRUD:select_subclass.html.twig',
                 array(
                     'base_template' => $this->getBaseTemplate(),
-                    'admin' => $this->admin,
-                    'action' => 'create',
+                    'admin'         => $this->admin,
+                    'action'        => 'create',
                 ),
                 null,
                 $request
@@ -110,7 +110,7 @@ class CRUDController extends SonataController
 
                     if ($this->isXmlHttpRequest()) {
                         return $this->renderJson(array(
-                            'result' => 'ok',
+                            'result'   => 'ok',
                             'objectId' => $this->admin->getNormalizedIdentifier($object),
                         ), 200, array());
                     }
@@ -159,7 +159,7 @@ class CRUDController extends SonataController
 
         return $this->render($this->admin->getTemplate($templateKey), array(
             'action' => 'create',
-            'form' => $view,
+            'form'   => $view,
             'object' => $object,
         ), null);
     }

@@ -29,6 +29,13 @@ services:
         tags:
             - { name: twig.extension }
 
+    blast_core.extension.global_search:
+        class: Blast\CoreBundle\Twig\GlobalSearchExtension
+        public: false
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }
+
     ############ PROFILER ##########
     blast_core.profiler.collector:
         class: Blast\CoreBundle\Profiler\Collector

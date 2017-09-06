@@ -40,7 +40,7 @@ abstract class AbstractDashboardBlock implements ContainerAwareInterface
 
     /**
      * handleParameters should handle $templateParameters. It will be called when
-     * the block template will be rendered. Plkease override this method to set
+     * the block template will be rendered. Please override this method to set
      * the view parameters of your block.
      */
     public function handleParameters()
