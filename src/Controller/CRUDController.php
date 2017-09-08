@@ -155,8 +155,8 @@ class CRUDController extends SonataController
         $view = $form->createView();
 
         // set the theme for the current Admin Form
-        $this->get('twig')->getExtension('form')->renderer->setTheme($view, $this->admin->getFormTheme());
-
+        $this->defineFormTheme($view, $this->admin->getFormTheme());
+        
         return $this->render($this->admin->getTemplate($templateKey), array(
             'action' => 'create',
             'form'   => $view,
@@ -289,5 +289,18 @@ class CRUDController extends SonataController
      */
     protected function preDuplicate($object)
     {
+    }
+
+    /* @todo : not clean, should it be here or in media-bundle */
+    protected function defineFormTheme($formView, $formTheme)
+    {
+        $twig = $this->get('twig');
+        $renderer = null;
+        if ($twig->hasExtension('Symfony\Bridge\Twig\Form\TwigRenderer')) {
+            $renderer = $twig->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer');
+        } else {
+            $renderer = $twig->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderer;
+        }
+        $renderer->setTheme($formView, $formTheme);
     }
 }
