@@ -39,8 +39,8 @@ class PatcherListCommand extends ContainerAwareCommand
             $this->comment($patch['id']);
             $this->info('enabled: ', false);
             $this->comment($patch['enabled'] ? 'true' : 'false');
-            $this->info('patched: ', false);
-            $this->comment($patch['patched'] ? 'true' : 'false');
+            // $this->info('patched: ', false);
+            // $this->comment($patch['patched'] ? 'true' : 'false');
             $this->info('targetFile: ', false);
             $this->comment($patch['targetFile']);
             $this->info('patchFile: ', false);

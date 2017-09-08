@@ -1,0 +1,10 @@
+--- /var/www/html/lisem/vendor/blast-project/core-bundle/src/Tools/Patches/patches/original/product_review.yml	2017-09-08 13:09:36.547837149 +0200
++++ /var/www/html/lisem/vendor/blast-project/core-bundle/src/Tools/Patches/patches/patched/product_review.yml	2017-09-08 13:09:48.220029896 +0200
+@@ -11,6 +11,6 @@
+             repository:
+                 method: findLatestByProductId
+                 arguments:
+-                    - !!int $productId
++                    - $productId
+                     - !!int $count
+         count: 3

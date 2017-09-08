@@ -18,7 +18,7 @@ trait PatcherLogger
 
     public function info($message, $ln = true)
     {
-        $this->addMessage('info', $message, $ln);
+        $this->addMessage('info', '[INFO] ' . $message, $ln);
     }
 
     public function comment($message, $ln = true)
@@ -34,7 +34,7 @@ trait PatcherLogger
     public function addMessage($severity, $message, $ln = true)
     {
         $this->messages[] = [
-            'ln' => $ln,
+            'ln'      => $ln,
             'message' => '<' . $severity . '>' . $message . '</' . $severity . '>',
         ];
     }
