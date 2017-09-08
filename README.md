@@ -164,19 +164,19 @@ Usages
 Configuring your SonataAdminBundle interfaces with YAML properties
 ------------------------------------------------------------------
 
-[Discover the configuration of the ```CoreBundle```](src/Resources/doc/README-Usages.md).
+[Discover the configuration of the ```CoreBundle```](src/Resources/doc/readme/README-Usages.md).
 
 Going further...
 ----------------
 
 #### Read more about the CoreBundle, and how to improve the SonataAdminBundle
 
-[Improving the SonataAdminBundle in a generic way](src/Resources/doc/README-SonataAdmin-Traits.md)
+[Improving the SonataAdminBundle in a generic way](src/Resources/doc/readme/README-SonataAdmin-Traits.md)
 
 
 #### Configuring a standalone bundle
 
-[Discover the configuration of a standalone bundle](src/Resources/doc/README-StandaloneBundle.md).
+[Discover the configuration of a standalone bundle](src/Resources/doc/readme/README-StandaloneBundle.md).
 
 #### Going further using the CoreAdmin
 
@@ -184,7 +184,7 @@ Instead of the ```Blast\CoreBundle\Admin\Traits\Base``` trait, you might be inte
 * ```Blast\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
 * ```Blast\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
-[Creating new field types](src/Resources/doc/README-CreatingFieldTypes.md).
+[Creating new field types](src/Resources/doc/readme/README-CreatingFieldTypes.md).
 
 #### Using Sonata Project extensions
 
@@ -199,11 +199,11 @@ Please refer yourself to the proper documentation from the Sonata Project...
 
 #### Managing entities dashboard groups
 
-[Discover the configuration of the dashboard](src/Resources/doc/README-Dashboard.md).
+[Discover the configuration of the dashboard](src/Resources/doc/readme/README-Dashboard.md).
 
 #### Using Blast Core command tools for patches
 
-[Discover how to implement patches](src/Resources/doc/README-Patches-HowTo.md)
+[Discover how to implement patches](src/Resources/doc/readme/README-Patches-HowTo.md)
 
 
 
