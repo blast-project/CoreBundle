@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    $(document).on('click', '.confirmable', function(e) {
+    $(document).on('mousedown', '.confirmable', function(e) {
+        var button = $(e.target);
+
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-
-        var button = $(this);
 
         var title = typeof button.attr('data-confirm-text') == !'undefined' ? button.attr('data-confirm-text') : "Confirmez-vous l'action ?";
 
@@ -32,6 +32,9 @@ $(document).ready(function() {
                         case 'callAction':
                             var functionName = button.attr('data-confirm-function');
                             functionName(button);
+                            break;
+                        case 'triggerClick':
+                            button[0].click();
                             break;
                     }
                 }
