@@ -50,9 +50,9 @@ class BlastGenerator extends Generator
         $parts = explode('\\', $modelClass);
 
         $this->renderFile('Blast.yml.twig', $this->file, array(
-            'fqcn' => $modelClass,
-            'fields' => $this->modelManager->getExportFields($modelClass),
-            'entity' => array_pop($parts),
+            'fqcn'    => $modelClass,
+            'fields'  => $this->modelManager->getExportFields($modelClass),
+            'entity'  => array_pop($parts),
             'oldCode' => $code,
         ));
     }

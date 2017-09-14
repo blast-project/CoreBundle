@@ -67,9 +67,9 @@ trait Base
 
         if ($this->isGranted('DELETE')) {
             $actions['delete'] = array(
-               'label' => 'action_delete',
+               'label'              => 'action_delete',
                'translation_domain' => 'SonataAdminBundle',
-               'ask_confirmation' => true,
+               'ask_confirmation'   => true,
            );
         }
 

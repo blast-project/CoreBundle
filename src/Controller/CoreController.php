@@ -52,16 +52,16 @@ class CoreController extends BaseCoreController
                 foreach ($pager->getResults() as $result) {
                     $results[] = array(
                         'label' => $admin->toString($result),
-                        'link' => $admin->generateObjectUrl('show', $result),  // Sonata uses "edit", we prefer "show"
-                        'id' => $admin->id($result),
+                        'link'  => $admin->generateObjectUrl('show', $result),  // Sonata uses "edit", we prefer "show"
+                        'id'    => $admin->id($result),
                     );
                 }
             }
 
             $response = new JsonResponse(array(
                 'results' => $results,
-                'page' => $pager ? (int) $pager->getPage() : false,
-                'total' => $pager ? (int) $pager->getNbResults() : false,
+                'page'    => $pager ? (int) $pager->getPage() : false,
+                'total'   => $pager ? (int) $pager->getNbResults() : false,
             ));
             $response->setPrivate();
 
@@ -69,11 +69,11 @@ class CoreController extends BaseCoreController
         }
 
         return $this->render($this->container->get('sonata.admin.pool')->getTemplate('search'), array(
-            'base_template' => $this->getBaseTemplate(),
+            'base_template'       => $this->getBaseTemplate(),
             'breadcrumbs_builder' => $this->get('sonata.admin.breadcrumbs_builder'),
-            'admin_pool' => $this->container->get('sonata.admin.pool'),
-            'query' => $request->get('q'),
-            'groups' => $this->getAdminPool()->getDashboardGroups(),
+            'admin_pool'          => $this->container->get('sonata.admin.pool'),
+            'query'               => $request->get('q'),
+            'groups'              => $this->getAdminPool()->getDashboardGroups(),
         ));
     }
 }

@@ -132,11 +132,11 @@ class PatcherGenerateCommand extends ContainerAwareCommand
         $conf = [
             'patches' => [
                 [
-                    'id' => $this->now->getTimestamp(),
-                    'enabled' => true,
-                    'patched' => false,
+                    'id'         => $this->now->getTimestamp(),
+                    'enabled'    => true,
+                    'patched'    => false,
                     'targetFile' => $targetPath,
-                    'patchFile' => str_replace($this->config['paths']['rootDir'] . '/', '', $patchFile),
+                    'patchFile'  => str_replace($this->config['paths']['rootDir'] . '/', '', $patchFile),
                 ],
             ],
         ];

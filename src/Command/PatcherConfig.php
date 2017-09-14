@@ -32,8 +32,8 @@ trait PatcherConfig
 
         $this->config['paths'] = [
             'patchFilesDir' => __DIR__ . '/../Tools/Patches/patches',
-            'rootDir' => str_replace('/app/..', '', $this->getContainer()->getParameter('kernel.root_dir') . '/..'),
-            'configFile' => $configPath,
+            'rootDir'       => str_replace('/app/..', '', $this->getContainer()->getParameter('kernel.root_dir') . '/..'),
+            'configFile'    => $configPath,
         ];
     }
 }
