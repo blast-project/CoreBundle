@@ -26,6 +26,6 @@ class Patcher extends ScriptHandler
             return;
         }
 
-        static::executeCommand($event, $consoleDir, 'librinfo:patchs:apply', $options['process-timeout']);
+        static::executeCommand($event, $consoleDir, 'librinfo:patchs:apply --force', $options['process-timeout']);
     }
 }

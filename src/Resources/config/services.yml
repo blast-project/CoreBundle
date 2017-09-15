@@ -29,6 +29,14 @@ services:
         tags:
             - { name: twig.extension }
 
+    blast_core.extension.global_search:
+        class: Blast\CoreBundle\Twig\GlobalSearchExtension
+        public: false
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }
+
+    ############ PROFILER ##########
     blast_core.profiler.collector:
         class: Blast\CoreBundle\Profiler\Collector
 
@@ -43,6 +51,7 @@ services:
                 id:       'blast.admin_collector'
         public: false
 
+    ############ DASHBOARD ##########
     blast_core.dashboard.registry:
         class: Blast\CoreBundle\Dashboard\DashboardBlockRegistry
 
@@ -62,3 +71,11 @@ services:
         calls:
             - [ setTemplating, ["@templating"]]
             - [ setContainer, ["@service_container"]]
+
+    ############ HOOK ##########
+    blast_core.twig.fake_hook:
+        class: Blast\CoreBundle\Twig\FakeHook
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: twig.extension }

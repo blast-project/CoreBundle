@@ -13,9 +13,10 @@ file that was distributed with this source code.
 {% extends 'SonataAdminBundle::standard_layout.html.twig' %}
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/edit.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/list.css') }}" />
-    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/main.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/edit.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/list.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/blastcore/css/main.css') }}"/>
+    {{ blast_hook('layout.stylesheets') }}
 {% endblock %}
 
 {% block sonata_wrapper %}
@@ -29,7 +30,7 @@ file that was distributed with this source code.
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <p class="flash-content"></p>
     </div>
-    <div id="flash-warning"class="js-flash alert alert-warning alert-dismissable" style="display:none;">
+    <div id="flash-warning" class="js-flash alert alert-warning alert-dismissable" style="display:none;">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <p class="flash-content"></p>
     </div>
@@ -54,15 +55,14 @@ file that was distributed with this source code.
     </form>
 {% endblock sonata_sidebar_search %}
 
-
 {% block javascripts %}
-  {# Temporary fix for fr_FR locale scripts #}
+    {# Temporary fix for fr_FR locale scripts #}
     {% block sonata_javascript_config %}
         {{ parent() }}
     {% endblock %}
 
     {% block sonata_javascript_pool %}
-         {{ parent() }}
+        {{ parent() }}
     {% endblock %}
 
     {% set locale = app.request.locale %}
@@ -74,7 +74,7 @@ file that was distributed with this source code.
     <script src="{{ url('bazinga_jstranslation_js', { 'domain': 'messages' }) }}?locales={{locale[:2]}}"></script>
 
     {# localize moment #}
-    {% if locale[:2] != 'en' %}
+    {% if locale[: 2] != 'en' %}
         {% if locale == 'fr_FR' %}{% set locale = 'fr' %}{% endif %}
         <script src="{{ asset('bundles/sonatacore/vendor/moment/locale/' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
     {% endif %}
@@ -84,14 +84,17 @@ file that was distributed with this source code.
         {% if locale == 'pt' %}{% set locale = 'pt_PT' %}{% endif %}
 
         {# omit default EN locale #}
-        {% if locale[:2] != 'en' %}
+        {% if locale[: 2] != 'en' %}
             <script src="{{ asset('bundles/sonatacore/vendor/select2/select2_locale_' ~ locale|replace({'_':'-'}) ~ '.js') }}"></script>
         {% endif %}
     {% endif %}
-  {# end fix #}
-    
+    {# end fix #}
+    <script src="{{ asset('bundles/blastcore/js/_bootbox.min.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/flashes.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/globalSearch.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/tabNavigation.js') }}"></script>
     <script src="{{ asset('bundles/blastcore/js/deleteCheckboxCollection.js') }}"></script>
+    <script src="{{ asset('bundles/blastcore/js/confirm.js') }}"></script>
+
+    {{ blast_hook('layout.javascripts') }}
 {% endblock javascripts %}

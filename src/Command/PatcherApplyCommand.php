@@ -13,29 +13,31 @@
 namespace Blast\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class PatcherApplyCommand extends ContainerAwareCommand
 {
-    // EXAMPLE COMMANDS
+    use PatcherConfig,
+        PatcherLogger;
+
+    private $dryRun = true;
 
     /**
      * Command applies patch file [targetFilePath, patchPath].
      *
      * @var string
      */
-    private $command = 'patch -f %1$s < %2$s';
-
-    use PatcherConfig,
-        PatcherLogger;
+    private $command = 'patch --no-backup-if-mismatch %3$s -f %1$s < %2$s > /dev/null';
 
     protected function configure()
     {
         $this
             ->setName('librinfo:patchs:apply')
-            ->setDescription('Apply Patches from Librinfo on misc vendors');
+            ->setDescription('Apply Patches from Librinfo on misc vendors')
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force patch apply');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,7 +45,7 @@ class PatcherApplyCommand extends ContainerAwareCommand
         $this->loadConfig();
 
         foreach ($this->config['patches'] as $patch) {
-            if ($patch['enabled'] === true && $patch['patched'] == false) {
+            if ($patch['enabled'] === true && ($patch['patched'] == false || $input->getOption('force') === true)) {
                 $this->applyPatch($patch['targetFile'], $patch['patchFile'], $patch['id']);
             }
         }
@@ -67,17 +69,22 @@ class PatcherApplyCommand extends ContainerAwareCommand
             return;
         }
 
-        $command = sprintf(
-            $this->command,
-            $targetFile,
-            $patchFile
-        );
+        $command = $this->getCommand($targetFile, $patchFile);
         $out = null;
         system($command, $out);
 
-        if ($out != 0) {
-            $this->error('The patch ' . $patchFile . ' has not been applyed on file ' . $targetFile);
-        } else {
+        if ($out == 0) {
+            $this->dryRun = false;
+            $command = $this->getCommand($targetFile, $patchFile);
+            system($command, $out);
+            $this->dryRun = true;
+
+            if ($out != 0) {
+                $this->error('The patch ' . $patchFile . ' cannot be applyed on file ' . $targetFile);
+
+                return;
+            }
+
             foreach ($this->config['patches'] as $key => $patch) {
                 if ($patch['id'] == $patchId) {
                     $this->config['patches'][$key]['patched'] = true;
@@ -90,6 +97,18 @@ class PatcherApplyCommand extends ContainerAwareCommand
                     ['patches' => $this->config['patches']]
                 )
             );
+        } else {
+            $this->comment('The patch ' . $patchFile . ' cannot be applyed on file ' . $targetFile);
         }
+    }
+
+    private function getCommand($targetFile, $patchFile)
+    {
+        return sprintf(
+            $this->command,
+            $targetFile,
+            $patchFile,
+            $this->dryRun ? '--dry-run' : ''
+        );
     }
 }

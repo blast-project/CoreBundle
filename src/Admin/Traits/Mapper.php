@@ -815,7 +815,9 @@ trait Mapper
             throw new Exception('« $callbackType » option must be an array : ["FQDN"=>"static method name"]');
         }
 
-        list($serviceNameOrClass, $methodName, $targetOptions) = $option;
+        list($serviceNameOrClass, $methodName) = $option;
+
+        $targetOptions = (isset($option[2]) ? $option[2] : null);
 
         if ($this->getConfigurationPool()->getContainer()->has($serviceNameOrClass)) {
             $callBackFunction = [$this->getConfigurationPool()->getContainer()->get($serviceNameOrClass), $methodName];
@@ -845,6 +847,7 @@ trait Mapper
         $options['choice_loader'] = new CallbackChoiceLoader(function () use ($options) {
             return $options['choices'];
         });
+        unset($options['choicesCallback']);
     }
 
     public function manageServiceCallback($mapper, &$options)

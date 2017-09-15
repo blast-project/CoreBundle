@@ -74,10 +74,10 @@ class AdminGenerator extends BaseAdminGenerator
         });
 
         $this->renderFile('Admin.php.twig', $this->file, array(
-            'route_name' => implode('_', array_map('strtolower', $routes)),
+            'route_name'    => implode('_', array_map('strtolower', $routes)),
             'classBasename' => array_pop($parts),
-            'namespace' => implode('\\', $parts),
-            'fields' => $this->modelManager->getExportFields($modelClass),
+            'namespace'     => implode('\\', $parts),
+            'fields'        => $this->modelManager->getExportFields($modelClass),
         ));
     }
 
