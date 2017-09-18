@@ -41,14 +41,14 @@ class AdminCollector extends DataCollector
         foreach ($collectedData as $k => $dataCollection) {
             $data = $dataCollection->getData();
 
-            if (preg_replace('/\#[0-9]*\W/','',$k) === 'Classes managed by mapper') {
+            if (preg_replace('/\#[0-9]*\W/', '', $k) === 'Classes managed by mapper') {
                 $this->addToProfiler($k, 'Number of classes managed', [
                     'display'         => DataCollection::DESTINATION_TOOLBAR, // 'toolbar', 'profiler', 'both'
                     'class'           => count($data),
                 ]);
             }
 
-            if (preg_replace('/\#[0-9]*\W/','',$k) === 'Hook') {
+            if (preg_replace('/\#[0-9]*\W/', '', $k) === 'Hook') {
                 $hooks++;
             }
 
