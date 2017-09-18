@@ -217,8 +217,8 @@ trait Mapper
 
         // Debug profiler
         $this->getConfigurationPool()->getContainer()->get('blast_core.profiler.collector')
-            ->collect('Mapper', $mapper)
-            ->collect('Classes', $classes);
+            ->collectOnce('Mapper', $mapper)
+            ->collectOnce('Classes managed by mapper', $classes);
 
         return $this;
     }

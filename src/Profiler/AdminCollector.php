@@ -36,15 +36,28 @@ class AdminCollector extends DataCollector
 
         $collectedData = $this->collector->getData();
 
+        $hooks = 0;
+
         foreach ($collectedData as $k => $dataCollection) {
             $data = $dataCollection->getData();
+
+            if (preg_replace('/\#[0-9]*\W/','',$k) === 'Classes managed by mapper') {
+                $this->addToProfiler($k, 'Number of classes managed', [
+                    'display'         => DataCollection::DESTINATION_TOOLBAR, // 'toolbar', 'profiler', 'both'
+                    'class'           => count($data),
+                ]);
+            }
+
+            if (preg_replace('/\#[0-9]*\W/','',$k) === 'Hook') {
+                $hooks++;
+            }
 
             if ($data instanceof BaseGroupedMapper || $data instanceof BaseMapper) {
                 $entity = $data->getAdmin()->getClass();
                 $admin = $data->getAdmin();
 
                 $this->addToProfiler($k, 'entity', [
-                    'display' => DataCollection::DESTINATION_PROFILER, // 'toolbar', 'profiler', 'both'
+                    'display' => DataCollection::DESTINATION_PROFILER,
                     'class'   => $entity,
                     'file'    => $this->getClassLink($entity),
                 ]);
@@ -55,11 +68,13 @@ class AdminCollector extends DataCollector
                     'file'    => $this->getClassLink(get_class($admin)),
                 ]);
 
-                $this->addToProfiler($k, 'mapper', [
-                    'display' => DataCollection::DESTINATION_PROFILER,
-                    'class'   => get_class($data),
-                    'file'    => $this->getClassLink(get_class($data)),
-                ]);
+                // Not really usefull because other type of mapper have not been tested
+                //
+                // $this->addToProfiler($k, 'mapper', [
+                //     'display' => DataCollection::DESTINATION_PROFILER,
+                //     'class'   => get_class($data),
+                //     'file'    => $this->getClassLink(get_class($data)),
+                // ]);
 
                 $this->addToProfiler($k, 'form tabs / groups', [
                     'display' => DataCollection::DESTINATION_PROFILER,
@@ -90,6 +105,11 @@ class AdminCollector extends DataCollector
                 $this->addToProfiler($k, $dataCollection->getName(), $dataCollection);
             }
         }
+
+        $this->addToProfiler('Hook registered', 'Hook registered', [
+            'display'         => DataCollection::DESTINATION_TOOLBAR, // 'toolbar', 'profiler', 'both'
+            'class'           => $hooks,
+        ]);
     }
 
     public function getData($name = null)
