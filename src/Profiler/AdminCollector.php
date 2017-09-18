@@ -36,13 +36,13 @@ class AdminCollector extends DataCollector
 
         $collectedData = $this->collector->getData();
 
-        $hooks = 0;
+        $hooks = 1;
 
         foreach ($collectedData as $k => $dataCollection) {
             $data = $dataCollection->getData();
 
-            if (preg_replace('/\#[0-9]*\W/', '', $k) === 'Classes managed by mapper') {
-                $this->addToProfiler($k, 'Number of classes managed', [
+            if (preg_replace('/\#[0-9]*\W/', '', $k) === 'Managed classes') {
+                $this->addToProfiler($k, 'Managed classes', [
                     'display'         => DataCollection::DESTINATION_TOOLBAR, // 'toolbar', 'profiler', 'both'
                     'class'           => count($data),
                 ]);
@@ -106,7 +106,7 @@ class AdminCollector extends DataCollector
             }
         }
 
-        $this->addToProfiler('Hook registered', 'Hook registered', [
+        $this->addToProfiler('Hook registered', 'Hooks', [
             'display'         => DataCollection::DESTINATION_TOOLBAR, // 'toolbar', 'profiler', 'both'
             'class'           => $hooks,
         ]);
