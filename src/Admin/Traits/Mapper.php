@@ -485,6 +485,12 @@ trait Mapper
             unset($options['type']);
         }
 
+        if (isset($options['constraints'])) {
+            foreach ($options['constraints'] as $k => $constraint) {
+                $options['constraints'][$k] = new $constraint();
+            }
+        }
+
         if (isset($options['required']) && $options['required'] === true) {
             $options['constraints'] = [new NotBlank()];
         }
