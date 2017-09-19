@@ -6,7 +6,7 @@ $(document).ready(function() {
         e.stopPropagation();
         e.stopImmediatePropagation();
 
-        var title = typeof button.attr('data-confirm-text') == !'undefined' ? button.attr('data-confirm-text') : "Confirmez-vous l'action ?";
+        var title = typeof button.attr('data-confirm-title') !== 'undefined' ? button.attr('data-confirm-title') : "Confirmez-vous l'action ?";
 
         bootbox.confirm({
             message: title,
