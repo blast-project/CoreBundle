@@ -79,6 +79,6 @@ class Collector
     {
         $keyStrucure = '#%d %s';
 
-        return sprintf($keyStrucure, count($this->data), $name);
+        return sprintf($keyStrucure, count($this->data)+1, $name);
     }
 }

@@ -36,7 +36,7 @@ class AdminCollector extends DataCollector
 
         $collectedData = $this->collector->getData();
 
-        $hooks = 1;
+        $hooks = 0;
 
         foreach ($collectedData as $k => $dataCollection) {
             $data = $dataCollection->getData();
@@ -48,7 +48,7 @@ class AdminCollector extends DataCollector
                 ]);
             }
 
-            if (preg_replace('/\#[0-9]*\W/', '', $k) === 'Hook') {
+            if (preg_replace('/^\#[0-9]*\W/', '', $k) === 'Hook') {
                 $hooks++;
             }
 
