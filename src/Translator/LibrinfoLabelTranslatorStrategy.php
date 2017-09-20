@@ -25,13 +25,23 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  */
 class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
+
+    protected $namePrefix;
+    
+    public function __construct($prefix = 'Blast\CoreBundle')
+    {
+        $this->namePrefix =  strtolower(str_replace('\\', '.', $prefix));
+    }
+    
     /**
      * {@inheritdoc}
      */
-    public function getLabel($label, $context = '', $type = '')
+    public function getLabel($label, $context = '', $type = ''): string
     {
         $label = str_replace('.', '_', $label);
 
-        return sprintf('%s.%s.%s', 'librinfo', $type, strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
+        $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
+
+        return $this->namePrefix . '.' . $label;
     }
 }
