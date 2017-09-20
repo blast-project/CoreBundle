@@ -25,14 +25,13 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  */
 class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
-
     protected $namePrefix;
-    
+
     public function __construct($prefix = 'Blast\CoreBundle')
     {
-        $this->namePrefix =  strtolower(str_replace('\\', '.', $prefix));
+        $this->namePrefix = strtolower(str_replace('\\', '.', $prefix));
     }
-    
+
     /**
      * {@inheritdoc}
      */
