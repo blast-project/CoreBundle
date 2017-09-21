@@ -29,9 +29,18 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
 
     public function __construct($prefix = 'Blast\CoreBundle')
     {
-        $this->namePrefix = strtolower(str_replace('\\', '.', $prefix));
+        $this->setPrefix($prefix);
     }
 
+    public function setPrefix($prefix, $append = false) : void
+    {
+        $prefix = strtolower(str_replace('\\', '.', $prefix));
+        $this->namePrefix = ($append) ? $this->namePrefix . '.' . $prefix : $prefix;
+
+        /* user love \ */
+        $this->namePrefix = str_replace('..', '.', $this->namePrefix);
+    }
+    
     /**
      * {@inheritdoc}
      */
