@@ -49,12 +49,19 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     public function configure()
     {
         parent::configure();
-
+        
         /* Default Translation Strategy if not set as admin service tags */
         /* @todo : find if it is a good idea or not */
         if (!($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy)) {
             $this->setLabelTranslatorStrategy(new LibrinfoLabelTranslatorStrategy());
         }
+        /* Should always be */
+        if ($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy) {
+            $this->getLabelTranslatorStrategy()->setPrefix($this->getClassnameLabel(), true);
+        }
+
+        /* @todo: apply TranslatorStrategy to form_tab and form_group and show_tab and
+           ... warning it may impact code as it used in some postConfigureFormFields */
     }
     
     /**
