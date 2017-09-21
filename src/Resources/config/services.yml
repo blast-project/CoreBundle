@@ -77,5 +77,6 @@ services:
         class: Blast\CoreBundle\Twig\FakeHook
         arguments:
             - '@service_container'
+            - '%kernel.environment%'
         tags:
             - { name: twig.extension }

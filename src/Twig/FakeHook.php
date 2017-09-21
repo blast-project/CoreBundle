@@ -16,11 +16,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FakeHook extends \Twig_Extension
 {
+    /**
+     * @var bool
+     */
     private $hookAlreadyRegistred = null;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * @var string
+     */
+    private $env;
+
+    public function __construct(ContainerInterface $container, string $env)
     {
         $this->hookAlreadyRegistred = $container->get('twig')->hasExtension('blast_hook');
+        $this->env = $env;
     }
 
     public function getFunctions()
@@ -35,6 +44,6 @@ class FakeHook extends \Twig_Extension
 
     public function displayFakeHook()
     {
-        return '<!-- Blast hook -->';
+        return $this->env !== 'prod' ? '<!-- Blast hook -->' : '';
     }
 }
