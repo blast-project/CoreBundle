@@ -29,6 +29,7 @@ use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
 use Blast\CoreBundle\Admin\Traits\Actions;
 use Blast\CoreBundle\Admin\Traits\ListActions;
 use Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
+use Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
@@ -44,6 +45,18 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
     protected $extraTemplates = [];
 
+        
+    public function configure()
+    {
+        parent::configure();
+
+        /* Default Translation Strategy if not set as admin service tags */
+        /* @todo : find if it is a good idea or not */
+        if (!($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy)) {
+            $this->setLabelTranslatorStrategy(new LibrinfoLabelTranslatorStrategy());
+        }
+    }
+    
     /**
      * Configure routes for list actions.
      *
