@@ -56,7 +56,7 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
         }
         /* Should always be */
         if ($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy) {
-            $this->getLabelTranslatorStrategy()->setFix($this->getClassnameLabel(), true);
+            $this->getLabelTranslatorStrategy()->setFix($this->getClassnameLabel());
         }
 
         /* @todo: apply TranslatorStrategy to form_tab and form_group and show_tab and

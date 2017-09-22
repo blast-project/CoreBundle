@@ -27,6 +27,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
 {
     protected $namePrefix; /* may be the bundle name */
     protected $nameFix; /* may be the admin name */
+    protected $nameFixSave; /* may be the admin name */
 
     public function __construct($prefix = 'Blast\CoreBundle', $fix = 'CoreAdmin')
     {
@@ -41,16 +42,16 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         return $this;
     }
 
-    public function setFix($fix, $doClone = false): LibrinfoLabelTranslatorStrategy
+    public function setFix($fix, $isTmp = false): LibrinfoLabelTranslatorStrategy
     {
-        $res = $this;
-        if ($doClone) {
-            $res = clone $this;
+        if ($isTmp) {
+            $this->nameFixSave = $this->nameFix;
         }
-        /* Warning last set is current ... */
-        $res->nameFix = $res->cleanStr($fix);
 
-        return $res;
+        /* Warning last set is current ... */
+        $this->nameFix = $this->cleanStr($fix);
+
+        return $this;
     }
 
     public function cleanStr($str): string
@@ -62,6 +63,14 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         return $str;
     }
 
+    public function doResetFix()
+    {
+        if (isset($this->nameFixSave)) {
+            $this->nameFix = $this->nameFixSave;
+            $this->nameFixSave = null;
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -71,6 +80,10 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $label = $this->cleanStr($label); /* if there is still some \ */
         $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
 
-        return $this->namePrefix . '.' . $this->nameFix . '.' . $label;
+        $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $label;
+
+        $this->doResetFix(); /* for $isTmp to true see setFix */
+
+        return $resLabel;
     }
 }
