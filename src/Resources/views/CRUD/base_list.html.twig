@@ -16,7 +16,8 @@ file that was distributed with this source code.
     {% if admin.titles.list is defined %}
         {{ admin.titles.list|trans() }}
     {% else %}
-        {{ 'librinfo.link.%s_list' |format(admin.classnameLabel|lower) |trans() }}
+        {# Ugly Hack with \ #}
+        {{ admin.getLabelTranslatorStrategy().getLabel('link\\%s_list') |format(admin.classnameLabel|lower) |trans() }}
     {% endif %}
 {% endblock %}
 
