@@ -60,7 +60,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
     public function getLabel($label, $context = '', $type = ''): string
     {
         $label = str_replace('.', '_', $label);
-
+        $label = $this->cleanStr($label); /* if there is still some \ */
         $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
 
         return $this->namePrefix . '.' . $label;
