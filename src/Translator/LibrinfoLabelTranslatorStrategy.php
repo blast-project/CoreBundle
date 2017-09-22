@@ -25,35 +25,35 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  */
 class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
-
     protected $namePrefix; /* may be the bundle name */
     protected $nameFix; /* may be the admin name */
-    
+
     public function __construct($prefix = 'Blast\CoreBundle', $fix = 'CoreAdmin')
     {
         $this->setPrefix($prefix);
         $this->setFix($fix);
     }
-    
+
     public function setPrefix($prefix): void
     {
         $this->namePrefix = $this->cleanStr($prefix);
     }
-    
+
     public function setFix($fix): void
     {
         /* Warning last set is current ... */
         $this->nameFix = $this->cleanStr($fix);
     }
-    
-    public function cleanStr($str) : string
+
+    public function cleanStr($str): string
     {
         $str = strtolower(str_replace('\\', '.', $str));
         /* user love \ */
         $str = str_replace('..', '.', $str);
+
         return $str;
     }
-    
+
     /**
      * {@inheritdoc}
      */

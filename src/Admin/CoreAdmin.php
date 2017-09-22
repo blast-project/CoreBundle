@@ -45,11 +45,10 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
     protected $extraTemplates = [];
 
-        
     public function configure()
     {
         parent::configure();
-        
+
         /* Default Translation Strategy if not set as admin service tags */
         /* @todo : find if it is a good idea or not */
         if (!($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy)) {
@@ -63,7 +62,7 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
         /* @todo: apply TranslatorStrategy to form_tab and form_group and show_tab and
            ... warning it may impact code as it used in some postConfigureFormFields */
     }
-    
+
     /**
      * Configure routes for list actions.
      *
