@@ -37,14 +37,20 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
     public function setPrefix($prefix): LibrinfoLabelTranslatorStrategy
     {
         $this->namePrefix = $this->cleanStr($prefix);
+
         return $this;
     }
 
-    public function setFix($fix): LibrinfoLabelTranslatorStrategy
+    public function setFix($fix, $doClone = false): LibrinfoLabelTranslatorStrategy
     {
+        $res = $this;
+        if ($doClone) {
+            $res = clone $this;
+        }
         /* Warning last set is current ... */
-        $this->nameFix = $this->cleanStr($fix);
-        return $this;
+        $res->nameFix = $res->cleanStr($fix);
+
+        return $res;
     }
 
     public function cleanStr($str): string
@@ -65,6 +71,6 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $label = $this->cleanStr($label); /* if there is still some \ */
         $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
 
-        return $this->namePrefix . '.' .$this->nameFix . '.' . $label;
+        return $this->namePrefix . '.' . $this->nameFix . '.' . $label;
     }
 }
