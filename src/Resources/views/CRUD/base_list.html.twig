@@ -17,7 +17,7 @@ file that was distributed with this source code.
         {{ admin.titles.list|trans() }}
     {% else %}
         {# Ugly Hack with \ #}
-        {{ admin.getLabelTranslatorStrategy().getLabel('link\\%s_list') |format(admin.classnameLabel|lower) |trans() }}
+        {{ admin.getLabelTranslatorStrategy().setFix('link').getLabel('%s_list') |format(admin.classnameLabel|lower) |trans() }}
     {% endif %}
 {% endblock %}
 
