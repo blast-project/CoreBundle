@@ -80,8 +80,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $label = $this->cleanStr($label); /* if there is still some \ */
         $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
 
-        $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $label;
-
+        $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $context .'.' . $label;
         $this->doResetFix(); /* for $isTmp to true see setFix */
 
         return $resLabel;
