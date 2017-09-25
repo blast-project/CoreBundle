@@ -82,7 +82,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
 
         $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $context .'.' . $label;
         $this->doResetFix(); /* for $isTmp to true see setFix */
-
+        $resLabel = $this->cleanStr($resLabel);
         return $resLabel;
     }
 }
