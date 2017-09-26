@@ -5,8 +5,8 @@ services:
         calls:
             - [setRouter, ['@router']]
 
-    blast_core.label.strategy.librinfo:
-        class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
+#    blast_core.label.strategy.librinfo:
+#        class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
 
     ######### FORM TYPES ###########
     blast_core.form.type.entity_code:
