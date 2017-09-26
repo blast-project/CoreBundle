@@ -22,6 +22,8 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  * and labels are prefixed by "librinfo.label."
  *
  * i.e. isValid => librinfo.label.is_valid
+ *
+ * Type to find missing translation : bin/console blast:translations:extract -f YAML
  */
 class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
@@ -59,6 +61,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $str = strtolower(str_replace('\\', '.', $str));
         /* user love \ */
         $str = str_replace('..', '.', $str);
+        $str = str_replace(' ', '_', $str);
 
         return $str;
     }
@@ -80,9 +83,10 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $label = $this->cleanStr($label); /* if there is still some \ */
         $label = sprintf('%s', strtolower(preg_replace('~(?<=\\w)([A-Z])~', '_$1', $label)));
 
-        $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $context .'.' . $label;
+        $resLabel = $this->namePrefix . '.' . $this->nameFix . '.' . $context . '.' . $label;
         $this->doResetFix(); /* for $isTmp to true see setFix */
         $resLabel = $this->cleanStr($resLabel);
+
         return $resLabel;
     }
 }
