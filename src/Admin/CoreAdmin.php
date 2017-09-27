@@ -76,8 +76,8 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
         /* Needed or not needed ...
          * in sonata-project/admin-bundle/Controller/CRUDController.php
-         * the batchAction method 
-         * throw exception if the http method is not POST 
+         * the batchAction method
+         * throw exception if the http method is not POST
         */
         if ($collection->get('batch')) {
             $collection->get('batch')->setMethods(['POST']);
