@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(document).on('mousedown', '.confirmable', function(e) {
-        var button = $(e.target);
+        var button = $(e.currentTarget);
 
         e.preventDefault();
         e.stopPropagation();
