@@ -1,0 +1,11 @@
+--- /home/francois/Projets/01_GitHub/libre-informatique/LISemSymfonyProject/vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/original/1507293335	2017-10-06 14:35:36.550732205 +0200
++++ /home/francois/Projets/01_GitHub/libre-informatique/LISemSymfonyProject/vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/patched/1507293335	2017-10-06 14:35:36.274729224 +0200
+@@ -56,7 +56,7 @@
+         $this->initialized = true;
+     }
+ 
+-    public function errorHandler($errno, $errstr, $errfile, $errline, $context)
++    public function errorHandler($errno, $errstr, $errfile, $errline, $context = array())
+     {
+         if (E_USER_DEPRECATED === $errno) {
+             $this->handleDeprecationError($errno, $errstr, $errfile, $errline, $context);
