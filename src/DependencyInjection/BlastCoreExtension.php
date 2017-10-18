@@ -161,9 +161,7 @@ class BlastCoreExtension extends Extension
                 file_get_contents($path)
             );
 
-            DefaultParameters::getInstance($container)
-                ->defineDefaultConfiguration($configSonataAdmin['default'])
-            ;
+            DefaultParameters::getInstance($container)->defineDefaultConfiguration($configSonataAdmin['default']);
         }
 
         return $this;
