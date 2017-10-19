@@ -1,12 +1,20 @@
 services:
 
-    sonata.admin.exporter:
-        class: Blast\CoreBundle\Admin\Exporter
+    sonata.admin.admin_exporter:
+        class: Blast\CoreBundle\Admin\AdminExporter
+        arguments: ['@sonata.exporter.exporter']
         calls:
+            - [setTokenStorage, ['@security.token_storage']]
+            - [setTranslator, ['@translator']]
+            - [setTwig, ['@twig']]
             - [setRouter, ['@router']]
 
-    blast_core.label.strategy.librinfo:
-        class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
+    sonata.exporter.exporter:
+        class: Blast\CoreBundle\Exporter\Exporter
+
+
+#    blast_core.label.strategy.librinfo:
+#        class: Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
 
     ######### FORM TYPES ###########
     blast_core.form.type.entity_code:
@@ -77,5 +85,6 @@ services:
         class: Blast\CoreBundle\Twig\FakeHook
         arguments:
             - '@service_container'
+            - '%kernel.environment%'
         tags:
             - { name: twig.extension }

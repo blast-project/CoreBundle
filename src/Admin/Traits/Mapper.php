@@ -217,8 +217,8 @@ trait Mapper
 
         // Debug profiler
         $this->getConfigurationPool()->getContainer()->get('blast_core.profiler.collector')
-            ->collect('Mapper', $mapper)
-            ->collect('Classes', $classes);
+            ->collectOnce('Mapper', $mapper)
+            ->collectOnce('Managed classes', $classes);
 
         return $this;
     }
@@ -483,6 +483,12 @@ trait Mapper
         if (isset($options['type'])) {
             $type = $options['type'];
             unset($options['type']);
+        }
+
+        if (isset($options['constraints'])) {
+            foreach ($options['constraints'] as $k => $constraint) {
+                $options['constraints'][$k] = new $constraint();
+            }
         }
 
         if (isset($options['required']) && $options['required'] === true) {

@@ -46,12 +46,7 @@
             "Blast\\CoreBundle\\": "src/"
         }
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.4.x-dev",
-            "dev-wip-lisem": "0.4.x-dev"
-        }
-    },
+    "version": "dev-wip-lisem",
     "scripts": {
         "phpunit-install": [
             "wget https://phar.phpunit.de/phpunit-5.7.phar --output-document=bin/phpunit",

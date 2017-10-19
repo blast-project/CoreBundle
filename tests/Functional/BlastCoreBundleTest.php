@@ -50,6 +50,6 @@ class BlastCoreBundleTest extends KernelTestCase
 
         $this->assertContains('blast_core.code_generators', $this->container->getServiceIds());
         $this->assertContains('blast_core.form.type.entity_code', $this->container->getServiceIds());
-        $this->assertContains('blast_core.label.strategy.librinfo', $this->container->getServiceIds());
+        #$this->assertContains('blast_core.label.strategy.librinfo', $this->container->getServiceIds());
     }
 }

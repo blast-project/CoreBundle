@@ -58,8 +58,8 @@ class DefaultParameters implements ContainerAwareInterface
                             $containerParameters[$defaultKey] = $change['replace'][$defaultKey];
                         }
                     }
-                } elseif // default parameters in a string, simply replacing it
-                    ($change['default'] == $containerParameters) {
+                } elseif ($change['default'] == $containerParameters) {
+                    // default parameters in a string, simply replacing it
                     $containerParameters = $change['replace'];
                 }
 
