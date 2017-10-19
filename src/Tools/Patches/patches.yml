@@ -1,5 +1,5 @@
 patches:
-    - { id: 1508316818, enabled: true, patched: true, targetFile: ./vendor/sonata-project/admin-bundle/Resources/views/CRUD/base_array_macro.html.twig, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1508316818.txt }
+    - { id: 1508316818, enabled: false, patched: true, targetFile: ./vendor/sonata-project/admin-bundle/Resources/views/CRUD/base_array_macro.html.twig, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1508316818.txt }
     - { id: 1507293335, enabled: true, patched: true, targetFile: vendor/codeception/codeception/src/Codeception/Subscriber/ErrorHandler.php, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1507293335.txt }
     - { id: 1504869028, enabled: false, patched: true, targetFile: vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/config/routing/partial/product_review.yml, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1504869028.txt }
     - { id: 1498652336, enabled: true, patched: true, targetFile: vendor/sylius/sylius/src/Sylius/Bundle/CoreBundle/Doctrine/ORM/ProductRepository.php, patchFile: vendor/blast-project/core-bundle/src/Command/../Tools/Patches/patches/1498652336.txt }
