@@ -1,17 +1,28 @@
 # Change Log
 
+## [0.5.2](https://github.com/blast-project/CoreBundle/tree/0.5.2) (2017-10-19)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.5.1...0.5.2)
+
+**Merged pull requests:**
+
+- Lisem fix & features [\#52](https://github.com/blast-project/CoreBundle/pull/52) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- Label Translation Strategy Update [\#51](https://github.com/blast-project/CoreBundle/pull/51) ([FanchTheSystem](https://github.com/FanchTheSystem))
+
+## [0.5.1](https://github.com/blast-project/CoreBundle/tree/0.5.1) (2017-09-15)
+[Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.5...0.5.1)
+
+**Merged pull requests:**
+
+- Lisem fix & features [\#50](https://github.com/blast-project/CoreBundle/pull/50) ([FanchTheSystem](https://github.com/FanchTheSystem))
+- Lisem fix & features [\#48](https://github.com/blast-project/CoreBundle/pull/48) ([FanchTheSystem](https://github.com/FanchTheSystem))
+
 ## [0.4.5](https://github.com/blast-project/CoreBundle/tree/0.4.5) (2017-07-26)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.4...0.4.5)
 
 **Merged pull requests:**
 
-- DevKit updates for CoreBundle [\#44](https://github.com/blast-project/CoreBundle/pull/44) ([BlastCI](https://github.com/BlastCI))
 - Lisem fix & features [\#42](https://github.com/blast-project/CoreBundle/pull/42) ([FanchTheSystem](https://github.com/FanchTheSystem))
-- DevKit updates for CoreBundle [\#41](https://github.com/blast-project/CoreBundle/pull/41) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#40](https://github.com/blast-project/CoreBundle/pull/40) ([BlastCI](https://github.com/BlastCI))
 - Wip lisem [\#39](https://github.com/blast-project/CoreBundle/pull/39) ([FanchTheSystem](https://github.com/FanchTheSystem))
-- DevKit updates for CoreBundle [\#38](https://github.com/blast-project/CoreBundle/pull/38) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#37](https://github.com/blast-project/CoreBundle/pull/37) ([BlastCI](https://github.com/BlastCI))
 
 ## [0.4.4](https://github.com/blast-project/CoreBundle/tree/0.4.4) (2017-06-27)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.4.3...0.4.4)
@@ -23,13 +34,6 @@
 
 - Add Explicit Dependency for doctrine and generator [\#24](https://github.com/blast-project/CoreBundle/issues/24)
 
-**Merged pull requests:**
-
-- DevKit updates for CoreBundle [\#31](https://github.com/blast-project/CoreBundle/pull/31) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#30](https://github.com/blast-project/CoreBundle/pull/30) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#29](https://github.com/blast-project/CoreBundle/pull/29) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#26](https://github.com/blast-project/CoreBundle/pull/26) ([BlastCI](https://github.com/BlastCI))
-
 ## [0.4.2](https://github.com/blast-project/CoreBundle/tree/0.4.2) (2017-05-04)
 [Full Changelog](https://github.com/blast-project/CoreBundle/compare/0.2...0.4.2)
 
@@ -37,14 +41,9 @@
 
 - Fix tab configuration exception [\#22](https://github.com/blast-project/CoreBundle/pull/22) ([PapsOu](https://github.com/PapsOu))
 - Update Blast.yml.twig [\#21](https://github.com/blast-project/CoreBundle/pull/21) ([haseo29](https://github.com/haseo29))
-- DevKit updates for CoreBundle [\#19](https://github.com/blast-project/CoreBundle/pull/19) ([BlastCI](https://github.com/BlastCI))
 - updated structure to mv sources in src/ directory [\#17](https://github.com/blast-project/CoreBundle/pull/17) ([GlennCavarle](https://github.com/GlennCavarle))
-- DevKit updates for CoreBundle [\#15](https://github.com/blast-project/CoreBundle/pull/15) ([BlastCI](https://github.com/BlastCI))
 - Start PhpUnit \(\#9\) [\#14](https://github.com/blast-project/CoreBundle/pull/14) ([FanchTheSystem](https://github.com/FanchTheSystem))
 - Apply fixes from StyleCI [\#13](https://github.com/blast-project/CoreBundle/pull/13) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#12](https://github.com/blast-project/CoreBundle/pull/12) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#11](https://github.com/blast-project/CoreBundle/pull/11) ([BlastCI](https://github.com/BlastCI))
-- DevKit updates for CoreBundle [\#10](https://github.com/blast-project/CoreBundle/pull/10) ([BlastCI](https://github.com/BlastCI))
 - Start PhpUnit [\#9](https://github.com/blast-project/CoreBundle/pull/9) ([FanchTheSystem](https://github.com/FanchTheSystem))
 
 ## [0.2](https://github.com/blast-project/CoreBundle/tree/0.2) (2017-03-16)
