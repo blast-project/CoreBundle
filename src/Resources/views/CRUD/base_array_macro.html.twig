@@ -1,0 +1,27 @@
+{% macro render_array(value, inline) %}
+    {% for key, val in value %}
+        {% if val is iterable %}
+            [{{ key }} => {{ _self.render_array(val, inline) }}]</br/>
+        {%  else %}
+            [{{ key }} => {{ val }}]</br/>
+        {%  endif %}
+
+        {% if not loop.last and not inline %}
+            <br>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_array_roles(value, inline) %}
+    {% for key, val in value %}
+        {% if val is iterable %}
+            [{{ key }} => {{ _self.render_array_roles(val, inline) }}]</br/>
+        {%  elseif val != 'ROLE_USER' %}
+            <span class="label label-success">{{ val }}</span>
+        {%  endif %}
+
+        {% if not loop.last and not inline %}
+            <br>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
