@@ -3,7 +3,7 @@
     "type": "symfony-bundle",
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {
-        "php": ">=5.6",
+        "php": ">=7.1",
         "symfony/symfony": ">=3.2",
         "doctrine/doctrine-bundle": ">=1.6",
         "sonata-project/doctrine-orm-admin-bundle": ">=3.1",
