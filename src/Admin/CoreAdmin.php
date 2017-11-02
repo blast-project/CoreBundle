@@ -555,4 +555,9 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
             }
         }
     }
+
+    public function getFlashManager()
+    {
+        return $this->getConfigurationPool()->getContainer()->get('sonata.core.flashmessage.manager');
+    }
 }
