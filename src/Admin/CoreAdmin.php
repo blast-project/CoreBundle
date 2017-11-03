@@ -13,6 +13,7 @@
 namespace Blast\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Mapper\BaseMapper;
@@ -559,5 +560,44 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     public function getFlashManager()
     {
         return $this->getConfigurationPool()->getContainer()->get('sonata.core.flashmessage.manager');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function preBatchAction($actionName, ProxyQueryInterface $query, array &$idx, $allElements)
+    {
+        parent::preBatchAction($actionName, $query, $idx, $allElements);
+
+        if ($actionName === 'delete') {
+            $cascadingRelationChecker = $this->getConfigurationPool()->getContainer()->get('blast_core.doctrine.orm.cascading_relation_checker');
+
+            foreach ($idx as $id) {
+                $entity = $this->getModelManager()->find($this->getClass(), $id);
+
+                if ($entity !== null) {
+                    $undeletableAssociations = $cascadingRelationChecker->beforeEntityDelete($entity, $idx);
+                    if (count($undeletableAssociations) > 0) {
+
+                        foreach ($undeletableAssociations as $key => $undeletableAssociation) {
+                            $undeletableAssociations[$key] = $this->getConfigurationPool()->getContainer()->get('translator')->trans('blast.doctrine_relations.' . $undeletableAssociation, [], 'messages');
+                        }
+
+                        $errorMessage = 'Cannot delete "%entity%" because it has remaining relation(s) %relations%';
+
+                        $message = $this->getTranslator()->trans(
+                            $errorMessage,
+                            [
+                                '%relations%' => trim(implode(', ', $undeletableAssociations)),
+                                '%entity%'  => (string) $entity,
+                            ],
+                            'SonataCoreBundle'
+                        );
+
+                        $this->getConfigurationPool()->getContainer()->get('session')->getFlashBag()->add('warning', $message);
+                    }
+                }
+            }
+        }
     }
 }

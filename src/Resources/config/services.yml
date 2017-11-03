@@ -88,3 +88,8 @@ services:
             - '%kernel.environment%'
         tags:
             - { name: twig.extension }
+
+    blast_core.doctrine.orm.cascading_relation_checker:
+        class: Blast\CoreBundle\Doctrine\ORM\CascadingRelationChecker
+        calls:
+            - [setEm, ['@doctrine.orm.entity_manager']]
