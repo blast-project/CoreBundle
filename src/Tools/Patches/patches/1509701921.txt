@@ -1,0 +1,22 @@
+--- /var/www/html/lisem/vendor/sonata-project/admin-bundle/Controller/CRUDController.php	2017-10-23 00:18:31.000000000 +0200
++++ /tmp/tmp.SzqoExNvwA/SonataAdminBundle/Controller/CRUDController.php	2017-11-03 09:42:09.206615080 +0100
+
+@@ -465,7 +465,17 @@
+         if (count($idx) > 0) {
+             $this->admin->getModelManager()->addIdentifiersToQuery($this->admin->getClass(), $query, $idx);
+         } elseif (!$allElements) {
+-            $query = null;
++            $this->addFlash(
++                'sonata_flash_info',
++                $this->trans('flash_batch_no_elements_processed', [], 'SonataAdminBundle')
++            );
++
++            return new RedirectResponse(
++                $this->admin->generateUrl(
++                    'list',
++                    ['filter' => $this->admin->getFilterParameters()]
++                )
++            );
+         }
+
+         return call_user_func([$this, $finalAction], $query, $request);
