@@ -52,6 +52,5 @@
             "wget https://phar.phpunit.de/phpunit-5.7.phar --output-document=bin/phpunit",
             "chmod u+x bin/phpunit"
         ]
-    },
-    "version": "0.6.4"
+    }
 }
