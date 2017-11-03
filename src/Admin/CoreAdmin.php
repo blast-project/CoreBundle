@@ -577,6 +577,7 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
                 if ($entity !== null) {
                     $undeletableAssociations = $cascadingRelationChecker->beforeEntityDelete($entity, $idx);
+
                     if (count($undeletableAssociations) > 0) {
                         foreach ($undeletableAssociations as $key => $undeletableAssociation) {
                             $undeletableAssociations[$key] = $this->getConfigurationPool()->getContainer()->get('translator')->trans('blast.doctrine_relations.' . $undeletableAssociation, [], 'messages');

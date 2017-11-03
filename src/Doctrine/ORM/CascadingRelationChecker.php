@@ -50,7 +50,7 @@ class CascadingRelationChecker
                 continue; // Skip of cascading enabled
             }
 
-            if (!in_array($association['type'], [ClassMetadata::ONE_TO_MANY, ClassMetadata::MANY_TO_MANY])) {
+            if (!in_array($association['type'], [ClassMetadata::ONE_TO_MANY])) {
                 continue; // Handling only _TO_MANY relations
             }
 
@@ -73,8 +73,12 @@ class CascadingRelationChecker
     {
         $this->undeleteReasons[] = $association['fieldName'];
 
-        foreach ($id as $entityId) {
-            unset($idx[array_search($entityId, $idx)]);
+        foreach ($id as $k => $entityId) {
+            foreach ($idx as $l => $idxId) {
+                if ($idxId === $entityId) {
+                    unset($idx[$l]);
+                }
+            }
         }
     }
 
