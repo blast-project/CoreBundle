@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Admin\Traits;
+namespace Blast\Bundle\CoreBundle\Admin\Traits;
 
 /**
  * This trait is used to delete many-to-many associated entities when the current

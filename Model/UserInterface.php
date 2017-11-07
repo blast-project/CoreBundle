@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Model;
+namespace Blast\Bundle\CoreBundle\Model;
 
 interface UserInterface
 {

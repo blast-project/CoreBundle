@@ -102,7 +102,7 @@ class AppKernel extends Kernel
 
             // Then add SonataAdminBundle
             new Sonata\AdminBundle\SonataAdminBundle(),
-            new Blast\CoreBundle\BlastCoreBundle(),
+            new Blast\Bundle\CoreBundle\BlastCoreBundle(),
 
             //...
         ];
@@ -151,7 +151,7 @@ Edit your app/AppKernel.php file and add your "libre-informatique" bundle, for i
             // ...
 
             // The libre-informatique bundles
-            new Blast\CoreBundle\BlastCoreBundle(),
+            new Blast\Bundle\CoreBundle\BlastCoreBundle(),
 
             // your personal bundles
         );
@@ -180,9 +180,9 @@ Going further...
 
 #### Going further using the CoreAdmin
 
-Instead of the ```Blast\CoreBundle\Admin\Traits\Base``` trait, you might be interested in :
-* ```Blast\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
-* ```Blast\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
+Instead of the ```Blast\Bundle\CoreBundle\Admin\Traits\Base``` trait, you might be interested in :
+* ```Blast\Bundle\CoreBundle\Admin\Traits\Embedded```: if the current ```CoreAdmin``` aims to be embedded
+* ```Blast\Bundle\CoreBundle\Admin\Traits\Embedding```: if the current ```CoreAdmin``` aims to embed other forms and you want its embedding fields to be treated automatically
 
 [Creating new field types](src/Resources/doc/readme/README-CreatingFieldTypes.md).
 

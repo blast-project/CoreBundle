@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\DependencyInjection;
+namespace Blast\Bundle\CoreBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

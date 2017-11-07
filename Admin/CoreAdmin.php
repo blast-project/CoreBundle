@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Admin;
+namespace Blast\Bundle\CoreBundle\Admin;
 
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -21,16 +21,16 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin as SonataAdmin;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
-use Blast\CoreBundle\Tools\Reflection\ClassAnalyzer;
-use Blast\CoreBundle\Admin\Traits\CollectionsManager;
-use Blast\CoreBundle\Admin\Traits\Mapper;
-use Blast\CoreBundle\Admin\Traits\Templates;
-use Blast\CoreBundle\Admin\Traits\PreEvents;
-use Blast\CoreBundle\Admin\Traits\ManyToManyManager;
-use Blast\CoreBundle\Admin\Traits\Actions;
-use Blast\CoreBundle\Admin\Traits\ListActions;
-use Blast\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
-use Blast\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy;
+use Blast\Bundle\CoreBundle\Tools\Reflection\ClassAnalyzer;
+use Blast\Bundle\CoreBundle\Admin\Traits\CollectionsManager;
+use Blast\Bundle\CoreBundle\Admin\Traits\Mapper;
+use Blast\Bundle\CoreBundle\Admin\Traits\Templates;
+use Blast\Bundle\CoreBundle\Admin\Traits\PreEvents;
+use Blast\Bundle\CoreBundle\Admin\Traits\ManyToManyManager;
+use Blast\Bundle\CoreBundle\Admin\Traits\Actions;
+use Blast\Bundle\CoreBundle\Admin\Traits\ListActions;
+use Blast\Bundle\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
+use Blast\Bundle\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable

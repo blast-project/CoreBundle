@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Command;
+namespace Blast\Bundle\CoreBundle\Command;
 
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
@@ -27,11 +27,11 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Command\Validators;
-use Blast\CoreBundle\Generator\AdminGenerator;
-use Blast\CoreBundle\Generator\ControllerGenerator;
-use Blast\CoreBundle\Generator\ServicesManipulator;
-use Blast\CoreBundle\Generator\BlastGenerator;
-use Blast\CoreBundle\Command\Traits\Interaction;
+use Blast\Bundle\CoreBundle\Generator\AdminGenerator;
+use Blast\Bundle\CoreBundle\Generator\ControllerGenerator;
+use Blast\Bundle\CoreBundle\Generator\ServicesManipulator;
+use Blast\Bundle\CoreBundle\Generator\BlastGenerator;
+use Blast\Bundle\CoreBundle\Command\Traits\Interaction;
 
 /**
  * Class GenerateAdminCommand.

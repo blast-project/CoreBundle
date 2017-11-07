@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Tools\Patches;
+namespace Blast\Bundle\CoreBundle\Tools\Patches;
 
 use Composer\Script\Event;
 use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler;

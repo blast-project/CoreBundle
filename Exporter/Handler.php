@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Exporter;
+namespace Blast\Bundle\CoreBundle\Exporter;
 
 use Exporter\Source\SourceIteratorInterface;
 use Exporter\Writer\WriterInterface;

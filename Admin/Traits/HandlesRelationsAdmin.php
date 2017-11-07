@@ -10,10 +10,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Admin\Traits;
+namespace Blast\Bundle\CoreBundle\Admin\Traits;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Blast\CoreBundle\Admin\CoreAdmin;
+use Blast\Bundle\CoreBundle\Admin\CoreAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 

@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Form;
+namespace Blast\Bundle\CoreBundle\Form;
 
 use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
 
@@ -30,7 +30,7 @@ class AbstractType extends SymfonyAbstractType
      * getBlockPrefix.
      *
      * When $this is a AppBundle\Form\Type\MyType, it returns app_my
-     * When $this is a Librinfo\AppBundle\Form\Type\MyType, it returns librinfo_app_my
+     * When $this is a Sil\Bundle\AppBundle\Form\Type\MyType, it returns librinfo_app_my
      *
      * @return string
      */

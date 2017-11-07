@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Twig;
+namespace Blast\Bundle\CoreBundle\Twig;
 
 abstract class DebugTemplate extends \Twig_Template
 {

@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Controller;
+namespace Blast\Bundle\CoreBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CoreController as BaseCoreController;
 use Symfony\Component\HttpFoundation\Response;

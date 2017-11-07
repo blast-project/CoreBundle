@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Translator;
+namespace Blast\Bundle\CoreBundle\Translator;
 
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
@@ -31,7 +31,7 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
     protected $nameFix; /* may be the admin name */
     protected $nameFixSave; /* may be the admin name */
 
-    public function __construct($prefix = 'Blast\CoreBundle', $fix = 'CoreAdmin')
+    public function __construct($prefix = 'Blast\Bundle\CoreBundle', $fix = 'CoreAdmin')
     {
         $this->setPrefix($prefix);
         $this->setFix($fix);

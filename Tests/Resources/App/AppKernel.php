@@ -41,7 +41,7 @@ class AppKernel extends Kernel
             // new Sonata\IntlBundle\SonataIntlBundle(),
 
             // Blast
-            new Blast\CoreBundle\BlastCoreBundle(),
+            new Blast\Bundle\CoreBundle\BlastCoreBundle(),
         ];
 
         return $bundles;

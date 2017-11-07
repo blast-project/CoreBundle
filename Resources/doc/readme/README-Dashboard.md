@@ -20,8 +20,8 @@ You can now add your entities in these groups by defining services as below :
 # yourBundle/Resources/config/services.yml
 services:
     app.admin.user:
-        class: Librinfo\UserBundle\Admin\UserAdminConcrete
-        arguments: [~, Librinfo\UserBundle\Entity\User, SonataAdminBundle:CRUD]
+        class: Sil\Bundle\UserBundle\Admin\UserAdminConcrete
+        arguments: [~, Sil\Bundle\UserBundle\Entity\User, SonataAdminBundle:CRUD]
         tags:
             - {name: sonata.admin, manager_type: orm, group: Application Management, label: Users}
 ```
@@ -51,14 +51,14 @@ This configuration file sets sonata_blocks and sonata_admin.dashboard base block
 Create your dashboard block class
 ---------------------------------
 
-Your class must/should extends class `Blast\CoreBundle\Dashboard\AbstractDashboardBlock`
+Your class must/should extends class `Blast\Bundle\CoreBundle\Dashboard\AbstractDashboardBlock`
 
 ```php
 <?php
 
 namespace MyBundle\Dashboard;
 
-use Blast\CoreBundle\Dashboard\AbstractDashboardBlock;
+use Blast\Bundle\CoreBundle\Dashboard\AbstractDashboardBlock;
 
 class MyBundleDashboardBlock extends AbstractDashboardBlock
 {

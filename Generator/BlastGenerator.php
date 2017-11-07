@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Generator;
+namespace Blast\Bundle\CoreBundle\Generator;
 
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Sonata\AdminBundle\Model\ModelManagerInterface;

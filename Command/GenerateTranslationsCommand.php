@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Command;
+namespace Blast\Bundle\CoreBundle\Command;
 
-use Blast\CoreBundle\Generator\ArrayToYamlGenerator;
+use Blast\Bundle\CoreBundle\Generator\ArrayToYamlGenerator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

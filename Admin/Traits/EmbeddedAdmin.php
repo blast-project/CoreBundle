@@ -10,11 +10,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Admin\Traits;
+namespace Blast\Bundle\CoreBundle\Admin\Traits;
 
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Blast\CoreBundle\Admin\CoreAdmin;
+use Blast\Bundle\CoreBundle\Admin\CoreAdmin;
 
 trait EmbeddedAdmin
 {

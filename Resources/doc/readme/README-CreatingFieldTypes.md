@@ -19,7 +19,7 @@ Let's define the ```email``` field type, which by-the-way is already defined in 
 # Resources/config/blast.yml
 parameters:
     blast:
-        Librinfo\BaseEntitiesBundle\Entity\Traits\Emailable:
+        Sil\Bundle\BaseEntitiesBundle\Entity\Traits\Emailable:
             Sonata\AdminBundle\Datagrid\ListMapper:
                 _copy: Sonata\AdminBundle\Datagrid\DatagridMapper
             Sonata\AdminBundle\Datagrid\DatagridMapper:

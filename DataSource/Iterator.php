@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\DataSource;
+namespace Blast\Bundle\CoreBundle\DataSource;
 
 use Exporter\Source\DoctrineORMQuerySourceIterator;
 use Doctrine\ORM\PersistentCollection;

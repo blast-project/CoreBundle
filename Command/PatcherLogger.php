@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Command;
+namespace Blast\Bundle\CoreBundle\Command;
 
 trait PatcherLogger
 {

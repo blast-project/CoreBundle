@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Command\Traits;
+namespace Blast\Bundle\CoreBundle\Command\Traits;
 
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
@@ -20,7 +20,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
- * This trait is the perfect copy of the Blast\OuterExtensionBundle\Command\Traits\Interaction
+ * This trait is the perfect copy of the Blast\Bundle\OuterExtensionBundle\Command\Traits\Interaction
  * They are still distinct because of the few amount of code to factorize, but it will be done
  * as soon as we have a bit more to make generic.
  **/

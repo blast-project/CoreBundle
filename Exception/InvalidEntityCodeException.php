@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Exception;
+namespace Blast\Bundle\CoreBundle\Exception;
 
 class InvalidEntityCodeException extends \Exception
 {

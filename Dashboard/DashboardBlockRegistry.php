@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Dashboard;
+namespace Blast\Bundle\CoreBundle\Dashboard;
 
 class DashboardBlockRegistry
 {

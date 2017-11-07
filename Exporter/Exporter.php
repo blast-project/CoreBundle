@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Exporter;
+namespace Blast\Bundle\CoreBundle\Exporter;
 
 use Exporter\Source\SourceIteratorInterface;
 use Exporter\Writer\TypedWriterInterface;
@@ -56,7 +56,7 @@ class Exporter
         $writer = $this->writers[$format];
 
         $callback = function () use ($source, $writer) {
-            $handler = \Blast\CoreBundle\Exporter\Handler::create($source, $writer);
+            $handler = \Blast\Bundle\CoreBundle\Exporter\Handler::create($source, $writer);
             $handler->export();
         };
 

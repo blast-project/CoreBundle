@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\CodeGenerator;
+namespace Blast\Bundle\CoreBundle\CodeGenerator;
 
 use Doctrine\ORM\EntityManager;
 
@@ -27,7 +27,7 @@ class CodeGeneratorFactory
     public static function create($class, EntityManager $entityManager)
     {
         $rc = new \ReflectionClass($class);
-        $interface = 'Blast\CoreBundle\CodeGenerator\CodeGeneratorInterface';
+        $interface = 'Blast\Bundle\CoreBundle\CodeGenerator\CodeGeneratorInterface';
         if (!$rc->implementsInterface($interface)) {
             throw new \RuntimeException("Class $class should implement $interface");
         }

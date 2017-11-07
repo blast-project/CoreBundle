@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Generator;
+namespace Blast\Bundle\CoreBundle\Generator;
 
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;

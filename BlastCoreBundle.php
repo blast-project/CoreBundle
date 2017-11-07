@@ -10,12 +10,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle;
+namespace Blast\Bundle\CoreBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Blast\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
-use Blast\CoreBundle\DependencyInjection\DashboardBlocksCompilerPass;
+use Blast\Bundle\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
+use Blast\Bundle\CoreBundle\DependencyInjection\DashboardBlocksCompilerPass;
 
 class BlastCoreBundle extends Bundle
 {

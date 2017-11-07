@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Form\Type;
+namespace Blast\Bundle\CoreBundle\Form\Type;
 
-use Blast\CoreBundle\Form\AbstractType as BaseAbstractType;
+use Blast\Bundle\CoreBundle\Form\AbstractType as BaseAbstractType;
 
 class EntityCodeType extends BaseAbstractType
 {

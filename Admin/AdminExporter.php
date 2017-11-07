@@ -10,12 +10,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Admin;
+namespace Blast\Bundle\CoreBundle\Admin;
 
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Blast\CoreBundle\Exporter\Exporter;
+use Blast\Bundle\CoreBundle\Exporter\Exporter;
 use Sonata\AdminBundle\Admin\AdminInterface;
 
 class AdminExporter

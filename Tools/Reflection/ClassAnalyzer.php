@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Tools\Reflection;
+namespace Blast\Bundle\CoreBundle\Tools\Reflection;
 
 class ClassAnalyzer
 {

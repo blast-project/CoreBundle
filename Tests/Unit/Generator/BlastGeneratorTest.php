@@ -10,11 +10,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Blast\CoreBundle\Tests\Unit\Generator;
+namespace Blast\Bundle\CoreBundle\Tests\Unit\Generator;
 
 use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStream;
-use Blast\CoreBundle\Generator\BlastGenerator;
+use Blast\Bundle\CoreBundle\Generator\BlastGenerator;
 
 class BlastGeneratorTest extends TestCase
 {
@@ -32,7 +32,7 @@ class BlastGeneratorTest extends TestCase
 
     /**
      * @todo check if it is pertinent to cover __construct and do it(or not) in setUp
-     * @covers \Blast\CoreBundle\Generator\BlastGenerator::__construct
+     * @covers \Blast\Bundle\CoreBundle\Generator\BlastGenerator::__construct
      */
     protected function setUp()
     {
@@ -55,7 +55,7 @@ class BlastGeneratorTest extends TestCase
         $this->skeletonDirectory = 'src/Resources/skeleton';
 
         // Sonata Model Manager is used to launch getExportFields
-        // from the method addResource in Blast\CoreBundle\Generator\BlastGenerator
+        // from the method addResource in Blast\Bundle\CoreBundle\Generator\BlastGenerator
         // $managerType =  'sonata.admin.manager.orm';
         $modelManagerMock = $this->getMockForAbstractClass('Sonata\AdminBundle\Model\ModelManagerInterface');
 
@@ -81,7 +81,7 @@ class BlastGeneratorTest extends TestCase
     }
 
     /**
-     * @covers \Blast\CoreBundle\Generator\BlastGenerator::addResource
+     * @covers \Blast\Bundle\CoreBundle\Generator\BlastGenerator::addResource
      */
     public function testAddResource()
     {

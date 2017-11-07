@@ -1,7 +1,7 @@
 Building your Sonata Admin module within a YAML file
 ====================================================
 
-This feature is provided by Blast\CoreBundle to ease the deployment of new bundles & entities. It works quite closely to the  [Sonata\AdminBundle\MapperBaseMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Mapper/BaseMapper.php) & [Sonata\AdminBundle\MapperBaseGroupedMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Mapper/BaseGroupedMapper.php) (and their children like [Sonata\AdminBundle\Form\FormMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Form/FormMapper.php)) ```add()```, ```with()```/```tab()``` & ```remove()``` methods.
+This feature is provided by Blast\Bundle\CoreBundle to ease the deployment of new bundles & entities. It works quite closely to the  [Sonata\AdminBundle\MapperBaseMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Mapper/BaseMapper.php) & [Sonata\AdminBundle\MapperBaseGroupedMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Mapper/BaseGroupedMapper.php) (and their children like [Sonata\AdminBundle\Form\FormMapper](https://github.com/sonata-project/SonataAdminBundle/blob/master/Form/FormMapper.php)) ```add()```, ```with()```/```tab()``` & ```remove()``` methods.
 
 The YAML reference
 ------------------
@@ -29,8 +29,8 @@ parameters:
             manage:
                 collections: []                   # Array of collections that need to be managed, in relation with the embeded objects (e.g. House::$doors -> [doors])
                 manyToMany: []                    # Array of many-to-many relations that need to be managed, to perform correct updates both on the ownerSide and on the inverseSide
-                                                  # ↘ An other way to do the same things automagically is to use the trait Blast\CoreBundle\Admin\Traits\HandlesRelationsAdmin within your
-                                                  # Sonata Admin form instead of the Blast\CoreBundle\Admin\Traits\Base
+                                                  # ↘ An other way to do the same things automagically is to use the trait Blast\Bundle\CoreBundle\Admin\Traits\HandlesRelationsAdmin within your
+                                                  # Sonata Admin form instead of the Blast\Bundle\CoreBundle\Admin\Traits\Base
             Sonata\AdminBundle\Form\FormMapper:   # The class of objects that needs to be configured (here the edit/create form)
                 title: this is the form view title 
                 titleTemplate: 'myBundle:Dir:myEditTemplate.html.twig'
@@ -74,7 +74,7 @@ parameters:
                     gfx_tab:
                         gfx_group2:
                             field2:
-                                template: LibrinfoCRMBundle:CRUD:field_subobject.html.twig # this allows you
+                                template: SilCRMBundle:CRUD:field_subobject.html.twig # this allows you
                                                 # to display this field using a specific template of your own.
             Sonata\AdminBundle\Datagrid\DatagridMapper:   # The class of objects that needs to be configured (here the "filters")
                 add:
@@ -113,7 +113,7 @@ parameters:
                         merge:
                             action: myAction # points to a custom action previously defined in _actions key
                             label: merge    # optional, used for translation. if not specified the label is built on "batch_action_[merge]"
-                            translation_domain: LibrinfoCRMBundle
+                            translation_domain: SilCRMBundle
                                             # optional
                             ask_confirmation:   false
                                             # true by default, and then ask for a user confirmation
@@ -131,12 +131,12 @@ parameters:
                     _list_actions: # add custom action to generic top bar actions in list view
                         test:
                             action: create      # can be an action or a route
-                            translation_domain: LibrinfoCRMBundle # if no translation_domain is defined, then the label will not be translated
+                            translation_domain: SilCRMBundle # if no translation_domain is defined, then the label will not be translated
                             label: test_test    # if no label is specified, the name (key) of the action is used instead
                         pouet:
                             route: admin_librinfo_crm_contact_list # can be a route or an action
                             params: []          # parameters to be used when calling the route
-                            translation_domain: LibrinfoCRMBundle
+                            translation_domain: SilCRMBundle
                         glop:
                             route: admin_librinfo_crm_contact_list
                             label: Glop         # no translation_domain given, then the label is used without any translation
@@ -146,7 +146,7 @@ parameters:
 Playing with your Sonata Admin modules, Entity inheritance, traits...
 ---------------------------------------------------------------------
 
-The use of your librinfo.yml configuration files is done in a specific order, allowing inheritance, properties sharing, etc. It starts from a working CRUD generated by Sonata, extending the ```Blast\CoreBundle\Admin\CoreAdmin``` and extended by a ```MyEntityAdminConcrete``` as explained in the next title. Then the ```libre-informatique/core-bundle``` works this way:
+The use of your librinfo.yml configuration files is done in a specific order, allowing inheritance, properties sharing, etc. It starts from a working CRUD generated by Sonata, extending the ```Blast\Bundle\CoreBundle\Admin\CoreAdmin``` and extended by a ```MyEntityAdminConcrete``` as explained in the next title. Then the ```libre-informatique/core-bundle``` works this way:
 
 1. All the ```librinfo.yml``` files are loaded, across your bundles, in the order of their definition in your ```app/AppKernel.php```.
 2. The system starts from the traits used in your entity (directly or indirectly through inheritance), reading the properties that has to be applied on them
@@ -155,16 +155,16 @@ The use of your librinfo.yml configuration files is done in a specific order, al
 
 And this builds up a configured Sonata Admin module, without a word of PHP code, embedding reusability, scalability, performance in the development process, strength and robustness.
 
-How to use the Blast\CoreBundle features ?
+How to use the Blast\Bundle\CoreBundle features ?
 =============================================
 
-After having installed properly the bundle, and learning the configuration reference, just use the ```Blast\CoreBundle\Admin\CoreAdmin``` as the parent class of your ```Admin/*Admin.php``` modules:
+After having installed properly the bundle, and learning the configuration reference, just use the ```Blast\Bundle\CoreBundle\Admin\CoreAdmin``` as the parent class of your ```Admin/*Admin.php``` modules:
 
 ```php
 <?php
 // src/AcmeBundle/Admin/DemoAdmin.php
 // ...
-use Blast\CoreBundle\Admin\CoreAdmin;
+use Blast\Bundle\CoreBundle\Admin\CoreAdmin;
 // ...
 class DemoAdmin extends CoreAdmin
 {
@@ -178,7 +178,7 @@ Then you will have to create a "Concrete" (or any other keyword) Admin :
 <?php
 // src/AcmeBundle/Admin/DemoAdminConcrete.php
 // ...
-use Blast\CoreBundle\Admin\Trait\Base as BaseAdmin;
+use Blast\Bundle\CoreBundle\Admin\Trait\Base as BaseAdmin;
 // ...
 class DemoAdminConcrete extends DemoAdmin
 {
