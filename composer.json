@@ -44,7 +44,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Blast\\CoreBundle\\": "src/"
+            "Blast\\CoreBundle\\": "/"
         }
     },
     "scripts": {
