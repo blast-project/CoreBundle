@@ -1,8 +1,8 @@
 If you want to use object duplication possibilities, you have to use the CoreBundle custom CRUD controller in your admin service:
 
       librinfo_varieties.admin.variety:
-        class: Sil\Bundle\VarietiesBundle\Admin\VarietyAdminConcrete
-        arguments: [~, Sil\Bundle\VarietiesBundle\Entity\Variety, BlastCoreBundle:CRUD]
+        class: Sil\Bundle\VarietyBundle\Admin\VarietyAdminConcrete
+        arguments: [~, Sil\Bundle\VarietyBundle\Entity\Variety, BlastCoreBundle:CRUD]
         tags:
             - name: sonata.admin
               manager_type: orm
