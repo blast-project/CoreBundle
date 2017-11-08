@@ -26,8 +26,6 @@ if (class_exists('Symfony\CS\Fixer\Contrib\HeaderCommentFixer')) {
 }
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('somedir')
-    ->notPath('src/Symfony/Component/Translation/Tests/fixtures/resources.php')
     ->in(__DIR__)
 ;
 
@@ -35,8 +33,8 @@ $config = PhpCsFixer\Config::create()
     ->setRules(array(
         '@Symfony'               => true,
         'binary_operator_spaces' => ['align_double_arrow' => true],
-        'yoda_style'             => null,
         'concat_space'           => ['spacing'=>'one'],
+        'yoda_style'             => null,
     ))
     ->setFinder($finder);
 
