@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Register the entity code generator services
- * (services tagged with "librinfo.entity_code_generator").
+ * (services tagged with "blast.entity_code_generator").
  */
 class CodeGeneratorCompilerPass implements CompilerPassInterface
 {

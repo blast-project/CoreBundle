@@ -2,7 +2,7 @@
 blast:
     corebundle: ~
 
-librinfo:
+blast:
     label:
         _action: 'Action'
         _list_action: 'Action groupée'

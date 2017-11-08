@@ -13,14 +13,14 @@ services:
         class: Blast\Bundle\CoreBundle\Exporter\Exporter
 
 
-#    blast_core.label.strategy.librinfo:
+#    blast_core.label.strategy.blast:
 #        class: Blast\Bundle\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy
 
     ######### FORM TYPES ###########
     blast_core.form.type.entity_code:
         class: Blast\Bundle\CoreBundle\Form\Type\EntityCodeType
         tags:
-            - { name: form.type, alias: librinfo_entitycode }
+            - { name: form.type, alias: blast_entitycode }
 
 
     #########  ENTITY CODE GENERATORS ############

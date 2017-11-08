@@ -31,7 +31,7 @@ class DashboardSonataBlock extends AbstractBlockService
     {
         $resolver->setDefaults(array(
             'url'      => false,
-            'title'    => 'librinfo.label.dashboard_block_title',
+            'title'    => 'blast.label.dashboard_block_title',
             'template' => 'BlastCoreBundle:Dashboard:mainDashboard.html.twig',
         ));
     }

@@ -9,7 +9,7 @@ Put your patched file into any folder you want in your Symfony project (should b
 
 Execute the following command :
 
-```$ app/console librinfo:patchs:generate path/to/original-file path/to/your/modified-file path/to/target-file```
+```$ app/console blast:patchs:generate path/to/original-file path/to/your/modified-file path/to/target-file```
 
 ```path/to/original-file``` can be a github URL (raw file URL) or any URL, or a path to a local file. This file is used to be compared when generating the patch file.
 ```path/to/your/modified-file``` can be a github URL (raw file URL) or any URL, or a path to a local file. This file contains your code modification to be applied.
@@ -22,7 +22,7 @@ It adds an entry into ```patches.yml``` under ```BlastCoreBundle\Tools\Patches\`
 
 Execute the following command :
 
-```$ app/console librinfo:patchs:list``` to see all managed patches by the tool.
+```$ app/console blast:patchs:list``` to see all managed patches by the tool.
 
 E.g. :
 
@@ -46,7 +46,7 @@ If you want to force a patch to be re-patched, just edit ```patches.yml``` and s
 
 Execute the following command :
 
-```$ app/console librinfo:patchs:apply```
+```$ app/console blast:patchs:apply```
 
 It will apply patches by parsing ```patches.yml```.
 

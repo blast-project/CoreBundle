@@ -30,7 +30,7 @@ class AbstractType extends SymfonyAbstractType
      * getBlockPrefix.
      *
      * When $this is a AppBundle\Form\Type\MyType, it returns app_my
-     * When $this is a Sil\Bundle\AppBundle\Form\Type\MyType, it returns librinfo_app_my
+     * When $this is a Sil\Bundle\AppBundle\Form\Type\MyType, it returns blast_app_my
      *
      * @return string
      */

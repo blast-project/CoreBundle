@@ -19,9 +19,9 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  *
  * Provides a specific label translation strategy for Librinfo.
  * It is based on UnderscoreLabelTranslatorStrategy, but without the context,
- * and labels are prefixed by "librinfo.label."
+ * and labels are prefixed by "blast.label."
  *
- * i.e. isValid => librinfo.label.is_valid
+ * i.e. isValid => blast.label.is_valid
  *
  * Type to find missing translation : bin/console blast:translations:extract -f YAML
  */

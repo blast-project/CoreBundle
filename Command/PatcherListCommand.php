@@ -24,7 +24,7 @@ class PatcherListCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('librinfo:patchs:list')
+            ->setName('blast:patchs:list')
             ->setDescription('List Patches from Librinfo on misc vendors');
     }
 

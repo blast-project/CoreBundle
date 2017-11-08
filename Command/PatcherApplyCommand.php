@@ -35,7 +35,7 @@ class PatcherApplyCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('librinfo:patchs:apply')
+            ->setName('blast:patchs:apply')
             ->setDescription('Apply Patches from Librinfo on misc vendors')
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force patch apply');
     }

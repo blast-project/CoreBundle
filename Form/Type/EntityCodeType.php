@@ -23,6 +23,6 @@ class EntityCodeType extends BaseAbstractType
 
     public function getBlockPrefix()
     {
-        return 'librinfo_entitycode';
+        return 'blast_entitycode';
     }
 }

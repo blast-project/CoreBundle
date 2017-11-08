@@ -92,11 +92,11 @@ trait ListActions
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
 
         foreach ($this->getCurrentComposition() as $class) {
-            if (isset($librinfo[$class][ListMapper::class]['add']['_actions'])) {
-                $actions = $librinfo[$class][ListMapper::class]['add']['_actions'] ? $librinfo[$class][ListMapper::class]['add']['_actions'] : [];
+            if (isset($blast[$class][ListMapper::class]['add']['_actions'])) {
+                $actions = $blast[$class][ListMapper::class]['add']['_actions'] ? $blast[$class][ListMapper::class]['add']['_actions'] : [];
 
                 foreach ($actions['actions'] as $key => $action) {
                     if (!empty($action['route'])) {

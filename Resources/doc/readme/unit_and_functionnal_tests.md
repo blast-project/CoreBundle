@@ -80,7 +80,7 @@ Create new file configuration datafixtures.yml
 ```
 # <YourBundle>Bundle/Resources/config/datafixtures.yml
 parameters:
-    librinfo.datafixtures:
+    blast.datafixtures:
         user:
             username: USERNAME
             password: PASSWORD
@@ -102,10 +102,10 @@ Load datafixtures.yml using Yaml File Loader
 // ...
 if($container->getParameter('kernel.environment') == 'test')
 {
-    if(!$container->hasParameter('librinfo.datafixtures')){
-        $container->setParameter('librinfo.datafixtures', array());
+    if(!$container->hasParameter('blast.datafixtures')){
+        $container->setParameter('blast.datafixtures', array());
     }
-    $this->mergeParameter('librinfo.datafixtures', $container, __DIR__.'/../Resources/config/','datafixtures.yml');
+    $this->mergeParameter('blast.datafixtures', $container, __DIR__.'/../Resources/config/','datafixtures.yml');
 }
 // ...
 ```
@@ -119,7 +119,7 @@ Define your data to initialise user test informations.
 ```php
 // <YourBundle>Bundle/DataFixtures/ORM/LoadUserData.php
 // ...
-$fixturesData = $this->container->getParameter('librinfo.datafixtures');
+$fixturesData = $this->container->getParameter('blast.datafixtures');
 $userAdmin = new User();
 $userAdmin->setUsername($fixturesData['user']['username']);
 $userAdmin->setPassword($fixturesData['user']['password']);
@@ -148,7 +148,7 @@ Authenticates user defined in your configuration in order to allow testing of se
 // ...
 /** @var User $user */
 $client = static::createClient();
-$datafixtures = $client->getContainer()->getParameter('librinfo.datafixtures');
+$datafixtures = $client->getContainer()->getParameter('blast.datafixtures');
 $user = $client->getContainer()->get('blast_core.services.authenticate')->authencicateUser($datafixtures['user']['username']);
 // ...
 ```

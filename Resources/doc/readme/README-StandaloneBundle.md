@@ -33,14 +33,14 @@ class LibrinfoCRMExtension extends LibrinfoCoreExtension
         $loader->load('services.yml');
         $loader->load('admin.yml');
         
-        $this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');
+        $this->mergeParameter('blast', $container, __DIR__.'/../Resources/config');
     }
 }
 ```
 
-Then create a ```Resources/config/librinfo.yml``` file in your bundle, matching the previous specifications.
+Then create a ```Resources/config/blast.yml``` file in your bundle, matching the previous specifications.
 
-You'll notice the ```use Blast\Bundle\CoreBundle\DependencyInjection\LibrinfoCoreExtension;```, the ```class LibrinfoCRMExtension extends LibrinfoCoreExtension``` and the ```$this->mergeParameter('librinfo', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```Blast\Bundle\CoreBundle```).
+You'll notice the ```use Blast\Bundle\CoreBundle\DependencyInjection\LibrinfoCoreExtension;```, the ```class LibrinfoCRMExtension extends LibrinfoCoreExtension``` and the ```$this->mergeParameter('blast', $container, __DIR__.'/../Resources/config');``` that loads the new configuration file, overloading the configuration of the parent bundle (here, ```Blast\Bundle\CoreBundle```).
 
 #### Keeping the original/default SonataAdmin configuration (fields)
 

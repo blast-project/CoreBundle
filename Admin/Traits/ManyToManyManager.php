@@ -71,18 +71,18 @@ trait ManyToManyManager
 
     private function configureManyToManyManager()
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
-        $key = 'manyToMany'; // name of the key in the librinfo.yml
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+        $key = 'manyToMany'; // name of the key in the blast.yml
 
         // merge configuration/parameters
         foreach ($this->getCurrentComposition() as $class) {
-            if (isset($librinfo[$class])
-          && isset($librinfo[$class]['manage'])
-          && isset($librinfo[$class]['manage'][$key])) {
-                if (!is_array($librinfo[$class]['manage'][$key])) {
-                    $librinfo[$class]['manage'][$key] = [$librinfo[$class]['manage'][$key]];
+            if (isset($blast[$class])
+          && isset($blast[$class]['manage'])
+          && isset($blast[$class]['manage'][$key])) {
+                if (!is_array($blast[$class]['manage'][$key])) {
+                    $blast[$class]['manage'][$key] = [$blast[$class]['manage'][$key]];
                 }
-                $this->addManyToManyCollections($librinfo[$class]['manage'][$key]);
+                $this->addManyToManyCollections($blast[$class]['manage'][$key]);
             }
         }
 

@@ -10,7 +10,7 @@ $(document).on('ifChecked','.sonata-ba-field-inline-natural input[type="checkbox
             formRow = input.closest('tr');
         }
 
-        var r = confirm(Translator.trans('librinfo.confirm.delete_collection_item', {}, 'messages'));
+        var r = confirm(Translator.trans('blast.confirm.delete_collection_item', {}, 'messages'));
         if (r == true) {
             formRow.remove();
         } else {

@@ -80,7 +80,7 @@ This is done in YAML using :
 
 ```
 parameters:
-    librinfo:
+    blast:
         // ...
         AcmeBundle\Entity\My:
             // ...
@@ -166,7 +166,7 @@ class My
 }
 ```
 
-Eventually, if many entities are using this embedded Admin (meaning that many entities have children), you can think of writing a trait with this logic, which will allow you to write things about this trait in your ```librinfo.yml```... preventing many descriptions of the same ```FormMapper```.
+Eventually, if many entities are using this embedded Admin (meaning that many entities have children), you can think of writing a trait with this logic, which will allow you to write things about this trait in your ```blast.yml```... preventing many descriptions of the same ```FormMapper```.
 
 #### HandlesRelationsAdmin
 
@@ -174,7 +174,7 @@ The ```Blast\Bundle\CoreBundle\Admin\Traits\HandlesRelationsAdmin``` trait is to
 
 In fact, ```Embedding``` is the exact mirror of ```Embedded``` and aims to be used as a twin of ```Embedded```.
 
-It subscribes all the ```sonata_type_collection``` to the ```Blast\Bundle\CoreBundle\Admin\Trait\CollectionsManager::managedCollections```, avoiding the registration of collections in the [```librinfo.yml``` definition](../../README.md#configuring-your-sonataadminbundle-interfaces-with-yaml-properties).
+It subscribes all the ```sonata_type_collection``` to the ```Blast\Bundle\CoreBundle\Admin\Trait\CollectionsManager::managedCollections```, avoiding the registration of collections in the [```blast.yml``` definition](../../README.md#configuring-your-sonataadminbundle-interfaces-with-yaml-properties).
 
 It also finds all the many-to-many relationships in your form form. It takes care or deleting linked entities when the Admin entity is on the inverse side of the many-to-many relationship.
 
@@ -192,17 +192,17 @@ Some traits are here only to make the ```Blast\Bundle\CoreBundle\Admin\CoreAdmin
 
 #### Mapper
 
-The ```Blast\Bundle\CoreBundle\Admin\Traits\Mapper``` trait embeds all the logic that parses the ```librinfo.yml``` files and generate a matching ```Sonata\AdminBundle\Admin\Admin``` without writing a line of PHP.
+The ```Blast\Bundle\CoreBundle\Admin\Traits\Mapper``` trait embeds all the logic that parses the ```blast.yml``` files and generate a matching ```Sonata\AdminBundle\Admin\Admin``` without writing a line of PHP.
 
 #### CollectionsManager
 
-The ```Blast\Bundle\CoreBundle\Admin\Traits\CollectionsManager``` trait treats the collections that would be left untouched after a change in an embedded form (a ```sonata_type_collection``` form type). It uses definitions found in the ```librinfo.yml``` files.
+The ```Blast\Bundle\CoreBundle\Admin\Traits\CollectionsManager``` trait treats the collections that would be left untouched after a change in an embedded form (a ```sonata_type_collection``` form type). It uses definitions found in the ```blast.yml``` files.
 
 eg.:
 ```
 # app/config/config.yml
 parameters:
-    librinfo:
+    blast:
         AcmeBundle\Admin\MyAdmin:
             managedCollections: [children]
 ```
@@ -211,13 +211,13 @@ parameters:
 
 The ```Blast\Bundle\CoreBundle\Admin\Traits\ManyToManyManager``` trait removes the many-to-many links that would be left untouched after a change in the related collection widget. 
 It is not necessary to use it when the Admin entity is on the owning side of the many-to-many relationship.
-It uses definitions found in the ```librinfo.yml``` files with the managedManyToMany keyword.
+It uses definitions found in the ```blast.yml``` files with the managedManyToMany keyword.
 
 eg.:
 ```
 # app/config/config.yml
 parameters:
-    librinfo:
+    blast:
         AcmeBundle\Admin\Worker:
             managedManyToMany: [task, tool]
 ```

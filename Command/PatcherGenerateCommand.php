@@ -39,7 +39,7 @@ class PatcherGenerateCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('librinfo:patchs:generate')
+            ->setName('blast:patchs:generate')
             ->setDescription('Generate Patches from Librinfo on misc vendors')
             ->addArgument(
                 'original-file',

@@ -24,8 +24,8 @@ trait Templates
      */
     protected function fixTemplates($mapper)
     {
-        $librinfo = $this->getConfigurationPool()->getContainer()->getParameter('blast');
-        if (!isset($librinfo['configuration']) && isset($librinfo['configuration']['templates'])) {
+        $blast = $this->getConfigurationPool()->getContainer()->getParameter('blast');
+        if (!isset($blast['configuration']) && isset($blast['configuration']['templates'])) {
             return $this;
         }
 
@@ -39,12 +39,12 @@ trait Templates
         }
 
         $mapType = $mapping[$rc->getShortName()];
-        if (!isset($librinfo['configuration']['templates'][$mapType])) {
+        if (!isset($blast['configuration']['templates'][$mapType])) {
             return $this;
         }
 
         // get back the new templates
-        $templates = $librinfo['configuration']['templates'][$mapType];
+        $templates = $blast['configuration']['templates'][$mapType];
 
         // checks if something has to be done
         foreach ($this->{$mapType . 'FieldDescriptions'} as $fd) {
