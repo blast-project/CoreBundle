@@ -1,11 +1,10 @@
 <?php
 
 /*
- * This file is part of the Blast Project package.
  *
  * Copyright (C) 2015-2017 Libre Informatique
  *
- * This file is licenced under the GNU LGPL v3.
+ * This file is licenced under the GNU GPL v3.
  * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
@@ -50,6 +49,6 @@ class BlastCoreBundleTest extends KernelTestCase
 
         $this->assertContains('blast_core.code_generators', $this->container->getServiceIds());
         $this->assertContains('blast_core.form.type.entity_code', $this->container->getServiceIds());
-        #$this->assertContains('blast_core.label.strategy.librinfo', $this->container->getServiceIds());
+        //$this->assertContains('blast_core.label.strategy.librinfo', $this->container->getServiceIds());
     }
 }
