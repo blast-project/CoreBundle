@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Mapper\BaseMapper;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use Blast\Bundle\CoreBundle\Profiler\DataCollection;
 
 class AdminCollector extends DataCollector
 {
