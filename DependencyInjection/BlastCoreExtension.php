@@ -37,7 +37,7 @@ class BlastCoreExtension extends Extension
         $this->loadServices($loader);
         $this->loadCodeGenerators($container, $config);
         $this->loadDataFixtures($container, $loader);
-        $this->loadParameters($container);
+        $this->loadParameters($container, $loader);
         $this->loadSecurity($container);
         $this->loadSonataAdmin($container, $loader);
         $this->loadListeners($container, $config);
@@ -120,8 +120,13 @@ class BlastCoreExtension extends Extension
      *
      * @return self
      */
-    public function loadParameters(ContainerBuilder $container)
+    public function loadParameters(ContainerBuilder $container, FileLoader $loader)
     {
+        // parameters.yml
+        if (file_exists($this->dir . $this->prefix . 'parameters' . $this->suffix)) {
+            $loader->load('parameters' . $this->suffix);
+        }
+
         // the blast.yml
         if (file_exists($this->dir . $this->prefix . $this->file . $this->suffix)) {
             $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
