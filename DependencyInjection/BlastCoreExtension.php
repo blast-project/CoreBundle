@@ -80,11 +80,8 @@ class BlastCoreExtension extends Extension
      */
     public function loadServices(FileLoader $loader)
     {
-        // services, admin & config files
-        foreach (['services', 'admin'] as $fileName) {
-            if (file_exists($this->dir . $this->prefix . $fileName . $this->suffix)) {
-                $loader->load($fileName . $this->suffix);
-            }
+        if (file_exists($this->dir . $this->prefix . 'services' . $this->suffix)) {
+            $loader->load('services' . $this->suffix);
         }
 
         return $this;
