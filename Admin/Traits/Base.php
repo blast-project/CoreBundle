@@ -102,14 +102,16 @@ trait Base
             return parent::getExportFields();
         }
 
+        $request = $this->getConfigurationPool()->getContainer()->get('request_stack')->getMasterRequest();
+
         // nothing specific to add
-        if (!($this->getConfigurationPool()->getContainer()->get('request')->get('format')
-            && isset($this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')]))) {
+        if (!($request->get('format')
+            && isset($this->exportFields[$request->get('format')]))) {
             return parent::getExportFields();
         }
 
         // specificities for this format
-        return $this->exportFields[$this->getConfigurationPool()->getContainer()->get('request')->get('format')];
+        return $this->exportFields[$request->get('format')];
     }
 
     /**

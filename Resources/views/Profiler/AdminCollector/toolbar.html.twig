@@ -66,9 +66,9 @@
 
 {% block panel %}
 
-    {% set dest_toolbar = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
-    {% set dest_profiler = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
-    {% set dest_both = constant('Blast\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
+    {% set dest_toolbar = constant('Blast\\Bundle\\CoreBundle\\Profiler\\DataCollection::DESTINATION_TOOLBAR') %}
+    {% set dest_profiler = constant('Blast\\Bundle\\CoreBundle\\Profiler\\DataCollection::DESTINATION_PROFILER') %}
+    {% set dest_both = constant('Blast\\Bundle\\CoreBundle\\Profiler\\DataCollection::DESTINATION_BOTH') %}
 
     {% for k, d in collector.getData()[dest_profiler] %}
         <table>
