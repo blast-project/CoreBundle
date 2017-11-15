@@ -43,7 +43,7 @@ class BlastGeneratorTest extends TestCase
         /*
          *   @todo test with and/or without original content
          */
-        $this->file->setContent(file_get_contents('Resources/config/blast.yml'));
+        $this->file->setContent(file_get_contents(__DIR__ . '/../../../Resources/config/blast.yml'));
 
         $this->blastFile = vfsStream::url('BlastTestRessources/blast.yml');
 
@@ -51,7 +51,7 @@ class BlastGeneratorTest extends TestCase
          * @todo check if it should be tested with other skeleton
          */
 
-        $this->skeletonDirectory = 'Resources/skeleton';
+        $this->skeletonDirectory = __DIR__ . '/../../../Resources/skeleton';
 
         // Sonata Model Manager is used to launch getExportFields
         // from the method addResource in Blast\Bundle\CoreBundle\Generator\BlastGenerator
