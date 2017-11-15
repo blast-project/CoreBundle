@@ -112,6 +112,116 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
         return parent::getBaseRoutePattern();
     }
 
+
+    // /**
+    //  * Returns the baseRoutePattern used to generate the routing information.
+    //  *
+    //  * @throws \RuntimeException
+    //  *
+    //  * @return string the baseRoutePattern used to generate the routing information
+    //  */
+    // public function getBaseRoutePattern()
+    // {
+    //     $configuredBaseRoute = $this->getBaseRouteMapping();
+    //
+    //     if (count($configuredBaseRoute) > 0) {
+    //         $this->cachedBaseRoutePattern = null;
+    //         if (isset($configuredBaseRoute['pattern']) && $this->baseRoutePattern === null) {
+    //             $this->baseRoutePattern = $configuredBaseRoute['pattern'];
+    //         }
+    //     }
+    //
+    //     if (null !== $this->cachedBaseRoutePattern) {
+    //         return $this->cachedBaseRoutePattern;
+    //     }
+    //
+    //     if ($this->isChild()) { // the admin class is a child, prefix it with the parent route pattern
+    //         if (!$this->baseRoutePattern) {
+    //             preg_match(self::CLASS_REGEX, $this->class, $matches);
+    //
+    //             if (!$matches) {
+    //                 throw new \RuntimeException(sprintf('Please define a default `baseRoutePattern` value for the admin class `%s`', get_class($this)));
+    //             }
+    //         }
+    //
+    //         $this->cachedBaseRoutePattern = sprintf('%s/%s/%s',
+    //             $this->getParent()->getBaseRoutePattern(),
+    //             $this->getParent()->getRouterIdParameter(),
+    //             $this->baseRoutePattern ?: $this->urlize($matches[5], '-')
+    //         );
+    //     } elseif ($this->baseRoutePattern) {
+    //         $this->cachedBaseRoutePattern = $this->baseRoutePattern;
+    //     } else {
+    //         preg_match(self::CLASS_REGEX, $this->class, $matches);
+    //
+    //         if (!$matches) {
+    //             throw new \RuntimeException(sprintf('Please define a default `baseRoutePattern` value for the admin class `%s`', get_class($this)));
+    //         }
+    //
+    //         $this->cachedBaseRoutePattern = sprintf('/%s%s/%s',
+    //             empty($matches[1]) ? '' : $this->urlize($matches[1], '-').'/',
+    //             $this->urlize($matches[3], '-'),
+    //             $this->urlize($matches[5], '-')
+    //         );
+    //     }
+    //
+    //     return $this->cachedBaseRoutePattern;
+    // }
+    //
+    // /**
+    //  * Returns the baseRouteName used to generate the routing information.
+    //  *
+    //  * @throws \RuntimeException
+    //  *
+    //  * @return string the baseRouteName used to generate the routing information
+    //  */
+    // public function getBaseRouteName()
+    // {
+    //     $configuredBaseRoute = $this->getBaseRouteMapping();
+    //
+    //     if (count($configuredBaseRoute) > 0) {
+    //         $this->cachedBaseRouteName = null;
+    //         if (isset($configuredBaseRoute['name']) && $this->baseRouteName === null) {
+    //             $this->baseRouteName = $configuredBaseRoute['name'];
+    //         }
+    //     }
+    //
+    //     if (null !== $this->cachedBaseRouteName) {
+    //         return $this->cachedBaseRouteName;
+    //     }
+    //
+    //     if ($this->isChild()) { // the admin class is a child, prefix it with the parent route name
+    //         if (!$this->baseRouteName) {
+    //             preg_match(self::CLASS_REGEX, $this->class, $matches);
+    //
+    //             if (!$matches) {
+    //                 throw new \RuntimeException(sprintf('Cannot automatically determine base route name, please define a default `baseRouteName` value for the admin class `%s`', get_class($this)));
+    //             }
+    //         }
+    //
+    //         $this->cachedBaseRouteName = sprintf('%s_%s',
+    //             $this->getParent()->getBaseRouteName(),
+    //             $this->baseRouteName ?: $this->urlize($matches[5])
+    //         );
+    //     } elseif ($this->baseRouteName) {
+    //         $this->cachedBaseRouteName = $this->baseRouteName;
+    //     } else {
+    //         preg_match(self::CLASS_REGEX, $this->class, $matches);
+    //
+    //         if (!$matches) {
+    //             throw new \RuntimeException(sprintf('Cannot automatically determine base route name, please define a default `baseRouteName` value for the admin class `%s`', get_class($this)));
+    //         }
+    //
+    //         $this->cachedBaseRouteName = sprintf('admin_%s%s_%s',
+    //             empty($matches[1]) ? '' : $this->urlize($matches[1]).'_',
+    //             $this->urlize($matches[3]),
+    //             $this->urlize($matches[5])
+    //         );
+    //     }
+    //
+    //     return $this->cachedBaseRouteName;
+    // }
+
     public function getFormTheme()
     {
         return array_merge($this->formTheme, $this->getFormThemeMapping());
