@@ -183,10 +183,19 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     {
         // traits of the current Entity
         $classes = ClassAnalyzer::getTraits($this->getClass());
+
         // inheritance of the current Entity
         foreach (array_reverse([$this->getClass()] + class_parents($this->getClass())) as $class) {
             $classes[] = $class;
         }
+
+        $interfaces = ClassAnalyzer::getInterfaces($this->getClass());
+
+        // implementations of the current Entity
+        foreach (array_reverse($interfaces) as $interface) {
+            $classes[] = $interface;
+        }
+
         // inheritance of the current Admin
         foreach (array_reverse([$this->getOriginalClass()] + $this->getParentClasses()) as $admin) {
             $classes[] = $admin;

@@ -48,6 +48,20 @@ class ClassAnalyzer
     }
 
     /**
+     * getInterfaces.
+     *
+     * @param ReflectionClass|string $class A ReflectionClass object or a class name
+     *
+     * @return array
+     */
+    public static function getInterfaces($class)
+    {
+        $rc = $class instanceof \ReflectionClass ? $class : new \ReflectionClass($class);
+
+        return array_keys($rc->getInterfaces());
+    }
+
+    /**
      * hasTraits.
      *
      * This static method returns back all traits used by a given class
