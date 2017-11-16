@@ -34,10 +34,11 @@ class BlastCoreExtension extends Extension
         $this->initialize();
         $loader = $this->buildLoader($container);
 
+        $this->loadParameters($container, $loader);
         $this->loadServices($loader);
         $this->loadCodeGenerators($container, $config);
         $this->loadDataFixtures($container, $loader);
-        $this->loadParameters($container, $loader);
+        $this->loadBlasts($container, $loader);
         $this->loadSecurity($container);
         $this->loadSonataAdmin($container, $loader);
         $this->loadListeners($container, $config);
@@ -114,8 +115,21 @@ class BlastCoreExtension extends Extension
     }
 
     /**
-     * This method is called after loading the services in the self::load() process, to load data fixtures.
+     * @param ContainerBuilder $container
      *
+     * @return self
+     */
+    public function loadBlasts(ContainerBuilder $container, FileLoader $loader)
+    {
+        // the blast.yml
+        if (file_exists($this->dir . $this->prefix . $this->file . $this->suffix)) {
+            $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param ContainerBuilder $container
      *
      * @return self
@@ -125,11 +139,6 @@ class BlastCoreExtension extends Extension
         // parameters.yml
         if (file_exists($this->dir . $this->prefix . 'parameters' . $this->suffix)) {
             $loader->load('parameters' . $this->suffix);
-        }
-
-        // the blast.yml
-        if (file_exists($this->dir . $this->prefix . $this->file . $this->suffix)) {
-            $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
         }
 
         return $this;
