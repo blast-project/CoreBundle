@@ -29,7 +29,7 @@ use Blast\Bundle\CoreBundle\Admin\Traits\ManyToManyManager;
 use Blast\Bundle\CoreBundle\Admin\Traits\Actions;
 use Blast\Bundle\CoreBundle\Admin\Traits\ListActions;
 use Blast\Bundle\CoreBundle\CodeGenerator\CodeGeneratorRegistry;
-use Blast\Bundle\CoreBundle\Translator\LibrinfoLabelTranslatorStrategy;
+use Blast\Bundle\CoreBundle\Translator\SilLabelTranslatorStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
@@ -51,13 +51,15 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
         /* Default Translation Strategy if not set as admin service tags */
         /* @todo : find if it is a good idea or not */
-        if (!($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy)) {
-            $this->setLabelTranslatorStrategy(new LibrinfoLabelTranslatorStrategy());
+        if (!($this->getLabelTranslatorStrategy() instanceof SilLabelTranslatorStrategy)) {
+            $this->setLabelTranslatorStrategy(new SilLabelTranslatorStrategy());
         }
         /* Should always be */
-        if ($this->getLabelTranslatorStrategy() instanceof LibrinfoLabelTranslatorStrategy) {
+        if ($this->getLabelTranslatorStrategy() instanceof SilLabelTranslatorStrategy) {
             $this->getLabelTranslatorStrategy()->setFix($this->getClassnameLabel());
         }
+
+        $this->getLabelTranslatorStrategy()->setPrefix($this->getLabel());
 
         /* @todo: apply TranslatorStrategy to form_tab and form_group and show_tab and
            ... warning it may impact code as it used in some postConfigureFormFields */
@@ -111,7 +113,6 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
         return parent::getBaseRoutePattern();
     }
-
 
     // /**
     //  * Returns the baseRoutePattern used to generate the routing information.

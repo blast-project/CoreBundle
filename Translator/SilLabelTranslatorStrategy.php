@@ -14,7 +14,7 @@ namespace Blast\Bundle\CoreBundle\Translator;
 use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
 
 /**
- * Class LibrinfoLabelTranslatorStrategy.
+ * Class SilLabelTranslatorStrategy.
  *
  * Provides a specific label translation strategy for Librinfo.
  * It is based on UnderscoreLabelTranslatorStrategy, but without the context,
@@ -24,7 +24,7 @@ use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
  *
  * Type to find missing translation : bin/console blast:translations:extract -f YAML
  */
-class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
+class SilLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
 {
     protected $namePrefix; /* may be the bundle name */
     protected $nameFix; /* may be the admin name */
@@ -36,14 +36,14 @@ class LibrinfoLabelTranslatorStrategy implements LabelTranslatorStrategyInterfac
         $this->setFix($fix);
     }
 
-    public function setPrefix($prefix): LibrinfoLabelTranslatorStrategy
+    public function setPrefix($prefix): SilLabelTranslatorStrategy
     {
         $this->namePrefix = $this->cleanStr($prefix);
 
         return $this;
     }
 
-    public function setFix($fix, $isTmp = false): LibrinfoLabelTranslatorStrategy
+    public function setFix($fix, $isTmp = false): SilLabelTranslatorStrategy
     {
         if ($isTmp) {
             $this->nameFixSave = $this->nameFix;
