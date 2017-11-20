@@ -45,24 +45,16 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
 
     protected $extraTemplates = [];
 
+    /**
+     * @var string
+     */
+    protected $translationLabelPrefix = 'blast.core';
+
     public function configure()
     {
         parent::configure();
 
-        /* Default Translation Strategy if not set as admin service tags */
-        /* @todo : find if it is a good idea or not */
-        if (!($this->getLabelTranslatorStrategy() instanceof SilLabelTranslatorStrategy)) {
-            $this->setLabelTranslatorStrategy(new SilLabelTranslatorStrategy());
-        }
-        /* Should always be */
-        if ($this->getLabelTranslatorStrategy() instanceof SilLabelTranslatorStrategy) {
-            $this->getLabelTranslatorStrategy()->setFix($this->getClassnameLabel());
-        }
-
-        $this->getLabelTranslatorStrategy()->setPrefix($this->getLabel());
-
-        /* @todo: apply TranslatorStrategy to form_tab and form_group and show_tab and
-           ... warning it may impact code as it used in some postConfigureFormFields */
+        $this->getLabelTranslatorStrategy()->setPrefix($this->translationLabelPrefix);
     }
 
     /**
