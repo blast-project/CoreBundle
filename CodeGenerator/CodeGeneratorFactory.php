@@ -23,7 +23,7 @@ class CodeGeneratorFactory
      *
      * @return CodeGeneratorInterface
      */
-    public static function create($class, EntityManager $entityManager)
+    public static function create($class, EntityManager $entityManager, $entityClass = null)
     {
         $rc = new \ReflectionClass($class);
         $interface = 'Blast\Bundle\CoreBundle\CodeGenerator\CodeGeneratorInterface';
@@ -32,6 +32,10 @@ class CodeGeneratorFactory
         }
         $codeGenerator = new $class();
         $codeGenerator::setEntityManager($entityManager);
+
+        if ($entityClass !== null) {
+            $codeGenerator::$ENTITY_CLASS = $entityClass;
+        }
 
         return $codeGenerator;
     }

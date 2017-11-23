@@ -24,14 +24,14 @@ class CodeGeneratorRegistry
      */
     public static function register(CodeGeneratorInterface $codeGenerator)
     {
-        $class = get_class($codeGenerator);
-        if (!defined("$class::ENTITY_CLASS")) {
-            throw new \Exception($class . ' must define a ENTITY_CLASS constant.');
+        $class = new \ReflectionClass($codeGenerator);
+        if (!$class->hasProperty('ENTITY_CLASS')) {
+            throw new \Exception($class . ' must define a ENTITY_CLASS public property.');
         }
-        if (!defined("$class::ENTITY_FIELD")) {
-            throw new \Exception($class . ' must define a ENTITY_FIELD constant.');
+        if (!$class->hasProperty('ENTITY_FIELD')) {
+            throw new \Exception($class . ' must define a ENTITY_FIELD public property.');
         }
-        self::$generators[$codeGenerator::ENTITY_CLASS][$codeGenerator::ENTITY_FIELD] = $codeGenerator;
+        self::$generators[$codeGenerator::$ENTITY_CLASS][$codeGenerator::$ENTITY_FIELD] = $codeGenerator;
     }
 
     /**
