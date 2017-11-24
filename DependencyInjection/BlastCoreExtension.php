@@ -34,7 +34,7 @@ class BlastCoreExtension extends Extension
         $this->initialize();
         $loader = $this->buildLoader($container);
 
-        $this->loadParameters($container, $loader);
+        // $this->loadParameters($container, $loader);
         $this->loadServices($loader);
         $this->loadCodeGenerators($container, $config);
         $this->loadDataFixtures($container, $loader);
