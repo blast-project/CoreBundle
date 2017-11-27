@@ -63,7 +63,7 @@ trait CollectionsManager
         foreach ($this->managedCollections as $coll) {
             if (isset($this->formFieldDescriptions[$coll])) {
                 if ($coll == 'packagings') {
-                    dump($this->formFieldDescriptions[$coll]);
+                    // dump($this->formFieldDescriptions[$coll]);
                 }
                 // preparing stuff
                 if ($admin_code = $this->formFieldDescriptions[$coll]->getOption('admin_code')) {
