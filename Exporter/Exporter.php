@@ -55,7 +55,7 @@ class Exporter
         $writer = $this->writers[$format];
 
         $callback = function () use ($source, $writer) {
-            $handler = \Blast\Bundle\CoreBundle\Exporter\Handler::create($source, $writer);
+            $handler = Handler::create($source, $writer);
             $handler->export();
         };
 

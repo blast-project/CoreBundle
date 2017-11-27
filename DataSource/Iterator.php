@@ -14,6 +14,7 @@ namespace Blast\Bundle\CoreBundle\DataSource;
 use Exporter\Source\DoctrineORMQuerySourceIterator;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
+use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
 
 class Iterator extends DoctrineORMQuerySourceIterator
 {
@@ -48,7 +49,7 @@ class Iterator extends DoctrineORMQuerySourceIterator
 
                     unset($this->propertyPaths[$i]);
                 }
-            } catch (NoSuchPropertyException $e) {
+            } catch (NoSuchPropertyException|UnexpectedTypeException $e) {
                 $collection = preg_replace('/\..+$/', '', $propertyPath);
                 $subProperty = preg_replace('/^.+\./U', '', $propertyPath);
                 if ($collection != (string) $propertyPath && $subProperty) {

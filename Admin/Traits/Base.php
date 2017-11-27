@@ -114,14 +114,15 @@ trait Base
         return $this->exportFields[$request->get('format')];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataSourceIterator()
-    {
-        $datagrid = $this->getDatagrid();
-        $datagrid->buildPager();
-
-        return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
-    }
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function getDataSourceIterator()
+    // {
+    //     $datagrid = $this->getDatagrid();
+    //     $datagrid->buildPager();
+    //
+    //     return $this->getModelManager()->getDataSourceIterator($datagrid, $this->getExportFields());
+    //     // return new Iterator($datagrid->getQuery()->getQuery(), $this->getExportFields());
+    // }
 }
