@@ -126,6 +126,11 @@ class BlastCoreExtension extends Extension
             $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
         }
 
+        if (file_exists($this->dir . $this->prefix . 'blast_menu' . $this->suffix)) {
+            $this->mergeParameter('blast_menu.root', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
+            $this->mergeParameter('blast_menu.settings', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
+        }
+
         return $this;
     }
 
@@ -221,11 +226,11 @@ class BlastCoreExtension extends Extension
             $container->setParameter($var, []);
         }
 
-        if (!is_array($newContainer->getParameter($var))) {
+        if (!$newContainer->hasParameter($var) || !is_array($newContainer->getParameter($var))) {
             return $this;
         }
 
-        $container->setParameter($var, array_merge(
+        $container->setParameter($var, array_replace_recursive(
             $container->getParameter($var),
             $newContainer->getParameter($var)
         ));

@@ -12,10 +12,6 @@ services:
     sonata.exporter.exporter:
         class: Blast\Bundle\CoreBundle\Exporter\Exporter
 
-
-#    blast_core.label.strategy.blast:
-#        class: Blast\Bundle\CoreBundle\Translator\SilLabelTranslatorStrategy
-
     ######### FORM TYPES ###########
     blast_core.form.type.entity_code:
         class: Blast\Bundle\CoreBundle\Form\Type\EntityCodeType

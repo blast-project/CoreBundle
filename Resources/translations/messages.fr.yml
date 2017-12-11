@@ -3,6 +3,10 @@ blast:
         _action: 'Action'
         _list_action: 'Action groupée'
         generate_code: 'Générer le code'
+    menu_label:
+        application_settings: Paramètres
+        application_users: Utilisateurs
+        user_users: Utilisateurs
     confirm:
         delete_collection_item: 'Voulez-vous vraiment supprimer cet élément ?'
 

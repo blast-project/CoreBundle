@@ -19,7 +19,8 @@ trait PatcherConfig
 
     private function loadConfig()
     {
-        $configPath = __DIR__ . '/../Tools/Patches/patches.yml';
+        $configPath = $this->getContainer()->get('kernel')->locateResource('@BlastCoreBundle/Tools/Patches/patches.yml');
+        $baseDir = str_replace('/patches.yml', '', $configPath);
 
         $this->config = Yaml::parse(
             file_get_contents($configPath)
@@ -30,8 +31,8 @@ trait PatcherConfig
         }
 
         $this->config['paths'] = [
-            'patchFilesDir' => __DIR__ . '/../Tools/Patches/patches',
-            'rootDir'       => str_replace('/app/..', '', $this->getContainer()->getParameter('kernel.root_dir') . '/..'),
+            'projectDir'    => $this->getContainer()->getParameter('kernel.project_dir'),
+            'patchFilesDir' => $baseDir . '/patches',
             'configFile'    => $configPath,
         ];
     }

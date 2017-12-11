@@ -817,12 +817,13 @@ trait Mapper
         $entityClass = isset($options['class']) ? $options['class'] : $this->getClass();
 
         if (!is_array($option)) {
+            // @TODO: This is outdated,
             throw new Exception('« $callbackType » option must be an array : ["FQDN"=>"static method name"]');
         }
 
         list($serviceNameOrClass, $methodName) = $option;
 
-        $targetOptions = (isset($option[2]) ? $option[2] : null);
+        $targetOption = (isset($option[2]) ? $option[2] : null);
 
         if ($this->getConfigurationPool()->getContainer()->has($serviceNameOrClass)) {
             $callBackFunction = [$this->getConfigurationPool()->getContainer()->get($serviceNameOrClass), $methodName];
@@ -830,8 +831,8 @@ trait Mapper
             $callBackFunction = call_user_func($serviceNameOrClass . '::' . $methodName, $this->getModelManager(), $entityClass);
         }
 
-        if ($targetOptions !== null) {
-            $options[$targetOptions] = $callBackFunction;
+        if ($targetOption !== null) {
+            $options[$targetOption] = $callBackFunction;
             unset($options[$callbackType]);
         }
 

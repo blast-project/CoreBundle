@@ -116,7 +116,7 @@ class PatcherGenerateCommand extends ContainerAwareCommand
     private function managePath($path, $type)
     {
         if (substr($path, 0, 1) !== '/' && !filter_var($path, FILTER_VALIDATE_URL)) {
-            $path = $this->config['paths']['rootDir'] . '/' . $path;
+            $path = $this->config['paths']['projectDir'] . '/' . $path;
         } elseif (filter_var($path, FILTER_VALIDATE_URL)) {
             if (copy($path, $this->config['paths']['patchFilesDir'] . "/$type/" . $this->now->getTimestamp())) {
                 $path = $this->config['paths']['patchFilesDir'] . "/$type/" . $this->now->getTimestamp();
@@ -135,7 +135,7 @@ class PatcherGenerateCommand extends ContainerAwareCommand
                     'enabled'    => true,
                     'patched'    => false,
                     'targetFile' => $targetPath,
-                    'patchFile'  => str_replace($this->config['paths']['rootDir'] . '/', '', $patchFile),
+                    'patchFile'  => str_replace($this->config['paths']['patchFilesDir'] . '/', '', $patchFile),
                 ],
             ],
         ];
