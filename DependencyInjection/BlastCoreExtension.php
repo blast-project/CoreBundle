@@ -127,8 +127,7 @@ class BlastCoreExtension extends Extension
         }
 
         if (file_exists($this->dir . $this->prefix . 'blast_menu' . $this->suffix)) {
-            $this->mergeParameter('blast_menu.root', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
-            $this->mergeParameter('blast_menu.settings', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
+            $this->mergeParameter('blast_menu', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
         }
 
         return $this;
