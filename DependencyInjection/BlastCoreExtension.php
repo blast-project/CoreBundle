@@ -126,10 +126,6 @@ class BlastCoreExtension extends Extension
             $this->mergeParameter('blast', $container, $this->dir . $this->prefix);
         }
 
-        if (file_exists($this->dir . $this->prefix . 'blast_menu' . $this->suffix)) {
-            $this->mergeParameter('blast_menu', $container, $this->dir . $this->prefix, 'blast_menu' . $this->suffix);
-        }
-
         return $this;
     }
 
