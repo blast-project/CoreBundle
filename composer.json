@@ -3,8 +3,8 @@
     "type": "symfony-bundle",
     "description": "This is the core of Libre Informatique Symfony2 projects",
     "require": {
-        "php": ">=7.1",
-        "symfony/symfony": ">=3.2",
+        "php": "^7.1",
+        "symfony/symfony": "^3.3",
         "doctrine/doctrine-bundle": ">=1.6",
         "sonata-project/doctrine-orm-admin-bundle": ">=3.1",
         "sensio/generator-bundle": ">=3.1",
@@ -12,7 +12,7 @@
         "willdurand/js-translation-bundle": "^2.6"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": ">=3.2",
+        "symfony/phpunit-bridge": "^3.3",
         "mikey179/vfsStream": ">=1.6",
         "phpunit/phpunit": "^6.4"
     },
