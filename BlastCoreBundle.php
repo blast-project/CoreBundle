@@ -23,6 +23,5 @@ class BlastCoreBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new CodeGeneratorCompilerPass());
-        $container->addCompilerPass(new DashboardBlocksCompilerPass());
     }
 }

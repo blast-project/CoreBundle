@@ -1,6 +1,6 @@
 sonata_block:
     blocks:
-        blast_core.dashboard.main_block: ~
+        blast_dashboard.main_block: ~
 
 sonata_admin:
     dashboard:
@@ -8,4 +8,4 @@ sonata_admin:
             -
                 class:    col-xs-12
                 position: top
-                type:     blast_core.dashboard.main_block
+                type:     blast_dashboard.main_block
