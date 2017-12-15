@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * Copyright (C) 2015-2017 Libre Informatique
  *
  * This file is licenced under the GNU LGPL v3.
@@ -48,6 +47,6 @@ abstract class BaseWriter implements WriterInterface
     protected function _write($data, $separator = "\n")
     {
         fwrite($this->file, ($this->position > 0 ? $separator : '') . $data);
-        ++$this->position;
+        $this->position++;
     }
 }

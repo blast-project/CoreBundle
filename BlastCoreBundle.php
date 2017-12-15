@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * Copyright (C) 2015-2017 Libre Informatique
  *
  * This file is licenced under the GNU LGPL v3.
@@ -14,7 +13,6 @@ namespace Blast\Bundle\CoreBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Blast\Bundle\CoreBundle\DependencyInjection\CodeGeneratorCompilerPass;
-use Blast\Bundle\CoreBundle\DependencyInjection\DashboardBlocksCompilerPass;
 
 class BlastCoreBundle extends Bundle
 {

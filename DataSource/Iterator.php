@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * Copyright (C) 2015-2017 Libre Informatique
  *
  * This file is licenced under the GNU LGPL v3.
@@ -49,7 +48,7 @@ class Iterator extends DoctrineORMQuerySourceIterator
 
                     unset($this->propertyPaths[$i]);
                 }
-            } catch (NoSuchPropertyException|UnexpectedTypeException $e) {
+            } catch (NoSuchPropertyException | UnexpectedTypeException $e) {
                 $collection = preg_replace('/\..+$/', '', $propertyPath);
                 $subProperty = preg_replace('/^.+\./U', '', $propertyPath);
                 if ($collection != (string) $propertyPath && $subProperty) {

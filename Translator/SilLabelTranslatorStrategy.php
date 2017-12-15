@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * Copyright (C) 2015-2017 Libre Informatique
  *
  * This file is licenced under the GNU LGPL v3.
@@ -36,14 +35,14 @@ class SilLabelTranslatorStrategy implements LabelTranslatorStrategyInterface
         $this->setFix($fix);
     }
 
-    public function setPrefix($prefix): SilLabelTranslatorStrategy
+    public function setPrefix($prefix): self
     {
         $this->namePrefix = $this->cleanStr($prefix);
 
         return $this;
     }
 
-    public function setFix($fix, $isTmp = false): SilLabelTranslatorStrategy
+    public function setFix($fix, $isTmp = false): self
     {
         if ($isTmp) {
             $this->nameFixSave = $this->nameFix;

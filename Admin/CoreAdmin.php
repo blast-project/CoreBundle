@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * Copyright (C) 2015-2017 Libre Informatique
  *
  * This file is licenced under the GNU LGPL v3.
@@ -224,7 +223,7 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
             return $level;
         }
 
-        ++$level;
+        $level++;
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $level = $level < self::arrayDepth($value, $level) ? self::arrayDepth($value, $level) : $level;
