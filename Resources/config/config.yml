@@ -1,11 +1,2 @@
-sonata_block:
-    blocks:
-        blast_dashboard.main_block: ~
-
-sonata_admin:
-    dashboard:
-        blocks:
-            -
-                class:    col-xs-12
-                position: top
-                type:     blast_dashboard.main_block
+imports:
+    - { resource: '@BlastDashboardBundle/Resources/config/config.yml' }
