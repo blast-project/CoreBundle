@@ -26,7 +26,11 @@ class FakeHook extends \Twig_Extension
 
     public function __construct(ContainerInterface $container, string $env)
     {
-        $this->hookAlreadyRegistred = $container->get('twig')->hasExtension('blast_hook');
+        $this->hookAlreadyRegistred = $container->has('blast_utils.twig.hook');
+        /*
+         * Circular reference detected for service "blast_core.twig.fake_hook", path: "blast_core.twig.fake_hook -> twig"
+         * $this->hookAlreadyRegistred = $container->get('twig')->hasExtension('blast_hook');
+         */
         $this->env = $env;
     }
 
