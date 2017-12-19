@@ -17,9 +17,7 @@ class BlastCoreBundleTest extends BlastTestCase
     public function testServicesAreInitializable()
     {
         $this->isServicesAreInitializable('blast');
-        /*
-         * @todo: enable this:
-         * $this->isServicesAreInitializable('sil');
-         */
+
+        $this->isServicesAreInitializable('sil');
     }
 }
