@@ -33,13 +33,6 @@ services:
         tags:
             - { name: twig.extension }
 
-    blast_core.extension.global_search:
-        class: Blast\Bundle\CoreBundle\Twig\GlobalSearchExtension
-        public: false
-        arguments: ['@service_container']
-        tags:
-            - { name: twig.extension }
-
     ############ HOOK ##########
     blast_core.twig.fake_hook:
         class: Blast\Bundle\CoreBundle\Twig\FakeHook
