@@ -15,6 +15,7 @@
         "symfony/phpunit-bridge": "3.3.*",
         "mikey179/vfsStream": ">=1.6",
         "phpunit/phpunit": "^6.4",
+        "codeception/codeception": "^2.3",
         "blast-project/tests-bundle": "self.version"
     },
     "license": "LGPL-3.0",
