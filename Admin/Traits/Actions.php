@@ -26,9 +26,9 @@ trait Actions
 
                 if (isset($blast['all'][$mapperClass])) {
                     $config = array_merge_recursive(
-                    $config,
-                    $blast['all'][$mapperClass]
-                );
+                        $config,
+                        $blast['all'][$mapperClass]
+                    );
                 }
 
                 if (isset($config['add'][$actionKey])) {
