@@ -150,6 +150,8 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     }
 
     /**
+     * Changes nested entity link (in show views) to /show instead of /edit as default.
+     *
      * @param BaseMapper $mapper
      */
     protected function fixShowRoutes(BaseMapper $mapper)
@@ -472,6 +474,26 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
     }
 
     /**
+     * Removes tab in current show Mapper.
+     *
+     * @param string|array $tabNames name or array of names of tabs to be removed
+     * @param ShowMapper   $mapper   Sonata Admin form mapper
+     */
+    public function removeShowTab($tabNames, $mapper)
+    {
+        $currentTabs = $this->getShowTabs();
+        foreach ($currentTabs as $k => $item) {
+            if (is_array($tabNames) && in_array($item['name'], $tabNames) || !is_array($tabNames) && $item['name'] === $tabNames) {
+                foreach ($item['groups'] as $groupName) {
+                    $this->removeAllFieldsFromShowGroup($groupName, $mapper);
+                }
+                unset($currentTabs[$k]);
+            }
+        }
+        $this->setShowTabs($currentTabs);
+    }
+
+    /**
      * Removes all fields from form groups and remove them from mapper.
      *
      * @param string     $groupName Name of the group to remove
@@ -483,6 +505,24 @@ abstract class CoreAdmin extends SonataAdmin implements \JsonSerializable
         foreach ($formGroups as $name => $formGroup) {
             if ($name === $groupName) {
                 foreach ($formGroups[$name]['fields'] as $key => $field) {
+                    $mapper->remove($key);
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes all fields from form groups and remove them from mapper.
+     *
+     * @param string     $groupName Name of the group to remove
+     * @param ShowMapper $mapper    Sonata Admin form mapper
+     */
+    public function removeAllFieldsFromShowGroup($groupName, $mapper)
+    {
+        $showGroups = $this->getShowGroups();
+        foreach ($showGroups as $name => $showGroup) {
+            if ($name === $groupName) {
+                foreach ($showGroups[$name]['fields'] as $key => $field) {
                     $mapper->remove($key);
                 }
             }
