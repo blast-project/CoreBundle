@@ -11,7 +11,6 @@
 namespace Blast\Bundle\CoreBundle\Admin\Traits;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Blast\Bundle\CoreBundle\Admin\CoreAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
@@ -24,7 +23,7 @@ trait HandlesRelationsAdmin
      */
     protected function configureFormFields(FormMapper $mapper)
     {
-        CoreAdmin::configureFormFields($mapper);
+        parent::configureFormFields($mapper);
 
         // relationships that will be handled by CollectionsManager
         $type = 'sonata_type_collection';
@@ -53,7 +52,7 @@ trait HandlesRelationsAdmin
      */
     protected function configureShowFields(ShowMapper $mapper)
     {
-        CoreAdmin::configureShowFields($mapper);
+        parent::configureShowFields($mapper);
 
         // relationships that will be handled by CollectionsManager
         $types = ['sonata_type_collection', 'orm_one_to_many'];
