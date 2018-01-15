@@ -490,12 +490,22 @@ trait Mapper
 
         if (isset($options['constraints'])) {
             foreach ($options['constraints'] as $k => $constraint) {
-                $options['constraints'][$k] = new $constraint();
+                if (!is_array($constraint)) {
+                    throw new Exception('The « contraints » key must be an array with key « class » (optionnaly key « arguments » for contraints with arguments)');
+                }
+                if (!array_key_exists('class', $constraint)) {
+                    throw new Exception('You must set « class » key to use contraints with blast.yml');
+                }
+                if (isset($constraint['arguments'])) {
+                    $options['constraints'][$k] = new $constraint['class']($constraint['arguments']);
+                } else {
+                    $options['constraints'][$k] = new $constraint['class']();
+                }
             }
         }
 
         if (isset($options['required']) && $options['required'] === true) {
-            $options['constraints'] = [new NotBlank()];
+            $options['constraints'] = array_merge($options['constraints'] ?? [], [new NotBlank()]);
         }
 
         if (isset($options['query'])) {
