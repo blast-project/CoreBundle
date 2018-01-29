@@ -18,7 +18,7 @@
         "codeception/codeception": "^2.3",
         "blast-project/tests-bundle": "self.version"
     },
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-only",
     "keywords": [
         "e-venement",
         "libio",
