@@ -4,5 +4,5 @@ parameters:
     database_port: 5432
     database_name: blast_test
     database_user: blast_test_user
-    database_password: blast_test
+    database_password: blast_test_password
     secret: 'I love secret'
