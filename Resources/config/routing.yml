@@ -1,0 +1,11 @@
+
+blast_core_generate_entity_code:
+    path:     blast/core/generateEntityCode
+    defaults: { _controller: BlastCoreBundle:EntityCode:generateCode }
+
+blast_admin_search:
+    path:     blast/core/search
+    defaults: { _controller: BlastCoreBundle:Core:search }
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
