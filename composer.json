@@ -49,12 +49,6 @@
             "Blast\\Bundle\\CoreBundle\\": "."
         }
     },
-    "scripts": {
-        "phpunit-install": [
-            "wget https://phar.phpunit.de/phpunit-5.7.phar --output-document=bin/phpunit",
-            "chmod u+x bin/phpunit"
-        ]
-    },
     "version": "dev-wip-platform",
     "config": {
         "bin-dir": "bin"
